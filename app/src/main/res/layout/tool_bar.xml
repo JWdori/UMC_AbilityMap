@@ -10,7 +10,8 @@
 
     <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        >
 
         <!--
         <ImageView
@@ -38,21 +39,33 @@
             app:srcCompat="@drawable/menu"
             android:layout_alignParentLeft="true" />
 
-        <TextView
-            android:id="@+id/location_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
+        <ImageView
+            android:id="@+id/iv_serch"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:visibility="invisible"
+            android:layout_marginLeft="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:gravity="center"
-            android:textColor="@android:color/white"
+            app:srcCompat="@drawable/menu"
+            android:layout_alignParentRight="true"/>
 
+
+        <TextView
+            android:id="@+id/location_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_toLeftOf="@+id/iv_serch"
+            android:layout_toRightOf="@+id/iv_menu"
+            android:text="안산시 상록구 사동 1171-2"
+
+
+            android:textColor="@android:color/white"
             android:textSize="18dp"
             android:textStyle="bold" />
 

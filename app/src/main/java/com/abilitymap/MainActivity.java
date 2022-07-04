@@ -401,7 +401,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
 
 
-
         final TextView location_text = (TextView)findViewById(R.id.location_text);
 
 
@@ -513,7 +512,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
                 String addrCut[] = address.split(" ");
-                location_text.setText(addrCut[1]+" "+addrCut[2]+" "+addrCut[3]);
+                location_text.setText(addrCut[2]+" "+addrCut[3]+" "+addrCut[4]+" "+addrCut[5]);
+
 
 
 
