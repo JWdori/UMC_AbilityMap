@@ -114,16 +114,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        e.printStackTrace();
 //    }
 
-
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState){ //화면 생성과 함께 현재 위치 받아옴.
-        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         super.onCreate(savedInstanceState);
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         setContentView(R.layout.activity_main);
-
-
         FragmentManager fm = getSupportFragmentManager();
         MapFragment mapFragment = (MapFragment)fm.findFragmentById(R.id.map);
 
@@ -402,8 +398,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
-        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(currentPosition).animate(CameraAnimation.Fly,0);
+        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(currentPosition);
         naverMap.moveCamera(cameraUpdate);
+        naverMap.setLocationSource(locationSource);
         this.naverMap = naverMap;
 
 //        LatLng initialPosition = new LatLng(mLastlocation);
@@ -417,7 +414,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         uiSettings.setZoomControlEnabled(false); //줌인 줌아웃
         uiSettings.setLocationButtonEnabled(true);
 
-        naverMap.setLocationSource(locationSource);
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
 
 
@@ -529,9 +525,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
                 String addrCut[] = address.split(" ");
-                location_text.setText(addrCut[2]+" "+addrCut[3]+" "+addrCut[4]+" "+addrCut[5]);
-
-
+                location_text.setText(addrCut[1]+" "+addrCut[2]+" "+addrCut[3]+" "+addrCut[4]);
 
 
 
