@@ -32,9 +32,15 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.google.android.gms.location.FusedLocationProviderClient;
+import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.naver.maps.map.CameraAnimation;
+import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
+import com.naver.maps.map.NaverMapOptions;
 import com.naver.maps.map.OnMapReadyCallback;
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -64,7 +70,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private NaverMap naverMap;
     private FusedLocationSource locationSource;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
-
+    private FusedLocationProviderClient fusedLocationClient;
     private Location mLastlocation = null;
     private double speed, calSpeed, getSpeed;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
@@ -72,7 +78,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
-
+    private LatLng currentPosition;
     List<DTO> items;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     String[] REQUIRED_PERMISSIONS = {
@@ -113,8 +119,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState){ //화면 생성과 함께 현재 위치 받아옴.
+        fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
 
         FragmentManager fm = getSupportFragmentManager();
         MapFragment mapFragment = (MapFragment)fm.findFragmentById(R.id.map);
@@ -133,12 +141,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             checkRunTimePermission();
         }
         locationSource = new FusedLocationSource(this,LOCATION_PERMISSION_REQUEST_CODE);
-
+        fusedLocationClient.getLastLocation()
+                .addOnSuccessListener(this, new OnSuccessListener<Location>() {
+                    @Override
+                    public void onSuccess(Location location) {
+                        currentPosition = new LatLng(location.getLatitude(),location.getLongitude());
+                        // Got last known location. In some rare situations this can be null.
+                        if (location != null) {
+                            // Logic to handle location object
+                        }
+                    }
+                });
         items = new ArrayList<>();
         // 핸들러
-
-
-
     }
 
 
@@ -150,6 +165,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onRequestPermissionsResult ( int requestCode,
                                              @NonNull String[] permissions, @NonNull int[] grandResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grandResults);
+
         if (requestCode == PERMISSIONS_REQUEST_CODE  && grandResults.length == REQUIRED_PERMISSIONS.length) {
             boolean check_result = true;
             for (int result : grandResults) {
@@ -184,6 +200,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 naverMap.setLocationTrackingMode(LocationTrackingMode.Face);
             }
         }
+
     }
 
 
@@ -385,7 +402,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
+        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(currentPosition).animate(CameraAnimation.Fly,0);
+        naverMap.moveCamera(cameraUpdate);
         this.naverMap = naverMap;
+
 //        LatLng initialPosition = new LatLng(mLastlocation);
 //        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(initialPosition);
 //        naverMap.moveCamera(cameraUpdate);
@@ -401,9 +421,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
 
 
-
         final TextView location_text = (TextView)findViewById(R.id.location_text);
-
 
         latLngList.add(new LatLng(37.300909685747236,126.84036999665139 )); //주민센터
         latLngList.add(new LatLng(37.30092006963348,126.84651707027692  )); //상록구청
@@ -484,12 +502,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         naverMap.addOnLocationChangeListener(new NaverMap.OnLocationChangeListener() {
-
             @Override
             public void onLocationChange(@NonNull Location location) {
 
                 gpsTracker = new GpsTracker(MainActivity.this);
-
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
                 double deltaTime = 0;
 
@@ -513,7 +529,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
                 String addrCut[] = address.split(" ");
-                location_text.setText(addrCut[1]+" "+addrCut[2]+" "+addrCut[3]);
+                location_text.setText(addrCut[2]+" "+addrCut[3]+" "+addrCut[4]+" "+addrCut[5]);
+
 
 
 
