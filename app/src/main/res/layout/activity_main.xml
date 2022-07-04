@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+tools:context=".MainActivity">
+
+
+    <fragment
+        android:id="@+id/map"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:name="com.naver.maps.map.MapFragment" />
+
+
+    <ImageButton
+        android:id="@+id/repot_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/report_button"
+        android:background="#00ffffff"
+        android:layout_alignRight="@+id/map"
+        android:layout_above="@+id/call_button"
+        android:layout_marginRight="16dp"
+        android:layout_marginBottom="4dp"
+        />
+
+    <ImageButton
+        android:id="@+id/call_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/call_button"
+        android:visibility="visible"
+        android:background="#00ffffff"
+        android:layout_above="@+id/detail_layout"
+        android:layout_alignRight="@+id/map"
+        android:layout_alignBottom="@+id/map"
+        android:layout_marginBottom="24dp"
+        android:layout_marginRight="16dp"
+        />
+
+    <include layout="@layout/tool_bar" />
+
+
+
+
+
+    <!--    <com.naver.maps.map.widget.LocationButtonView-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:id="@+id/navermap_location_button"-->
+
+
+<!--        ></com.naver.maps.map.widget.LocationButtonView>-->
+
+
+
+</RelativeLayout>
+
+

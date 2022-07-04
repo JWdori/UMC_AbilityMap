@@ -1,0 +1,2 @@
+rootProject.name = "UMC_Abilitymap"
+include ':app'
