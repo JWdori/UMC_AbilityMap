@@ -34,14 +34,15 @@ tools:context=".MainActivity">
         android:src="@drawable/call_button"
         android:visibility="visible"
         android:background="#00ffffff"
-        android:layout_above="@+id/detail_layout"
         android:layout_alignRight="@+id/map"
         android:layout_alignBottom="@+id/map"
         android:layout_marginBottom="24dp"
         android:layout_marginRight="16dp"
         />
 
-    <include layout="@layout/tool_bar" />
+    <include
+        android:id="@+id/tool_bar"
+        layout="@layout/tool_bar"/>
 
 
 
