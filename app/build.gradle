@@ -6,7 +6,9 @@ plugins {
 android {
     compileSdkVersion 32
     buildToolsVersion "30.0.3"
-
+    viewBinding{
+        enabled true
+    }
 
     defaultConfig {
         vectorDrawables.useSupportLibrary = true

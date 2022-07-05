@@ -33,6 +33,7 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 
 //import com.abilitymap.databinding.ActivityMainBinding;
+import com.abilitymap.databinding.ActivityMainBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -69,7 +70,6 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker {
     private GpsTracker gpsTracker;
     private NaverMap naverMap;
-//    private ActivityMainBinding binding;
     private FusedLocationSource locationSource;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private FusedLocationProviderClient fusedLocationClient;
@@ -126,9 +126,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         MapFragment mapFragment = (MapFragment)fm.findFragmentById(R.id.map);
 
 
-//        binding = ActivityMainBinding.inflate(getLayoutInflater());
-//        setContentView(binding.getRoot());
-//        initSetOnClickListener();
+        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+        binding.toolBar.ivMenu.setOnClickListener(new Button.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                getSupportFragmentManager().beginTransaction().replace(R.id.home, new HomeFragment()).commit;
+            }
+        });
+
 
 
         if(mapFragment ==null ){
@@ -161,16 +167,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-//    private void initSetOnClickListener(){
-//
-//        binding.toolBar.ivMenu.setOnClickListener(new Button.OnClickListener(){
-//            @Override
-//            public void onClick(View view){
-//                getSupportFragmentManager().beginTransaction().replace(R.id.home, new HomeFragment()).commit();
-//            }
-//            });
-//
-//    }
+
 
 
 //
@@ -419,7 +416,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         naverMap.moveCamera(cameraUpdate);
         naverMap.setLocationSource(locationSource);
         this.naverMap = naverMap;
-
 //        LatLng initialPosition = new LatLng(mLastlocation);
 //        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(initialPosition);
 //        naverMap.moveCamera(cameraUpdate);
