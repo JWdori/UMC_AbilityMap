@@ -4,14 +4,22 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 32
     buildToolsVersion "30.0.3"
+
+    viewBinding{
+        enabled true
+    }
+
+    buildFeatures {
+        dataBinding true
+    }
 
     defaultConfig {
         vectorDrawables.useSupportLibrary = true
         applicationId "com.abilitymap"
         minSdkVersion 16
-        targetSdkVersion 29
+        targetSdkVersion 32
         versionCode 1
         versionName "1.0"
 

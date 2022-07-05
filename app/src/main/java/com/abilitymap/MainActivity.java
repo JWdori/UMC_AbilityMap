@@ -4,6 +4,7 @@ import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
+import androidx.core.view.GravityCompat;
 import androidx.fragment.app.FragmentManager;
 
 import android.graphics.Color;
@@ -30,8 +31,10 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.abilitymap.databinding.ActivityMainBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -85,7 +88,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
-
+    private ActivityMainBinding binding;
 
     List<LatLng> latLngList = new ArrayList<>();
 
@@ -123,6 +126,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        initClickListener();
 
         FragmentManager fm = getSupportFragmentManager();
         MapFragment mapFragment = (MapFragment)fm.findFragmentById(R.id.map);
@@ -623,6 +630,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
+    private void initClickListener() {
+
+        binding.layoutToolBar.ivMenu.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {            //menu 클릭 시 open drawer
+                binding.drawerLayout.openDrawer(GravityCompat.START);
+            }
+        });
+
+        View header = binding.navigationView.getHeaderView(0);
+        ImageView image = header.findViewById(R.id.iv_close);
+
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {        // X 클릭 시 close drawer
+                binding.drawerLayout.closeDrawer(GravityCompat.START);
+            }
+        });
+
+//        binding.navigationView.setNavigationItemSelectedListener(this);
+
+    }
 
 }
 
