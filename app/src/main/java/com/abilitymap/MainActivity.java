@@ -117,26 +117,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        e.printStackTrace();
 //    }
 
+
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState){ //화면 생성과 함께 현재 위치 받아옴.
-        super.onCreate(savedInstanceState);
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
+        super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        initClickListener();
+
         FragmentManager fm = getSupportFragmentManager();
         MapFragment mapFragment = (MapFragment)fm.findFragmentById(R.id.map);
-
-
-        ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
-        setContentView(binding.getRoot());
-        binding.toolBar.ivMenu.setOnClickListener(new Button.OnClickListener(){
-            @Override
-            public void onClick(View view){
-                getSupportFragmentManager().beginTransaction().replace(R.id.home, new HomeFragment()).commit;
-            }
-        });
-
-
 
         if(mapFragment ==null ){
             mapFragment = MapFragment.newInstance();
@@ -171,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-//
+    //
     @Override
     public void onRequestPermissionsResult ( int requestCode,
                                              @NonNull String[] permissions, @NonNull int[] grandResults) {
@@ -413,10 +409,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
-        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(currentPosition);
+        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(currentPosition).animate(CameraAnimation.Fly,0);
         naverMap.moveCamera(cameraUpdate);
-        naverMap.setLocationSource(locationSource);
         this.naverMap = naverMap;
+
 //        LatLng initialPosition = new LatLng(mLastlocation);
 //        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(initialPosition);
 //        naverMap.moveCamera(cameraUpdate);
@@ -428,6 +424,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         uiSettings.setZoomControlEnabled(false); //줌인 줌아웃
         uiSettings.setLocationButtonEnabled(true);
 
+        naverMap.setLocationSource(locationSource);
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
 
 
@@ -494,13 +491,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         UpdateCircle(37.30854279577155,126.841369080322  );
 
         /*
-
         Marker marker = new Marker();
         marker.setPosition(latLngList.get(0));
         marker.setMap(naverMap);
-
         marker.setOnClickListener(this);
-
 */
 
         /*
@@ -539,7 +533,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
                 String addrCut[] = address.split(" ");
-                location_text.setText(addrCut[1]+" "+addrCut[2]+" "+addrCut[3]+" "+addrCut[4]);
+                location_text.setText(addrCut[2]+" "+addrCut[3]+" "+addrCut[4]);
+
 
 
 
@@ -656,4 +651,3 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 }
-
