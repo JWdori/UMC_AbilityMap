@@ -167,7 +167,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-//
+    //
     @Override
     public void onRequestPermissionsResult ( int requestCode,
                                              @NonNull String[] permissions, @NonNull int[] grandResults) {
@@ -491,13 +491,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         UpdateCircle(37.30854279577155,126.841369080322  );
 
         /*
-
         Marker marker = new Marker();
         marker.setPosition(latLngList.get(0));
         marker.setMap(naverMap);
-
         marker.setOnClickListener(this);
-
 */
 
         /*
@@ -536,7 +533,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
                 String addrCut[] = address.split(" ");
-                location_text.setText(addrCut[2]+" "+addrCut[3]+" "+addrCut[4]+" "+addrCut[5]);
+                location_text.setText(addrCut[2]+" "+addrCut[3]+" "+addrCut[4]);
 
 
 
@@ -654,4 +651,3 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 }
-

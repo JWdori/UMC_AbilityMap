@@ -62,7 +62,6 @@
             android:layout_marginBottom="10dp"
             android:layout_toLeftOf="@+id/iv_serch"
             android:layout_toRightOf="@+id/iv_menu"
-            android:text="안산시 상록구 사동 1171-2"
 
 
             android:textColor="@android:color/white"
