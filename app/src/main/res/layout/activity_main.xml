@@ -18,18 +18,17 @@
             app:layout_constraintTop_toBottomOf="@id/layout_tool_bar"
             android:name="com.naver.maps.map.MapFragment" />
 
-        <ImageView
+        <ImageButton
             android:id="@+id/repot_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/report_button"
+            android:visibility="visible"
             android:background="#00ffffff"
             android:layout_alignRight="@+id/map"
             android:layout_above="@+id/call_button"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="4dp"
-            app:layout_constraintStart_toStartOf="@+id/map"
-            app:layout_constraintTop_toTopOf="@id/map"
             />
 
         <ImageButton
