@@ -91,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private ActivityMainBinding binding;
 
     List<LatLng> latLngList = new ArrayList<>();
+    private boolean clickable = true;
 
 //    List<Double> latitudeList = new ArrayList<Double>();
 //    List<Double> longitudeList = new ArrayList<Double>();
@@ -218,11 +219,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Call_button.setVisibility(View.INVISIBLE);
         Report_button.setVisibility(View.INVISIBLE);
 
-        if(overlay instanceof Marker){
+        if(overlay instanceof Marker && clickable){
 //            Toast.makeText(this.getApplicationContext(),"위험지역입니다",Toast.LENGTH_LONG).show();
 
             LocationDetailFragment infoFragment = new LocationDetailFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.map, infoFragment).addToBackStack(null).commit();
+            clickable = false;
+            Log.d("clickable?", String.valueOf(clickable));
+
+            LatLng selectedPosition = ((Marker) overlay).getPosition();
+            CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition,16).animate(CameraAnimation.Easing);
+            naverMap.moveCamera(cameraUpdate);
+
             naverMap.setOnMapClickListener(new NaverMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
@@ -230,10 +238,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     getSupportFragmentManager().popBackStack();
                     Call_button.setVisibility(View.VISIBLE);
                     Report_button.setVisibility(View.VISIBLE);
+                    clickable = true;
+                    Log.d("clickable?", String.valueOf(clickable));
                     Log.d("click event","onMapClick");
                 }
             });
-
 
             return true;
         }
@@ -241,7 +250,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-
+    @Override
+    public void onBackPressed(){
+        clickable = true;
+        super.onBackPressed();
+        Log.d("clickable?", "backKeyPressed");
+        Log.d("clickable?", String.valueOf(clickable));
+    }
 
 
     void checkRunTimePermission() {
