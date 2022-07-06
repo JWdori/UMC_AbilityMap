@@ -68,7 +68,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker, SetData {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker {
     private GpsTracker gpsTracker;
     private NaverMap naverMap;
     private FusedLocationSource locationSource;
@@ -216,15 +216,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean onClick(@NonNull Overlay overlay) {
         ImageButton Call_button = (ImageButton)findViewById(R.id.call_button);
         ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
-        Call_button.setVisibility(View.INVISIBLE);
-        Report_button.setVisibility(View.INVISIBLE);
-
         if(overlay instanceof Marker && clickable){
 //            Toast.makeText(this.getApplicationContext(),"위험지역입니다",Toast.LENGTH_LONG).show();
 
             LocationDetailFragment infoFragment = new LocationDetailFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.map, infoFragment).addToBackStack(null).commit();
             clickable = false;
+            Call_button.setVisibility(View.INVISIBLE);
+            Report_button.setVisibility(View.INVISIBLE);
+
             Log.d("clickable?", String.valueOf(clickable));
 
             LatLng selectedPosition = ((Marker) overlay).getPosition();
@@ -236,9 +236,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
                     getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
                     getSupportFragmentManager().popBackStack();
+                    clickable = true;
                     Call_button.setVisibility(View.VISIBLE);
                     Report_button.setVisibility(View.VISIBLE);
-                    clickable = true;
                     Log.d("clickable?", String.valueOf(clickable));
                     Log.d("click event","onMapClick");
                 }
@@ -252,8 +252,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onBackPressed(){
+        ImageButton Call_button = (ImageButton)findViewById(R.id.call_button);
+        ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
         clickable = true;
         super.onBackPressed();
+        Call_button.setVisibility(View.VISIBLE);
+        Report_button.setVisibility(View.VISIBLE);
         Log.d("clickable?", "backKeyPressed");
         Log.d("clickable?", String.valueOf(clickable));
     }
