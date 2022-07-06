@@ -68,7 +68,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker, SetData {
     private GpsTracker gpsTracker;
     private NaverMap naverMap;
     private FusedLocationSource locationSource;
