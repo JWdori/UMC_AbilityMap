@@ -1,17 +1,14 @@
 package com.abilitymap;
 
-import android.util.Xml;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.BufferedInputStream;
 import java.net.URL;
-import java.nio.DoubleBuffer;
 import java.util.ArrayList;
 
-public class TotalApi{
-    public TotalApi(){
+public class XmlApi {
+    public XmlApi(){
         try {
             apiParserSearch();
         }catch (Exception e){
@@ -85,7 +82,7 @@ public class TotalApi{
     }
 
     public static void main(String[] args){
-        new TotalApi();
+        new XmlApi();
     }
 
 }

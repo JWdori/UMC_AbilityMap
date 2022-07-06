@@ -13,23 +13,15 @@ import android.location.Address;
 import android.content.DialogInterface;
 import android.content.Intent;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import androidx.appcompat.app.AlertDialog;
 
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,11 +31,9 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.naver.maps.map.CameraAnimation;
-import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
-import com.naver.maps.map.NaverMapOptions;
 import com.naver.maps.map.OnMapReadyCallback;
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -59,10 +49,6 @@ import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.util.FusedLocationSource;
 import com.naver.maps.map.widget.LocationButtonView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,12 +57,15 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker {
     private GpsTracker gpsTracker;
     private NaverMap naverMap;
+    public static ArrayList<JsonApi.total_item> total_list = new ArrayList();
     private FusedLocationSource locationSource;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private FusedLocationProviderClient fusedLocationClient;
     private Location mLastlocation = null;
     private double speed, calSpeed, getSpeed;
+    public static boolean startFlagForCoronaApi;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
+    private ArrayList<Marker> TotalmarkerList = new ArrayList();
     private static final String[] PERMISSIONS = {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
@@ -155,10 +144,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         }
                     }
                 });
+        drawMarker();
 //        new Thread(() -> {
 //            setUpMap(); // network 동작, 인터넷에서 xml을 받아오는 코드
 //        }).start();
-
+        String lat = String.valueOf(NaverMap.DEFAULT_CAMERA_POSITION.target.latitude);
+        String lon = String.valueOf(NaverMap.DEFAULT_CAMERA_POSITION.target.longitude);
+        JsonApi coronaApi = new JsonApi();
+        coronaApi.execute(lat,lon,"");
         items = new ArrayList<>();
         // 핸들러
     }
@@ -672,7 +665,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
     private void setUpMap(){
-        TotalApi parser = new TotalApi();
+        XmlApi parser = new XmlApi();
         ArrayList<MapPoint> mapPoint = new ArrayList<MapPoint>();
     try {
 
@@ -689,5 +682,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     }
+    private void removeMarkerAll() {
+        for (Marker marker : TotalmarkerList) {
+            marker.setMap(null); // 삭제
+        }
+
+    }
+
+    private void drawMarker() {
+        System.out.println(total_list.size()+"123");
+        for (int i =0 ; i< total_list.size(); i++){
+            JsonApi.total_item item = total_list.get(i);
+            UpdateCircle((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()));
+//            TotalmarkerList.add(marker);
+        }
+        return;
+    }
+
 
 }
