@@ -126,12 +126,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         initClickListener();
-
         FragmentManager fm = getSupportFragmentManager();
         MapFragment mapFragment = (MapFragment)fm.findFragmentById(R.id.map);
 
@@ -140,8 +137,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             fm.beginTransaction().add(R.id.map, mapFragment).commit();
         }
         mapFragment.getMapAsync(this);
-
-
         if (!checkLocationServicesStatus()) {
             showDialogForLocationServiceSetting();
         }else {
@@ -160,6 +155,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         }
                     }
                 });
+//        new Thread(() -> {
+//            setUpMap(); // network 동작, 인터넷에서 xml을 받아오는 코드
+//        }).start();
+
         items = new ArrayList<>();
         // 핸들러
     }
@@ -441,7 +440,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         UiSettings uiSettings = naverMap.getUiSettings();
         uiSettings.setCompassEnabled(true);
         uiSettings.setScaleBarEnabled(true);
-        uiSettings.setZoomControlEnabled(false); //줌인 줌아웃
+        uiSettings.setZoomControlEnabled(true); //줌인 줌아웃
         uiSettings.setLocationButtonEnabled(true);
 
         naverMap.setLocationSource(locationSource);
@@ -670,6 +669,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
 //        binding.navigationView.setNavigationItemSelectedListener(this);
+
+    }
+    private void setUpMap(){
+        TotalApi parser = new TotalApi();
+        ArrayList<MapPoint> mapPoint = new ArrayList<MapPoint>();
+    try {
+
+        mapPoint = parser.apiParserSearch();
+    } catch (Exception e) {
+        System.out.println(3333);
+        e.printStackTrace();
+    }
+    for (int i =0; i<mapPoint.size(); i++){
+        for (MapPoint entity:mapPoint){
+            UpdateCircle(mapPoint.get(i).getLatitude(), mapPoint.get(i).getLongitude());
+        }
+    }
+
 
     }
 
