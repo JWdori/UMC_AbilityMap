@@ -13,23 +13,15 @@ import android.location.Address;
 import android.content.DialogInterface;
 import android.content.Intent;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.text.SimpleDateFormat;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
-import android.os.Handler;
-import android.os.Message;
 import android.util.Log;
 import androidx.appcompat.app.AlertDialog;
 
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -39,11 +31,9 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.naver.maps.map.CameraAnimation;
-import com.naver.maps.map.CameraPosition;
 import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
-import com.naver.maps.map.NaverMapOptions;
 import com.naver.maps.map.OnMapReadyCallback;
 import android.Manifest;
 import android.content.pm.PackageManager;
@@ -59,10 +49,6 @@ import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.util.FusedLocationSource;
 import com.naver.maps.map.widget.LocationButtonView;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -71,12 +57,15 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker {
     private GpsTracker gpsTracker;
     private NaverMap naverMap;
+    public static ArrayList<JsonApi.total_item> total_list = new ArrayList();
     private FusedLocationSource locationSource;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private FusedLocationProviderClient fusedLocationClient;
     private Location mLastlocation = null;
     private double speed, calSpeed, getSpeed;
+    public static boolean startFlagForCoronaApi;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
+    private ArrayList<Marker> TotalmarkerList = new ArrayList();
     private static final String[] PERMISSIONS = {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
@@ -126,12 +115,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-
         initClickListener();
-
         FragmentManager fm = getSupportFragmentManager();
         MapFragment mapFragment = (MapFragment)fm.findFragmentById(R.id.map);
 
@@ -140,8 +126,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             fm.beginTransaction().add(R.id.map, mapFragment).commit();
         }
         mapFragment.getMapAsync(this);
-
-
         if (!checkLocationServicesStatus()) {
             showDialogForLocationServiceSetting();
         }else {
@@ -160,6 +144,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         }
                     }
                 });
+        String lat = String.valueOf(NaverMap.DEFAULT_CAMERA_POSITION.target.latitude);
+        String lon = String.valueOf(NaverMap.DEFAULT_CAMERA_POSITION.target.longitude);
+        JsonApi coronaApi = new JsonApi();
+        coronaApi.execute(lat,lon,"");
+
+//        new Thread(() -> {
+//            setUpMap(); // network 동작, 인터넷에서 xml을 받아오는 코드
+//        }).start();
+
         items = new ArrayList<>();
         // 핸들러
     }
@@ -216,15 +209,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean onClick(@NonNull Overlay overlay) {
         ImageButton Call_button = (ImageButton)findViewById(R.id.call_button);
         ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
-        Call_button.setVisibility(View.INVISIBLE);
-        Report_button.setVisibility(View.INVISIBLE);
-
         if(overlay instanceof Marker && clickable){
 //            Toast.makeText(this.getApplicationContext(),"위험지역입니다",Toast.LENGTH_LONG).show();
 
             LocationDetailFragment infoFragment = new LocationDetailFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.map, infoFragment).addToBackStack(null).commit();
             clickable = false;
+            Call_button.setVisibility(View.INVISIBLE);
+            Report_button.setVisibility(View.INVISIBLE);
+
             Log.d("clickable?", String.valueOf(clickable));
 
             LatLng selectedPosition = ((Marker) overlay).getPosition();
@@ -236,9 +229,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
                     getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
                     getSupportFragmentManager().popBackStack();
+                    clickable = true;
                     Call_button.setVisibility(View.VISIBLE);
                     Report_button.setVisibility(View.VISIBLE);
-                    clickable = true;
                     Log.d("clickable?", String.valueOf(clickable));
                     Log.d("click event","onMapClick");
                 }
@@ -252,8 +245,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onBackPressed(){
+        ImageButton Call_button = (ImageButton)findViewById(R.id.call_button);
+        ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
         clickable = true;
         super.onBackPressed();
+        Call_button.setVisibility(View.VISIBLE);
+        Report_button.setVisibility(View.VISIBLE);
         Log.d("clickable?", "backKeyPressed");
         Log.d("clickable?", String.valueOf(clickable));
     }
@@ -437,9 +434,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         UiSettings uiSettings = naverMap.getUiSettings();
         uiSettings.setCompassEnabled(true);
         uiSettings.setScaleBarEnabled(true);
-        uiSettings.setZoomControlEnabled(false); //줌인 줌아웃
+        uiSettings.setZoomControlEnabled(true); //줌인 줌아웃
         uiSettings.setLocationButtonEnabled(true);
-
+        drawMarker(); // network 동작, 인터넷에서 xml을 받아오는 코드
         naverMap.setLocationSource(locationSource);
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
 
@@ -668,5 +665,41 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        binding.navigationView.setNavigationItemSelectedListener(this);
 
     }
+    private void setUpMap(){
+        XmlApi parser = new XmlApi();
+        ArrayList<MapPoint> mapPoint = new ArrayList<MapPoint>();
+    try {
+
+        mapPoint = parser.apiParserSearch();
+    } catch (Exception e) {
+        System.out.println(3333);
+        e.printStackTrace();
+    }
+    for (int i =0; i<mapPoint.size(); i++){
+        for (MapPoint entity:mapPoint){
+            UpdateCircle(mapPoint.get(i).getLatitude(), mapPoint.get(i).getLongitude());
+        }
+    }
+
+
+    }
+    private void removeMarkerAll() {
+        for (Marker marker : TotalmarkerList) {
+            marker.setMap(null); // 삭제
+        }
+
+    }
+
+    private void drawMarker() {
+        System.out.println(total_list.size()+"123");
+        for (int i =0 ; i< total_list.size(); i++){
+            JsonApi.total_item item = total_list.get(i);
+
+            UpdateCircle((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()));
+//            TotalmarkerList.add(marker);
+        }
+        return;
+    }
+
 
 }
