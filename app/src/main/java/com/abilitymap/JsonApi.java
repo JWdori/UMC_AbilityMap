@@ -69,9 +69,8 @@ public class JsonApi extends AsyncTask<String, String, String> {
             }
 //            Log.d("CoronaApi", "The response is :" + result);
             JSONObject root = new JSONObject(result);
-
+            System.out.println(root+"123");
             JSONArray coronaArray = root.getJSONArray("result");
-
             for (int i = 0; i < coronaArray.length(); i++) {
                 JSONObject item = coronaArray.getJSONObject(i);
 //                Log.d("corona", item.getString("name"));
