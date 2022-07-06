@@ -222,11 +222,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //            Toast.makeText(this.getApplicationContext(),"위험지역입니다",Toast.LENGTH_LONG).show();
 
             LocationDetailFragment infoFragment = new LocationDetailFragment();
-            getSupportFragmentManager().beginTransaction().add(R.id.map, infoFragment).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.map, infoFragment).addToBackStack(null).commit();
             naverMap.setOnMapClickListener(new NaverMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
                     getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
+                    getSupportFragmentManager().popBackStack();
                     Call_button.setVisibility(View.VISIBLE);
                     Report_button.setVisibility(View.VISIBLE);
                     Log.d("click event","onMapClick");
@@ -455,6 +456,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         latLngList.add(new LatLng(37.29970314731508,126.8461135029482        )); //경사로
         latLngList.add(new LatLng(37.30160083561462,126.84515936590596        )); //경사로
 
+        latLngList.add(new LatLng(37.498831572249586,126.95256812603331 )); // 상히 테스트용
+
 
         setMarker(0,latLngList,"slope",naverMap);
         setMarker(1,latLngList,"slope",naverMap);
@@ -480,6 +483,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         setMarker(17,latLngList,"wheelchair",naverMap);
         setMarker(18,latLngList,"wheelchair",naverMap);
 
+        setMarker(19,latLngList,"danger",naverMap);
 
 
         //사고 다발 지역
