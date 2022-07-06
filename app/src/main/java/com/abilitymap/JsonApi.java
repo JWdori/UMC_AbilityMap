@@ -69,7 +69,6 @@ public class JsonApi extends AsyncTask<String, String, String> {
             }
 //            Log.d("CoronaApi", "The response is :" + result);
             JSONObject root = new JSONObject(result);
-            System.out.println(root+"123");
             JSONArray coronaArray = root.getJSONArray("result");
             for (int i = 0; i < coronaArray.length(); i++) {
                 JSONObject item = coronaArray.getJSONObject(i);
@@ -80,6 +79,8 @@ public class JsonApi extends AsyncTask<String, String, String> {
                         item.getString("name")
                 );
                 MainActivity.total_list.add(total_item);
+                System.out.println(MainActivity.total_list.size()+"123");
+
             }
             startFlagForCoronaApi = false;
 
@@ -87,7 +88,6 @@ public class JsonApi extends AsyncTask<String, String, String> {
         } catch (NullPointerException | JsonSyntaxException | JSONException e) {
             e.printStackTrace();
         }
-
 
         return data;
     }

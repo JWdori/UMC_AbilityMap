@@ -144,14 +144,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         }
                     }
                 });
-        drawMarker();
-//        new Thread(() -> {
-//            setUpMap(); // network 동작, 인터넷에서 xml을 받아오는 코드
-//        }).start();
         String lat = String.valueOf(NaverMap.DEFAULT_CAMERA_POSITION.target.latitude);
         String lon = String.valueOf(NaverMap.DEFAULT_CAMERA_POSITION.target.longitude);
         JsonApi coronaApi = new JsonApi();
         coronaApi.execute(lat,lon,"");
+
+//        new Thread(() -> {
+//            setUpMap(); // network 동작, 인터넷에서 xml을 받아오는 코드
+//        }).start();
+
         items = new ArrayList<>();
         // 핸들러
     }
@@ -435,7 +436,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         uiSettings.setScaleBarEnabled(true);
         uiSettings.setZoomControlEnabled(true); //줌인 줌아웃
         uiSettings.setLocationButtonEnabled(true);
-
+        drawMarker(); // network 동작, 인터넷에서 xml을 받아오는 코드
         naverMap.setLocationSource(locationSource);
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
 
@@ -690,8 +691,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void drawMarker() {
+        System.out.println(total_list.size()+"123");
         for (int i =0 ; i< total_list.size(); i++){
             JsonApi.total_item item = total_list.get(i);
+
             UpdateCircle((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()));
 //            TotalmarkerList.add(marker);
         }
