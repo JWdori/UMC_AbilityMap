@@ -715,10 +715,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void drawMarker() {
-        System.out.println(total_list.size()+"123");
         for (int i =0 ; i< total_list.size(); i++){
             JsonApi.total_item item = total_list.get(i);
-
             UpdateCircle((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()));
 //            TotalmarkerList.add(marker);
         }
