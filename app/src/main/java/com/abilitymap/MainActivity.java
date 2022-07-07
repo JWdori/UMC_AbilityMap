@@ -18,11 +18,13 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
+import android.telephony.SmsManager;
 import android.util.Log;
 import androidx.appcompat.app.AlertDialog;
 
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -117,6 +119,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        ImageButton Report_button = (ImageButton) findViewById(R.id.repot_message);
+
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initClickListener();
@@ -139,9 +144,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
-                        currentPosition = new LatLng(location.getLatitude(),location.getLongitude());
-                        // Got last known location. In some rare situations this can be null.
-                        if (location != null) {
+                        if(location == null) {
+                            currentPosition = new LatLng(37.3595316, 127.1052133);
+                            // Got last known location. In some rare situations this can be null.
+                        }else{
+                            currentPosition = new LatLng(location.getLatitude(),location.getLongitude());
                             // Logic to handle location object
                         }
                     }
@@ -157,7 +164,29 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         items = new ArrayList<>();
         // 핸들러
+
+        Report_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                System.out.println("1234");
+                String inputText = "01031142949";
+                String inputText2 = "사랑해";
+                if(inputText.length()>0 && inputText2.length()>0) {
+                    sendSMS(inputText, inputText2); Toast.makeText(getBaseContext(), inputText+"\n"+inputText2, Toast.LENGTH_SHORT).show();
+
+                }
+                else
+                    Toast.makeText(getBaseContext(), "전화번호와 메시지를 입력해주세요.", Toast.LENGTH_SHORT).show();
+            }});
+
     }
+    private void sendSMS(String phoneNumber, String message)
+    {
+
+        SmsManager sms = SmsManager.getDefault();
+        sms.sendTextMessage(phoneNumber, null, message, null, null);
+    }
+
 
 
 
@@ -434,10 +463,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         naverMap.setMaxZoom(18.0);
         naverMap.setMinZoom(8.0);
         UiSettings uiSettings = naverMap.getUiSettings();
-        uiSettings.setCompassEnabled(true);
-        uiSettings.setScaleBarEnabled(true);
+        uiSettings.setCompassEnabled(false);
+        uiSettings.setScaleBarEnabled(false);
         uiSettings.setZoomControlEnabled(true); //줌인 줌아웃
-        uiSettings.setLocationButtonEnabled(true);
+
+
+        LocationButtonView locationButtonView2 = findViewById(R.id.navermap_location_button);
+        locationButtonView2.setMap(naverMap);
+
+        uiSettings.setLocationButtonEnabled(false);
         drawMarker(); // network 동작, 인터넷에서 xml을 받아오는 코드
         naverMap.setLocationSource(locationSource);
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
@@ -551,6 +585,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
                 String addrCut[] = address.split(" ");
+                
                 location_text.setText(addrCut[2]+" "+addrCut[3]+" "+addrCut[4]);
 
 
@@ -564,9 +599,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 textView_lat.setText(lat_str);
                 textView_lon.setText(lon_str);
                  */
-
-                LocationButtonView locationButtonView = findViewById(R.id.navermap_location_button);
-                locationButtonView.setMap(naverMap);
 
                 String gs_str = Double.toString(getSpeed);
                 String cs_str = Double.toString(calSpeed);
