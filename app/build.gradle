@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -22,6 +23,7 @@ android {
         targetSdkVersion 32
         versionCode 1
         versionName "1.0"
+        multiDexEnabled true
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -54,4 +56,19 @@ dependencies {
     implementation 'org.jetbrains.kotlin:kotlin-stdlib:1.0.0'
     implementation 'com.naver.maps:map-sdk:3.15.0'
     implementation 'androidx.core:core-ktx:1.7.0'
+
+    //Material Design
+    implementation 'com.google.android.material:material:1.2.0-alpha02'
+
+    //Rounded Image View
+    implementation 'com.makeramen:roundedimageview:2.3.0'
+
+    //Navigation Component
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.2.0-rc03'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.2.0-rc03'
+
+    // RoomDB
+    implementation 'androidx.room:room-ktx:2.4.1'
+    implementation 'androidx.room:room-runtime:2.4.1'
+    kapt 'androidx.room:room-compiler:2.4.1'
 }
