@@ -67,6 +67,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private FusedLocationProviderClient fusedLocationClient;
     private Location mLastlocation = null;
     private double speed, calSpeed, getSpeed;
+    private LocationButtonView locationButtonView2;
     public static boolean startFlagForCoronaApi;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     private ArrayList<Marker> TotalmarkerList = new ArrayList();
@@ -119,7 +120,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        locationButtonView2 = findViewById(R.id.navermap_location_button);
         ImageButton Report_button = (ImageButton) findViewById(R.id.repot_message);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -453,6 +454,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
+
         CameraUpdate cameraUpdate = CameraUpdate.scrollTo(currentPosition).animate(CameraAnimation.Fly,0);
         naverMap.moveCamera(cameraUpdate);
         this.naverMap = naverMap;
@@ -466,12 +468,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         uiSettings.setCompassEnabled(false);
         uiSettings.setScaleBarEnabled(false);
         uiSettings.setZoomControlEnabled(true); //줌인 줌아웃
-
-
-        LocationButtonView locationButtonView2 = findViewById(R.id.navermap_location_button);
+        uiSettings.setLocationButtonEnabled(false);
         locationButtonView2.setMap(naverMap);
 
-        uiSettings.setLocationButtonEnabled(false);
+
         drawMarker(); // network 동작, 인터넷에서 xml을 받아오는 코드
         naverMap.setLocationSource(locationSource);
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
@@ -585,7 +585,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
                 String addrCut[] = address.split(" ");
-                System.out.println("12345"+addrCut.length);
                 if(addrCut.length >= 6) {
                     location_text.setText(addrCut[2] + " " + addrCut[3] + " " + addrCut[4] + " " + addrCut[5]);
                 }else if(addrCut.length >= 5){
