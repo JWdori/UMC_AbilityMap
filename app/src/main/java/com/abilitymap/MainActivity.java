@@ -585,9 +585,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
                 String addrCut[] = address.split(" ");
-                
-                location_text.setText(addrCut[2]+" "+addrCut[3]+" "+addrCut[4]);
-
+                System.out.println("12345"+addrCut.length);
+                if(addrCut.length >= 6) {
+                    location_text.setText(addrCut[2] + " " + addrCut[3] + " " + addrCut[4] + " " + addrCut[5]);
+                }else if(addrCut.length >= 5){
+                    location_text.setText(addrCut[2] + " " + addrCut[3] + " " + addrCut[4]);
+                }else if(addrCut.length >= 4){
+                    location_text.setText(addrCut[2] + " " + addrCut[3]);
+               }else if(addrCut.length >= 3){
+                    location_text.setText(addrCut[1] + " "+addrCut[2]);
+                }else if(addrCut.length >= 2){
+                    location_text.setText(addrCut[0]+ " "+addrCut[1]);
+                }else if(addrCut.length >= 1){
+                    location_text.setText(addrCut[0]);
+                }else{
+                    location_text.setText("위치 정보 없음");
+                }
 
 
 
