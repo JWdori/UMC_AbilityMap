@@ -56,7 +56,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker, SetMarker_Hos {
     private GpsTracker gpsTracker;
     private NaverMap naverMap;
     public static ArrayList<JsonApi.total_item> total_list = new ArrayList();
@@ -715,10 +715,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void drawMarker() {
-        System.out.println(total_list.size()+"123");
         for (int i =0 ; i< total_list.size(); i++){
             JsonApi.total_item item = total_list.get(i);
-
             UpdateCircle((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()));
 //            TotalmarkerList.add(marker);
         }
