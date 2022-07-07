@@ -54,7 +54,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker, SetMarker_Hos {
     private GpsTracker gpsTracker;
     private NaverMap naverMap;
     public static ArrayList<JsonApi.total_item> total_list = new ArrayList();
