@@ -16,7 +16,6 @@ class NotificationActivity : AppCompatActivity() {
 
         initClickListener()
         initRecyclerView()
-
     }
 
     private fun initClickListener(){

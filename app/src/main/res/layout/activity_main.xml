@@ -18,6 +18,34 @@
             app:layout_constraintTop_toBottomOf="@id/layout_tool_bar"
             android:name="com.naver.maps.map.MapFragment" />
 
+        <com.naver.maps.map.widget.LocationButtonView
+            android:id="@+id/navermap_location_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/gps_white"
+            android:visibility="visible"
+            android:background="#00ffffff"
+            android:layout_alignRight="@+id/map"
+            android:layout_above="@+id/repot_message"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="4dp"
+            />
+
+        <ImageButton
+            android:id="@+id/repot_message"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/arrow_back"
+            android:visibility="visible"
+            android:background="#00ffffff"
+            android:layout_alignRight="@+id/map"
+            android:layout_above="@+id/repot_button"
+            android:layout_marginRight="16dp"
+            android:layout_marginBottom="4dp"
+            />
+
+
+
         <ImageButton
             android:id="@+id/repot_button"
             android:layout_width="wrap_content"
@@ -43,6 +71,9 @@
             android:layout_marginBottom="24dp"
             android:layout_marginRight="16dp"
             />
+
+
+
 
         <include layout="@layout/tool_bar"
             android:id="@+id/layout_tool_bar"/>

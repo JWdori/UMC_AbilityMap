@@ -79,7 +79,6 @@ public class JsonApi extends AsyncTask<String, String, String> {
                         item.getString("name")
                 );
                 MainActivity.total_list.add(total_item);
-                System.out.println(MainActivity.total_list.size()+"123");
 
             }
             startFlagForCoronaApi = false;
