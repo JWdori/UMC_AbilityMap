@@ -26,7 +26,7 @@ class NotificationRVAdapter(): RecyclerView.Adapter<NotificationRVAdapter.ViewHo
     override fun getItemCount(): Int = news.size    //data set 크기 알려줌 recyclerview에게 마지막 언제인지 알려줌
 
     @SuppressLint("NotifyDataSetChanged")
-    fun addNews(news: ArrayList<News>){       //기존 songs 초기화 및 받아온 songs 로 update
+    fun addNews(news: ArrayList<News>){       //기존 news 초기화 및 받아온 news 로 update
         this.news.clear()
         this.news.addAll(news)
 
