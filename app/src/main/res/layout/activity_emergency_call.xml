@@ -27,7 +27,7 @@
             android:id="@+id/tv_not_notification"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="긴급연락처"
+            android:text="긴급 연락처"
             android:textColor="@color/black"
             android:textStyle="bold"
             android:textSize="24sp"
@@ -39,7 +39,7 @@
         <View
             android:id="@+id/view_notification"
             android:layout_width="match_parent"
-            android:layout_height="4dp"
+            android:layout_height="3dp"
             android:background="#1e000000"
             app:layout_constraintBottom_toBottomOf="@id/layout"
             app:layout_constraintStart_toStartOf="parent"

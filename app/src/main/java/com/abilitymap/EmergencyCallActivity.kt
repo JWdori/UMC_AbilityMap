@@ -37,10 +37,14 @@ class EmergencyCallActivity : AppCompatActivity() {
         binding.rvEmergencyCall.adapter = emergencyCallRVAdapter
         binding.rvEmergencyCall.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
 
+        addNewsToDB()
+    }
+
+    private fun addNewsToDB(){
         var info = ArrayList<PersonInfo>()
-        info.add(PersonInfo(0,"우리 엄마","010 1234 5678"))
-        info.add(PersonInfo(1,"우리 아빠","010 1234 5678"))
-        info.add(PersonInfo(2,"우리 삼촌","010 1234 5678"))
+        info.add(PersonInfo(info.size,"우리 엄마","010 1234 5678"))
+        info.add(PersonInfo(info.size,"우리 아빠","010 1234 5678"))
+        info.add(PersonInfo(info.size,"우리 삼촌","010 1234 5678"))
         emergencyCallRVAdapter.addPersonInfo(info)
     }
 

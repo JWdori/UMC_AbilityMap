@@ -38,7 +38,7 @@
         <View
             android:id="@+id/view_notification"
             android:layout_width="match_parent"
-            android:layout_height="4dp"
+            android:layout_height="3dp"
             android:background="#dcdcdc"
             app:layout_constraintBottom_toBottomOf="@id/layout"
             app:layout_constraintStart_toStartOf="parent"

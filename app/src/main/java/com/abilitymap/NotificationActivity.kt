@@ -36,7 +36,7 @@ class NotificationActivity : AppCompatActivity() {
 
     private fun initDB(){
         news = ArrayList<News>()
-        news.add(News(0, "어빌리티맵 버전 1.0 공개", "2022/06/30"))
+        news.add(News(news.size, "어빌리티맵 버전 1.0 공개", "2022/06/30"))
         news.add(News(news.size, "이용 설명서 보러가기", "2022/06/30"))
         news.add(News(news.size, "어빌리티맵에 오신 것을 환영합니다 ^o^", "2022/06/30"))
 
