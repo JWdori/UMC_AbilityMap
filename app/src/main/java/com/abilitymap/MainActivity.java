@@ -156,6 +156,33 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 });
         String lat = String.valueOf(NaverMap.DEFAULT_CAMERA_POSITION.target.latitude);
         String lon = String.valueOf(NaverMap.DEFAULT_CAMERA_POSITION.target.longitude);
+
+
+        ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
+        Report_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //현 위치 location 받아와서 서버로 넘겨줘야함
+                //넘겨줄 것 : 사진, text, 닉네임, 좌표, 신고일자
+
+                //카메라 권한요청, 내 파일 권한 요청 필요
+
+                //카메라 화면이 먼저 나옴
+                //사진 찍고
+                //report detail 화면 띄워서
+                //입력받고 전송하기 버튼 누르면
+
+                //현 위치 : locationSource
+
+
+
+                Log.d("test","Reportbutton clicked");
+            }
+        });
+
+
+
+
         JsonApi coronaApi = new JsonApi();
         coronaApi.execute(lat,lon,"");
 
