@@ -172,6 +172,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         items = new ArrayList<>();
         // 핸들러
 
+
+
       /*  Report_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -187,17 +189,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }});
 */
     }
+
+
     private void sendSMS(String phoneNumber, String message)
     {
 
         SmsManager sms = SmsManager.getDefault();
         sms.sendTextMessage(phoneNumber, null, message, null, null);
     }
-
-
-
-
-
 
     //
     @Override
@@ -247,6 +246,32 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean onClick(@NonNull Overlay overlay) {
         ImageButton Call_button = (ImageButton)findViewById(R.id.call_button);
         ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
+        Report_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //현 위치 location 받아와서 서버로 넘겨줘야함
+                //넘겨줄 것 : 사진, text, 닉네임, 좌표, 신고일자
+
+                //카메라 권한요청, 내 파일 권한 요청 필요
+
+                //카메라 화면이 먼저 나옴
+                //사진 찍고
+                //report detail 화면 띄워서
+                //입력받고 전송하기 버튼 누르면
+
+                //현 위치 : locationSource
+
+                //아니 여기 왜 버튼이 안눌려렬렬려려려려려려려려려렬
+
+
+                Toast.makeText(MainActivity.this, "clicked", Toast.LENGTH_SHORT).show();
+                Log.d("camera","Reportbutton clicked");
+
+                Intent intent = null;
+                Log.d("camera","clicked");
+                setCamera(intent);
+            }
+        });
         if(overlay instanceof Marker && clickable){
 //            Toast.makeText(this.getApplicationContext(),"위험지역입니다",Toast.LENGTH_LONG).show();
 
@@ -277,36 +302,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             return true;
         }
-
-        Report_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //현 위치 location 받아와서 서버로 넘겨줘야함
-                //넘겨줄 것 : 사진, text, 닉네임, 좌표, 신고일자
-
-                //카메라 권한요청, 내 파일 권한 요청 필요
-
-                //카메라 화면이 먼저 나옴
-                //사진 찍고
-                //report detail 화면 띄워서
-                //입력받고 전송하기 버튼 누르면
-
-                //현 위치 : locationSource
-
-                //아니 여기 왜 버튼이 안눌려렬렬려려려려려려려려려렬
-
-
-                Toast.makeText(MainActivity.this, "clicked", Toast.LENGTH_SHORT).show();
-                Log.d("camera","Reportbutton clicked");
-                /*
-                Intent intent = null;
-                Log.d("camera","clicked");
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    intent = new Intent(getApplicationContext(), Camera2Activity.class);
-                }
-                startActivity(intent);*/
-            }
-        });
 
         return false;
 
@@ -541,7 +536,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         latLngList.add(new LatLng(37.29970314731508,126.8461135029482        )); //경사로
         latLngList.add(new LatLng(37.30160083561462,126.84515936590596        )); //경사로
 
-        latLngList.add(new LatLng(37.498831572249586,126.95256812603331 )); // 상히 테스트용
+        latLngList.add(new LatLng(37.497836016079916,126.95270728649908 )); // 상히 테스트용
 
 
         setMarker(0,latLngList,"slope",naverMap);
@@ -726,6 +721,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
+
+    private void setCamera(Intent intent){
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            intent = new Intent(getApplicationContext(), Camera2Activity.class);
+        }
+        startActivity(intent);
+    }
+
+
     private void initClickListener() {
 
         binding.layoutToolBar.ivMenu.setOnClickListener(new View.OnClickListener(){
@@ -760,10 +764,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 else if (item.getItemId() == R.id.nav_report) {
                     Intent intent = null;
                     Log.d("camera","clicked");
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                        intent = new Intent(getApplicationContext(), Camera2Activity.class);
-                    }
-                    startActivity(intent);
+                    setCamera(intent);
+
                 }
                 else if (item.getItemId() == R.id.nav_book) {
 
