@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.abilitymap">
+    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
@@ -40,6 +41,12 @@
             android:name=".EmergencyCallActivity"
             android:exported="true">
         </activity>
+
+        <activity
+            android:name=".Camera2Activity"
+            android:exported="true">
+        </activity>
+
 
         <activity
             android:name=".AddPhoneBookActivity"
