@@ -44,8 +44,9 @@
             android:layout_marginRight="16dp"
             />
 
-        <include layout="@layout/tool_bar"
-            android:id="@+id/layout_tool_bar"/>
+        <include
+            android:id="@+id/layout_tool_bar"
+            layout="@layout/tool_bar" />
 
     </RelativeLayout>
 

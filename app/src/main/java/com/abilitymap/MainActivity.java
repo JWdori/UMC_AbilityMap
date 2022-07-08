@@ -673,7 +673,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     startActivity(intent);
                 }
                 else if (item.getItemId() == R.id.nav_call) {
-
+                    Intent intent = new Intent(getApplicationContext(), EmergencyCallActivity.class);
+                    startActivity(intent);
                 }
                 else if (item.getItemId() == R.id.nav_report) {
 
