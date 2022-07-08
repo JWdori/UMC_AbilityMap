@@ -121,7 +121,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        locationButtonView2 = findViewById(R.id.navermap_location_button);
         ImageButton Report_button = (ImageButton) findViewById(R.id.repot_message);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
@@ -246,6 +245,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean onClick(@NonNull Overlay overlay) {
         ImageButton Call_button = (ImageButton)findViewById(R.id.call_button);
         ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
+        ImageButton Report_message = (ImageButton)findViewById(R.id.repot_message);
         Report_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 //현 위치 : locationSource
 
                 //아니 여기 왜 버튼이 안눌려렬렬려려려려려려려려려렬
-
+//zzzzz
 
                 Toast.makeText(MainActivity.this, "clicked", Toast.LENGTH_SHORT).show();
                 Log.d("camera","Reportbutton clicked");
@@ -280,6 +280,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             clickable = false;
             Call_button.setVisibility(View.INVISIBLE);
             Report_button.setVisibility(View.INVISIBLE);
+            Report_message.setVisibility(View.INVISIBLE);
 
             Log.d("clickable?", String.valueOf(clickable));
 
@@ -295,6 +296,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     clickable = true;
                     Call_button.setVisibility(View.VISIBLE);
                     Report_button.setVisibility(View.VISIBLE);
+                    Report_message.setVisibility(View.VISIBLE);
                     Log.d("clickable?", String.valueOf(clickable));
                     Log.d("click event","onMapClick");
                 }
@@ -311,10 +313,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onBackPressed(){
         ImageButton Call_button = (ImageButton)findViewById(R.id.call_button);
         ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
+        ImageButton Report_message = (ImageButton)findViewById(R.id.repot_message);
         clickable = true;
         super.onBackPressed();
         Call_button.setVisibility(View.VISIBLE);
         Report_button.setVisibility(View.VISIBLE);
+        Report_message.setVisibility(View.VISIBLE);
         Log.d("clickable?", "backKeyPressed");
         Log.d("clickable?", String.valueOf(clickable));
     }
@@ -500,8 +504,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         uiSettings.setCompassEnabled(false);
         uiSettings.setScaleBarEnabled(false);
         uiSettings.setZoomControlEnabled(true); //줌인 줌아웃
-        uiSettings.setLocationButtonEnabled(false);
-        locationButtonView2.setMap(naverMap);
+        uiSettings.setLocationButtonEnabled(true);
+//        locationButtonView2 = findViewById(R.id.navermap_location_button);
+//        locationButtonView2.setMap(naverMap);
 
 
         drawMarker(); // network 동작, 인터넷에서 xml을 받아오는 코드
