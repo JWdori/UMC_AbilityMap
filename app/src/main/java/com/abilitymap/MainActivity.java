@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 
 import android.graphics.Color;
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.location.Address;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,7 +24,9 @@ import android.util.Log;
 import androidx.appcompat.app.AlertDialog;
 
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -70,18 +73,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LocationButtonView locationButtonView2;
     public static boolean startFlagForCoronaApi;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
+    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 1;
     private ArrayList<Marker> TotalmarkerList = new ArrayList();
     private static final String[] PERMISSIONS = {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
-    static final int SMS_RECEIVE_PERMISSON=1;
     private LatLng currentPosition;
     List<DTO> items;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     String[] REQUIRED_PERMISSIONS = {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
+    };
+    private int i;
+    private static final String[] REQUIRED_PERMISSIONS2 = {
+            "123",
+            Manifest.permission.SEND_SMS,
     };
     private ActivityMainBinding binding;
 
@@ -173,22 +181,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-      /*  Report_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("1234");
-                String inputText = "01031142949";
-                String inputText2 = "사랑해";
-                if(inputText.length()>0 && inputText2.length()>0) {
-                    sendSMS(inputText, inputText2); Toast.makeText(getBaseContext(), inputText+"\n"+inputText2, Toast.LENGTH_SHORT).show();
+//
 
-                }
-                else
-                    Toast.makeText(getBaseContext(), "전화번호와 메시지를 입력해주세요.", Toast.LENGTH_SHORT).show();
-            }});
-
-
-*/
 
 
     }
@@ -199,12 +193,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-    private void sendSMS(String phoneNumber, String message)
-    {
-
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(phoneNumber, null, message, null, null);
-    }
 
     //
     @Override
@@ -271,6 +259,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 //현 위치 : locationSource
 
                 //아니 여기 왜 버튼이 안눌려렬렬려려려려려려려려려렬
+                //버튼 init버튼인가 밑에 함수에서 설정하면 됩니다^^
 //zzzzz
 
                 Toast.makeText(MainActivity.this, "clicked", Toast.LENGTH_SHORT).show();
@@ -743,51 +732,54 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         startActivity(intent);
     }
 
+    //메시지 보내기 함수
+    private void sendSms(){
+        SmsManager manager = SmsManager.getDefault();
+        manager.sendTextMessage("22222222", null, "msg", null, null);
+    }
+
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev){
+        Rect dialogBounds = new Rect();
+        getWindow().getDecorView().getHitRect(dialogBounds);
+        if(!dialogBounds.contains((int) ev.getX(),(int) ev.getY())){
+            return false;
+        }
+        return super.dispatchTouchEvent(ev);
+    }
 
     private void initClickListener() {
-
-
         //긴급신고 메세지지
        ImageButton Report_message = findViewById(R.id.repot_message);
         Report_message.setOnClickListener(new View.OnClickListener() {
-            int permissonCheck= ContextCompat.checkSelfPermission(this, Manifest.permission.RECEIVE_SMS);
-            if(permissonCheck == PackageManager.PERMISSION_GRANTED){
-                Toast.makeText(getApplicationContext(), "SMS 수신권한 있음", Toast.LENGTH_SHORT).show();
-            }else{
-                Toast.makeText(getApplicationContext(), "SMS 수신권한 없음", Toast.LENGTH_SHORT).show();
-
-                //권한설정 dialog에서 거부를 누르면
-                //ActivityCompat.shouldShowRequestPermissionRationale 메소드의 반환값이 true가 된다.
-                //단, 사용자가 "Don't ask again"을 체크한 경우
-                //거부하더라도 false를 반환하여, 직접 사용자가 권한을 부여하지 않는 이상, 권한을 요청할 수 없게 된다.
-                if(ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.RECEIVE_SMS)){
-                    //이곳에 권한이 왜 필요한지 설명하는 Toast나 dialog를 띄워준 후, 다시 권한을 요청한다.
-                    Toast.makeText(getApplicationContext(), "SMS권한이 필요합니다", Toast.LENGTH_SHORT).show();
-                    ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.RECEIVE_SMS},       SMS_RECEIVE_PERMISSON);
-                }else{
-                    ActivityCompat.requestPermissions(this, new String[]{ Manifest.permission.RECEIVE_SMS}, SMS_RECEIVE_PERMISSON);
-                }
-            }
             @Override
             public void onClick(View v) {
                 //입력한 값을 가져와 변수에 담는다
-                System.out.println("123456");
-                String phoneNo = "123";
-                String sms = "123";
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, REQUIRED_PERMISSIONS2[1])) {
+                        //팝업 이어갈 예정
+  //2번 퍼미션
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
 
-
-                try {
-                    //전송
-                    SmsManager smsManager = SmsManager.getDefault();
-                    smsManager.sendTextMessage(phoneNo, null, sms, null, null);
-                    Toast.makeText(getApplicationContext(), "전송 완료!", Toast.LENGTH_LONG).show();
-                } catch (Exception e) {
-                    Toast.makeText(getApplicationContext(), "SMS faild, please try again later!", Toast.LENGTH_LONG).show();
-                    e.printStackTrace();
+                    }else {
+                        System.out.println(i+"321");
+                        if( i==1 ){
+                            Toast.makeText(getApplicationContext(), "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ", Toast.LENGTH_LONG).show();
+                        }else{
+                            i = 1;//1번 퍼미션
+                        }
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
+                    }//팝업 이어갈 예정
+                }else{
+                    sendSms();
+                    Toast.makeText(getApplicationContext(), "아싸 성공", Toast.LENGTH_LONG).show();
                 }
 
             }
         });
+
+
 
 
         binding.layoutToolBar.ivMenu.setOnClickListener(new View.OnClickListener(){
