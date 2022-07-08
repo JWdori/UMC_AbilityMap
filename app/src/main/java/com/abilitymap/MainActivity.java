@@ -9,6 +9,7 @@ import androidx.fragment.app.FragmentManager;
 
 import android.graphics.Color;
 import android.graphics.PointF;
+import android.graphics.Rect;
 import android.location.Address;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -23,7 +24,9 @@ import android.util.Log;
 import androidx.appcompat.app.AlertDialog;
 
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -70,18 +73,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private LocationButtonView locationButtonView2;
     public static boolean startFlagForCoronaApi;
     private static final int PERMISSIONS_REQUEST_CODE = 100;
+    private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 1;
     private ArrayList<Marker> TotalmarkerList = new ArrayList();
     private static final String[] PERMISSIONS = {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
-    
     private LatLng currentPosition;
     List<DTO> items;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     String[] REQUIRED_PERMISSIONS = {
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
+    };
+    private int i;
+    private static final String[] REQUIRED_PERMISSIONS2 = {
+            "123",
+            Manifest.permission.SEND_SMS,
     };
     private ActivityMainBinding binding;
 
@@ -121,8 +129,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        locationButtonView2 = findViewById(R.id.navermap_location_button);
-        ImageButton Report_button = (ImageButton) findViewById(R.id.repot_message);
+        ImageButton Report_message = (ImageButton) findViewById(R.id.repot_message);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -174,29 +181,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-      /*  Report_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                System.out.println("1234");
-                String inputText = "01031142949";
-                String inputText2 = "사랑해";
-                if(inputText.length()>0 && inputText2.length()>0) {
-                    sendSMS(inputText, inputText2); Toast.makeText(getBaseContext(), inputText+"\n"+inputText2, Toast.LENGTH_SHORT).show();
+//
 
-                }
-                else
-                    Toast.makeText(getBaseContext(), "전화번호와 메시지를 입력해주세요.", Toast.LENGTH_SHORT).show();
-            }});
-*/
+
+
     }
 
 
-    private void sendSMS(String phoneNumber, String message)
-    {
 
-        SmsManager sms = SmsManager.getDefault();
-        sms.sendTextMessage(phoneNumber, null, message, null, null);
-    }
+
+
+
+
 
     //
     @Override
@@ -246,6 +242,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean onClick(@NonNull Overlay overlay) {
         ImageButton Call_button = (ImageButton)findViewById(R.id.call_button);
         ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
+        ImageButton Report_message = (ImageButton)findViewById(R.id.repot_message);
         Report_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -262,7 +259,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 //현 위치 : locationSource
 
                 //아니 여기 왜 버튼이 안눌려렬렬려려려려려려려려려렬
-
+                //버튼 init버튼인가 밑에 함수에서 설정하면 됩니다^^
+//zzzzz
 
                 Toast.makeText(MainActivity.this, "clicked", Toast.LENGTH_SHORT).show();
                 Log.d("camera","Reportbutton clicked");
@@ -280,6 +278,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             clickable = false;
             Call_button.setVisibility(View.INVISIBLE);
             Report_button.setVisibility(View.INVISIBLE);
+            Report_message.setVisibility(View.INVISIBLE);
 
             Log.d("clickable?", String.valueOf(clickable));
 
@@ -295,6 +294,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     clickable = true;
                     Call_button.setVisibility(View.VISIBLE);
                     Report_button.setVisibility(View.VISIBLE);
+                    Report_message.setVisibility(View.VISIBLE);
                     Log.d("clickable?", String.valueOf(clickable));
                     Log.d("click event","onMapClick");
                 }
@@ -311,10 +311,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public void onBackPressed(){
         ImageButton Call_button = (ImageButton)findViewById(R.id.call_button);
         ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
+        ImageButton Report_message = (ImageButton)findViewById(R.id.repot_message);
         clickable = true;
         super.onBackPressed();
         Call_button.setVisibility(View.VISIBLE);
         Report_button.setVisibility(View.VISIBLE);
+        Report_message.setVisibility(View.VISIBLE);
         Log.d("clickable?", "backKeyPressed");
         Log.d("clickable?", String.valueOf(clickable));
     }
@@ -500,8 +502,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         uiSettings.setCompassEnabled(false);
         uiSettings.setScaleBarEnabled(false);
         uiSettings.setZoomControlEnabled(true); //줌인 줌아웃
-        uiSettings.setLocationButtonEnabled(false);
-        locationButtonView2.setMap(naverMap);
+        uiSettings.setLocationButtonEnabled(true);
+//        locationButtonView2 = findViewById(R.id.navermap_location_button);
+//        locationButtonView2.setMap(naverMap);
 
 
         drawMarker(); // network 동작, 인터넷에서 xml을 받아오는 코드
@@ -729,8 +732,55 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         startActivity(intent);
     }
 
+    //메시지 보내기 함수
+    private void sendSms(){
+        SmsManager manager = SmsManager.getDefault();
+        manager.sendTextMessage("22222222", null, "msg", null, null);
+    }
+
+
+    @Override
+    public boolean dispatchTouchEvent(MotionEvent ev){
+        Rect dialogBounds = new Rect();
+        getWindow().getDecorView().getHitRect(dialogBounds);
+        if(!dialogBounds.contains((int) ev.getX(),(int) ev.getY())){
+            return false;
+        }
+        return super.dispatchTouchEvent(ev);
+    }
 
     private void initClickListener() {
+        //긴급신고 메세지지
+       ImageButton Report_message = findViewById(R.id.repot_message);
+        Report_message.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //입력한 값을 가져와 변수에 담는다
+                if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
+                    if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, REQUIRED_PERMISSIONS2[1])) {
+                        //팝업 이어갈 예정
+  //2번 퍼미션
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
+
+                    }else {
+                        System.out.println(i+"321");
+                        if( i==1 ){
+                            Toast.makeText(getApplicationContext(), "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ", Toast.LENGTH_LONG).show();
+                        }else{
+                            i = 1;//1번 퍼미션
+                        }
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
+                    }//팝업 이어갈 예정
+                }else{
+                    sendSms();
+                    Toast.makeText(getApplicationContext(), "아싸 성공", Toast.LENGTH_LONG).show();
+                }
+
+            }
+        });
+
+
+
 
         binding.layoutToolBar.ivMenu.setOnClickListener(new View.OnClickListener(){
             @Override
