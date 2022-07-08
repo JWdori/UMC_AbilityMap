@@ -40,6 +40,7 @@ class EmergencyCallActivity : AppCompatActivity() {
         var info = ArrayList<PersonInfo>()
         info.add(PersonInfo(0,"우리 엄마","010 1234 5678"))
         info.add(PersonInfo(1,"우리 아빠","010 1234 5678"))
+        info.add(PersonInfo(2,"우리 삼촌","010 1234 5678"))
         emergencyCallRVAdapter.addPersonInfo(info)
     }
 
