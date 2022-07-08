@@ -32,6 +32,11 @@
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/report_detail.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/tool_bar.xml" value="0.33" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/menu/navigation_menu.xml" value="0.34739583333333335" />
+        <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/drawable-mdpi/field_border.xml" value="0.1" />
+        <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/drawable/rectangle_clicked.xml" value="0.1" />
+        <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/drawable/rounded_corner_send_btn.xml" value="0.1" />
+        <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/layout/activity_camera2.xml" value="0.2526041666666667" />
+        <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/layout/report_detail.xml" value="0.12158054711246201" />
         <entry key="..\:/Users/tms/Desktop/UMC_Hackathon/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1275" />
         <entry key="..\:/Users/tms/Desktop/UMC_Hackathon/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1275" />
         <entry key="..\:/Users/tms/Desktop/UMC_Hackathon/app/src/main/res/drawable/ic_logo.xml" value="0.1615" />
@@ -41,6 +46,7 @@
         <entry key="..\:/Users/tms/Desktop/UMC_Hackathon/app/src/main/res/layout/splash_logo.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/tms/Desktop/UMC_Hackathon/app/src/main/res/layout/tool_bar.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/tms/Desktop/UMC_Hackathon/app/src/main/res/menu/navigation_menu.xml" value="0.16875" />
+        <entry key="..\:/Users/tms/Desktop/rounded_corner_send_btn.xml" value="0.103" />
       </map>
     </option>
   </component>
