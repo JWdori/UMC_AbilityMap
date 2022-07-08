@@ -72,9 +72,6 @@
             android:layout_marginRight="16dp"
             />
 
-
-
-
         <include layout="@layout/tool_bar"
             android:id="@+id/layout_tool_bar"/>
 
