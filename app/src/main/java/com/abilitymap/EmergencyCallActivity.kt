@@ -10,10 +10,12 @@ class EmergencyCallActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityEmergencyCallBinding
     private lateinit var emergencyCallRVAdapter : EmergencyCallRVAdapter
+    private lateinit var personInfoDB : PersonInfoDatabase
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityEmergencyCallBinding.inflate(layoutInflater)
+//        personInfoDB = PersonInfoDatabase.getInstance(requireContext())!!
         setContentView(binding.root)
 
         initClickListener()
