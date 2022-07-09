@@ -28,8 +28,6 @@ import androidx.appcompat.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -66,7 +64,8 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker, SetMarker_facility {
     private GpsTracker gpsTracker;
     private NaverMap naverMap;
-    public static ArrayList<JsonApi.total_item> total_list = new ArrayList();
+    public static ArrayList<JsonApi_total.total_item> total_list = new ArrayList();
+    public static ArrayList<JsonApi_bike.bike_item> bike_list = new ArrayList();
     private FusedLocationSource locationSource;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private FusedLocationProviderClient fusedLocationClient;
@@ -174,8 +173,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-        JsonApi coronaApi = new JsonApi();
-        coronaApi.execute(lat,lon,"");
+        JsonApi_total total_api = new JsonApi_total();
+        JsonApi_bike bike_api  = new JsonApi_bike();
+        total_api.execute(lat,lon,"");
+        bike_api.execute(lat,lon,"");
 
 //        new Thread(() -> {
 //            setUpMap(); // network 동작, 인터넷에서 xml을 받아오는 코드
@@ -512,25 +513,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         circle.setColor(Color.parseColor("#30FF7B00"));
         circle.setOutlineColor(Color.parseColor("#30FF7B00"));
         circle.setMap(naverMap);
-        circle.setMinZoom(15);
+
 
         Marker marker = new Marker();
         marker.setPosition(new LatLng(x,y));
-        marker.setIcon(OverlayImage.fromResource(R.drawable.danger));
-        marker.setMinZoom(8);
-        marker.setMaxZoom(15);
+        marker.setIcon(OverlayImage.fromResource(R.drawable.danger_location_yellow));
         marker.setWidth(80);
         marker.setHeight(80);
         marker.setMap(naverMap);
 
-        Marker marker2 = new Marker();
-        marker2.setPosition(new LatLng(x,y));
-        marker2.setIcon(OverlayImage.fromResource(R.drawable.invalid_name));
-        marker2.setMinZoom(16);
-        marker.setMaxZoom(15);
-        marker2.setWidth(80);
-        marker2.setHeight(80);
-        marker2.setMap(naverMap);
 
 
     }
@@ -557,6 +548,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         setMarker_facility(); // network 동작, 인터넷에서 xml을 받아오는 코드
+        drawMarker_bike();
         naverMap.setLocationSource(locationSource);
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
 
@@ -920,21 +912,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private void setMarker_facility() {
         for (int i =0 ; i< total_list.size(); i++){
-            JsonApi.total_item item = total_list.get(i);
+            JsonApi_total.total_item item = total_list.get(i);
             setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"hos",naverMap);
 //            TotalmarkerList.add(marker);
         }
         return;
     }
 
-//    private void drawMarker_danger() {
-//        for (int i =0 ; i< total_list.size(); i++){
-//            JsonApi.total_item item = total_list.get(i);
-//            UpdateCircle((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()));
-////            TotalmarkerList.add(marker);
-//        }
-//        return;
-//    }
+    private void drawMarker_bike() {
+        System.out.println("3213"+bike_list.size());
+        for (int i =0 ; i< bike_list.size(); i++){
+            JsonApi_bike.bike_item item = bike_list.get(i);
+            UpdateCircle((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()));
+//            TotalmarkerList.add(marker);
+        }
+        return;
+    }
+
 
 
 

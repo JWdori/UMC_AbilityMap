@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class JsonApi extends AsyncTask<String, String, String> {
+public class JsonApi_total extends AsyncTask<String, String, String> {
     public static boolean startFlagForCoronaApi;
 
 
