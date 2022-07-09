@@ -10,9 +10,9 @@ import com.naver.maps.map.overlay.OverlayImage;
 import com.naver.maps.map.util.MarkerIcons;
 
 import java.util.List;
-
-public interface SetMarker_Hos extends Overlay.OnClickListener {
-    public default void setMarker(double x, double y, String markerType, NaverMap naverMap){
+//병원/약국,공기관,경사로,충전기
+public interface SetMarker_facility extends Overlay.OnClickListener {
+    public default void setMarker_facility(double x, double y, String markerType, NaverMap naverMap){
 
         Marker marker = new Marker();
         marker.setPosition(new LatLng(x,y));
@@ -20,11 +20,8 @@ public interface SetMarker_Hos extends Overlay.OnClickListener {
         marker.setHeight(80);
         marker.setMinZoom(8);
         switch(markerType){
-            case "danger": marker.setIcon(OverlayImage.fromResource(R.drawable.danger)); break;
-            case "slope": marker.setIcon(OverlayImage.fromResource(R.drawable.facility_icon)); break;
-            case "charger": marker.setIcon(OverlayImage.fromResource(R.drawable.charge_icon)); break;
-            case "wheelchair": marker.setIcon(OverlayImage.fromResource(R.drawable.wheel_icon)); break;
-            case "hosp": marker.setIcon(MarkerIcons.YELLOW); break;
+            case "office": marker.setIcon(OverlayImage.fromResource(R.drawable.facility_office)); break;
+            case "hos": marker.setIcon(OverlayImage.fromResource(R.drawable.facility_icon)); break;
         }
         marker.setMap(naverMap);
 
