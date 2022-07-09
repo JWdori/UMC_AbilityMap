@@ -49,27 +49,19 @@ class EmergencyCallActivity : AppCompatActivity() {
             }
 
         })
-        insertPersonToDB()
+        initPersonInfoDB()
         Log.d("DB", personInfoDB.personInfoDao().getPersonList().toString())
     }
 
-    private fun insertPersonToDB(){
-
-        var info = personInfoDB.personInfoDao().getPersonList()
-
+    private fun initPersonInfoDB(){     //DB 내의 데이터로 연락처 동기화
         emergencyCallRVAdapter.addPersonInfo(personInfoDB.personInfoDao().getPersonList() as ArrayList<PersonInfo>)
-
-        if (info.isNotEmpty())
-            return
-        personInfoDB.personInfoDao().insertPerson(PersonInfo("우리 엄마","010 1234 5678"))
-
-        personInfoDB.personInfoDao().insertPerson(PersonInfo("우리 아빠","010 1234 5678"))
-
-        personInfoDB.personInfoDao().insertPerson(PersonInfo("우리 삼촌","010 1234 5678"))
 
         Log.d("DB", personInfoDB.personInfoDao().getPersonList().toString())
+    }
 
-        emergencyCallRVAdapter.addPersonInfo(personInfoDB.personInfoDao().getPersonList() as ArrayList<PersonInfo>)
+    override fun onResume(){    //신규 연락처 저장 후 새로운 연락처로 업데이트
+        super.onResume()
+        initPersonInfoDB()
     }
 
 }
