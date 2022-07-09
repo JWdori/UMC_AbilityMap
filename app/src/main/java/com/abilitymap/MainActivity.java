@@ -28,8 +28,6 @@ import androidx.appcompat.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -63,10 +61,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker, SetMarker_Hos {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker, SetMarker_facility {
     private GpsTracker gpsTracker;
     private NaverMap naverMap;
-    public static ArrayList<JsonApi.total_item> total_list = new ArrayList();
+    public static ArrayList<JsonApi_total.total_item> total_list = new ArrayList();
+    public static ArrayList<JsonApi_bike.bike_item> bike_list = new ArrayList();
     private FusedLocationSource locationSource;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private FusedLocationProviderClient fusedLocationClient;
@@ -99,8 +98,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private final long finishtimeed = 1000;
     private long presstime = 0;
     private boolean isDrawerOpen = false;
-    
-    
+
+
 //    List<Double> latitudeList = new ArrayList<Double>();
 //    List<Double> longitudeList = new ArrayList<Double>();
 //
@@ -174,8 +173,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-        JsonApi coronaApi = new JsonApi();
-        coronaApi.execute(lat,lon,"");
+        JsonApi_total total_api = new JsonApi_total();
+        JsonApi_bike bike_api  = new JsonApi_bike();
+        total_api.execute(lat,lon,"");
+        bike_api.execute(lat,lon,"");
 
 //        new Thread(() -> {
 //            setUpMap(); // network 동작, 인터넷에서 xml을 받아오는 코드
@@ -329,32 +330,44 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        Log.d("clickable?", "backKeyPressed");
 //        Log.d("clickable?", String.valueOf(clickable));
 
-        long tempTime = System.currentTimeMillis();
-        long intervalTime = tempTime - presstime;
 
-        if (0 <= intervalTime && finishtimeed >= intervalTime)
-        {
-            finish();
-        }
-        else
-        {
-            presstime = tempTime;
-            Toast.makeText(getApplicationContext(), "한번더 누르시면 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
-        }
         if (isDrawerOpen){
             binding.drawerLayout.closeDrawer(GravityCompat.START);
             isDrawerOpen = false;
-        }else {
-            ImageButton Call_button = (ImageButton) findViewById(R.id.call_button);
-            ImageButton Report_button = (ImageButton) findViewById(R.id.repot_button);
-            ImageButton Report_message = (ImageButton) findViewById(R.id.repot_message);
-            clickable = true;
-            super.onBackPressed();
-            Call_button.setVisibility(View.VISIBLE);
-            Report_button.setVisibility(View.VISIBLE);
-            Report_message.setVisibility(View.VISIBLE);
-            Log.d("clickable?", "backKeyPressed");
-            Log.d("clickable?", String.valueOf(clickable));
+        }else{
+
+            if (clickable) {
+
+                long tempTime = System.currentTimeMillis();
+                long intervalTime = tempTime - presstime;
+
+                if (0 <= intervalTime && finishtimeed >= intervalTime)
+                {
+                    finish();
+                }
+                else
+                {
+                    presstime = tempTime;
+                    Toast.makeText(getApplicationContext(), "한번더 누르시면 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
+                }
+
+            }else {
+                super.onBackPressed();
+                ImageButton Call_button = (ImageButton) findViewById(R.id.call_button);
+                ImageButton Report_button = (ImageButton) findViewById(R.id.repot_button);
+                ImageButton Report_message = (ImageButton) findViewById(R.id.repot_message);
+                Call_button.setVisibility(View.VISIBLE);
+                Report_button.setVisibility(View.VISIBLE);
+                Report_message.setVisibility(View.VISIBLE);
+                clickable = true;
+                Log.d("clickable?", "backKeyPressed");
+                Log.d("clickable?", String.valueOf(clickable));
+
+
+            }
+
+
+
         }
     }
 
@@ -500,25 +513,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         circle.setColor(Color.parseColor("#30FF7B00"));
         circle.setOutlineColor(Color.parseColor("#30FF7B00"));
         circle.setMap(naverMap);
-        circle.setMinZoom(15);
+
 
         Marker marker = new Marker();
         marker.setPosition(new LatLng(x,y));
-        marker.setIcon(OverlayImage.fromResource(R.drawable.invalid_name));
-        marker.setMinZoom(8);
-        marker.setMaxZoom(15);
+        marker.setIcon(OverlayImage.fromResource(R.drawable.danger_location_yellow));
         marker.setWidth(80);
         marker.setHeight(80);
         marker.setMap(naverMap);
 
-        Marker marker2 = new Marker();
-        marker2.setPosition(new LatLng(x,y));
-        marker2.setIcon(OverlayImage.fromResource(R.drawable.invalid_name));
-        marker2.setMinZoom(16);
-        marker.setMaxZoom(15);
-        marker2.setWidth(80);
-        marker2.setHeight(80);
-        marker2.setMap(naverMap);
 
 
     }
@@ -544,7 +547,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        locationButtonView2.setMap(naverMap);
 
 
-        drawMarker(); // network 동작, 인터넷에서 xml을 받아오는 코드
+        setMarker_facility(); // network 동작, 인터넷에서 xml을 받아오는 코드
+        drawMarker_bike();
         naverMap.setLocationSource(locationSource);
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
 
@@ -772,7 +776,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     //메시지 보내기 함수
     private void sendSms(){
         SmsManager manager = SmsManager.getDefault();
-        manager.sendTextMessage("22222222", null, "msg", null, null);
+        manager.sendTextMessage("01031142949", null, "꼭 치킨 사줄게요", null, null);
     }
 
 
@@ -906,14 +910,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    private void drawMarker() {
+    private void setMarker_facility() {
         for (int i =0 ; i< total_list.size(); i++){
-            JsonApi.total_item item = total_list.get(i);
+            JsonApi_total.total_item item = total_list.get(i);
+            setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"hos",naverMap);
+//            TotalmarkerList.add(marker);
+        }
+        return;
+    }
+
+    private void drawMarker_bike() {
+        System.out.println("3213"+bike_list.size());
+        for (int i =0 ; i< bike_list.size(); i++){
+            JsonApi_bike.bike_item item = bike_list.get(i);
             UpdateCircle((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()));
 //            TotalmarkerList.add(marker);
         }
         return;
     }
+
+
 
 
 }
