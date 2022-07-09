@@ -1,6 +1,7 @@
 package com.abilitymap
 
 import android.annotation.SuppressLint
+import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
@@ -27,12 +28,13 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
     }
 
     override fun onBindViewHolder(holder: EmergencyCallRVAdapter.ViewHolder, position: Int) {
-        holder.bind(personInfo[position])
+        holder.bind(personInfo[position], position)
 
         holder.binding.ivDeleteEmergencyCall.setOnClickListener {
             mItemClickListener.onRemovePerson(personInfo[position].personId)
             removePerson(position)
         }
+
     }
 
     override fun getItemCount(): Int = personInfo.size
@@ -52,9 +54,17 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
     }
 
     inner class ViewHolder(val binding: ItemEmergencyCallBinding):RecyclerView.ViewHolder(binding.root){
-        fun bind(personInfo: PersonInfo){
+        fun bind(personInfo: PersonInfo, position : Int){
             binding.tvNameEmergencyCall.text = personInfo.name
             binding.tvPhoneNumberEmergencyCall.text = personInfo.phoneNumber
+
+            binding.ivModifyEmergencyCall.setOnClickListener {
+                val intent = Intent(binding.root.context, AddPhoneBookActivity::class.java)
+                intent.putExtra("name", personInfo.name)
+                intent.putExtra("phoneNumber", personInfo.phoneNumber)
+                intent.putExtra("position", position)
+                intent.run { binding.root.context.startActivity(this) }
+            }
         }
     }
 }

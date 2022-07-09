@@ -55,7 +55,6 @@ class EmergencyCallActivity : AppCompatActivity() {
 
     private fun initPersonInfoDB(){     //DB 내의 데이터로 연락처 동기화
         emergencyCallRVAdapter.addPersonInfo(personInfoDB.personInfoDao().getPersonList() as ArrayList<PersonInfo>)
-
         Log.d("DB", personInfoDB.personInfoDao().getPersonList().toString())
     }
 

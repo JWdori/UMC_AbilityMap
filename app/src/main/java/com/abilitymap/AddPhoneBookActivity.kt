@@ -20,6 +20,8 @@ class AddPhoneBookActivity : AppCompatActivity() {
         setContentView(binding.root)
 
         personInfoDatabase = PersonInfoDatabase.getInstance(this)!!
+        Log.d("PersonInfoDataBase", personInfoDatabase.personInfoDao().getPersonList().toString())
+        initData()
         initClickListener()
 
     }
@@ -31,7 +33,7 @@ class AddPhoneBookActivity : AppCompatActivity() {
         }
         binding.etNameAddPhoneBook.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                binding.tvNameNumberAddPhoneBook.text = "0/8"
+                binding.tvNameNumberAddPhoneBook.text = "0/8 자"
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
@@ -62,15 +64,41 @@ class AddPhoneBookActivity : AppCompatActivity() {
             }
         }
         else{       //정보가 모두 기입 됐을 시
-            personInfoDatabase.personInfoDao().insertPerson(
-                PersonInfo(
-                    binding.etNameAddPhoneBook.text.toString(), binding.etPhoneNumberAddPhoneBook.text.toString()
+            if (intent.getStringExtra("name") == null){     //데이터 추가
+                personInfoDatabase.personInfoDao().insertPerson(
+                    PersonInfo(
+                        binding.etNameAddPhoneBook.text.toString(), binding.etPhoneNumberAddPhoneBook.text.toString()
+                    )
                 )
-            )
-            finish()
-            Log.d("DB", personInfoDatabase.personInfoDao().getPersonList().toString())
+                finish()
+                Log.d("DB", personInfoDatabase.personInfoDao().getPersonList().toString())
+            }
+            else{       //데이터 수정
+                Log.d("DB", intent.getIntExtra("position", 0).toString())
+                Log.d("DB", binding.etNameAddPhoneBook.text.toString())
+                Log.d("DB",binding.etPhoneNumberAddPhoneBook.text.toString())
+                personInfoDatabase.personInfoDao().updatePerson(binding.etNameAddPhoneBook.text.toString(), binding.etPhoneNumberAddPhoneBook.text.toString(), intent.getIntExtra("position", 0))
+                finish()
+                Log.d("DB", personInfoDatabase.personInfoDao().getPersonList().toString())
+            }
         }
     }
 
+    private fun initData(){
+
+        if (intent.getStringExtra("name") == null){
+            Log.d("!!!", "추가할 데이터")
+            return
+        }
+        Log.d("!!!", "수정할 데이터")
+
+        val name = intent.getStringExtra("name")
+        val phoneNumber = intent.getStringExtra("phoneNumber")
+        val position = intent.getIntExtra("position", 0)
+
+        binding.etNameAddPhoneBook.setText(name)
+        binding.etPhoneNumberAddPhoneBook.setText(phoneNumber)
+        binding.tvNameNumberAddPhoneBook.setText(name?.length.toString() + "/8 자")
+    }
 
 }
