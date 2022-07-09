@@ -23,7 +23,7 @@
             android:layout_marginLeft="10dp"/>
 
         <TextView
-            android:id="@+id/tv_not_notification"
+            android:id="@+id/tv_add_phone_book"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="입력하기"
