@@ -10,6 +10,16 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
 
     private val personInfo = ArrayList<PersonInfo>()
 
+    interface MyItemClickListener{
+        fun onRemovePerson(PersonId : Int)
+    }
+
+    private lateinit var mItemClickListener : MyItemClickListener
+
+    fun setMyItemClickListener(itemClickListener : MyItemClickListener){
+        mItemClickListener = itemClickListener
+    }
+
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): EmergencyCallRVAdapter.ViewHolder {
         val binding: ItemEmergencyCallBinding = ItemEmergencyCallBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
 
@@ -18,6 +28,11 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
 
     override fun onBindViewHolder(holder: EmergencyCallRVAdapter.ViewHolder, position: Int) {
         holder.bind(personInfo[position])
+
+        holder.binding.ivDeleteEmergencyCall.setOnClickListener {
+            mItemClickListener.onRemovePerson(personInfo[position].personId)
+            removePerson(position)
+        }
     }
 
     override fun getItemCount(): Int = personInfo.size
@@ -27,6 +42,12 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
         this.personInfo.clear()
         this.personInfo.addAll(personInfo)
 
+        notifyDataSetChanged()
+    }
+
+    @SuppressLint("NotifyDataSetChanged")
+    private fun removePerson(position : Int){
+        this.personInfo.removeAt(position)
         notifyDataSetChanged()
     }
 
