@@ -63,7 +63,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker, SetMarker_Hos {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker, SetMarker_facility {
     private GpsTracker gpsTracker;
     private NaverMap naverMap;
     public static ArrayList<JsonApi.total_item> total_list = new ArrayList();
@@ -516,7 +516,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Marker marker = new Marker();
         marker.setPosition(new LatLng(x,y));
-        marker.setIcon(OverlayImage.fromResource(R.drawable.invalid_name));
+        marker.setIcon(OverlayImage.fromResource(R.drawable.danger));
         marker.setMinZoom(8);
         marker.setMaxZoom(15);
         marker.setWidth(80);
@@ -556,7 +556,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        locationButtonView2.setMap(naverMap);
 
 
-        drawMarker(); // network 동작, 인터넷에서 xml을 받아오는 코드
+        setMarker_facility(); // network 동작, 인터넷에서 xml을 받아오는 코드
         naverMap.setLocationSource(locationSource);
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
 
@@ -918,14 +918,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    private void drawMarker() {
+    private void setMarker_facility() {
         for (int i =0 ; i< total_list.size(); i++){
             JsonApi.total_item item = total_list.get(i);
-            UpdateCircle((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()));
+            setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"hos",naverMap);
 //            TotalmarkerList.add(marker);
         }
         return;
     }
+
+//    private void drawMarker_danger() {
+//        for (int i =0 ; i< total_list.size(); i++){
+//            JsonApi.total_item item = total_list.get(i);
+//            UpdateCircle((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()));
+////            TotalmarkerList.add(marker);
+//        }
+//        return;
+//    }
+
 
 
 }
