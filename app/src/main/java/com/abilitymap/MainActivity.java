@@ -96,7 +96,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     List<LatLng> latLngList = new ArrayList<>();
     private boolean clickable = true;
-
+    private final long finishtimeed = 1000;
+    private long presstime = 0;
 //    List<Double> latitudeList = new ArrayList<Double>();
 //    List<Double> longitudeList = new ArrayList<Double>();
 //
@@ -299,6 +300,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     Log.d("clickable?", String.valueOf(clickable));
                     Log.d("click event","onMapClick");
                 }
+
+
+
+
             });
 
             return true;
@@ -310,16 +315,31 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onBackPressed(){
-        ImageButton Call_button = (ImageButton)findViewById(R.id.call_button);
-        ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
-        ImageButton Report_message = (ImageButton)findViewById(R.id.repot_message);
-        clickable = true;
-        super.onBackPressed();
-        Call_button.setVisibility(View.VISIBLE);
-        Report_button.setVisibility(View.VISIBLE);
-        Report_message.setVisibility(View.VISIBLE);
-        Log.d("clickable?", "backKeyPressed");
-        Log.d("clickable?", String.valueOf(clickable));
+//        ImageButton Call_button = (ImageButton)findViewById(R.id.call_button);
+//        ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
+//        ImageButton Report_message = (ImageButton)findViewById(R.id.repot_message);
+//        clickable = true;
+//        super.onBackPressed();
+//        Call_button.setVisibility(View.VISIBLE);
+//        Report_button.setVisibility(View.VISIBLE);
+//        Report_message.setVisibility(View.VISIBLE);
+//        Log.d("clickable?", "backKeyPressed");
+//        Log.d("clickable?", String.valueOf(clickable));
+
+        long tempTime = System.currentTimeMillis();
+        long intervalTime = tempTime - presstime;
+
+        if (0 <= intervalTime && finishtimeed >= intervalTime)
+        {
+            finish();
+        }
+        else
+        {
+            presstime = tempTime;
+            Toast.makeText(getApplicationContext(), "한번더 누르시면 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
+        }
+
+
     }
 
 
@@ -778,6 +798,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
                     }//팝업 이어갈 예정
                 }else{
+                    //퍼미션 허용받으면 이쪽입니다~~~
                     SharedPreferences pref = getSharedPreferences("isFirst", Activity.MODE_PRIVATE);
                     boolean first_touch = pref.getBoolean("isFirst", false);
                     if(first_touch==false){
