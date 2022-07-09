@@ -99,6 +99,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private final long finishtimeed = 1000;
     private long presstime = 0;
     private boolean isDrawerOpen = false;
+
+    
 //    List<Double> latitudeList = new ArrayList<Double>();
 //    List<Double> longitudeList = new ArrayList<Double>();
 //
