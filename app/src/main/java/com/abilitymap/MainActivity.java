@@ -98,6 +98,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private boolean clickable = true;
     private final long finishtimeed = 1000;
     private long presstime = 0;
+    private boolean isDrawerOpen = false;
+    
+    
 //    List<Double> latitudeList = new ArrayList<Double>();
 //    List<Double> longitudeList = new ArrayList<Double>();
 //
@@ -338,8 +341,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             presstime = tempTime;
             Toast.makeText(getApplicationContext(), "한번더 누르시면 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
         }
-
-
+        if (isDrawerOpen){
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+            isDrawerOpen = false;
+        }else {
+            ImageButton Call_button = (ImageButton) findViewById(R.id.call_button);
+            ImageButton Report_button = (ImageButton) findViewById(R.id.repot_button);
+            ImageButton Report_message = (ImageButton) findViewById(R.id.repot_message);
+            clickable = true;
+            super.onBackPressed();
+            Call_button.setVisibility(View.VISIBLE);
+            Report_button.setVisibility(View.VISIBLE);
+            Report_message.setVisibility(View.VISIBLE);
+            Log.d("clickable?", "backKeyPressed");
+            Log.d("clickable?", String.valueOf(clickable));
+        }
     }
 
 
@@ -817,13 +833,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
 
-
-
         binding.layoutToolBar.ivMenu.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {            //menu 클릭 시 open drawer
                 binding.drawerLayout.openDrawer(GravityCompat.START);
+                isDrawerOpen = true;
             }
+
         });
 
         View header = binding.navigationView.getHeaderView(0);
