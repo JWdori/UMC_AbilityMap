@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private long presstime = 0;
     private boolean isDrawerOpen = false;
 
-    
+
 //    List<Double> latitudeList = new ArrayList<Double>();
 //    List<Double> longitudeList = new ArrayList<Double>();
 //
@@ -329,32 +329,44 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        Log.d("clickable?", "backKeyPressed");
 //        Log.d("clickable?", String.valueOf(clickable));
 
-        long tempTime = System.currentTimeMillis();
-        long intervalTime = tempTime - presstime;
 
-        if (0 <= intervalTime && finishtimeed >= intervalTime)
-        {
-            finish();
-        }
-        else
-        {
-            presstime = tempTime;
-            Toast.makeText(getApplicationContext(), "한번더 누르시면 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
-        }
         if (isDrawerOpen){
             binding.drawerLayout.closeDrawer(GravityCompat.START);
             isDrawerOpen = false;
-        }else {
-            ImageButton Call_button = (ImageButton) findViewById(R.id.call_button);
-            ImageButton Report_button = (ImageButton) findViewById(R.id.repot_button);
-            ImageButton Report_message = (ImageButton) findViewById(R.id.repot_message);
-            clickable = true;
-            super.onBackPressed();
-            Call_button.setVisibility(View.VISIBLE);
-            Report_button.setVisibility(View.VISIBLE);
-            Report_message.setVisibility(View.VISIBLE);
-            Log.d("clickable?", "backKeyPressed");
-            Log.d("clickable?", String.valueOf(clickable));
+        }else{
+
+            if (clickable) {
+
+                long tempTime = System.currentTimeMillis();
+                long intervalTime = tempTime - presstime;
+
+                if (0 <= intervalTime && finishtimeed >= intervalTime)
+                {
+                    finish();
+                }
+                else
+                {
+                    presstime = tempTime;
+                    Toast.makeText(getApplicationContext(), "한번더 누르시면 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
+                }
+
+            }else {
+                super.onBackPressed();
+                ImageButton Call_button = (ImageButton) findViewById(R.id.call_button);
+                ImageButton Report_button = (ImageButton) findViewById(R.id.repot_button);
+                ImageButton Report_message = (ImageButton) findViewById(R.id.repot_message);
+                Call_button.setVisibility(View.VISIBLE);
+                Report_button.setVisibility(View.VISIBLE);
+                Report_message.setVisibility(View.VISIBLE);
+                clickable = true;
+                Log.d("clickable?", "backKeyPressed");
+                Log.d("clickable?", String.valueOf(clickable));
+
+
+            }
+
+
+
         }
     }
 
@@ -772,7 +784,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     //메시지 보내기 함수
     private void sendSms(){
         SmsManager manager = SmsManager.getDefault();
-        manager.sendTextMessage("22222222", null, "msg", null, null);
+        manager.sendTextMessage("01031142949", null, "꼭 치킨 사줄게요", null, null);
     }
 
 
