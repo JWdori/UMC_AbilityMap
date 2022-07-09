@@ -92,7 +92,7 @@
 
 
     <View
-        android:id="@+id/cancel_button_background"
+        android:id="@+id/camera_cancel_btn"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:background="@drawable/rounded_btn"
@@ -120,8 +120,8 @@
         android:textSize="18sp"
         android:textStyle="bold"
 
-        app:layout_constraintStart_toStartOf="@id/cancel_button_background"
-        app:layout_constraintTop_toTopOf="@id/cancel_button_background"
+        app:layout_constraintStart_toStartOf="@id/camera_cancel_btn"
+        app:layout_constraintTop_toTopOf="@id/camera_cancel_btn"
         android:layout_marginTop="19dp"
         android:layout_marginLeft="13dp"
         />
