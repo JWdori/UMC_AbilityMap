@@ -8,7 +8,7 @@ import androidx.room.Query
 interface PersonInfoDao {
 
     @Query("Select * From PersonInfoTable")
-    fun getPerson() : List<PersonInfo>
+    fun getPersonList() : List<PersonInfo>
 
     @Insert()
     fun insertPerson(person : PersonInfo)

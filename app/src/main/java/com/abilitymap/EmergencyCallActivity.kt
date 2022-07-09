@@ -44,32 +44,32 @@ class EmergencyCallActivity : AppCompatActivity() {
 
         emergencyCallRVAdapter.setMyItemClickListener(object: EmergencyCallRVAdapter.MyItemClickListener{
             override fun onRemovePerson(PersonId: Int) {
-
-                Log.d("DB", personInfoDB.personInfoDao().getPerson().toString())
-
                 personInfoDB.personInfoDao().deletePerson(PersonId)
-
+                Log.d("DB", personInfoDB.personInfoDao().getPersonList().toString())
             }
 
         })
-        addNewsToDB()
-        Log.d("DB", personInfoDB.personInfoDao().getPerson().toString())
+        insertPersonToDB()
+        Log.d("DB", personInfoDB.personInfoDao().getPersonList().toString())
     }
 
-    private fun addNewsToDB(){
+    private fun insertPersonToDB(){
 
-//        var info = personInfoDB.personInfoDao().getPerson()
-//        if (info.isNotEmpty())
-//            return
-//        personInfoDB.personInfoDao().insertPerson(PersonInfo(info.size,"우리 엄마","010 1234 5678"))
-//        personInfoDB.personInfoDao().insertPerson(PersonInfo(info.size,"우리 아빠","010 1234 5678"))
-//        personInfoDB.personInfoDao().insertPerson(PersonInfo(info.size,"우리 삼촌","010 1234 5678"))
-//        emergencyCallRVAdapter.addPersonInfo(info)
-        var info = ArrayList<PersonInfo>()
-        info.add(PersonInfo(info.size,"우리 엄마","010 1234 5678"))
-        info.add(PersonInfo(info.size,"우리 아빠","010 1234 5678"))
-        info.add(PersonInfo(info.size,"우리 삼촌","010 1234 5678"))
-        emergencyCallRVAdapter.addPersonInfo(info)
+        var info = personInfoDB.personInfoDao().getPersonList()
+
+        emergencyCallRVAdapter.addPersonInfo(personInfoDB.personInfoDao().getPersonList() as ArrayList<PersonInfo>)
+
+        if (info.isNotEmpty())
+            return
+        personInfoDB.personInfoDao().insertPerson(PersonInfo("우리 엄마","010 1234 5678"))
+
+        personInfoDB.personInfoDao().insertPerson(PersonInfo("우리 아빠","010 1234 5678"))
+
+        personInfoDB.personInfoDao().insertPerson(PersonInfo("우리 삼촌","010 1234 5678"))
+
+        Log.d("DB", personInfoDB.personInfoDao().getPersonList().toString())
+
+        emergencyCallRVAdapter.addPersonInfo(personInfoDB.personInfoDao().getPersonList() as ArrayList<PersonInfo>)
     }
 
 }

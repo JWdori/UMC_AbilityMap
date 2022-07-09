@@ -5,7 +5,8 @@ import androidx.room.PrimaryKey
 
 @Entity(tableName = "personInfoTable")
 data class PersonInfo(
-    @PrimaryKey(autoGenerate = false) var personId : Int = 0,
     var name : String? = "",
     var phoneNumber : String? = ""
-)
+){
+    @PrimaryKey(autoGenerate = true) var personId : Int = 0
+}

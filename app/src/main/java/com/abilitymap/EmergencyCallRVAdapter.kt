@@ -47,7 +47,7 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
 
     @SuppressLint("NotifyDataSetChanged")
     private fun removePerson(position : Int){
-        personInfo.removeAt(position)
+        this.personInfo.removeAt(position)
         notifyDataSetChanged()
     }
 
