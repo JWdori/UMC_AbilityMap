@@ -307,8 +307,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
                     getSupportFragmentManager().popBackStack();
                     clickable = true;
-                    CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition,16).pivot(new PointF(0.5f,0.5f)).animate(CameraAnimation.Easing);
-                    naverMap.moveCamera(cameraUpdate);
+
                     Call_button.setVisibility(View.VISIBLE);
                     Report_button.setVisibility(View.VISIBLE);
                     Report_message.setVisibility(View.VISIBLE);
