@@ -101,8 +101,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private final long finishtimeed = 1000;
     private long presstime = 0;
     private boolean isDrawerOpen = false;
-
-
+    ArrayList<NaverItem> cluster_item = new ArrayList<>();
+    ArrayList<NaverItem> cluster_item2 = new ArrayList<>();
+    TedNaverClustering tedNaverClustering;
+    TedNaverClustering tedNaverClustering2;
 //    List<Double> latitudeList = new ArrayList<Double>();
 //    List<Double> longitudeList = new ArrayList<Double>();
 //
@@ -531,142 +533,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     private ArrayList<NaverItem> getItems() {
         LatLngBounds bounds = naverMap.getContentBounds();
-        ArrayList<NaverItem> items = new ArrayList<>();
-
-        items.add(new NaverItem(37.5246467590332, 126.92683410644531));
-        items.add(new NaverItem(37.4689826965332, 126.93840026855469));
-        items.add(new NaverItem(37.529083251953125, 126.92189025878906));
-        items.add(new NaverItem(37.47843551635742, 126.98231506347656));
-        items.add(new NaverItem(37.480621337890625, 126.98323822021484));
-        items.add(new NaverItem(37.477970123291016, 126.95721435546875));
-        items.add(new NaverItem(37.521175384521484, 126.9185562133789));
-        items.add(new NaverItem(37.503662109375, 127.0100326538086));
-        items.add(new NaverItem(37.51717758178711, 126.90557861328125));
-        items.add(new NaverItem(37.52184295654297, 126.92816162109375));
-        items.add(new NaverItem(37.47835159301758, 126.95608520507812));
-        items.add(new NaverItem(37.474891662597656, 127.04256439208984));
-        items.add(new NaverItem(37.486785888671875, 127.01634216308594));
-        items.add(new NaverItem(37.50286102294922, 127.02454376220703));
-        items.add(new NaverItem(37.47911834716797, 126.95285034179688));
-        items.add(new NaverItem(37.515625, 126.90752410888672));
-        items.add(new NaverItem(37.522945404052734, 126.92428588867188));
-        items.add(new NaverItem(37.47600555419922, 126.9771499633789));
-        items.add(new NaverItem(37.4664306640625, 126.93685150146484));
-        items.add(new NaverItem(37.477970123291016, 126.95721435546875));
-        items.add(new NaverItem(37.50643539428711, 127.0068359375));
-        items.add(new NaverItem(37.48375701904297, 127.03482055664062));
-        items.add(new NaverItem(37.48411178588867, 126.90324401855469));
-        items.add(new NaverItem(37.48514175415039, 127.01586151123047));
-        items.add(new NaverItem(37.493595123291016, 126.89849090576172));
-        items.add(new NaverItem(37.512603759765625, 126.92414855957031));
-        items.add(new NaverItem(37.52606964111328, 126.89155578613281));
-        items.add(new NaverItem(37.48301315307617, 126.9969482421875));
-        items.add(new NaverItem(37.483646392822266, 126.95520782470703));
-        items.add(new NaverItem(37.482181549072266 ,126.94163513183594 ));
-        items.add(new NaverItem(37.478675842285156 , 126.9821548461914));
-        items.add(new NaverItem( 37.46232986450195, 126.95233154296875));
-        items.add(new NaverItem(37.48004150390625 ,126.95210266113281 ));
-        items.add(new NaverItem(37.47433090209961 ,126.91799926757812 ));
-        items.add(new NaverItem( 37.470481872558594,126.93447875976562 ));
-        items.add(new NaverItem(37.483795166015625 , 126.92927551269531));
-        items.add(new NaverItem(37.4698371887207 ,127.04195404052734 ));
-        items.add(new NaverItem( 37.52496337890625,126.93901824951172 ));
-        items.add(new NaverItem( 37.515625,126.90752410888672 ));
-        items.add(new NaverItem( 37.515625, 126.90752410888672));
-        items.add(new NaverItem(37.516876220703125 ,126.90438079833984 ));
-        items.add(new NaverItem(37.471500396728516 ,126.98245239257812 ));
-        items.add(new NaverItem( 37.51831817626953,126.89595031738281 ));
-        items.add(new NaverItem(37.47875213623047 , 126.95467376708984));
-        items.add(new NaverItem(37.49344253540039 ,127.01612091064453 ));
-        items.add(new NaverItem( 37.519046783447266, 126.88628387451172));
-        items.add(new NaverItem( 37.50643539428711,127.0068359375 ));
-        items.add(new NaverItem(37.47794723510742 ,126.95262145996094 ));
-        items.add(new NaverItem(37.48775863647461 , 127.01319122314453));
-        items.add(new NaverItem( 37.495384216308594, 127.01643371582031));
-        items.add(new NaverItem( 37.5021858215332, 126.99009704589844));
-        items.add(new NaverItem(37.473854064941406 , 126.91732788085938));
-        items.add(new NaverItem( 37.48548889160156, 127.017333984375));
-        items.add(new NaverItem(37.49069595336914, 126.99148559570312 ));
-        items.add(new NaverItem( 37.51095199584961 , 127.02018737792969));
-        items.add(new NaverItem(37.502960205078125 , 127.0101318359375));
-        items.add(new NaverItem(37.5037727355957 , 127.02079772949219));
-        items.add(new NaverItem(37.49629211425781 , 126.9857177734375 ));
-        items.add(new NaverItem(37.47736358642578, 126.98747253417969 ));
-        items.add(new NaverItem(37.4817504882812,127.00470733642578 ));
-        items.add(new NaverItem(37.48357009887695 , 126.99656677246094 ));
-        items.add(new NaverItem(37.486053466796875,126.93956756591797 ));
-        items.add(new NaverItem( 37.482547760009766,126.94361114501953 ));
-        items.add(new NaverItem(37.47623062133789 ,126.93753051757812 ));
-        items.add(new NaverItem(37.48585891723633 , 126.9559555053711));
-        items.add(new NaverItem(37.484336853027344 ,127.03057861328125 ));
-        items.add(new NaverItem(37.46940994262695 ,127.04126739501953 ));
-        items.add(new NaverItem( 37.51215744018555, 126.916259765625));
-        items.add(new NaverItem( 37.50609588623047,126.91094970703125 ));
-        items.add(new NaverItem( 37.512298583984375, 126.92183685302734));
-        items.add(new NaverItem(37.486656188964844 , 126.91316223144531));
-        items.add(new NaverItem(37.46944808959961 , 126.93767547607422));
-        items.add(new NaverItem(37.47056198120117 , 126.93363952636719));
-        items.add(new NaverItem( 37.48203659057617,126.9296646118164 ));
-        items.add(new NaverItem( 37.500999450683594, 126.91187286376953));
-        items.add(new NaverItem( 37.52552795410156, 126.91923522949219));
-        items.add(new NaverItem( 37.52056884765625,126.90328979492188 ));
-        items.add(new NaverItem(37.51354217529297 , 126.9047622680664));
-        items.add(new NaverItem(37.470855712890625,127.02538299560547 ));
-        items.add(new NaverItem( 37.514949798583984,127.01422882080078 ));
-        items.add(new NaverItem(37.49470520019531 ,127.02816009521484 ));
-        items.add(new NaverItem(37.48482131958008 ,126.9320068359375 ));
-        items.add(new NaverItem(37.49801254272461 , 126.99810028076172));
-        items.add(new NaverItem(37.49243927001953 , 127.01140594482422));
-        items.add(new NaverItem(37.521366119384766 , 126.92501831054688));
-        items.add(new NaverItem(37.476436614990234,127.0437240600586));
-        items.add(new NaverItem(37.47782897949219,126.9626693725586));
-        items.add(new NaverItem(37.52021408081055,126.93179321289062));
-        items.add(new NaverItem(37.51353454589844,126.92245483398438));
-        items.add(new NaverItem(37.47857666015625,126.95526885986328));
-        items.add(new NaverItem(37.49344253540039,127.01612091064453));
-        items.add(new NaverItem(37.532928466796875 , 126.90283203125));
-        items.add(new NaverItem(37.52606964111328 , 126.89155578613281));
-        items.add(new NaverItem(37.51943588256836 , 126.8912582397461));
-        items.add(new NaverItem(37.53740692138672 , 126.89381408691406));
-        items.add(new NaverItem(37.50643539428711 , 127.0068359375));
-        items.add(new NaverItem(37.50925827026367 ,127.00743103027344));
-        items.add(new NaverItem(37.48385238647461, 126.93024444580078));
-        items.add(new NaverItem(37.516876220703125,126.90438079833984));
-        items.add(new NaverItem(37.47769546508789,126.98223114013672));
-        items.add(new NaverItem(37.47795867919922,126.95787048339844));
-        items.add(new NaverItem(37.48904037475586,126.92949676513672));
-        items.add(new NaverItem(37.50784683227539,126.91120147705078));
-        items.add(new NaverItem(37.492034912109375,127.02880096435547));
-        items.add(new NaverItem(37.51598358154297,126.90611267089844));
-        items.add(new NaverItem(37.47890090942383,126.95262908935547));
-        items.add(new NaverItem(37.47922897338867,126.95348358154297));
-        items.add(new NaverItem(37.52505874633789,126.92593383789062));
-        items.add(new NaverItem(37.516876220703125,126.90438079833984));
-        items.add(new NaverItem(37.498451232910156,127.02635955810547));
-        items.add(new NaverItem(37.47732162475586,126.9581298828125));
-        items.add(new NaverItem(37.50643539428711,127.0068359375));
-        items.add(new NaverItem(37.49309158325195,127.01834106445312));
-        items.add(new NaverItem(37.52027130126953,126.88864135742188));
-        items.add(new NaverItem(37.501033782958984,127.01163482666016));
-        items.add(new NaverItem(37.49732208251953,126.9856948852539));
-        items.add(new NaverItem(37.46182632446289,127.03538513183594));
-        items.add(new NaverItem(37.52701950073242,126.89825439453125));
-        items.add(new NaverItem(37.48542022705078,127.01896667480469));
-        items.add(new NaverItem(37.48019027709961,126.98341369628906));
-        items.add(new NaverItem(37.520652770996094,126.889892578125));
-        items.add(new NaverItem(37.52788543701172,126.92913818359375));
-        items.add(new NaverItem(37.484378814697266,127.01445770263672));
-        items.add(new NaverItem(37.465057373046875 , 126.95162200927734));
-        items.add(new NaverItem(37.46232986450195,126.95233154296875));
-        items.add(new NaverItem(37.47765350341797,126.95822143554688));
-        items.add(new NaverItem(37.500160217285156,127.00437927246094));
-        items.add(new NaverItem(37.496238708496094,126.99763488769531));
-        items.add(new NaverItem(37.50178909301758,127.02458953857422));
-        items.add(new NaverItem(37.47626495361328,126.96294403076172));
-        items.add(new NaverItem(37.49604034423828,127.02531433105469));
-
-
-        return items;
+//        cluster_item.add(new NaverItem(37.5246467590332, 126.92683410644531));
+        return cluster_item;
     }
 
 
@@ -676,9 +544,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         CameraUpdate cameraUpdate = CameraUpdate.scrollTo(currentPosition).animate(CameraAnimation.Fly,0);
         naverMap.moveCamera(cameraUpdate);
         this.naverMap = naverMap;
-        TedNaverClustering.with(this, naverMap)
-                .items(getItems())
-                .make();
 //        LatLng initialPosition = new LatLng(mLastlocation);
 //        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(initialPosition);
 //        naverMap.moveCamera(cameraUpdate);
@@ -695,74 +560,53 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         setMarker_facility(); // network 동작, 인터넷에서 xml을 받아오는 코드
         drawMarker_bike();
+
+        //클러스터링
+//        tedNaverClustering =
+//        TedNaverClustering.with(this, naverMap)
+//                .customMarker(tedClusterItem ->{
+//                    Marker marker = new Marker();
+//                    LatLng latLng = new LatLng(tedClusterItem.getTedLatLng().getLatitude(),
+//                            tedClusterItem.getTedLatLng().getLongitude());
+//                    marker.setWidth(80);
+//                    marker.setHeight(80);
+//                    marker.setPosition(latLng);
+//                    marker.setIcon(OverlayImage.fromResource(R.drawable.danger_location_yellow));
+//
+//                    return marker;
+//
+//                }).minClusterSize(50)
+//                .make();
+//
+//        tedNaverClustering2 = TedNaverClustering.with(this, naverMap)
+//                .customMarker(tedClusterItem ->{
+//                    Marker marker = new Marker();
+//                    LatLng latLng = new LatLng(tedClusterItem.getTedLatLng().getLatitude(),
+//                            tedClusterItem.getTedLatLng().getLongitude());
+//                    marker.setWidth(80);
+//                    marker.setHeight(80);
+//                    marker.setPosition(latLng);
+//                    marker.setIcon(OverlayImage.fromResource(R.drawable.facility_icon));
+//
+//                    return marker;
+//
+//                }).minClusterSize(50).clusterBackground(clusterItem -> {
+//                        return 0x9F1B9C12;
+//                }).make();
+//
+//        tedNaverClustering.addItems(cluster_item);
+//        tedNaverClustering2.addItems(cluster_item2);
+
+
+
+
         naverMap.setLocationSource(locationSource);
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
 
 
         final TextView location_text = (TextView)findViewById(R.id.location_text);
 
-        latLngList.add(new LatLng(37.300909685747236,126.84036999665139 )); //주민센터
-        latLngList.add(new LatLng(37.30092006963348,126.84651707027692  )); //상록구청
-        latLngList.add(new LatLng(37.30080820319068,126.84365805640256  )); //119
-        latLngList.add(new LatLng(37.30030995420335,126.8450464027002  )); //상록보건소
-        latLngList.add(new LatLng(37.299298647544646,126.84512742919043   )); //상록경찰서
-        latLngList.add(new LatLng(37.30578504908008,126.84432454144101    )); //지역아동센터
 
-
-        latLngList.add(new LatLng(37.29964234222025,126.84612490571303   )); //장애인
-        latLngList.add(new LatLng(37.299632110432704,126.8469200877772   )); //장애인
-        latLngList.add(new LatLng(37.29891910144883,126.84600231252934    )); //장애인
-        latLngList.add(new LatLng(37.298322034553244,126.84590202160551     )); //장애인
-        latLngList.add(new LatLng(37.30157589850863,126.8450381659243      )); //장애인
-
-        latLngList.add(new LatLng(37.30012291575613,126.83825685541521     )); //약국
-        latLngList.add(new LatLng(37.30078496095471,126.843116709908      )); //약국
-
-        latLngList.add(new LatLng(37.298925701379005,126.84588105222103       )); //급속충전기
-
-        latLngList.add(new LatLng(37.298495139953886,126.83723115856097        )); //경사로
-        latLngList.add(new LatLng(37.30175911322991,126.84389859082773        )); //경사로
-        latLngList.add(new LatLng(37.30021510929659,126.8448661337656        )); //경사로
-        latLngList.add(new LatLng(37.29970314731508,126.8461135029482        )); //경사로
-        latLngList.add(new LatLng(37.30160083561462,126.84515936590596        )); //경사로
-
-        latLngList.add(new LatLng(37.497836016079916,126.95270728649908 )); // 상히 테스트용
-
-
-        setMarker(0,latLngList,"slope",naverMap);
-        setMarker(1,latLngList,"slope",naverMap);
-        setMarker(2,latLngList,"slope",naverMap);
-        setMarker(3,latLngList,"slope",naverMap);
-        setMarker(4,latLngList,"slope",naverMap);
-        setMarker(5,latLngList,"slope",naverMap);
-
-        setMarker(6,latLngList,"slope",naverMap);
-        setMarker(7,latLngList,"slope",naverMap);
-        setMarker(8,latLngList,"slope",naverMap);
-        setMarker(9,latLngList,"slope",naverMap);
-        setMarker(10,latLngList,"slope",naverMap);
-
-        setMarker(11,latLngList,"slope",naverMap);
-        setMarker(12,latLngList,"slope",naverMap);
-
-        setMarker(13,latLngList,"charger",naverMap);
-
-        setMarker(14,latLngList,"wheelchair",naverMap);
-        setMarker(15,latLngList,"wheelchair",naverMap);
-        setMarker(16,latLngList,"wheelchair",naverMap);
-        setMarker(17,latLngList,"wheelchair",naverMap);
-        setMarker(18,latLngList,"wheelchair",naverMap);
-
-        setMarker(19,latLngList,"danger",naverMap);
-
-
-        //사고 다발 지역
-        UpdateCircle(37.30155838266366,126.84715868584975 );
-        UpdateCircle(37.30731010483543,126.83602493657628 );
-        UpdateCircle(37.30314238314502,126.8389891901272  );
-        UpdateCircle(37.29787636235218,126.84966999005518);
-        UpdateCircle(37.305613496417976,126.84751143174793 );
-        UpdateCircle(37.30854279577155,126.841369080322  );
 
         /*
         Marker marker = new Marker();
@@ -1085,7 +929,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         for (int i =0 ; i< total_list.size(); i++){
             JsonApi_total.total_item item = total_list.get(i);
             setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"hos",naverMap);
-//            TotalmarkerList.add(marker);
+           // cluster_item2.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
         }
         return;
     }
@@ -1095,7 +939,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         for (int i =0 ; i< bike_list.size(); i++){
             JsonApi_bike.bike_item item = bike_list.get(i);
             UpdateCircle((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()));
-//            TotalmarkerList.add(marker);
+            //cluster_item.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
         }
         return;
     }

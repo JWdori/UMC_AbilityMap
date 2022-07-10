@@ -1,5 +1,5 @@
 package com.abilitymap
-
+//클러스터링 파일입니다.
 /*
  * Copyright 2013 Google Inc.
  *

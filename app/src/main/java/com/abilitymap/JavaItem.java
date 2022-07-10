@@ -1,6 +1,6 @@
 package com.abilitymap;
 import com.naver.maps.geometry.LatLng;
-
+//클러스터링 파일입니다.
 import org.jetbrains.annotations.NotNull;
 
 import ted.gun0912.clustering.clustering.TedClusterItem;
