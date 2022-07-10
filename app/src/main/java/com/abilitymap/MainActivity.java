@@ -106,6 +106,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     ArrayList<NaverItem> cluster_item2 = new ArrayList<>();
     TedNaverClustering tedNaverClustering;
     TedNaverClustering tedNaverClustering2;
+
 //    List<Double> latitudeList = new ArrayList<Double>();
 //    List<Double> longitudeList = new ArrayList<Double>();
 //
@@ -297,7 +298,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.d("clickable?", String.valueOf(clickable));
 
             LatLng selectedPosition = ((Marker) overlay).getPosition();
-            CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition,16).animate(CameraAnimation.Easing);
+            CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition,16).pivot(new PointF(0.5f,0.37f)).animate(CameraAnimation.Easing);
             naverMap.moveCamera(cameraUpdate);
 
             naverMap.setOnMapClickListener(new NaverMap.OnMapClickListener() {
@@ -306,6 +307,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
                     getSupportFragmentManager().popBackStack();
                     clickable = true;
+
                     Call_button.setVisibility(View.VISIBLE);
                     Report_button.setVisibility(View.VISIBLE);
                     Report_message.setVisibility(View.VISIBLE);
