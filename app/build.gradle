@@ -68,4 +68,7 @@ dependencies {
     implementation 'androidx.room:room-ktx:2.4.1'
     implementation 'androidx.room:room-runtime:2.4.1'
     kapt 'androidx.room:room-compiler:2.4.1'
+
+    //클러스터링 오픈소스
+    implementation 'io.github.ParkSangGwon:tedclustering-naver:x.y.z'
 }
