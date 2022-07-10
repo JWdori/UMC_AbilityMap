@@ -37,6 +37,7 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
+import com.naver.maps.geometry.LatLngBounds;
 import com.naver.maps.map.CameraAnimation;
 import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapFragment;
@@ -61,11 +62,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker, SetMarker_facility {
+import ted.gun0912.clustering.naver.TedNaverClustering;
+
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker, SetMarker_facility, SetMarker_wheel {
     private GpsTracker gpsTracker;
     private NaverMap naverMap;
     public static ArrayList<JsonApi_total.total_item> total_list = new ArrayList();
     public static ArrayList<JsonApi_bike.bike_item> bike_list = new ArrayList();
+    public static ArrayList<JsonApi_charge.charge_item> charge_list = new ArrayList();
     private FusedLocationSource locationSource;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private FusedLocationProviderClient fusedLocationClient;
@@ -98,8 +102,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private final long finishtimeed = 1000;
     private long presstime = 0;
     private boolean isDrawerOpen = false;
-
-
+    ArrayList<NaverItem> cluster_item = new ArrayList<>();
+    ArrayList<NaverItem> cluster_item2 = new ArrayList<>();
+    TedNaverClustering tedNaverClustering;
+    TedNaverClustering tedNaverClustering2;
 //    List<Double> latitudeList = new ArrayList<Double>();
 //    List<Double> longitudeList = new ArrayList<Double>();
 //
@@ -175,8 +181,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         JsonApi_total total_api = new JsonApi_total();
         JsonApi_bike bike_api  = new JsonApi_bike();
+        JsonApi_charge charge_api  = new JsonApi_charge();
         total_api.execute(lat,lon,"");
         bike_api.execute(lat,lon,"");
+        charge_api.execute(lat,lon,"");
 
 //        new Thread(() -> {
 //            setUpMap(); // network 동작, 인터넷에서 xml을 받아오는 코드
@@ -526,13 +534,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    private ArrayList<NaverItem> getItems() {
+        LatLngBounds bounds = naverMap.getContentBounds();
+//        cluster_item.add(new NaverItem(37.5246467590332, 126.92683410644531));
+        return cluster_item;
+    }
+
+
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
 
         CameraUpdate cameraUpdate = CameraUpdate.scrollTo(currentPosition).animate(CameraAnimation.Fly,0);
         naverMap.moveCamera(cameraUpdate);
         this.naverMap = naverMap;
-
 //        LatLng initialPosition = new LatLng(mLastlocation);
 //        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(initialPosition);
 //        naverMap.moveCamera(cameraUpdate);
@@ -549,74 +563,54 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         setMarker_facility(); // network 동작, 인터넷에서 xml을 받아오는 코드
         drawMarker_bike();
+        setMarker_Charge();
+
+        //클러스터링
+//        tedNaverClustering =
+//        TedNaverClustering.with(this, naverMap)
+//                .customMarker(tedClusterItem ->{
+//                    Marker marker = new Marker();
+//                    LatLng latLng = new LatLng(tedClusterItem.getTedLatLng().getLatitude(),
+//                            tedClusterItem.getTedLatLng().getLongitude());
+//                    marker.setWidth(80);
+//                    marker.setHeight(80);
+//                    marker.setPosition(latLng);
+//                    marker.setIcon(OverlayImage.fromResource(R.drawable.danger_location_yellow));
+//
+//                    return marker;
+//
+//                }).minClusterSize(50)
+//                .make();
+//
+//        tedNaverClustering2 = TedNaverClustering.with(this, naverMap)
+//                .customMarker(tedClusterItem ->{
+//                    Marker marker = new Marker();
+//                    LatLng latLng = new LatLng(tedClusterItem.getTedLatLng().getLatitude(),
+//                            tedClusterItem.getTedLatLng().getLongitude());
+//                    marker.setWidth(80);
+//                    marker.setHeight(80);
+//                    marker.setPosition(latLng);
+//                    marker.setIcon(OverlayImage.fromResource(R.drawable.facility_icon));
+//
+//                    return marker;
+//
+//                }).minClusterSize(50).clusterBackground(clusterItem -> {
+//                        return 0x9F1B9C12;
+//                }).make();
+//
+//        tedNaverClustering.addItems(cluster_item);
+//        tedNaverClustering2.addItems(cluster_item2);
+
+
+
+
         naverMap.setLocationSource(locationSource);
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
 
 
         final TextView location_text = (TextView)findViewById(R.id.location_text);
 
-        latLngList.add(new LatLng(37.300909685747236,126.84036999665139 )); //주민센터
-        latLngList.add(new LatLng(37.30092006963348,126.84651707027692  )); //상록구청
-        latLngList.add(new LatLng(37.30080820319068,126.84365805640256  )); //119
-        latLngList.add(new LatLng(37.30030995420335,126.8450464027002  )); //상록보건소
-        latLngList.add(new LatLng(37.299298647544646,126.84512742919043   )); //상록경찰서
-        latLngList.add(new LatLng(37.30578504908008,126.84432454144101    )); //지역아동센터
 
-
-        latLngList.add(new LatLng(37.29964234222025,126.84612490571303   )); //장애인
-        latLngList.add(new LatLng(37.299632110432704,126.8469200877772   )); //장애인
-        latLngList.add(new LatLng(37.29891910144883,126.84600231252934    )); //장애인
-        latLngList.add(new LatLng(37.298322034553244,126.84590202160551     )); //장애인
-        latLngList.add(new LatLng(37.30157589850863,126.8450381659243      )); //장애인
-
-        latLngList.add(new LatLng(37.30012291575613,126.83825685541521     )); //약국
-        latLngList.add(new LatLng(37.30078496095471,126.843116709908      )); //약국
-
-        latLngList.add(new LatLng(37.298925701379005,126.84588105222103       )); //급속충전기
-
-        latLngList.add(new LatLng(37.298495139953886,126.83723115856097        )); //경사로
-        latLngList.add(new LatLng(37.30175911322991,126.84389859082773        )); //경사로
-        latLngList.add(new LatLng(37.30021510929659,126.8448661337656        )); //경사로
-        latLngList.add(new LatLng(37.29970314731508,126.8461135029482        )); //경사로
-        latLngList.add(new LatLng(37.30160083561462,126.84515936590596        )); //경사로
-
-        latLngList.add(new LatLng(37.497836016079916,126.95270728649908 )); // 상히 테스트용
-
-
-        setMarker(0,latLngList,"slope",naverMap);
-        setMarker(1,latLngList,"slope",naverMap);
-        setMarker(2,latLngList,"slope",naverMap);
-        setMarker(3,latLngList,"slope",naverMap);
-        setMarker(4,latLngList,"slope",naverMap);
-        setMarker(5,latLngList,"slope",naverMap);
-
-        setMarker(6,latLngList,"slope",naverMap);
-        setMarker(7,latLngList,"slope",naverMap);
-        setMarker(8,latLngList,"slope",naverMap);
-        setMarker(9,latLngList,"slope",naverMap);
-        setMarker(10,latLngList,"slope",naverMap);
-
-        setMarker(11,latLngList,"slope",naverMap);
-        setMarker(12,latLngList,"slope",naverMap);
-
-        setMarker(13,latLngList,"charger",naverMap);
-
-        setMarker(14,latLngList,"wheelchair",naverMap);
-        setMarker(15,latLngList,"wheelchair",naverMap);
-        setMarker(16,latLngList,"wheelchair",naverMap);
-        setMarker(17,latLngList,"wheelchair",naverMap);
-        setMarker(18,latLngList,"wheelchair",naverMap);
-
-        setMarker(19,latLngList,"danger",naverMap);
-
-
-        //사고 다발 지역
-        UpdateCircle(37.30155838266366,126.84715868584975 );
-        UpdateCircle(37.30731010483543,126.83602493657628 );
-        UpdateCircle(37.30314238314502,126.8389891901272  );
-        UpdateCircle(37.29787636235218,126.84966999005518);
-        UpdateCircle(37.305613496417976,126.84751143174793 );
-        UpdateCircle(37.30854279577155,126.841369080322  );
 
         /*
         Marker marker = new Marker();
@@ -939,17 +933,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         for (int i =0 ; i< total_list.size(); i++){
             JsonApi_total.total_item item = total_list.get(i);
             setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"hos",naverMap);
-//            TotalmarkerList.add(marker);
+           // cluster_item2.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
         }
         return;
     }
 
+    private void setMarker_Charge() {
+        System.out.println(charge_list.size()+"1234");
+        for (int i =0 ; i< charge_list.size(); i++){
+            JsonApi_charge.charge_item item = charge_list.get(i);
+            setMarker_wheel(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"charge",naverMap);
+            // cluster_item2.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
+        }
+        return;
+    }
+
+
+
     private void drawMarker_bike() {
-        System.out.println("3213"+bike_list.size());
         for (int i =0 ; i< bike_list.size(); i++){
             JsonApi_bike.bike_item item = bike_list.get(i);
             UpdateCircle((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()));
-//            TotalmarkerList.add(marker);
+            //cluster_item.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
         }
         return;
     }
