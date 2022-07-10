@@ -64,11 +64,12 @@ import java.util.Locale;
 
 import ted.gun0912.clustering.naver.TedNaverClustering;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker, SetMarker_facility {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker, SetMarker_facility, SetMarker_wheel {
     private GpsTracker gpsTracker;
     private NaverMap naverMap;
     public static ArrayList<JsonApi_total.total_item> total_list = new ArrayList();
     public static ArrayList<JsonApi_bike.bike_item> bike_list = new ArrayList();
+    public static ArrayList<JsonApi_charge.charge_item> charge_list = new ArrayList();
     private FusedLocationSource locationSource;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private FusedLocationProviderClient fusedLocationClient;
@@ -180,8 +181,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         JsonApi_total total_api = new JsonApi_total();
         JsonApi_bike bike_api  = new JsonApi_bike();
+        JsonApi_charge charge_api  = new JsonApi_charge();
         total_api.execute(lat,lon,"");
         bike_api.execute(lat,lon,"");
+        charge_api.execute(lat,lon,"");
 
 //        new Thread(() -> {
 //            setUpMap(); // network 동작, 인터넷에서 xml을 받아오는 코드
@@ -560,6 +563,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         setMarker_facility(); // network 동작, 인터넷에서 xml을 받아오는 코드
         drawMarker_bike();
+        setMarker_Charge();
 
         //클러스터링
 //        tedNaverClustering =
@@ -934,8 +938,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return;
     }
 
+    private void setMarker_Charge() {
+        System.out.println(charge_list.size()+"1234");
+        for (int i =0 ; i< charge_list.size(); i++){
+            JsonApi_charge.charge_item item = charge_list.get(i);
+            setMarker_wheel(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"charge",naverMap);
+            // cluster_item2.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
+        }
+        return;
+    }
+
+
+
     private void drawMarker_bike() {
-        System.out.println("3213"+bike_list.size());
         for (int i =0 ; i< bike_list.size(); i++){
             JsonApi_bike.bike_item item = bike_list.get(i);
             UpdateCircle((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()));
