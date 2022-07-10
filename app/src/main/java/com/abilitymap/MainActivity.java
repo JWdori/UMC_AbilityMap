@@ -249,7 +249,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         ImageButton Call_button = (ImageButton)findViewById(R.id.call_button);
         ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
         ImageButton Report_message = (ImageButton)findViewById(R.id.repot_message);
-        Report_button.setOnClickListener(new View.OnClickListener() {
+        /*Report_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //현 위치 location 받아와서 서버로 넘겨줘야함
@@ -275,7 +275,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Log.d("camera","clicked");
                 setCamera(intent);
             }
-        });
+        });*/
         if(overlay instanceof Marker && clickable){
 //            Toast.makeText(this.getApplicationContext(),"위험지역입니다",Toast.LENGTH_LONG).show();
 
@@ -794,7 +794,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         //긴급신고 메세지지
        ImageButton Report_message = findViewById(R.id.repot_message);
-        Report_message.setOnClickListener(new View.OnClickListener() {
+       Report_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //로컬에 기록하기. 그걸 가지고 1,2,3번 시도 구분
@@ -836,53 +836,78 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+       ImageButton Report_button = findViewById(R.id.repot_button);
+       Report_button.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               //현 위치 location 받아와서 서버로 넘겨줘야함
+               //넘겨줄 것 : 사진, text, 닉네임, 좌표, 신고일자
 
-        binding.layoutToolBar.ivMenu.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View view) {            //menu 클릭 시 open drawer
-                binding.drawerLayout.openDrawer(GravityCompat.START);
-                isDrawerOpen = true;
-            }
+               //카메라 권한요청, 내 파일 권한 요청 필요
 
-        });
+               //카메라 화면이 먼저 나옴
+               //사진 찍고
+               //report detail 화면 띄워서
+               //입력받고 전송하기 버튼 누르면
 
-        View header = binding.navigationView.getHeaderView(0);
-        ImageView image = header.findViewById(R.id.iv_close);
+               //현 위치 : locationSource
 
-        image.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {        // X 클릭 시 close drawer
-                binding.drawerLayout.closeDrawer(GravityCompat.START);
-            }
-        });
+               //아니 여기 왜 버튼이 안눌려렬렬려려려려려려려려려렬
+               //버튼 init버튼인가 밑에 함수에서 설정하면 됩니다^^
+//zzzzz
 
-        binding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() == R.id.nav_notification) {
-//                    binding.drawerLayout.closeDrawer(GravityCompat.START); //열려있는 메뉴판 닫고 화면 전환
-                    Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
-                    startActivity(intent);
-                }
-                else if (item.getItemId() == R.id.nav_call) {
-                    Intent intent = new Intent(getApplicationContext(), EmergencyCallActivity.class);
-                    startActivity(intent);
-                }
-                else if (item.getItemId() == R.id.nav_report) {
-                    Intent intent = null;
-                    Log.d("camera","clicked");
-                    setCamera(intent);
+               Toast.makeText(MainActivity.this, "clicked", Toast.LENGTH_SHORT).show();
+               Log.d("camera","Reportbutton clicked");
 
-                }
-                else if (item.getItemId() == R.id.nav_book) {
+               Intent intent = null;
+               Log.d("camera","clicked");
+               setCamera(intent);
+           }
+       });
+       binding.layoutToolBar.ivMenu.setOnClickListener(new View.OnClickListener(){
+           @Override
+           public void onClick(View view) {            //menu 클릭 시 open drawer
+               binding.drawerLayout.openDrawer(GravityCompat.START);
+               isDrawerOpen = true;
+           }
+       });
 
-                }
-                else if (item.getItemId() == R.id.nav_review) {
+       View header = binding.navigationView.getHeaderView(0);
+       ImageView image = header.findViewById(R.id.iv_close);
 
-                }
-                return true;
-            }
-        });
+       image.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {        // X 클릭 시 close drawer
+               binding.drawerLayout.closeDrawer(GravityCompat.START);
+           }
+       });
+
+       binding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+           @Override
+           public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+               if (item.getItemId() == R.id.nav_notification) {
+//                 binding.drawerLayout.closeDrawer(GravityCompat.START); //열려있는 메뉴판 닫고 화면 전환
+                   Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
+                   startActivity(intent);
+               }
+               else if (item.getItemId() == R.id.nav_call) {
+                   Intent intent = new Intent(getApplicationContext(), EmergencyCallActivity.class);
+                   startActivity(intent);
+               }
+               else if (item.getItemId() == R.id.nav_report) {
+                   Intent intent = null;
+                   Log.d("camera","clicked");
+                   setCamera(intent);
+               }
+               else if (item.getItemId() == R.id.nav_book) {
+
+               }
+               else if (item.getItemId() == R.id.nav_review) {
+
+               }
+               return true;
+           }
+       });
 
     }
     private void setUpMap(){
