@@ -50,7 +50,6 @@ class EmergencyCallActivity : AppCompatActivity() {
 
         })
         initPersonInfoDB()
-        Log.d("DB", personInfoDB.personInfoDao().getPersonList().toString())
     }
 
     private fun initPersonInfoDB(){     //DB 내의 데이터로 연락처 동기화

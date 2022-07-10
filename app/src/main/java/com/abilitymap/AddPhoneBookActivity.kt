@@ -70,16 +70,16 @@ class AddPhoneBookActivity : AppCompatActivity() {
                         binding.etNameAddPhoneBook.text.toString(), binding.etPhoneNumberAddPhoneBook.text.toString()
                     )
                 )
+                Log.d("DB 추가 후", personInfoDatabase.personInfoDao().getPersonList().toString())
                 finish()
-                Log.d("DB", personInfoDatabase.personInfoDao().getPersonList().toString())
             }
             else{       //데이터 수정
                 Log.d("DB", intent.getIntExtra("position", 0).toString())
                 Log.d("DB", binding.etNameAddPhoneBook.text.toString())
                 Log.d("DB",binding.etPhoneNumberAddPhoneBook.text.toString())
                 personInfoDatabase.personInfoDao().updatePerson(binding.etNameAddPhoneBook.text.toString(), binding.etPhoneNumberAddPhoneBook.text.toString(), intent.getIntExtra("position", 0))
+                Log.d("DB 수정 후", personInfoDatabase.personInfoDao().getPersonList().toString())
                 finish()
-                Log.d("DB", personInfoDatabase.personInfoDao().getPersonList().toString())
             }
         }
     }
