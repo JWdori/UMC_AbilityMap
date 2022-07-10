@@ -78,6 +78,7 @@ public class Camera2Activity extends AppCompatActivity {
 
 
 
+
     private static final String[] CAMERA_PERMISSIONS = {
             Manifest.permission.CAMERA,
             Manifest.permission.READ_EXTERNAL_STORAGE,
@@ -540,6 +541,7 @@ public class Camera2Activity extends AppCompatActivity {
                     try {
                         output = new FileOutputStream(file);
                         output.write(bytes);
+                        onPause();
                         Log.d("saving pic","2_done");
                     }finally {
                         if(null != output) {
@@ -592,6 +594,7 @@ public class Camera2Activity extends AppCompatActivity {
         }
     }
 
+    //private
 
 }
 
