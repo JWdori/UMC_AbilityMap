@@ -47,6 +47,13 @@ class EmergencyCallActivity : AppCompatActivity() {
                 personInfoDB.personInfoDao().deletePerson(PersonId)
                 Log.d("DB", personInfoDB.personInfoDao().getPersonList().toString())
             }
+            override fun onItemClicked(personInfo: PersonInfo, position : Int) {
+                val intent = Intent(this@EmergencyCallActivity, AddPhoneBookActivity::class.java)
+                intent.putExtra("name", personInfo.name)
+                intent.putExtra("phoneNumber", personInfo.phoneNumber)
+                intent.putExtra("position", position)
+                startActivityForResult(intent, 1000)
+            }
 
         })
         initPersonInfoDB()
@@ -60,6 +67,17 @@ class EmergencyCallActivity : AppCompatActivity() {
     override fun onResume(){    //신규 연락처 저장 후 새로운 연락처로 업데이트
         super.onResume()
         initPersonInfoDB()
+    }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+
+        if (resultCode == RESULT_OK){
+            var name = data?.getStringExtra("name")
+            var phoneNumber = data?.getStringExtra("phoneNumber")
+            var position = data?.getIntExtra("position", 0)
+            Log.d("Data from edit text", "데이터 가져오기 성공")
+        }
     }
 
 }

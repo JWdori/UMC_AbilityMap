@@ -74,11 +74,16 @@ class AddPhoneBookActivity : AppCompatActivity() {
                 finish()
             }
             else{       //데이터 수정
-                Log.d("DB", intent.getIntExtra("position", 0).toString())
-                Log.d("DB", binding.etNameAddPhoneBook.text.toString())
-                Log.d("DB",binding.etPhoneNumberAddPhoneBook.text.toString())
-                personInfoDatabase.personInfoDao().updatePerson(binding.etNameAddPhoneBook.text.toString(), binding.etPhoneNumberAddPhoneBook.text.toString(), intent.getIntExtra("position", 0))
-                Log.d("DB 수정 후", personInfoDatabase.personInfoDao().getPersonList().toString())
+//                Log.d("DB", intent.getIntExtra("position", 0).toString())
+//                Log.d("DB", binding.etNameAddPhoneBook.text.toString())
+//                Log.d("DB",binding.etPhoneNumberAddPhoneBook.text.toString())
+//                personInfoDatabase.personInfoDao().updatePerson(binding.etNameAddPhoneBook.text.toString(), binding.etPhoneNumberAddPhoneBook.text.toString(), intent.getIntExtra("position", 0))
+//                Log.d("DB 수정 후", personInfoDatabase.personInfoDao().getPersonList().toString())
+//                finish()
+                intent.putExtra("name", binding.etNameAddPhoneBook.text.toString())
+                intent.putExtra("phoneNumber", binding.etPhoneNumberAddPhoneBook.text.toString())
+                intent.putExtra("position", intent.getIntExtra("position", 0).toString())
+                setResult(RESULT_OK, intent)
                 finish()
             }
         }
@@ -94,7 +99,6 @@ class AddPhoneBookActivity : AppCompatActivity() {
 
         val name = intent.getStringExtra("name")
         val phoneNumber = intent.getStringExtra("phoneNumber")
-        val position = intent.getIntExtra("position", 0)
 
         binding.etNameAddPhoneBook.setText(name)
         binding.etPhoneNumberAddPhoneBook.setText(phoneNumber)
