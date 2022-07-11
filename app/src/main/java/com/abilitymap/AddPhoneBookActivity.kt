@@ -38,7 +38,6 @@ class AddPhoneBookActivity : AppCompatActivity() {
 //    }
 
 
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddPhoneBookBinding.inflate(layoutInflater)
@@ -49,6 +48,7 @@ class AddPhoneBookActivity : AppCompatActivity() {
         Log.d("PersonInfoDataBase", personInfoDatabase.personInfoDao().getPersonList().toString())
         initData()
         initClickListener()
+        checkButtonEffect()
 
     }
 
@@ -60,14 +60,30 @@ class AddPhoneBookActivity : AppCompatActivity() {
         binding.etNameAddPhoneBook.addTextChangedListener(object : TextWatcher{
             override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 binding.tvNameNumberAddPhoneBook.text = "0/8 자"
+                checkButtonEffect()
             }
 
             override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
                 binding.tvNameNumberAddPhoneBook.text = binding.etNameAddPhoneBook.text.toString().length.toString() + "/8 자"
+                checkButtonEffect()
             }
 
             override fun afterTextChanged(p0: Editable?) {
                 binding.tvNameNumberAddPhoneBook.text = binding.etNameAddPhoneBook.text.toString().length.toString() + "/8 자"
+                checkButtonEffect()
+            }
+        })
+        binding.etPhoneNumberAddPhoneBook.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                checkButtonEffect()
+            }
+
+            override fun onTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                checkButtonEffect()
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+                checkButtonEffect()
             }
 
         })
@@ -96,6 +112,7 @@ class AddPhoneBookActivity : AppCompatActivity() {
                         binding.etNameAddPhoneBook.text.toString(), binding.etPhoneNumberAddPhoneBook.text.toString()
                     )
                 )
+                Toast.makeText(this,"연락처를 저장하였습니다", Toast.LENGTH_SHORT).show()
                 Log.d("DB 추가 후", personInfoDatabase.personInfoDao().getPersonList().toString())
                 finish()
             }
@@ -112,6 +129,8 @@ class AddPhoneBookActivity : AppCompatActivity() {
                 intent.putExtra("phoneNumber", binding.etPhoneNumberAddPhoneBook.text.toString())
                 intent.putExtra("position",intent.getIntExtra("position",0))
                 setResult(RESULT_OK, intent)
+
+                Toast.makeText(this,"연락처를 수정하였습니다", Toast.LENGTH_SHORT).show()
                 finish()
             }
         }
@@ -131,6 +150,15 @@ class AddPhoneBookActivity : AppCompatActivity() {
         binding.etNameAddPhoneBook.setText(name)
         binding.etPhoneNumberAddPhoneBook.setText(phoneNumber)
         binding.tvNameNumberAddPhoneBook.setText(name?.length.toString() + "/8 자")
+    }
+
+    private fun checkButtonEffect(){
+        if (binding.etNameAddPhoneBook.text.toString().equals("") || binding.etPhoneNumberAddPhoneBook.text.toString().equals("")){
+            binding.tvSaveButtonAddPhoneBook.setBackgroundDrawable(resources.getDrawable(R.drawable.save_button_uncliked_effect))
+        }
+        else{
+            binding.tvSaveButtonAddPhoneBook.setBackgroundDrawable(resources.getDrawable(R.drawable.save_button_effect))
+        }
     }
 
 }
