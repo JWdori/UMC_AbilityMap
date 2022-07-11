@@ -1,5 +1,6 @@
 package com.abilitymap
 
+import android.content.Context
 import android.graphics.Color
 import android.os.Bundle
 import android.text.Editable
@@ -8,16 +9,41 @@ import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.abilitymap.databinding.ActivityAddPhoneBookBinding
+import okhttp3.internal.Internal.instance
 
 class AddPhoneBookActivity : AppCompatActivity() {
 
-    private lateinit var binding : ActivityAddPhoneBookBinding
+    lateinit var binding : ActivityAddPhoneBookBinding
+    lateinit var context : Context
     private lateinit var personInfoDatabase: PersonInfoDatabase
+
+    init{
+        instance = this
+    }
+    companion object {
+        lateinit var instance: AddPhoneBookActivity
+        fun applicationContext() : Context {
+            return instance.applicationContext
+        }
+    }
+
+    interface MyItemClickListener{
+        fun onClick()
+    }
+
+    private lateinit var mItemClickListener : MyItemClickListener
+
+    fun setMyItemClickListener(itemClickListener : MyItemClickListener){
+        mItemClickListener = itemClickListener
+    }
+
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddPhoneBookBinding.inflate(layoutInflater)
         setContentView(binding.root)
+        context = this
 
         personInfoDatabase = PersonInfoDatabase.getInstance(this)!!
         Log.d("PersonInfoDataBase", personInfoDatabase.personInfoDao().getPersonList().toString())
@@ -80,11 +106,15 @@ class AddPhoneBookActivity : AppCompatActivity() {
 //                personInfoDatabase.personInfoDao().updatePerson(binding.etNameAddPhoneBook.text.toString(), binding.etPhoneNumberAddPhoneBook.text.toString(), intent.getIntExtra("position", 0))
 //                Log.d("DB 수정 후", personInfoDatabase.personInfoDao().getPersonList().toString())
 //                finish()
+//                mItemClickListener.onClick()
+                Log.d("1", "error")
+
                 intent.putExtra("name", binding.etNameAddPhoneBook.text.toString())
                 intent.putExtra("phoneNumber", binding.etPhoneNumberAddPhoneBook.text.toString())
-                intent.putExtra("position", intent.getIntExtra("position", 0).toString())
+                intent.putExtra("position",intent.getIntExtra("position",0))
                 setResult(RESULT_OK, intent)
                 finish()
+                Log.d("2", "error")
             }
         }
     }

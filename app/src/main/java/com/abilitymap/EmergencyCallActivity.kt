@@ -1,5 +1,6 @@
 package com.abilitymap
 
+import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
@@ -14,6 +15,9 @@ class EmergencyCallActivity : AppCompatActivity() {
     private lateinit var binding : ActivityEmergencyCallBinding
     private lateinit var emergencyCallRVAdapter : EmergencyCallRVAdapter
     private lateinit var personInfoDB : PersonInfoDatabase
+    lateinit var name : String
+    lateinit var phoneNumber : String
+    var position : Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,7 +42,9 @@ class EmergencyCallActivity : AppCompatActivity() {
     }
 
     private fun initRecyclerView(){
+        val activity = AddPhoneBookActivity()
         emergencyCallRVAdapter = EmergencyCallRVAdapter()
+        emergencyCallRVAdapter.mContext = activity
         binding.rvEmergencyCall.adapter = emergencyCallRVAdapter
         binding.rvEmergencyCall.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
 
@@ -48,13 +54,20 @@ class EmergencyCallActivity : AppCompatActivity() {
                 Log.d("DB", personInfoDB.personInfoDao().getPersonList().toString())
             }
             override fun onItemClicked(personInfo: PersonInfo, position : Int) {
-                val intent = Intent(this@EmergencyCallActivity, AddPhoneBookActivity::class.java)
+                Log.d("1", "error")
+                val intent = Intent(this@EmergencyCallActivity,
+                    activity::class.java)     //edit text에 적힌 data 보내기
                 intent.putExtra("name", personInfo.name)
                 intent.putExtra("phoneNumber", personInfo.phoneNumber)
                 intent.putExtra("position", position)
                 startActivityForResult(intent, 1000)
+                Log.d("2", "error")
             }
 
+            override fun onUpdatePerson(PersonId: Int) {
+                emergencyCallRVAdapter.setModifiedData(name, phoneNumber, position)
+                personInfoDB.personInfoDao().updatePerson(name, phoneNumber, position)
+            }
         })
         initPersonInfoDB()
     }
@@ -65,6 +78,7 @@ class EmergencyCallActivity : AppCompatActivity() {
     }
 
     override fun onResume(){    //신규 연락처 저장 후 새로운 연락처로 업데이트
+        Log.d("4", "error")
         super.onResume()
         initPersonInfoDB()
     }
@@ -73,10 +87,21 @@ class EmergencyCallActivity : AppCompatActivity() {
         super.onActivityResult(requestCode, resultCode, data)
 
         if (resultCode == RESULT_OK){
-            var name = data?.getStringExtra("name")
-            var phoneNumber = data?.getStringExtra("phoneNumber")
-            var position = data?.getIntExtra("position", 0)
+            name = data?.getStringExtra("name")!!
+            phoneNumber = data?.getStringExtra("phoneNumber")!!
+            position = data?.getIntExtra("position", 0)
             Log.d("Data from edit text", "데이터 가져오기 성공")
+
+            Log.d("변경 후 pos", position.toString())
+            Log.d("변경 후 name", name!!)
+            Log.d("변경 후 phoneNumber",phoneNumber!!)
+
+            personInfoDB.personInfoDao().updatePerson(name, phoneNumber, position!!)
+            Log.d("DB 수정 후", personInfoDB.personInfoDao().getPersonList().toString())
+            emergencyCallRVAdapter.updatePerson(name!!, phoneNumber!!, position!!)
+            Log.d("DB 수정 후1", personInfoDB.personInfoDao().getPersonList().toString())
+            emergencyCallRVAdapter.addPersonInfo(personInfoDB.personInfoDao().getPersonList() as ArrayList<PersonInfo>)
+            Log.d("DB 수정 후3", personInfoDB.personInfoDao().getPersonList().toString())
         }
     }
 
