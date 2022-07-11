@@ -95,7 +95,8 @@
             android:background="@drawable/rectangle"
             app:layout_constraintTop_toBottomOf="@id/rv_emergency_call"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            android:visibility="visible">
 
             <ImageView
                 android:id="@+id/iv_add_emergency_call"

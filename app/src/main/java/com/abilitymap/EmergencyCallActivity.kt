@@ -2,8 +2,10 @@ package com.abilitymap
 
 import android.app.Activity
 import android.content.Intent
+import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContentProviderCompat.requireContext
@@ -52,16 +54,15 @@ class EmergencyCallActivity : AppCompatActivity() {
             override fun onRemovePerson(PersonId: Int) {
                 personInfoDB.personInfoDao().deletePerson(PersonId)
                 Log.d("DB", personInfoDB.personInfoDao().getPersonList().toString())
+                checkNumberOfItems()
             }
             override fun onItemClicked(personInfo: PersonInfo, position : Int) {
-                Log.d("1", "error")
                 val intent = Intent(this@EmergencyCallActivity,
                     activity::class.java)     //edit text에 적힌 data 보내기
                 intent.putExtra("name", personInfo.name)
                 intent.putExtra("phoneNumber", personInfo.phoneNumber)
                 intent.putExtra("position", position)
                 startActivityForResult(intent, 1000)
-                Log.d("2", "error")
             }
 
             override fun onUpdatePerson(PersonId: Int) {
@@ -78,9 +79,9 @@ class EmergencyCallActivity : AppCompatActivity() {
     }
 
     override fun onResume(){    //신규 연락처 저장 후 새로운 연락처로 업데이트
-        Log.d("4", "error")
         super.onResume()
         initPersonInfoDB()
+        checkNumberOfItems()
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -103,6 +104,13 @@ class EmergencyCallActivity : AppCompatActivity() {
             emergencyCallRVAdapter.addPersonInfo(personInfoDB.personInfoDao().getPersonList() as ArrayList<PersonInfo>)
             Log.d("DB 수정 후3", personInfoDB.personInfoDao().getPersonList().toString())
         }
+    }
+
+    private fun checkNumberOfItems(){
+        if (personInfoDB.personInfoDao().getPersonList().size>=5)
+            binding.clAddEmergencyCall.visibility = View.GONE
+        else
+            binding.clAddEmergencyCall.visibility = View.VISIBLE
     }
 
 }

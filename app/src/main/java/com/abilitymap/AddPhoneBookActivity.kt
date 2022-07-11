@@ -17,25 +17,25 @@ class AddPhoneBookActivity : AppCompatActivity() {
     lateinit var context : Context
     private lateinit var personInfoDatabase: PersonInfoDatabase
 
-    init{
-        instance = this
-    }
-    companion object {
-        lateinit var instance: AddPhoneBookActivity
-        fun applicationContext() : Context {
-            return instance.applicationContext
-        }
-    }
-
-    interface MyItemClickListener{
-        fun onClick()
-    }
-
-    private lateinit var mItemClickListener : MyItemClickListener
-
-    fun setMyItemClickListener(itemClickListener : MyItemClickListener){
-        mItemClickListener = itemClickListener
-    }
+//    init{
+//        instance = this
+//    }
+//    companion object {
+//        lateinit var instance: AddPhoneBookActivity
+//        fun applicationContext() : Context {
+//            return instance.applicationContext
+//        }
+//    }
+//
+//    interface MyItemClickListener{
+//        fun onClick()
+//    }
+//
+//    private lateinit var mItemClickListener : MyItemClickListener
+//
+//    fun setMyItemClickListener(itemClickListener : MyItemClickListener){
+//        mItemClickListener = itemClickListener
+//    }
 
 
 
@@ -107,14 +107,12 @@ class AddPhoneBookActivity : AppCompatActivity() {
 //                Log.d("DB 수정 후", personInfoDatabase.personInfoDao().getPersonList().toString())
 //                finish()
 //                mItemClickListener.onClick()
-                Log.d("1", "error")
 
                 intent.putExtra("name", binding.etNameAddPhoneBook.text.toString())
                 intent.putExtra("phoneNumber", binding.etPhoneNumberAddPhoneBook.text.toString())
                 intent.putExtra("position",intent.getIntExtra("position",0))
                 setResult(RESULT_OK, intent)
                 finish()
-                Log.d("2", "error")
             }
         }
     }

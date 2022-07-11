@@ -50,7 +50,6 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
         holder.binding.ivModifyEmergencyCall.setOnClickListener {
             mItemClickListener.onItemClicked(personInfo[position], position)
         }
-        Log.d("111", "error")
 
 //        mContext.setMyItemClickListener(object : AddPhoneBookActivity.MyItemClickListener{
 //            override fun onClick() {
