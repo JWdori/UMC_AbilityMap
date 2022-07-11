@@ -23,7 +23,7 @@
             android:layout_marginLeft="10dp"/>
 
         <TextView
-            android:id="@+id/tv_not_notification"
+            android:id="@+id/tv_add_phone_book"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="입력하기"
@@ -155,8 +155,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="72dp"
-
-            android:background="@drawable/save_button"/>
+            android:background="@drawable/save_button_effect"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
