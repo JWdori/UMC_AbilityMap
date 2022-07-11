@@ -13,3 +13,7 @@
 .externalNativeBuild
 .cxx
 local.properties
+server/backend/node_modules
+server/backend/log
+/server/backend/.env
+/server/backend/config/secret.js
