@@ -515,15 +515,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
-
-    private void UpdateCircle(double x, double y){
+    //자전거 사고 다발지역 마커
+    private void AccidentCircle(double x, double y){
         CircleOverlay circle = new CircleOverlay();
         circle.setCenter(new LatLng(x, y));
         circle.setRadius(30);
         circle.setColor(Color.parseColor("#30FF7B00"));
         circle.setOutlineColor(Color.parseColor("#30FF7B00"));
         circle.setMap(naverMap);
-
 
         Marker marker = new Marker();
         marker.setPosition(new LatLng(x,y));
@@ -532,9 +531,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         marker.setHeight(80);
         marker.setMap(naverMap);
 
+    }
 
+    //급경사 마커
+    private void Slope(double x, double y){
+        CircleOverlay circle = new CircleOverlay();
+        circle.setCenter(new LatLng(x, y));
+        circle.setRadius(30);
+        circle.setColor(Color.parseColor("#30FF7B00"));
+        circle.setOutlineColor(Color.parseColor("#30FF7B00"));
+        circle.setMap(naverMap);
+
+        Marker marker = new Marker();
+        marker.setPosition(new LatLng(x,y));
+        marker.setIcon(OverlayImage.fromResource(R.drawable.danger_location_yellow));
+        marker.setWidth(80);
+        marker.setHeight(80);
+        marker.setMap(naverMap);
 
     }
+
 
     private ArrayList<NaverItem> getItems() {
         LatLngBounds bounds = naverMap.getContentBounds();
@@ -906,24 +922,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
        });
 
     }
-    private void setUpMap(){
-        XmlApi parser = new XmlApi();
-        ArrayList<MapPoint> mapPoint = new ArrayList<MapPoint>();
-    try {
 
-        mapPoint = parser.apiParserSearch();
-    } catch (Exception e) {
-        System.out.println(3333);
-        e.printStackTrace();
-    }
-    for (int i =0; i<mapPoint.size(); i++){
-        for (MapPoint entity:mapPoint){
-            UpdateCircle(mapPoint.get(i).getLatitude(), mapPoint.get(i).getLongitude());
-        }
-    }
+    // xml 가져오는 코드
+//    private void setUpMap(){
+//        XmlApi parser = new XmlApi();
+//        ArrayList<MapPoint> mapPoint = new ArrayList<MapPoint>();
+//    try {
+//
+//        mapPoint = parser.apiParserSearch();
+//    } catch (Exception e) {
+//        System.out.println(3333);
+//        e.printStackTrace();
+//    }
+//    for (int i =0; i<mapPoint.size(); i++){
+//        for (MapPoint entity:mapPoint){
+//            AccidentCircle(mapPoint.get(i).getLatitude(), mapPoint.get(i).getLongitude());
+//        }
+//    }
+//    }
 
 
-    }
     private void removeMarkerAll() {
         for (Marker marker : TotalmarkerList) {
             marker.setMap(null); // 삭제
@@ -955,7 +973,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void drawMarker_bike() {
         for (int i =0 ; i< bike_list.size(); i++){
             JsonApi_bike.bike_item item = bike_list.get(i);
-            UpdateCircle((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()));
+            AccidentCircle((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()));
             //cluster_item.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
         }
         return;
