@@ -7,10 +7,8 @@ import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.overlay.OverlayImage;
-import com.naver.maps.map.util.MarkerIcons;
 
-import java.util.List;
-//병원/약국
+//병원/약국 + 관공서에 이용되는 마커 파일
 public interface SetMarker_facility extends Overlay.OnClickListener {
     public default void setMarker_facility(double x, double y, String markerType, NaverMap naverMap){
 
@@ -21,7 +19,9 @@ public interface SetMarker_facility extends Overlay.OnClickListener {
         marker.setMinZoom(8);
         switch(markerType){
             case "office": marker.setIcon(OverlayImage.fromResource(R.drawable.facility_office)); break;
-            case "hos": marker.setIcon(OverlayImage.fromResource(R.drawable.facility_icon)); break;
+            case "hos": marker.setIcon(OverlayImage.fromResource(R.drawable.hos_icon)); break;
+            case "whell": marker.setIcon(OverlayImage.fromResource(R.drawable.wheel_icon)); break;
+            case "charge": marker.setIcon(OverlayImage.fromResource(R.drawable.charge_icon)); break;
         }
         marker.setMap(naverMap);
 

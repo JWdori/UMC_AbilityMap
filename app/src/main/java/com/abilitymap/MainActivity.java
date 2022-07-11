@@ -563,9 +563,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        locationButtonView2.setMap(naverMap);
 
 
-        setMarker_facility(); // network 동작, 인터넷에서 xml을 받아오는 코드
-        drawMarker_bike();
-        setMarker_Charge();
+        setMarker_hos(); //병원이랑 시설
+        drawMarker_bike();    //위험지역
+        setMarker_Charge();   //충전기
 
         //클러스터링
 //        tedNaverClustering =
@@ -931,7 +931,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    private void setMarker_facility() {
+    private void setMarker_hos() {
         for (int i =0 ; i< total_list.size(); i++){
             JsonApi_total.total_item item = total_list.get(i);
             setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"hos",naverMap);
