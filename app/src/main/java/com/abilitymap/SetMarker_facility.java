@@ -20,7 +20,6 @@ public interface SetMarker_facility extends Overlay.OnClickListener {
         switch(markerType){
             case "office": marker.setIcon(OverlayImage.fromResource(R.drawable.facility_office)); break;
             case "hos": marker.setIcon(OverlayImage.fromResource(R.drawable.hos_icon)); break;
-            case "whell": marker.setIcon(OverlayImage.fromResource(R.drawable.wheel_icon)); break;
             case "charge": marker.setIcon(OverlayImage.fromResource(R.drawable.charge_icon)); break;
         }
         marker.setMap(naverMap);

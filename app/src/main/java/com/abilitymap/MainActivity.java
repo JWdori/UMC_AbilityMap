@@ -511,41 +511,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
 
-    //자전거 사고 다발지역 마커
-    private void AccidentCircle(double x, double y){
-        CircleOverlay circle = new CircleOverlay();
-        circle.setCenter(new LatLng(x, y));
-        circle.setRadius(30);
-        circle.setColor(Color.parseColor("#30FF7B00"));
-        circle.setOutlineColor(Color.parseColor("#30FF7B00"));
-        circle.setMap(naverMap);
 
-        Marker marker = new Marker();
-        marker.setPosition(new LatLng(x,y));
-        marker.setIcon(OverlayImage.fromResource(R.drawable.danger_location_yellow));
-        marker.setWidth(80);
-        marker.setHeight(80);
-        marker.setMap(naverMap);
-
-    }
-
-    //급경사 마커
-    private void Slope(double x, double y){
-        CircleOverlay circle = new CircleOverlay();
-        circle.setCenter(new LatLng(x, y));
-        circle.setRadius(30);
-        circle.setColor(Color.parseColor("#30FF7B00"));
-        circle.setOutlineColor(Color.parseColor("#30FF7B00"));
-        circle.setMap(naverMap);
-
-        Marker marker = new Marker();
-        marker.setPosition(new LatLng(x,y));
-        marker.setIcon(OverlayImage.fromResource(R.drawable.danger_location_yellow));
-        marker.setWidth(80);
-        marker.setHeight(80);
-        marker.setMap(naverMap);
-
-    }
 
 
     private ArrayList<NaverItem> getItems() {
@@ -564,8 +530,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        LatLng initialPosition = new LatLng(mLastlocation);
 //        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(initialPosition);
 //        naverMap.moveCamera(cameraUpdate);
-        naverMap.setMaxZoom(18.0);
-        naverMap.setMinZoom(8.0);
+        naverMap.setMaxZoom(19.0);
+        naverMap.setMinZoom(5.0);
         UiSettings uiSettings = naverMap.getUiSettings();
         uiSettings.setCompassEnabled(false);
         uiSettings.setScaleBarEnabled(false);
@@ -945,6 +911,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    //의료기관
     private void setMarker_hos() {
         for (int i =0 ; i< total_list.size(); i++){
             JsonApi_total.total_item item = total_list.get(i);
@@ -954,18 +921,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return;
     }
 
+    //충전기
     private void setMarker_Charge() {
-        System.out.println(charge_list.size()+"1234");
         for (int i =0 ; i< charge_list.size(); i++){
             JsonApi_charge.charge_item item = charge_list.get(i);
-            setMarker_wheel(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"charge",naverMap);
+            setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"charge",naverMap);
             // cluster_item2.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
         }
         return;
     }
 
 
-
+    //자전거 사고 다발지역 만들기
     private void drawMarker_bike() {
         for (int i =0 ; i< bike_list.size(); i++){
             JsonApi_bike.bike_item item = bike_list.get(i);
@@ -975,6 +942,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return;
     }
 
+
+    //자전거 사고 다발지역 마커
+    private void AccidentCircle(double x, double y){
+        CircleOverlay circle = new CircleOverlay();
+        circle.setCenter(new LatLng(x, y));
+        circle.setRadius(30);
+        circle.setColor(Color.parseColor("#30FF7B00"));
+        circle.setOutlineColor(Color.parseColor("#30FF7B00"));
+        circle.setMap(naverMap);
+        Marker marker = new Marker();
+        marker.setPosition(new LatLng(x,y));
+        marker.setIcon(OverlayImage.fromResource(R.drawable.danger_location_yellow));
+        marker.setWidth(80);
+        marker.setHeight(80);
+        marker.setMap(naverMap);
+
+    }
 
 
 

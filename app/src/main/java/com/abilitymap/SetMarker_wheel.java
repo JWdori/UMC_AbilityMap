@@ -19,8 +19,8 @@ public interface SetMarker_wheel extends Overlay.OnClickListener {
         marker.setHeight(80);
         marker.setMinZoom(8);
         switch(markerType){
-            case "whell": marker.setIcon(OverlayImage.fromResource(R.drawable.wheel_icon)); break;
-            case "charge": marker.setIcon(OverlayImage.fromResource(R.drawable.charge_icon)); break;
+            case "wheel": marker.setIcon(OverlayImage.fromResource(R.drawable.wheel_icon)); break;
+            case "slope": marker.setIcon(OverlayImage.fromResource(R.drawable.danger_location_yellow)); break;
         }
         marker.setMap(naverMap);
 
