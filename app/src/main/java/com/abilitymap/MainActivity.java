@@ -953,6 +953,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         circle.setMap(naverMap);
         Marker marker = new Marker();
         marker.setPosition(new LatLng(x,y));
+        marker.setMinZoom(11);//줌 설정
         marker.setIcon(OverlayImage.fromResource(R.drawable.danger_location_yellow));
         marker.setWidth(80);
         marker.setHeight(80);
