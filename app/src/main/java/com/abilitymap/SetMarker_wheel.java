@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.NaverMap;
+import com.naver.maps.map.overlay.InfoWindow;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.overlay.OverlayImage;
@@ -11,8 +12,8 @@ import com.naver.maps.map.overlay.OverlayImage;
 //경사로,충전기
 
 public interface SetMarker_wheel extends Overlay.OnClickListener {
-    public default void setMarker_wheel(double x, double y, String markerType, NaverMap naverMap){
 
+    public default void setMarker_wheel(double x, double y, String markerType, NaverMap naverMap){
         Marker marker = new Marker();
         marker.setPosition(new LatLng(x,y));
         marker.setWidth(80);

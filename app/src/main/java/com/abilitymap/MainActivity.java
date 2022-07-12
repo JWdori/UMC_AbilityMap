@@ -51,6 +51,7 @@ import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.UiSettings;
 import com.naver.maps.map.overlay.CircleOverlay;
+import com.naver.maps.map.overlay.InfoWindow;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.overlay.OverlayImage;
@@ -99,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     List<LatLng> latLngList = new ArrayList<>();
     private boolean clickable = true;
+    private boolean clickable2 = true;
     private final long finishtimeed = 1000;
     private long presstime = 0;
     private boolean isDrawerOpen = false;
@@ -287,7 +289,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });*/
         if(overlay instanceof Marker && clickable){
 //            Toast.makeText(this.getApplicationContext(),"위험지역입니다",Toast.LENGTH_LONG).show();
-
             LocationDetailFragment infoFragment = new LocationDetailFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.map, infoFragment).addToBackStack(null).commit();
             clickable = false;
@@ -300,6 +301,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition,16).pivot(new PointF(0.5f,0.37f)).animate(CameraAnimation.Easing);
             naverMap.moveCamera(cameraUpdate);
 
+
+
             naverMap.setOnMapClickListener(new NaverMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
@@ -311,6 +314,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     Report_button.setVisibility(View.VISIBLE);
                     Log.d("clickable?", String.valueOf(clickable));
                     Log.d("click event","onMapClick");
+
+
                 }
 
 
@@ -320,7 +325,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             return true;
         }
-
         return false;
 
     }
@@ -366,8 +370,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 message_button.setVisibility(View.VISIBLE);
                 Report_button.setVisibility(View.VISIBLE);
                 clickable = true;
-                Log.d("clickable?", "backKeyPressed");
-                Log.d("clickable?", String.valueOf(clickable));
 
 
             }
@@ -523,7 +525,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
-
         CameraUpdate cameraUpdate = CameraUpdate.scrollTo(currentPosition).animate(CameraAnimation.Fly,0);
         naverMap.moveCamera(cameraUpdate);
         this.naverMap = naverMap;
@@ -542,7 +543,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         setMarker_hos(); //병원이랑 시설
-        drawMarker_bike();    //위험지역
+        drawMarker_bike();
         setMarker_Charge();   //충전기
 
         //클러스터링
@@ -951,6 +952,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         circle.setColor(Color.parseColor("#30FF7B00"));
         circle.setOutlineColor(Color.parseColor("#30FF7B00"));
         circle.setMap(naverMap);
+
+        InfoWindow infoWindow = new InfoWindow();
         Marker marker = new Marker();
         marker.setPosition(new LatLng(x,y));
         marker.setMinZoom(11);//줌 설정
@@ -958,6 +961,41 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         marker.setWidth(80);
         marker.setHeight(80);
         marker.setMap(naverMap);
+
+
+        marker.setTag("자전거 사고다발 지역");
+        infoWindow.setAdapter(new InfoWindow.DefaultTextAdapter(this) {
+            @NonNull
+            @Override
+            public CharSequence getText(@NonNull InfoWindow infoWindow) {
+                // 정보 창이 열린 마커의 tag를 텍스트로 노출하도록 반환
+                return (CharSequence)infoWindow.getMarker().getTag();
+            }
+        });
+
+        infoWindow.setAlpha(0.8f);
+
+        Overlay.OnClickListener listener = overlay -> {
+            naverMap.setOnMapClickListener((coord, point) -> {
+                infoWindow.close();
+            });
+            if (marker.getInfoWindow() == null) {
+                // 현재 마커에 정보 창이 열려있지 않을 경우 엶
+                System.out.println(marker+"하....");
+                infoWindow.close();
+                infoWindow.open(marker);
+            } else {
+                // 이미 현재 마커에 정보 창이 열려있을 경우 닫음
+                infoWindow.close();
+            }
+
+            return true;
+        };
+
+
+        marker.setOnClickListener(listener);
+
+
 
     }
 
