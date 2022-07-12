@@ -66,9 +66,9 @@ public class JsonApi_charge extends AsyncTask<String, String, String> {
             }
 //            Log.d("CoronaApi", "The response is :" + result);
             JSONObject root = new JSONObject(result);
-            JSONArray coronaArray = root.getJSONArray("result");
-            for (int i = 0; i < coronaArray.length(); i++) {
-                JSONObject item = coronaArray.getJSONObject(i);
+            JSONArray Api = root.getJSONArray("result");
+            for (int i = 0; i < Api.length(); i++) {
+                JSONObject item = Api.getJSONObject(i);
                 charge_item charge_item = new charge_item(
                         item.getString("lat"),
                         item.getString("lon"),

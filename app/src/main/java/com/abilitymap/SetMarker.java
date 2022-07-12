@@ -22,7 +22,7 @@ public interface SetMarker extends Overlay.OnClickListener {
         marker.setMinZoom(8);
         switch(markerType){
             case "danger": marker.setIcon(OverlayImage.fromResource(R.drawable.danger)); break;
-            case "slope": marker.setIcon(OverlayImage.fromResource(R.drawable.facility_icon)); break;
+            case "slope": marker.setIcon(OverlayImage.fromResource(R.drawable.facility_office)); break;
             case "charger": marker.setIcon(OverlayImage.fromResource(R.drawable.charge_icon)); break;
             case "wheelchair": marker.setIcon(OverlayImage.fromResource(R.drawable.wheel_icon)); break;
             case "hosp": marker.setIcon(MarkerIcons.YELLOW); break;
