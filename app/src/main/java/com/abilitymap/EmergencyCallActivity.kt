@@ -55,6 +55,7 @@ class EmergencyCallActivity : AppCompatActivity() {
                 personInfoDB.personInfoDao().deletePerson(PersonId)
                 Log.d("DB", personInfoDB.personInfoDao().getPersonList().toString())
                 checkNumberOfItems()
+                binding.tvNumOfInfoEmergencyCall.setText(personInfoDB.personInfoDao().getPersonList().size.toString()+"/5")
             }
             override fun onItemClicked(personInfo: PersonInfo, position : Int) {
                 val intent = Intent(this@EmergencyCallActivity,
@@ -82,6 +83,7 @@ class EmergencyCallActivity : AppCompatActivity() {
         super.onResume()
         initPersonInfoDB()
         checkNumberOfItems()
+        binding.tvNumOfInfoEmergencyCall.setText(personInfoDB.personInfoDao().getPersonList().size.toString()+"/5")
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
