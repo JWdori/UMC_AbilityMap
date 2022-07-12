@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ImageButton Report_message = (ImageButton) findViewById(R.id.repot_message);
+        ImageButton Report_message = (ImageButton) findViewById(R.id.message_button);
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
@@ -255,9 +255,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public boolean onClick(@NonNull Overlay overlay) {
-        ImageButton Call_button = (ImageButton)findViewById(R.id.call_button);
+        ImageButton repot_message = (ImageButton)findViewById(R.id.message_button);
         ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
-        ImageButton Report_message = (ImageButton)findViewById(R.id.repot_message);
+
         /*Report_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -291,9 +291,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             LocationDetailFragment infoFragment = new LocationDetailFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.map, infoFragment).addToBackStack(null).commit();
             clickable = false;
-            Call_button.setVisibility(View.INVISIBLE);
+            repot_message.setVisibility(View.INVISIBLE);
             Report_button.setVisibility(View.INVISIBLE);
-            Report_message.setVisibility(View.INVISIBLE);
 
             Log.d("clickable?", String.valueOf(clickable));
 
@@ -308,9 +307,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     getSupportFragmentManager().popBackStack();
                     clickable = true;
 
-                    Call_button.setVisibility(View.VISIBLE);
+                    repot_message.setVisibility(View.VISIBLE);
                     Report_button.setVisibility(View.VISIBLE);
-                    Report_message.setVisibility(View.VISIBLE);
                     Log.d("clickable?", String.valueOf(clickable));
                     Log.d("click event","onMapClick");
                 }
@@ -363,12 +361,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             }else {
                 super.onBackPressed();
-                ImageButton Call_button = (ImageButton) findViewById(R.id.call_button);
+                ImageButton message_button = (ImageButton) findViewById(R.id.message_button);
                 ImageButton Report_button = (ImageButton) findViewById(R.id.repot_button);
-                ImageButton Report_message = (ImageButton) findViewById(R.id.repot_message);
-                Call_button.setVisibility(View.VISIBLE);
+                message_button.setVisibility(View.VISIBLE);
                 Report_button.setVisibility(View.VISIBLE);
-                Report_message.setVisibility(View.VISIBLE);
                 clickable = true;
                 Log.d("clickable?", "backKeyPressed");
                 Log.d("clickable?", String.valueOf(clickable));
@@ -805,7 +801,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void initClickListener() {
 
         //긴급신고 메세지지
-       ImageButton Report_message = findViewById(R.id.repot_message);
+       ImageButton Report_message = findViewById(R.id.message_button);
        Report_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
