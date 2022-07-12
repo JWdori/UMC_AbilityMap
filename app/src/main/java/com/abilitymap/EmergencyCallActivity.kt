@@ -46,7 +46,7 @@ class EmergencyCallActivity : AppCompatActivity() {
     private fun initRecyclerView(){
         val activity = AddPhoneBookActivity()
         emergencyCallRVAdapter = EmergencyCallRVAdapter()
-        emergencyCallRVAdapter.mContext = activity
+        emergencyCallRVAdapter.mContext = this
         binding.rvEmergencyCall.adapter = emergencyCallRVAdapter
         binding.rvEmergencyCall.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
 

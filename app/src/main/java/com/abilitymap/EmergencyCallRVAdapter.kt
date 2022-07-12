@@ -1,11 +1,10 @@
 package com.abilitymap
 
 import android.annotation.SuppressLint
-import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
-import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
@@ -15,7 +14,7 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
 
     private val personInfo = ArrayList<PersonInfo>()
     lateinit var binding: ItemEmergencyCallBinding
-    lateinit var mContext: AddPhoneBookActivity
+    lateinit var mContext: Context
     lateinit var name : String
     lateinit var phoneNumber: String
     var position : Int = -1
@@ -43,6 +42,15 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
         holder.bind(personInfo[position], position)
 
         holder.binding.ivDeleteEmergencyCall.setOnClickListener {
+
+//            InfoDialog(mContext).show()
+//            val builder = AlertDialog.Builder(mContext)
+//            val view : View = LayoutInflater.from(mContext).inflate(R.layout.dialog, null, false)
+//            builder.setView(view)
+//            val text = view.findViewById<TextView>(R.id.text_dialog)
+//            text.setText(personInfo[position].name)
+//            val dialog : AlertDialog = builder.create()
+
             mItemClickListener.onRemovePerson(personInfo[position].personId)
             removePerson(position)
         }
@@ -50,6 +58,7 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
         holder.binding.ivModifyEmergencyCall.setOnClickListener {
             mItemClickListener.onItemClicked(personInfo[position], position)
         }
+
 
 //        mContext.setMyItemClickListener(object : AddPhoneBookActivity.MyItemClickListener{
 //            override fun onClick() {
@@ -104,4 +113,6 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
             binding.tvPhoneNumberEmergencyCall.text = personInfo.phoneNumber
         }
     }
+
+
 }
