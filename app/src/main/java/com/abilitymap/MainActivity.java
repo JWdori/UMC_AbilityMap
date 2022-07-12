@@ -12,6 +12,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
 import android.location.Address;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -797,11 +798,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     SharedPreferences pref = getSharedPreferences("isFirst", Activity.MODE_PRIVATE);
                     boolean first_touch = pref.getBoolean("isFirst", false);
                     if(first_touch==false){
+                        Toast.makeText(getApplicationContext(), "최초 실행", Toast.LENGTH_LONG).show();
+                        //앱 최초 실행시 하고 싶은 작업
+                        View dialogView = getLayoutInflater().inflate(R.layout.first_popup, null);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                        getWindow().setBackgroundDrawable(new ColorDrawable(Color.rgb(0,95,191)));
+                        builder.setView(dialogView);
+                        final AlertDialog alertDialog = builder.create();
+                        alertDialog.setCanceledOnTouchOutside(false);//없어지지 않도록 설정
+                        alertDialog.show();
+
                         SharedPreferences.Editor editor = pref.edit();
                         editor.putBoolean("isFirst",true);
                         editor.commit();
-                        Toast.makeText(getApplicationContext(), "최초 실행", Toast.LENGTH_LONG).show();
-                        //앱 최초 실행시 하고 싶은 작업
+                        System.out.println("gd ");
                     }else{
                         Toast.makeText(getApplicationContext(), "두번째 실행", Toast.LENGTH_LONG).show();
                         sendSms();
@@ -982,7 +992,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             if (marker.getInfoWindow() == null) {
                 // 현재 마커에 정보 창이 열려있지 않을 경우 엶
                 System.out.println(marker+"하....");
-                infoWindow.close();
                 infoWindow.open(marker);
             } else {
                 // 이미 현재 마커에 정보 창이 열려있을 경우 닫음
