@@ -2,11 +2,13 @@ package com.abilitymap
 
 import android.annotation.SuppressLint
 import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.abilitymap.databinding.ItemEmergencyCallBinding
 
@@ -43,16 +45,19 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
 
         holder.binding.ivDeleteEmergencyCall.setOnClickListener {
 
-//            InfoDialog(mContext).show()
+        val dialog : Dialog = InfoDialog(mContext, personInfo[position].name!!)
+        dialog.show()
+
 //            val builder = AlertDialog.Builder(mContext)
 //            val view : View = LayoutInflater.from(mContext).inflate(R.layout.dialog, null, false)
 //            builder.setView(view)
 //            val text = view.findViewById<TextView>(R.id.text_dialog)
-//            text.setText(personInfo[position].name)
+//            text.setText(personInfo[position].name + text.text.toString())
 //            val dialog : AlertDialog = builder.create()
 
-            mItemClickListener.onRemovePerson(personInfo[position].personId)
-            removePerson(position)
+
+//            mItemClickListener.onRemovePerson(personInfo[position].personId)
+//            removePerson(position)
         }
 
         holder.binding.ivModifyEmergencyCall.setOnClickListener {
