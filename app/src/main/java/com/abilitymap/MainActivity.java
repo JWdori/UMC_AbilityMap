@@ -750,15 +750,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         alertDialog.setCanceledOnTouchOutside(false);//없어지지 않도록 설정
                         alertDialog.show();
 
-                        Button noButton = alertDialog.findViewById(R.id.no_button)
-
-
-
-
-                        SharedPreferences.Editor editor = pref.edit();
-                        editor.putBoolean("isFirst",true);
-                        editor.commit();
-                        System.out.println("gd ");
+                        TextView noButton = alertDialog.findViewById(R.id.first_no_button);
+                        noButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                alertDialog.dismiss();
+                            }
+                        });
+                        TextView yesButton = alertDialog.findViewById(R.id.first_yes_button);
+                        yesButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                SharedPreferences.Editor editor = pref.edit();
+                                editor.putBoolean("isFirst",true);
+                                editor.commit();
+                                alertDialog.dismiss();
+                                finish();
+                            }
+                        });
+                        alertDialog.show();
                     }else{
                         Toast.makeText(getApplicationContext(), "두번째 실행", Toast.LENGTH_LONG).show();
                         sendSms();
