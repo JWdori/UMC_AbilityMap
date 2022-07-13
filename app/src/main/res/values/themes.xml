@@ -30,6 +30,9 @@
         parent="Widget.Design.BottomNavigationView">
         <item name="android:textSize">20sp</item>
     </style>
+    <style name="NavigationItemNoRipple">
+        <item name="android:colorControlHighlight">@android:color/transparent</item>
+    </style>
 <!--    <style name="SelectableItemTheme">-->
 <!--        <item name="colorControlHighlight">#005fbf</item>-->
 <!--    </style>-->
