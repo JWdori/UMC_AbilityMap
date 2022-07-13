@@ -31,6 +31,7 @@ import androidx.appcompat.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -748,6 +749,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         alertDialog.getWindow().setBackgroundDrawable(inset);
                         alertDialog.setCanceledOnTouchOutside(false);//없어지지 않도록 설정
                         alertDialog.show();
+
+                        Button noButton = alertDialog.findViewById(R.id.no_button)
+
+
 
 
                         SharedPreferences.Editor editor = pref.edit();
