@@ -1,13 +1,15 @@
 package com.abilitymap
 
 import android.annotation.SuppressLint
-import android.app.Activity
+import android.app.AlertDialog
+import android.app.Dialog
 import android.content.Context
-import android.content.Intent
-import android.util.Log
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.abilitymap.databinding.ItemEmergencyCallBinding
 
@@ -15,7 +17,7 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
 
     private val personInfo = ArrayList<PersonInfo>()
     lateinit var binding: ItemEmergencyCallBinding
-    lateinit var mContext: AddPhoneBookActivity
+    lateinit var mContext: Context
     lateinit var name : String
     lateinit var phoneNumber: String
     var position : Int = -1
@@ -43,13 +45,26 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
         holder.bind(personInfo[position], position)
 
         holder.binding.ivDeleteEmergencyCall.setOnClickListener {
+
+        val dialog : Dialog = InfoDialog(mContext, personInfo[position].name!!)
+        dialog.show()
+        val yesButton = dialog.findViewById<TextView>(R.id.tv_yes_dialog)
+        val noButton = dialog.findViewById<TextView>(R.id.tv_no_dialog)
+        yesButton.setOnClickListener {
             mItemClickListener.onRemovePerson(personInfo[position].personId)
             removePerson(position)
+            dialog.dismiss()
+            Toast.makeText(mContext, "선택하신 연락처를 삭제하였습니다", Toast.LENGTH_SHORT).show()
+        }
+        noButton.setOnClickListener { dialog.dismiss() }
+
+
         }
 
         holder.binding.ivModifyEmergencyCall.setOnClickListener {
             mItemClickListener.onItemClicked(personInfo[position], position)
         }
+
 
 //        mContext.setMyItemClickListener(object : AddPhoneBookActivity.MyItemClickListener{
 //            override fun onClick() {
@@ -104,4 +119,6 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
             binding.tvPhoneNumberEmergencyCall.text = personInfo.phoneNumber
         }
     }
+
+
 }

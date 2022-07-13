@@ -67,14 +67,19 @@
         android:id="@+id/navigationView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:theme="@style/NavigationItemNoRipple"
         app:headerLayout="@layout/fragment_navigation_header"
         app:menu="@menu/navigation_menu"
         android:layout_gravity="start"
         android:backgroundTint="#007fff"
+        app:itemShapeInsetStart="0dp"
+        app:itemHorizontalPadding="26dp"
         app:itemTextColor="@color/white"
+        app:itemIconPadding="20dp"
         app:itemIconSize="32dp"
         app:itemIconTint="@color/white"
-        app:itemBackground="@drawable/view_line"
-        app:itemTextAppearance="@style/Widget.BottomNavigationView" />
+        app:itemBackground="@drawable/rectangle_menu_clicked_effect"
+        app:itemTextAppearance="@style/Widget.BottomNavigationView"
+        android:defaultFocusHighlightEnabled="false"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
