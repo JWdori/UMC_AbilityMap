@@ -89,7 +89,7 @@
         app:itemShapeInsetStart="0dp"
         app:itemHorizontalPadding="26dp"
         app:itemTextColor="@color/white"
-        app:itemIconPadding="24dp"
+        app:itemIconPadding="20dp"
         app:itemIconSize="32dp"
         app:itemIconTint="@color/white"
         app:itemBackground="@drawable/rectangle_menu_clicked_effect"
