@@ -19,19 +19,14 @@ class InfoDialog(context: Context, personName: String) : Dialog(context){
         setContentView(binding.root)
 
         initViews()
-        initClickListener()
     }
 
     private fun initViews() = with(binding) {
         // 뒤로가기 버튼, 빈 화면 터치를 통해 dialog가 사라지지 않도록
         setCancelable(false)
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
-        binding.textDialog.setText(name + binding.textDialog.text.toString())
-    }
 
-    fun initClickListener(){
-        binding.tvYesDialog.setOnClickListener {  }
-        binding.tvNoDialog.setOnClickListener { this.dismiss() }
+        binding.textDialog.setText(name + binding.textDialog.text.toString())
     }
 
 }

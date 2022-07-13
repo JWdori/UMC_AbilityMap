@@ -8,6 +8,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.abilitymap.databinding.ItemEmergencyCallBinding
@@ -46,18 +47,17 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
         holder.binding.ivDeleteEmergencyCall.setOnClickListener {
 
         val dialog : Dialog = InfoDialog(mContext, personInfo[position].name!!)
+        val yesButton = dialog.findViewById<TextView>(R.id.tv_yes_dialog)
+        val noButton = dialog.findViewById<TextView>(R.id.tv_no_dialog)
+        yesButton.setOnClickListener {
+            mItemClickListener.onRemovePerson(personInfo[position].personId)
+            removePerson(position)
+            dialog.dismiss()
+            Toast.makeText(mContext, "선택하신 연락처를 삭제하였습니다", Toast.LENGTH_SHORT).show()
+        }
+        noButton.setOnClickListener { dialog.dismiss() }
         dialog.show()
 
-//            val builder = AlertDialog.Builder(mContext)
-//            val view : View = LayoutInflater.from(mContext).inflate(R.layout.dialog, null, false)
-//            builder.setView(view)
-//            val text = view.findViewById<TextView>(R.id.text_dialog)
-//            text.setText(personInfo[position].name + text.text.toString())
-//            val dialog : AlertDialog = builder.create()
-
-
-//            mItemClickListener.onRemovePerson(personInfo[position].personId)
-//            removePerson(position)
         }
 
         holder.binding.ivModifyEmergencyCall.setOnClickListener {
