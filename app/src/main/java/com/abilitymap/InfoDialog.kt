@@ -26,6 +26,7 @@ class InfoDialog(context: Context, personName: String) : Dialog(context){
         setCancelable(false)
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
+        
         binding.textDialog.setText(name + binding.textDialog.text.toString())
     }
 

@@ -121,6 +121,7 @@
             android:inputType="number"
             android:layout_marginLeft="16dp"
             android:ems="13"
+            android:maxLength="13"
             android:textCursorDrawable="@null"
             android:textColor="@color/black"
             android:background="@null"

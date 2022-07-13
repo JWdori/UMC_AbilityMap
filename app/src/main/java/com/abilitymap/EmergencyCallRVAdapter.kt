@@ -47,6 +47,7 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
         holder.binding.ivDeleteEmergencyCall.setOnClickListener {
 
         val dialog : Dialog = InfoDialog(mContext, personInfo[position].name!!)
+        dialog.show()
         val yesButton = dialog.findViewById<TextView>(R.id.tv_yes_dialog)
         val noButton = dialog.findViewById<TextView>(R.id.tv_no_dialog)
         yesButton.setOnClickListener {
@@ -56,7 +57,7 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
             Toast.makeText(mContext, "선택하신 연락처를 삭제하였습니다", Toast.LENGTH_SHORT).show()
         }
         noButton.setOnClickListener { dialog.dismiss() }
-        dialog.show()
+
 
         }
 
