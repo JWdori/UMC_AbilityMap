@@ -15,7 +15,7 @@
     <!--        </shape>-->
     <!--    </item>-->
 
-    <item android:top="45dp" android:left="78dp">
+    <item android:top="45dp" android:left="83dp">
         <shape xmlns:android="http://schemas.android.com/apk/res/android"
             android:shape="line">
             <stroke android:width="2dip" android:color="#66ffffff" />
