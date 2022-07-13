@@ -29,7 +29,6 @@ class NotificationRVAdapter(): RecyclerView.Adapter<NotificationRVAdapter.ViewHo
     fun addNews(news: ArrayList<News>){       //기존 news 초기화 및 받아온 news 로 update
         this.news.clear()
         this.news.addAll(news)
-
         notifyDataSetChanged()
     }
 
