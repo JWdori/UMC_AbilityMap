@@ -30,11 +30,13 @@
         parent="Widget.Design.BottomNavigationView">
         <item name="android:textSize">20sp</item>
     </style>
-    <style name="SelectableItemTheme">
-        <item name="colorControlHighlight">#005fbf</item>
-    </style>
-    <style name="SelectableItemBackGround">
-        <item name="android:theme">@style/SelectableItemTheme</item>
-        <item name="android:background">?attr/selectableItemBackground</item>
-    </style>
+<!--    <style name="SelectableItemTheme">-->
+<!--        <item name="colorControlHighlight">#005fbf</item>-->
+<!--    </style>-->
+<!--    <style name="SelectableItemBackGround">-->
+<!--        <item name="android:theme">@style/SelectableItemTheme</item>-->
+<!--        <item name="android:background">?attr/selectableItemBackground</item>-->
+<!--    </style>-->
+
+
 </resources>

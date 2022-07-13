@@ -91,7 +91,8 @@
         app:itemIconPadding="24dp"
         app:itemIconSize="32dp"
         app:itemIconTint="@color/white"
-        app:itemBackground="@drawable/view_line"
-        app:itemTextAppearance="@style/Widget.BottomNavigationView" />
+        app:itemBackground="@drawable/rectangle_menu_clicked_effect"
+        app:itemTextAppearance="@style/Widget.BottomNavigationView"
+        android:defaultFocusHighlightEnabled="false"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>
