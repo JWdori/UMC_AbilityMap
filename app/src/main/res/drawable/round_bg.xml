@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?><!-- 다이얼로그 배경 -->
+<shape xmlns:android="http://schemas.android.com/apk/res/android">
+    <solid android:color="#ffffff"></solid>
+    <stroke android:color="#eeeeee" android:width="2dp"></stroke>
+    <corners android:radius="10dp"/>
+</shape>
