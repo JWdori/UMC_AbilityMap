@@ -13,6 +13,7 @@ import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.InsetDrawable;
 import android.location.Address;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,6 +23,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
+import android.os.Handler;
 import android.telephony.SmsManager;
 import android.util.Log;
 import androidx.appcompat.app.AlertDialog;
@@ -66,7 +68,7 @@ import java.util.Locale;
 
 import ted.gun0912.clustering.naver.TedNaverClustering;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker, SetMarker_facility, SetMarker_wheel {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker_facility, SetMarker_wheel {
     private GpsTracker gpsTracker;
     private NaverMap naverMap;
     public static ArrayList<JsonApi_total.total_item> total_list = new ArrayList();
@@ -178,9 +180,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 });
         String lat = String.valueOf(NaverMap.DEFAULT_CAMERA_POSITION.target.latitude);
         String lon = String.valueOf(NaverMap.DEFAULT_CAMERA_POSITION.target.longitude);
-
-
-
 
 
         JsonApi_total total_api = new JsonApi_total();
@@ -668,70 +667,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 String cs_str = Double.toString(calSpeed);
 
 
-                //api 가져오는 부분
-
-//                Thread th = new Thread(String.valueOf(MainActivity.this));
-//                new Thread(() -> {
-//                    th.start(); // network 동작, 인터넷에서 xml을 받아오는 코드
-//                }).start();
-//
-//
-//
-//                try {
-//                    StringBuffer sb = new StringBuffer();
-//                    URL url = new URL("http://3.35.237.29/total");
-//
-//                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-//
-//                    // 저 경로의 source를 받아온다.
-//                    if (conn != null) {
-//                        conn.setConnectTimeout(5000);
-//                        conn.setUseCaches(false);
-//
-//                        if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-//                            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
-//                            while (true) {
-//                                String line = br.readLine();
-//                                if (line == null)
-//                                    break;
-//                                sb.append(line + "\n");
-//                            }
-//                            Log.d("myLog", sb.toString());
-//                            br.close();
-//                        }
-//                        conn.disconnect();
-//                    }
-//
-//                    // 받아온 source를 JSONObject로 변환한다.
-//                    JSONObject jsonObj = new JSONObject(sb.toString());
-//                    JSONArray jArray = (JSONArray) jsonObj.get("result");
-//
-//                    // 0번째 JSONObject를 받아옴
-//                    JSONObject row = jArray.getJSONObject(0);
-//                    DTO dto = new DTO();
-//                    dto.setName(row.getString("name"));
-//                    dto.setTel(row.getString("tel"));
-//                    items.add(dto);
-//
-//                    Log.d("받아온값1 : ", row.getString("name"));
-//                    Log.d("받아온값2 : ", row.getString("tel"));
-//
-//                    // 1번째 JSONObject를 받아옴
-//                    JSONObject row2 = jArray.getJSONObject(1);
-//                    DTO dto2 = new DTO();
-//                    dto2.setName(row2.getString("name"));
-//                    dto2.setTel(row2.getString("tel"));
-//                    items.add(dto2);
-//
-//                    Log.d("받아온값3 : ", row2.getString("name"));
-//                    Log.d("받아온값4 : ", row2.getString("tel"));
-//
-//                }catch (Exception e){
-//                    e.printStackTrace();
-//
-//                }
-
-//                Toast.makeText(getApplicationContext(), ""+items+"ek", Toast.LENGTH_SHORT).show();
 
             }
 
@@ -800,13 +735,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     if(first_touch==false){
                         Toast.makeText(getApplicationContext(), "최초 실행", Toast.LENGTH_LONG).show();
                         //앱 최초 실행시 하고 싶은 작업
+
+
+
                         View dialogView = getLayoutInflater().inflate(R.layout.first_popup, null);
                         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-                        getWindow().setBackgroundDrawable(new ColorDrawable(Color.rgb(0,95,191)));
                         builder.setView(dialogView);
                         final AlertDialog alertDialog = builder.create();
+
+                        ColorDrawable back = new ColorDrawable(Color.TRANSPARENT);
+                        InsetDrawable inset = new InsetDrawable(back, 24);
+                        alertDialog.getWindow().setBackgroundDrawable(inset);
                         alertDialog.setCanceledOnTouchOutside(false);//없어지지 않도록 설정
                         alertDialog.show();
+
 
                         SharedPreferences.Editor editor = pref.edit();
                         editor.putBoolean("isFirst",true);
@@ -991,8 +933,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             });
             if (marker.getInfoWindow() == null) {
                 // 현재 마커에 정보 창이 열려있지 않을 경우 엶
-                System.out.println(marker+"하....");
                 infoWindow.open(marker);
+                Handler handler = new Handler();
+                if(marker.getInfoWindow() != null){
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            infoWindow.close();
+                        }
+                    },3000);	//3초 동안 딜레이
+                }
             } else {
                 // 이미 현재 마커에 정보 창이 열려있을 경우 닫음
                 infoWindow.close();
