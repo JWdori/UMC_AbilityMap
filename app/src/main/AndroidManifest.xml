@@ -35,23 +35,29 @@
         </activity>
 
         <activity
-            android:name=".NotificationActivity"
+            android:name=".NotificationActivity" android:theme="@style/activityTheme"
             android:exported="true">
         </activity>
 
         <activity
-            android:name=".EmergencyCallActivity"
-            android:exported="true">
-        </activity>
-
-        <activity
-            android:name=".Camera2Activity"
+            android:name=".FilterActivity" android:theme="@style/activityTheme"
             android:exported="true">
         </activity>
 
 
         <activity
-            android:name=".AddPhoneBookActivity"
+            android:name=".EmergencyCallActivity" android:theme="@style/activityTheme"
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name=".Camera2Activity" android:theme="@style/activityTheme"
+            android:exported="true">
+        </activity>
+
+
+        <activity
+            android:name=".AddPhoneBookActivity" android:theme="@style/activityTheme"
             android:exported="true">
         </activity>
 
