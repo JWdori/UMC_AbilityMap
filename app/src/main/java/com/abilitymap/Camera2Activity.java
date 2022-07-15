@@ -5,6 +5,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.ImageFormat;
 import android.graphics.Matrix;
@@ -76,7 +77,7 @@ public class Camera2Activity extends AppCompatActivity {
     private static final int REQUEST_STORAGE_READ_PERMISSION = 2;
     private static final int REQUEST_STORAGE_WRITE_PERMISSION = 3;
 
-
+    protected static String picSaved;
 
 
     private static final String[] CAMERA_PERMISSIONS = {
@@ -136,6 +137,8 @@ public class Camera2Activity extends AppCompatActivity {
         mTextureView = (TextureView)findViewById(R.id.camera2);
         View camera_btn = findViewById(R.id.capture_btn2);
         View camera_cancel_btn = findViewById(R.id.camera_cancel_btn);
+        picSaved = "false";
+        System.out.println(mBackgroundThread);
         camera_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -416,9 +419,11 @@ public class Camera2Activity extends AppCompatActivity {
     }
 
     private void startBackgroundThread() {
+        System.out.println(123);
         mBackgroundThread = new HandlerThread("CameraBackground");
         mBackgroundThread.start();
         mBackgroundHandler = new Handler(mBackgroundThread.getLooper());
+        System.out.println(mBackgroundThread);
     }
 
     private void stopBackgroundThread() {
@@ -525,6 +530,7 @@ public class Camera2Activity extends AppCompatActivity {
                         byte[] bytes = new byte[buffer.capacity()];
                         buffer.get(bytes);
                         save(bytes);
+                        picSaved = "true";
                         Log.d("saving pic","1_done");
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
@@ -542,7 +548,15 @@ public class Camera2Activity extends AppCompatActivity {
                     try {
                         output = new FileOutputStream(file);
                         output.write(bytes);
-                        onPause();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                onPause();
+                                System.out.println(456);
+                            }
+                        });
+//                        onPause();
+
                         Log.d("saving pic","2_done");
                     }finally {
                         if(null != output) {
