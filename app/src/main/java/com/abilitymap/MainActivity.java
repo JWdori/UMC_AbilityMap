@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
@@ -39,6 +40,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.abilitymap.databinding.ActivityFilterBinding;
 import com.abilitymap.databinding.ActivityMainBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
@@ -85,7 +87,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private Location mLastlocation = null;
     private double speed, calSpeed, getSpeed;
     private LocationButtonView locationButtonView2;
-    public static boolean startFlagForCoronaApi;
+
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 1;
     private ArrayList<Marker> TotalmarkerList = new ArrayList();
@@ -114,8 +116,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private final long finishtimeed = 1000;
     private long presstime = 0;
     private boolean isDrawerOpen = false;
-    ArrayList<NaverItem> cluster_item = new ArrayList<>();
-    ArrayList<NaverItem> cluster_item2 = new ArrayList<>();
+    private boolean isFilter = false;
     TedNaverClustering tedNaverClustering;
     TedNaverClustering tedNaverClustering2;
 
@@ -149,6 +150,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState){ //화면 생성과 함께 현재 위치 받아옴.
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -351,9 +353,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        Log.d("clickable?", String.valueOf(clickable));
 
 
-        if (isDrawerOpen){
+        if (isDrawerOpen) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
             isDrawerOpen = false;
+        }
+        else if(isFilter) {
+            isFilter = false;
         }else{
 
             if (clickable) {
@@ -521,23 +526,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-
-
-    private ArrayList<NaverItem> getItems() {
-        LatLngBounds bounds = naverMap.getContentBounds();
-//        cluster_item.add(new NaverItem(37.5246467590332, 126.92683410644531));
-        return cluster_item;
-    }
-
-
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
         CameraUpdate cameraUpdate = CameraUpdate.scrollTo(currentPosition).animate(CameraAnimation.Fly,0);
         naverMap.moveCamera(cameraUpdate);
         this.naverMap = naverMap;
-//        LatLng initialPosition = new LatLng(mLastlocation);
-//        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(initialPosition);
-//        naverMap.moveCamera(cameraUpdate);
+
+        setMarker_hos(); //병원이랑 시설
+        drawMarker_bike();
+        setMarker_Charge();   //충전기
         naverMap.setMaxZoom(19.0);
         naverMap.setMinZoom(5.0);
         UiSettings uiSettings = naverMap.getUiSettings();
@@ -545,50 +542,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         uiSettings.setScaleBarEnabled(false);
         uiSettings.setZoomControlEnabled(true); //줌인 줌아웃
         uiSettings.setLocationButtonEnabled(true);
-//        locationButtonView2 = findViewById(R.id.navermap_location_button);
-//        locationButtonView2.setMap(naverMap);
-
-
-        setMarker_hos(); //병원이랑 시설
-        drawMarker_bike();
-        setMarker_Charge();   //충전기
-
-        //클러스터링
-//        tedNaverClustering =
-//        TedNaverClustering.with(this, naverMap)
-//                .customMarker(tedClusterItem ->{
-//                    Marker marker = new Marker();
-//                    LatLng latLng = new LatLng(tedClusterItem.getTedLatLng().getLatitude(),
-//                            tedClusterItem.getTedLatLng().getLongitude());
-//                    marker.setWidth(80);
-//                    marker.setHeight(80);
-//                    marker.setPosition(latLng);
-//                    marker.setIcon(OverlayImage.fromResource(R.drawable.danger_location_yellow));
-//
-//                    return marker;
-//
-//                }).minClusterSize(50)
-//                .make();
-//
-//        tedNaverClustering2 = TedNaverClustering.with(this, naverMap)
-//                .customMarker(tedClusterItem ->{
-//                    Marker marker = new Marker();
-//                    LatLng latLng = new LatLng(tedClusterItem.getTedLatLng().getLatitude(),
-//                            tedClusterItem.getTedLatLng().getLongitude());
-//                    marker.setWidth(80);
-//                    marker.setHeight(80);
-//                    marker.setPosition(latLng);
-//                    marker.setIcon(OverlayImage.fromResource(R.drawable.facility_icon));
-//
-//                    return marker;
-//
-//                }).minClusterSize(50).clusterBackground(clusterItem -> {
-//                        return 0x9F1B9C12;
-//                }).make();
-//
-//        tedNaverClustering.addItems(cluster_item);
-//        tedNaverClustering2.addItems(cluster_item2);
-
 
 
 
@@ -757,14 +710,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     if(first_touch==false){
                         Toast.makeText(getApplicationContext(), "최초 실행", Toast.LENGTH_LONG).show();
                         //앱 최초 실행시 하고 싶은 작업
-
-
-
                         View dialogView = getLayoutInflater().inflate(R.layout.first_popup, null);
                         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
                         builder.setView(dialogView);
                         final AlertDialog alertDialog = builder.create();
-
                         ColorDrawable back = new ColorDrawable(Color.TRANSPARENT);
                         InsetDrawable inset = new InsetDrawable(back, 24);
                         alertDialog.getWindow().setBackgroundDrawable(inset);
@@ -826,13 +775,27 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                setCamera(intent);
            }
        });
-       binding.layoutToolBar.ivMenu.setOnClickListener(new View.OnClickListener(){
-           @Override
-           public void onClick(View view) {            //menu 클릭 시 open drawer
-               binding.drawerLayout.openDrawer(GravityCompat.START);
-               isDrawerOpen = true;
-           }
-       });
+
+        binding.layoutToolBar.ivMenu.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {            //menu 클릭 시 open drawer
+                binding.drawerLayout.openDrawer(GravityCompat.START);
+                isDrawerOpen = true;
+            }
+        });
+
+        binding.layoutToolBar.ivFilter.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), FilterActivity.class);
+                startActivity(intent);
+                isFilter = true;
+            }
+        });
+
+
+
+
 
        View header = binding.navigationView.getHeaderView(0);
        ImageView image = header.findViewById(R.id.iv_close);
@@ -943,7 +906,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         InfoWindow infoWindow = new InfoWindow();
         Marker marker = new Marker();
         marker.setPosition(new LatLng(x,y));
-        marker.setMinZoom(11);//줌 설정
+        marker.setMinZoom(9);//줌 설정
         marker.setIcon(OverlayImage.fromResource(R.drawable.danger_location_yellow));
         marker.setWidth(80);
         marker.setHeight(80);

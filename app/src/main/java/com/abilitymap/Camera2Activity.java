@@ -168,7 +168,8 @@ public class Camera2Activity extends AppCompatActivity {
     public void onPause() {
         closeCamera();
         stopBackgroundThread();
-        //super.onPause();
+        super.onPause();
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
