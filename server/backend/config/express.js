@@ -20,6 +20,7 @@ module.exports = function () {
     // TODO: 도메인을 추가할 경우 이곳에 Route를 추가하세요.
     require('../src/app/Content/contentRoute')(app);
     // require('../src/app/Board/boardRoute')(app);
-
+    
+    require('../src/app/Report/reportRoute')(app);
     return app;
 };

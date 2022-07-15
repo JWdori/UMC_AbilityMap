@@ -2,7 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="65dp"
-    android:background="@drawable/rectangle"
+    android:background="@drawable/rectangle_clicked_effect_notification"
+    android:id="@+id/layout_item_notification"
+    android:clickable="true"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
@@ -27,5 +29,13 @@
         app:layout_constraintTop_toBottomOf="@id/tv_title"
         app:layout_constraintStart_toStartOf="@id/tv_title"/>
 
+    <View
+        android:id="@+id/view_notification"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#1e000000"
+        app:layout_constraintBottom_toBottomOf="@id/layout_item_notification"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

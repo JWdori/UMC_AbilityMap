@@ -23,7 +23,7 @@
             android:layout_marginLeft="10dp"/>
 
         <TextView
-            android:id="@+id/tv_not_notification"
+            android:id="@+id/tv_add_phone_book"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="입력하기"
@@ -121,6 +121,7 @@
             android:inputType="number"
             android:layout_marginLeft="16dp"
             android:ems="13"
+            android:maxLength="13"
             android:textCursorDrawable="@null"
             android:textColor="@color/black"
             android:background="@null"
@@ -147,7 +148,7 @@
             android:layout_height="60dp"
             android:textSize="24sp"
             android:textStyle="bold"
-            android:textColor="@color/white"
+            android:textColor="@drawable/save_button_text_color"
             android:text="저장"
             android:gravity="center"
             android:elevation="10dp"
@@ -155,8 +156,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
             android:layout_marginBottom="72dp"
-
-            android:background="@drawable/save_button"/>
+            android:background="@drawable/save_button_effect"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

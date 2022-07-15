@@ -31,20 +31,6 @@
 <!--            android:layout_marginBottom="4dp">-->
 <!--        </com.naver.maps.map.widget.LocationButtonView>-->
 
-        <ImageButton
-            android:id="@+id/repot_message"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/arrow_back"
-            android:visibility="visible"
-            android:background="#00ffffff"
-            android:layout_alignRight="@+id/map"
-            android:layout_above="@+id/repot_button"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="4dp"
-            />
-
-
 
         <ImageButton
             android:id="@+id/repot_button"
@@ -54,18 +40,18 @@
             android:visibility="visible"
             android:background="#00ffffff"
             android:layout_alignRight="@+id/map"
-            android:layout_above="@+id/call_button"
+            android:layout_above="@+id/message_button"
             android:layout_marginRight="16dp"
-            android:layout_marginBottom="4dp"
+            android:layout_marginBottom="8dp"
             />
 
         <ImageButton
-            android:id="@+id/call_button"
+            android:id="@+id/message_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/call_button"
+            android:src="@drawable/confirm_btn"
             android:visibility="visible"
-            android:background="#00ffffff"
+            android:background="@drawable/message"
             android:layout_alignRight="@+id/map"
             android:layout_alignBottom="@+id/map"
             android:layout_marginBottom="24dp"
@@ -81,14 +67,19 @@
         android:id="@+id/navigationView"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
+        android:theme="@style/NavigationItemNoRipple"
         app:headerLayout="@layout/fragment_navigation_header"
         app:menu="@menu/navigation_menu"
         android:layout_gravity="start"
         android:backgroundTint="#007fff"
+        app:itemShapeInsetStart="0dp"
+        app:itemHorizontalPadding="26dp"
         app:itemTextColor="@color/white"
+        app:itemIconPadding="20dp"
         app:itemIconSize="32dp"
         app:itemIconTint="@color/white"
-        app:itemBackground="@drawable/view_line"
-        app:itemTextAppearance="@style/Widget.BottomNavigationView" />
+        app:itemBackground="@drawable/rectangle_menu_clicked_effect"
+        app:itemTextAppearance="@style/Widget.BottomNavigationView"
+        android:defaultFocusHighlightEnabled="false"/>
 
 </androidx.drawerlayout.widget.DrawerLayout>

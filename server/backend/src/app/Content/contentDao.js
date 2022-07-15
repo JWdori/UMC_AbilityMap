@@ -11,6 +11,59 @@ async function getAllList(connection) {
   return getAllList;
 }
 
+// 자전거 사고다발 지역 데이터 베이스 비우기
+async function dropBike(connection) {
+  const dropBikeQuery = `
+                TRUNCATE TABLE bike;
+                `;
+  
+  const dropBike = await connection.query(dropBikeQuery);
+
+  return;
+}
+
+// 자전거 사고다발 지역 업데이트
+async function updateBike(connection, total_array) {
+  for (let i = 0; i<total_array.length; i++) {
+    let array = [];
+    array[0] = total_array[i].lat;;
+    array[1] = total_array[i].lon;
+    const updateBikeQuery = `
+                INSERT INTO bike (lat, lon)
+                VALUES (?, ?);
+                `;
+    const updateBike = await connection.query(updateBikeQuery, array);
+  };
+  
+  return;
+}
+
+// 공공데이터 자전거 사고다발 지역 받아오기
+async function getBikeData(connection) {
+  const getBikeDataQuery = `
+                SELECT *
+                FROM bike;
+                `;
+  const [getBikeData] = await connection.query(getBikeDataQuery);
+
+  return getBikeData;
+}
+
+// 휠체어 충전기 위치 받아오기
+async function getChargerLocation(connection) {
+  const getChargerLocationQuery = `
+                SELECT *
+                FROM charger;
+                `;
+  const [getChargerLocation] = await connection.query(getChargerLocationQuery);
+
+  return getChargerLocation;
+}
+
 module.exports = {
-  getAllList
+  getAllList,
+  updateBike,
+  dropBike,
+  getBikeData,
+  getChargerLocation
 };

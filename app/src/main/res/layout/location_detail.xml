@@ -62,7 +62,7 @@
                 android:id="@+id/location_icon_imageView"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/facility_icon"
+                android:src="@drawable/facility_office"
                 />
 
             <TextView
