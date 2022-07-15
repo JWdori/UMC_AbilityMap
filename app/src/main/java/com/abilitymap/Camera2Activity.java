@@ -166,6 +166,7 @@ public class Camera2Activity extends AppCompatActivity {
         closeCamera();
         stopBackgroundThread();
         super.onPause();
+
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
