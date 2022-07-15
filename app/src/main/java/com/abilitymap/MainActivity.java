@@ -1,4 +1,7 @@
 package com.abilitymap;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -77,6 +80,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static ArrayList<JsonApi_charge.charge_item> charge_list = new ArrayList();
     private FusedLocationSource locationSource;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
+    private static final int CAMERA_PICTURE_SAVED_CODE = 3001;
     private FusedLocationProviderClient fusedLocationClient;
     private Location mLastlocation = null;
     private double speed, calSpeed, getSpeed;
@@ -101,6 +105,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Manifest.permission.SEND_SMS,
     };
     private ActivityMainBinding binding;
+
+    ActivityResultLauncher<Intent> activityResultLauncher;
 
     List<LatLng> latLngList = new ArrayList<>();
     private boolean clickable = true;
@@ -151,6 +157,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initClickListener();
+        initLauncher();
         FragmentManager fm = getSupportFragmentManager();
         MapFragment mapFragment = (MapFragment)fm.findFragmentById(R.id.map);
 
@@ -502,7 +509,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         return;
                     }
                 }
-
                 break;
         }
     }
@@ -676,13 +682,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void initLauncher(){
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if(result.getResultCode() == 3000){
+                Intent cameraIntent = result.getData();
+                String cameraFlag = cameraIntent.getStringExtra(Camera2Activity.picSaved);
+                //Toast.makeText(MainActivity.this,cameraFlag, Toast.LENGTH_SHORT).show();
+                Log.d("lancher","launch ok");
+            }
+
+        });
+    }
 
 
-    private void setCamera(Intent intent){
+    private void setCamera(Intent cameraIntent){
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            intent = new Intent(getApplicationContext(), Camera2Activity.class);
+            cameraIntent = new Intent(getApplicationContext(), Camera2Activity.class);
+            //activityResultLauncher.launch(cameraIntent);
         }
-        startActivity(intent);
+
+        //activityResultLauncher.launch(cameraIntent);
+        startActivity(cameraIntent);
     }
 
     //메시지 보내기 함수
@@ -798,7 +819,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                //버튼 init버튼인가 밑에 함수에서 설정하면 됩니다^^
 //zzzzz
 
-               Toast.makeText(MainActivity.this, "clicked", Toast.LENGTH_SHORT).show();
                Log.d("camera","Reportbutton clicked");
 
                Intent intent = null;
