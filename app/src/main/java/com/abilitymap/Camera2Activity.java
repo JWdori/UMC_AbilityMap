@@ -339,8 +339,7 @@ public class Camera2Activity extends AppCompatActivity {
                             new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
-                                    finish();
-
+                                    onPause();
                                 }
                             })
                     .create();
@@ -548,14 +547,20 @@ public class Camera2Activity extends AppCompatActivity {
                     try {
                         output = new FileOutputStream(file);
                         output.write(bytes);
+
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
                                 onPause();
-                                System.out.println(456);
+                                Intent intent = new Intent(getApplicationContext(), Report_detail.class);
+                                startActivity(intent);
+                                finish();
                             }
                         });
-//                        onPause();
+
+
+
+
 
                         Log.d("saving pic","2_done");
                     }finally {
