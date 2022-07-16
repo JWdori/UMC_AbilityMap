@@ -73,6 +73,7 @@ public class JsonApi_charge extends AsyncTask<String, String, String> {
                         item.getString("lat"),
                         item.getString("lon"),
                         item.getString("idx")
+
                 );
 
                 MainActivity.charge_list.add(charge_item);
@@ -105,6 +106,7 @@ public class JsonApi_charge extends AsyncTask<String, String, String> {
             this.lat = lat;
             this.lng = lng;
             this.idx = idx;
+
 
         }
 
