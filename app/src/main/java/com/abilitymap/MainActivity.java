@@ -1,15 +1,23 @@
 package com.abilitymap;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContract;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 
+import android.app.Activity;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.InsetDrawable;
 import android.location.Address;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -19,6 +27,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
 import android.os.Build;
+import android.os.Handler;
 import android.telephony.SmsManager;
 import android.util.Log;
 import androidx.appcompat.app.AlertDialog;
@@ -26,17 +35,18 @@ import androidx.appcompat.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.abilitymap.databinding.ActivityFilterBinding;
 import com.abilitymap.databinding.ActivityMainBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
+import com.naver.maps.geometry.LatLngBounds;
 import com.naver.maps.map.CameraAnimation;
 import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapFragment;
@@ -50,6 +60,7 @@ import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.UiSettings;
 import com.naver.maps.map.overlay.CircleOverlay;
+import com.naver.maps.map.overlay.InfoWindow;
 import com.naver.maps.map.overlay.Marker;
 import com.naver.maps.map.overlay.Overlay;
 import com.naver.maps.map.overlay.OverlayImage;
@@ -61,17 +72,22 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker, SetMarker_Hos {
+
+
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker_facility, SetMarker_wheel {
     private GpsTracker gpsTracker;
     private NaverMap naverMap;
-    public static ArrayList<JsonApi.total_item> total_list = new ArrayList();
+    public static ArrayList<JsonApi_total.total_item> total_list = new ArrayList();
+    public static ArrayList<JsonApi_bike.bike_item> bike_list = new ArrayList();
+    public static ArrayList<JsonApi_charge.charge_item> charge_list = new ArrayList();
     private FusedLocationSource locationSource;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
+    private static final int CAMERA_PICTURE_SAVED_CODE = 3001;
     private FusedLocationProviderClient fusedLocationClient;
     private Location mLastlocation = null;
     private double speed, calSpeed, getSpeed;
     private LocationButtonView locationButtonView2;
-    public static boolean startFlagForCoronaApi;
+
     private static final int PERMISSIONS_REQUEST_CODE = 100;
     private static final int MY_PERMISSIONS_REQUEST_SEND_SMS = 1;
     private ArrayList<Marker> TotalmarkerList = new ArrayList();
@@ -86,15 +102,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
-    private int i;
     private static final String[] REQUIRED_PERMISSIONS2 = {
             "123",
             Manifest.permission.SEND_SMS,
     };
     private ActivityMainBinding binding;
 
+    ActivityResultLauncher<Intent> activityResultLauncher;
+
     List<LatLng> latLngList = new ArrayList<>();
     private boolean clickable = true;
+    private boolean clickable2 = true;
+    private final long finishtimeed = 1000;
+    private long presstime = 0;
+    private boolean isDrawerOpen = false;
+    private boolean isFilter = false;
+
 
 //    List<Double> latitudeList = new ArrayList<Double>();
 //    List<Double> longitudeList = new ArrayList<Double>();
@@ -126,14 +149,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState){ //화면 생성과 함께 현재 위치 받아옴.
+
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        ImageButton Report_message = (ImageButton) findViewById(R.id.repot_message);
-
+        ImageButton Report_message = (ImageButton) findViewById(R.id.message_button);
+        System.out.println("oncreat");
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initClickListener();
+        initLauncher();
         FragmentManager fm = getSupportFragmentManager();
         MapFragment mapFragment = (MapFragment)fm.findFragmentById(R.id.map);
 
@@ -166,11 +191,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String lon = String.valueOf(NaverMap.DEFAULT_CAMERA_POSITION.target.longitude);
 
 
-
-
-
-        JsonApi coronaApi = new JsonApi();
-        coronaApi.execute(lat,lon,"");
+        JsonApi_total total_api = new JsonApi_total();
+        JsonApi_bike bike_api  = new JsonApi_bike();
+        JsonApi_charge charge_api  = new JsonApi_charge();
+        total_api.execute(lat,lon,"");
+        bike_api.execute(lat,lon,"");
+        charge_api.execute(lat,lon,"");
 
 //        new Thread(() -> {
 //            setUpMap(); // network 동작, 인터넷에서 xml을 받아오는 코드
@@ -240,10 +266,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public boolean onClick(@NonNull Overlay overlay) {
-        ImageButton Call_button = (ImageButton)findViewById(R.id.call_button);
+        ImageButton repot_message = (ImageButton)findViewById(R.id.message_button);
         ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
-        ImageButton Report_message = (ImageButton)findViewById(R.id.repot_message);
-        Report_button.setOnClickListener(new View.OnClickListener() {
+
+        /*Report_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //현 위치 location 받아와서 서버로 넘겨줘야함
@@ -269,22 +295,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Log.d("camera","clicked");
                 setCamera(intent);
             }
-        });
+        });*/
         if(overlay instanceof Marker && clickable){
 //            Toast.makeText(this.getApplicationContext(),"위험지역입니다",Toast.LENGTH_LONG).show();
-
             LocationDetailFragment infoFragment = new LocationDetailFragment();
             getSupportFragmentManager().beginTransaction().add(R.id.map, infoFragment).addToBackStack(null).commit();
             clickable = false;
-            Call_button.setVisibility(View.INVISIBLE);
+            repot_message.setVisibility(View.INVISIBLE);
             Report_button.setVisibility(View.INVISIBLE);
-            Report_message.setVisibility(View.INVISIBLE);
 
             Log.d("clickable?", String.valueOf(clickable));
 
             LatLng selectedPosition = ((Marker) overlay).getPosition();
-            CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition,16).animate(CameraAnimation.Easing);
+            CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition,16).pivot(new PointF(0.5f,0.37f)).animate(CameraAnimation.Easing);
             naverMap.moveCamera(cameraUpdate);
+
+
 
             naverMap.setOnMapClickListener(new NaverMap.OnMapClickListener() {
                 @Override
@@ -292,33 +318,77 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
                     getSupportFragmentManager().popBackStack();
                     clickable = true;
-                    Call_button.setVisibility(View.VISIBLE);
+
+                    repot_message.setVisibility(View.VISIBLE);
                     Report_button.setVisibility(View.VISIBLE);
-                    Report_message.setVisibility(View.VISIBLE);
                     Log.d("clickable?", String.valueOf(clickable));
                     Log.d("click event","onMapClick");
+
+
                 }
+
+
+
+
             });
 
             return true;
         }
-
         return false;
 
     }
 
     @Override
     public void onBackPressed(){
-        ImageButton Call_button = (ImageButton)findViewById(R.id.call_button);
-        ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
-        ImageButton Report_message = (ImageButton)findViewById(R.id.repot_message);
-        clickable = true;
-        super.onBackPressed();
-        Call_button.setVisibility(View.VISIBLE);
-        Report_button.setVisibility(View.VISIBLE);
-        Report_message.setVisibility(View.VISIBLE);
-        Log.d("clickable?", "backKeyPressed");
-        Log.d("clickable?", String.valueOf(clickable));
+//        ImageButton Call_button = (ImageButton)findViewById(R.id.call_button);
+//        ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
+//        ImageButton Report_message = (ImageButton)findViewById(R.id.repot_message);
+//        clickable = true;
+//        super.onBackPressed();
+//        Call_button.setVisibility(View.VISIBLE);
+//        Report_button.setVisibility(View.VISIBLE);
+//        Report_message.setVisibility(View.VISIBLE);
+//        Log.d("clickable?", "backKeyPressed");
+//        Log.d("clickable?", String.valueOf(clickable));
+
+
+        if (isDrawerOpen) {
+            binding.drawerLayout.closeDrawer(GravityCompat.START);
+            isDrawerOpen = false;
+        }
+        else if(isFilter) {
+            isFilter = false;
+        }else{
+
+            if (clickable) {
+
+                long tempTime = System.currentTimeMillis();
+                long intervalTime = tempTime - presstime;
+
+                if (0 <= intervalTime && finishtimeed >= intervalTime)
+                {
+                    finish();
+                }
+                else
+                {
+                    presstime = tempTime;
+                    Toast.makeText(getApplicationContext(), "한번더 누르시면 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
+                }
+
+            }else {
+                super.onBackPressed();
+                ImageButton message_button = (ImageButton) findViewById(R.id.message_button);
+                ImageButton Report_button = (ImageButton) findViewById(R.id.repot_button);
+                message_button.setVisibility(View.VISIBLE);
+                Report_button.setVisibility(View.VISIBLE);
+                clickable = true;
+
+
+            }
+
+
+
+        }
     }
 
 
@@ -443,7 +513,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         return;
                     }
                 }
-
                 break;
         }
     }
@@ -456,126 +525,46 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-    private void UpdateCircle(double x, double y){
-        CircleOverlay circle = new CircleOverlay();
-        circle.setCenter(new LatLng(x, y));
-        circle.setRadius(30);
-        circle.setColor(Color.parseColor("#30FF7B00"));
-        circle.setOutlineColor(Color.parseColor("#30FF7B00"));
-        circle.setMap(naverMap);
-        circle.setMinZoom(15);
-
-        Marker marker = new Marker();
-        marker.setPosition(new LatLng(x,y));
-        marker.setIcon(OverlayImage.fromResource(R.drawable.invalid_name));
-        marker.setMinZoom(8);
-        marker.setMaxZoom(15);
-        marker.setWidth(80);
-        marker.setHeight(80);
-        marker.setMap(naverMap);
-
-        Marker marker2 = new Marker();
-        marker2.setPosition(new LatLng(x,y));
-        marker2.setIcon(OverlayImage.fromResource(R.drawable.invalid_name));
-        marker2.setMinZoom(16);
-        marker.setMaxZoom(15);
-        marker2.setWidth(80);
-        marker2.setHeight(80);
-        marker2.setMap(naverMap);
-
-
-    }
-
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
-
         CameraUpdate cameraUpdate = CameraUpdate.scrollTo(currentPosition).animate(CameraAnimation.Fly,0);
         naverMap.moveCamera(cameraUpdate);
         this.naverMap = naverMap;
+        System.out.println("onMapReady");
+        SharedPreferences save = getSharedPreferences("total",Activity.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = save.edit();
+//        editor.putBoolean("total",true);
+//        editor.commit();
 
-//        LatLng initialPosition = new LatLng(mLastlocation);
-//        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(initialPosition);
-//        naverMap.moveCamera(cameraUpdate);
-        naverMap.setMaxZoom(18.0);
-        naverMap.setMinZoom(8.0);
+
+
+            if ((save==null) || (save.getBoolean("total",true))){
+                setMarker_hos(); //병원이랑 시설
+                drawMarker_bike();
+                setMarker_Charge();
+                System.out.println("new");
+            }
+
+
+        System.out.println(save+"123");
+        //충전기
+        naverMap.setMaxZoom(19.0);
+        naverMap.setMinZoom(5.0);
         UiSettings uiSettings = naverMap.getUiSettings();
         uiSettings.setCompassEnabled(false);
         uiSettings.setScaleBarEnabled(false);
         uiSettings.setZoomControlEnabled(true); //줌인 줌아웃
         uiSettings.setLocationButtonEnabled(true);
-//        locationButtonView2 = findViewById(R.id.navermap_location_button);
-//        locationButtonView2.setMap(naverMap);
 
 
-        drawMarker(); // network 동작, 인터넷에서 xml을 받아오는 코드
+
         naverMap.setLocationSource(locationSource);
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
 
 
         final TextView location_text = (TextView)findViewById(R.id.location_text);
 
-        latLngList.add(new LatLng(37.300909685747236,126.84036999665139 )); //주민센터
-        latLngList.add(new LatLng(37.30092006963348,126.84651707027692  )); //상록구청
-        latLngList.add(new LatLng(37.30080820319068,126.84365805640256  )); //119
-        latLngList.add(new LatLng(37.30030995420335,126.8450464027002  )); //상록보건소
-        latLngList.add(new LatLng(37.299298647544646,126.84512742919043   )); //상록경찰서
-        latLngList.add(new LatLng(37.30578504908008,126.84432454144101    )); //지역아동센터
 
-
-        latLngList.add(new LatLng(37.29964234222025,126.84612490571303   )); //장애인
-        latLngList.add(new LatLng(37.299632110432704,126.8469200877772   )); //장애인
-        latLngList.add(new LatLng(37.29891910144883,126.84600231252934    )); //장애인
-        latLngList.add(new LatLng(37.298322034553244,126.84590202160551     )); //장애인
-        latLngList.add(new LatLng(37.30157589850863,126.8450381659243      )); //장애인
-
-        latLngList.add(new LatLng(37.30012291575613,126.83825685541521     )); //약국
-        latLngList.add(new LatLng(37.30078496095471,126.843116709908      )); //약국
-
-        latLngList.add(new LatLng(37.298925701379005,126.84588105222103       )); //급속충전기
-
-        latLngList.add(new LatLng(37.298495139953886,126.83723115856097        )); //경사로
-        latLngList.add(new LatLng(37.30175911322991,126.84389859082773        )); //경사로
-        latLngList.add(new LatLng(37.30021510929659,126.8448661337656        )); //경사로
-        latLngList.add(new LatLng(37.29970314731508,126.8461135029482        )); //경사로
-        latLngList.add(new LatLng(37.30160083561462,126.84515936590596        )); //경사로
-
-        latLngList.add(new LatLng(37.497836016079916,126.95270728649908 )); // 상히 테스트용
-
-
-        setMarker(0,latLngList,"slope",naverMap);
-        setMarker(1,latLngList,"slope",naverMap);
-        setMarker(2,latLngList,"slope",naverMap);
-        setMarker(3,latLngList,"slope",naverMap);
-        setMarker(4,latLngList,"slope",naverMap);
-        setMarker(5,latLngList,"slope",naverMap);
-
-        setMarker(6,latLngList,"slope",naverMap);
-        setMarker(7,latLngList,"slope",naverMap);
-        setMarker(8,latLngList,"slope",naverMap);
-        setMarker(9,latLngList,"slope",naverMap);
-        setMarker(10,latLngList,"slope",naverMap);
-
-        setMarker(11,latLngList,"slope",naverMap);
-        setMarker(12,latLngList,"slope",naverMap);
-
-        setMarker(13,latLngList,"charger",naverMap);
-
-        setMarker(14,latLngList,"wheelchair",naverMap);
-        setMarker(15,latLngList,"wheelchair",naverMap);
-        setMarker(16,latLngList,"wheelchair",naverMap);
-        setMarker(17,latLngList,"wheelchair",naverMap);
-        setMarker(18,latLngList,"wheelchair",naverMap);
-
-        setMarker(19,latLngList,"danger",naverMap);
-
-
-        //사고 다발 지역
-        UpdateCircle(37.30155838266366,126.84715868584975 );
-        UpdateCircle(37.30731010483543,126.83602493657628 );
-        UpdateCircle(37.30314238314502,126.8389891901272  );
-        UpdateCircle(37.29787636235218,126.84966999005518);
-        UpdateCircle(37.305613496417976,126.84751143174793 );
-        UpdateCircle(37.30854279577155,126.841369080322  );
 
         /*
         Marker marker = new Marker();
@@ -651,70 +640,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 String cs_str = Double.toString(calSpeed);
 
 
-                //api 가져오는 부분
-
-//                Thread th = new Thread(String.valueOf(MainActivity.this));
-//                new Thread(() -> {
-//                    th.start(); // network 동작, 인터넷에서 xml을 받아오는 코드
-//                }).start();
-//
-//
-//
-//                try {
-//                    StringBuffer sb = new StringBuffer();
-//                    URL url = new URL("http://3.35.237.29/total");
-//
-//                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-//
-//                    // 저 경로의 source를 받아온다.
-//                    if (conn != null) {
-//                        conn.setConnectTimeout(5000);
-//                        conn.setUseCaches(false);
-//
-//                        if (conn.getResponseCode() == HttpURLConnection.HTTP_OK) {
-//                            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), "utf-8"));
-//                            while (true) {
-//                                String line = br.readLine();
-//                                if (line == null)
-//                                    break;
-//                                sb.append(line + "\n");
-//                            }
-//                            Log.d("myLog", sb.toString());
-//                            br.close();
-//                        }
-//                        conn.disconnect();
-//                    }
-//
-//                    // 받아온 source를 JSONObject로 변환한다.
-//                    JSONObject jsonObj = new JSONObject(sb.toString());
-//                    JSONArray jArray = (JSONArray) jsonObj.get("result");
-//
-//                    // 0번째 JSONObject를 받아옴
-//                    JSONObject row = jArray.getJSONObject(0);
-//                    DTO dto = new DTO();
-//                    dto.setName(row.getString("name"));
-//                    dto.setTel(row.getString("tel"));
-//                    items.add(dto);
-//
-//                    Log.d("받아온값1 : ", row.getString("name"));
-//                    Log.d("받아온값2 : ", row.getString("tel"));
-//
-//                    // 1번째 JSONObject를 받아옴
-//                    JSONObject row2 = jArray.getJSONObject(1);
-//                    DTO dto2 = new DTO();
-//                    dto2.setName(row2.getString("name"));
-//                    dto2.setTel(row2.getString("tel"));
-//                    items.add(dto2);
-//
-//                    Log.d("받아온값3 : ", row2.getString("name"));
-//                    Log.d("받아온값4 : ", row2.getString("tel"));
-//
-//                }catch (Exception e){
-//                    e.printStackTrace();
-//
-//                }
-
-//                Toast.makeText(getApplicationContext(), ""+items+"ek", Toast.LENGTH_SHORT).show();
 
             }
 
@@ -723,19 +648,34 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
+    private void initLauncher(){
+        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
+            if(result.getResultCode() == 3000){
+                Intent cameraIntent = result.getData();
+                String cameraFlag = cameraIntent.getStringExtra(Camera2Activity.picSaved);
+                //Toast.makeText(MainActivity.this,cameraFlag, Toast.LENGTH_SHORT).show();
+                Log.d("lancher","launch ok");
+            }
+
+        });
+    }
 
 
-    private void setCamera(Intent intent){
+    private void setCamera(Intent cameraIntent){
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            intent = new Intent(getApplicationContext(), Camera2Activity.class);
+            cameraIntent = new Intent(getApplicationContext(), Camera2Activity.class);
+            //activityResultLauncher.launch(cameraIntent);
         }
-        startActivity(intent);
+
+        //activityResultLauncher.launch(cameraIntent);
+        startActivity(cameraIntent);
     }
 
     //메시지 보내기 함수
     private void sendSms(){
         SmsManager manager = SmsManager.getDefault();
-        manager.sendTextMessage("22222222", null, "msg", null, null);
+        manager.sendTextMessage("01031142949", null, "꼭 치킨 사줄게요", null, null);
     }
 
 
@@ -750,102 +690,184 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void initClickListener() {
+
         //긴급신고 메세지지
-       ImageButton Report_message = findViewById(R.id.repot_message);
-        Report_message.setOnClickListener(new View.OnClickListener() {
+       ImageButton Report_message = findViewById(R.id.message_button);
+       Report_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //로컬에 기록하기. 그걸 가지고 1,2,3번 시도 구분
+                SharedPreferences pref2 = getSharedPreferences("Permission_touch", Activity.MODE_PRIVATE);
+                boolean Permission_touch = pref2.getBoolean("Permission_touch", false);
                 //입력한 값을 가져와 변수에 담는다
                 if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
                     if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, REQUIRED_PERMISSIONS2[1])) {
-                        //팝업 이어갈 예정
-  //2번 퍼미션
+                        //2번 퍼미션 시도
+                        SharedPreferences.Editor editor = pref2.edit();
+                        editor.putBoolean("Permission_touch",true);
+                        editor.commit();
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
-
                     }else {
-                        System.out.println(i+"321");
-                        if( i==1 ){
+                        if( Permission_touch==true ){
+                            //3번째부터
                             Toast.makeText(getApplicationContext(), "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ", Toast.LENGTH_LONG).show();
                         }else{
-                            i = 1;//1번 퍼미션
+                            //1번째 퍼미션 시도
                         }
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
                     }//팝업 이어갈 예정
                 }else{
-                    sendSms();
-                    Toast.makeText(getApplicationContext(), "아싸 성공", Toast.LENGTH_LONG).show();
+                    //퍼미션 허용받으면 이쪽입니다~~~
+                    SharedPreferences pref = getSharedPreferences("isFirst", Activity.MODE_PRIVATE);
+                    boolean first_touch = pref.getBoolean("isFirst", false);
+                    if(first_touch==false){
+                        Toast.makeText(getApplicationContext(), "최초 실행", Toast.LENGTH_LONG).show();
+                        //앱 최초 실행시 하고 싶은 작업
+                        View dialogView = getLayoutInflater().inflate(R.layout.first_popup, null);
+                        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                        builder.setView(dialogView);
+                        final AlertDialog alertDialog = builder.create();
+                        ColorDrawable back = new ColorDrawable(Color.TRANSPARENT);
+                        InsetDrawable inset = new InsetDrawable(back, 24);
+                        alertDialog.getWindow().setBackgroundDrawable(inset);
+                        alertDialog.setCanceledOnTouchOutside(false);//없어지지 않도록 설정
+                        alertDialog.show();
+
+                        TextView noButton = alertDialog.findViewById(R.id.first_no_button);
+                        noButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                alertDialog.dismiss();
+                            }
+                        });
+                        TextView yesButton = alertDialog.findViewById(R.id.first_yes_button);
+                        yesButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                SharedPreferences.Editor editor = pref.edit();
+                                editor.putBoolean("isFirst",true);
+                                editor.commit();
+                                alertDialog.dismiss();
+                                finish();
+                            }
+                        });
+                        alertDialog.show();
+                    }else{
+                        Toast.makeText(getApplicationContext(), "두번째 실행", Toast.LENGTH_LONG).show();
+                        sendSms();
+                    }
                 }
 
             }
         });
 
+       ImageButton Report_button = findViewById(R.id.repot_button);
+       Report_button.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {
+               //현 위치 location 받아와서 서버로 넘겨줘야함
+               //넘겨줄 것 : 사진, text, 닉네임, 좌표, 신고일자
 
+               //카메라 권한요청, 내 파일 권한 요청 필요
 
+               //카메라 화면이 먼저 나옴
+               //사진 찍고
+               //report detail 화면 띄워서
+               //입력받고 전송하기 버튼 누르면
+
+               //현 위치 : locationSource
+
+               //아니 여기 왜 버튼이 안눌려렬렬려려려려려려려려려렬
+               //버튼 init버튼인가 밑에 함수에서 설정하면 됩니다^^
+//zzzzz
+
+               Log.d("camera","Reportbutton clicked");
+
+               Intent intent = null;
+               Log.d("camera","clicked");
+               setCamera(intent);
+           }
+       });
 
         binding.layoutToolBar.ivMenu.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view) {            //menu 클릭 시 open drawer
                 binding.drawerLayout.openDrawer(GravityCompat.START);
+                isDrawerOpen = true;
             }
         });
 
-        View header = binding.navigationView.getHeaderView(0);
-        ImageView image = header.findViewById(R.id.iv_close);
-
-        image.setOnClickListener(new View.OnClickListener() {
+        binding.layoutToolBar.ivFilter.setOnClickListener(new View.OnClickListener(){
             @Override
-            public void onClick(View view) {        // X 클릭 시 close drawer
-                binding.drawerLayout.closeDrawer(GravityCompat.START);
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), FilterActivity.class);
+                startActivity(intent);
+                isFilter = true;
             }
         });
 
-        binding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() == R.id.nav_notification) {
-//                    binding.drawerLayout.closeDrawer(GravityCompat.START); //열려있는 메뉴판 닫고 화면 전환
-                    Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
-                    startActivity(intent);
-                }
-                else if (item.getItemId() == R.id.nav_call) {
-                    Intent intent = new Intent(getApplicationContext(), EmergencyCallActivity.class);
-                    startActivity(intent);
-                }
-                else if (item.getItemId() == R.id.nav_report) {
-                    Intent intent = null;
-                    Log.d("camera","clicked");
-                    setCamera(intent);
 
-                }
-                else if (item.getItemId() == R.id.nav_book) {
 
-                }
-                else if (item.getItemId() == R.id.nav_review) {
 
-                }
-                return true;
-            }
-        });
 
-    }
-    private void setUpMap(){
-        XmlApi parser = new XmlApi();
-        ArrayList<MapPoint> mapPoint = new ArrayList<MapPoint>();
-    try {
+       View header = binding.navigationView.getHeaderView(0);
+       ImageView image = header.findViewById(R.id.iv_close);
 
-        mapPoint = parser.apiParserSearch();
-    } catch (Exception e) {
-        System.out.println(3333);
-        e.printStackTrace();
-    }
-    for (int i =0; i<mapPoint.size(); i++){
-        for (MapPoint entity:mapPoint){
-            UpdateCircle(mapPoint.get(i).getLatitude(), mapPoint.get(i).getLongitude());
-        }
-    }
+       image.setOnClickListener(new View.OnClickListener() {
+           @Override
+           public void onClick(View view) {        // X 클릭 시 close drawer
+               binding.drawerLayout.closeDrawer(GravityCompat.START);
+           }
+       });
 
+       binding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+           @Override
+           public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+               if (item.getItemId() == R.id.nav_notification) {
+//                 binding.drawerLayout.closeDrawer(GravityCompat.START); //열려있는 메뉴판 닫고 화면 전환
+                   Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
+                   startActivity(intent);
+               }
+               else if (item.getItemId() == R.id.nav_call) {
+                   Intent intent = new Intent(getApplicationContext(), EmergencyCallActivity.class);
+                   startActivity(intent);
+               }
+               else if (item.getItemId() == R.id.nav_report) {
+                   Intent intent = null;
+                   Log.d("camera","clicked");
+                   setCamera(intent);
+               }
+               else if (item.getItemId() == R.id.nav_book) {
+
+               }
+               else if (item.getItemId() == R.id.nav_review) {
+
+               }
+               return true;
+           }
+       });
 
     }
+
+    // xml 가져오는 코드
+//    private void setUpMap(){
+//        XmlApi parser = new XmlApi();
+//        ArrayList<MapPoint> mapPoint = new ArrayList<MapPoint>();
+//    try {
+//
+//        mapPoint = parser.apiParserSearch();
+//    } catch (Exception e) {
+//        System.out.println(3333);
+//        e.printStackTrace();
+//    }
+//    for (int i =0; i<mapPoint.size(); i++){
+//        for (MapPoint entity:mapPoint){
+//            AccidentCircle(mapPoint.get(i).getLatitude(), mapPoint.get(i).getLongitude());
+//        }
+//    }
+//    }
+
+
     private void removeMarkerAll() {
         for (Marker marker : TotalmarkerList) {
             marker.setMap(null); // 삭제
@@ -853,14 +875,93 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    private void drawMarker() {
+    //의료기관
+    private void setMarker_hos() {
         for (int i =0 ; i< total_list.size(); i++){
-            JsonApi.total_item item = total_list.get(i);
-            UpdateCircle((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()));
-//            TotalmarkerList.add(marker);
+            JsonApi_total.total_item item = total_list.get(i);
+            setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"hos",naverMap);
+           // cluster_item2.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
         }
         return;
     }
+
+    //충전기
+    private void setMarker_Charge() {
+        for (int i =0 ; i< charge_list.size(); i++){
+            JsonApi_charge.charge_item item = charge_list.get(i);
+            setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"charge",naverMap);
+            // cluster_item2.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
+        }
+        return;
+    }
+
+
+    //자전거 사고 다발지역 만들기
+    private void drawMarker_bike() {
+        for (int i =0 ; i< bike_list.size(); i++){
+            JsonApi_bike.bike_item item = bike_list.get(i);
+            AccidentCircle((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()));
+            //cluster_item.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
+        }
+        return;
+    }
+
+
+    //자전거 사고 다발지역 마커
+    private void AccidentCircle(double x, double y){
+        CircleOverlay circle = new CircleOverlay();
+        circle.setCenter(new LatLng(x, y));
+        circle.setRadius(30);
+        circle.setColor(Color.parseColor("#30FF7B00"));
+        circle.setOutlineColor(Color.parseColor("#30FF7B00"));
+        circle.setMap(naverMap);
+
+        InfoWindow infoWindow = new InfoWindow();
+        Marker marker = new Marker();
+        marker.setPosition(new LatLng(x,y));
+        marker.setMinZoom(9);//줌 설정
+        marker.setIcon(OverlayImage.fromResource(R.drawable.danger_location_yellow));
+        marker.setWidth(80);
+        marker.setHeight(80);
+        marker.setMap(naverMap);
+
+        marker.setTag("자전거 사고다발 지역");
+        infoWindow.setAdapter(new InfoWindow.DefaultTextAdapter(this) {
+            @NonNull
+            @Override
+            public CharSequence getText(@NonNull InfoWindow infoWindow) {
+                // 정보 창이 열린 마커의 tag를 텍스트로 노출하도록 반환
+                return (CharSequence)infoWindow.getMarker().getTag();
+            }
+        });
+        infoWindow.setAlpha(0.8f);
+        Overlay.OnClickListener listener = overlay -> {
+            naverMap.setOnMapClickListener((coord, point) -> {
+                infoWindow.close();
+            });
+            if (marker.getInfoWindow() == null) {
+                // 현재 마커에 정보 창이 열려있지 않을 경우 엶
+                infoWindow.open(marker);
+                Handler handler = new Handler();
+                if(marker.getInfoWindow() != null){
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            infoWindow.close();
+                        }
+                    },3000);	//3초 동안 딜레이
+                }
+            } else {
+                // 이미 현재 마커에 정보 창이 열려있을 경우 닫음
+                infoWindow.close();
+            }
+
+            return true;
+        };
+        marker.setOnClickListener(listener);
+
+    }
+
 
 
 }

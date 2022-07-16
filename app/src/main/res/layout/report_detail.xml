@@ -53,7 +53,7 @@
 
     <View
         android:id="@+id/report_content_view"
-        android:layout_width="312dp"
+        android:layout_width="match_parent"
         android:layout_height="104dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="180dp"
@@ -111,7 +111,7 @@
 
     <View
         android:id="@+id/report_nickname_view"
-        android:layout_width="312dp"
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="325dp"
@@ -166,15 +166,47 @@
         app:layout_constraintEnd_toEndOf="@id/report_nickname_view"
         app:layout_constraintTop_toTopOf="@id/report_option_tv" />
 
+    <View
+        android:id="@+id/report_cancel_btn"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/rounded_btn"
+        app:layout_constraintTop_toTopOf="@id/send_button_background"
+        app:layout_constraintStart_toStartOf="@id/report_content_view"
+        android:backgroundTint="#c8c8c8"
+        ></View>
+
+    <TextView
+        android:id="@+id/report_button_text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:fontFamily="sans-serif"
+        android:letterSpacing="0.01"
+        android:lineSpacingExtra="3.6sp"
+        android:shadowColor="#11000000"
+        android:shadowDx="0"
+        android:shadowDy="4"
+        android:shadowRadius="4"
+        android:text="취소"
+        android:textColor="#000000"
+        android:textSize="18sp"
+        android:textStyle="bold"
+
+        app:layout_constraintStart_toStartOf="@id/report_cancel_btn"
+        app:layout_constraintTop_toTopOf="@id/report_cancel_btn"
+        app:layout_constraintBottom_toBottomOf="@id/report_cancel_btn"
+        app:layout_constraintEnd_toEndOf="@id/report_cancel_btn"
+        />
 
     <View
         android:id="@+id/send_button_background"
         android:layout_width="168dp"
         android:layout_height="60dp"
         android:background="@drawable/rounded_corner_send_btn"
-        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/report_content_view"
-        android:layout_marginTop="484dp">
+        android:layout_marginBottom="24dp">
     </View>
 
     <TextView
@@ -187,7 +219,7 @@
         android:shadowDy="4"
         android:shadowRadius="4"
         android:fontFamily="sans-serif"
-        android:textStyle="normal"
+        android:textStyle="bold"
         android:textSize="24sp"
         android:textColor="#ffffff"
         android:letterSpacing="0.01"
@@ -197,8 +229,24 @@
 
         app:layout_constraintTop_toTopOf="@id/send_button_background"
         app:layout_constraintStart_toStartOf="@id/send_button_background"
-        app:layout_constraintBottom_toBottomOf="@id/send_button_background"
-        app:layout_constraintEnd_toEndOf="@id/send_button_background"/>
+
+        android:layout_marginTop="15dp"
+        android:layout_marginLeft="24dp"
+        />
+
+    <ImageView
+        android:id="@+id/send_button_arrow"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:src="@drawable/arrow_forward"
+        app:layout_constraintStart_toStartOf="@id/send_button_background"
+        app:layout_constraintTop_toTopOf="@id/send_button_background"
+
+        android:layout_marginTop="6dp"
+        android:layout_marginLeft="109dp"/>
+
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

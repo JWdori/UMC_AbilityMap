@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class JsonApi extends AsyncTask<String, String, String> {
+public class JsonApi_charge extends AsyncTask<String, String, String> {
     public static boolean startFlagForCoronaApi;
 
 
@@ -32,11 +32,9 @@ public class JsonApi extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... strings) {
 
-        Log.d("Task3", "POST");
         String temp = "Not Gained";
         try {
             temp = GET(strings[0], strings[1]);
-            Log.d("REST", temp);
             return temp;
         } catch (IOException e) {
             e.printStackTrace();
@@ -46,9 +44,8 @@ public class JsonApi extends AsyncTask<String, String, String> {
 
     private String GET(String x, String y) throws IOException {
 
-
         String data = "";
-        String myUrl3 = "http://3.35.237.29/total";
+        String myUrl3 = "http://3.35.237.29/get/charger";
         try {
             URL url = new URL(myUrl3);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -69,16 +66,16 @@ public class JsonApi extends AsyncTask<String, String, String> {
             }
 //            Log.d("CoronaApi", "The response is :" + result);
             JSONObject root = new JSONObject(result);
-            JSONArray coronaArray = root.getJSONArray("result");
-            for (int i = 0; i < coronaArray.length(); i++) {
-                JSONObject item = coronaArray.getJSONObject(i);
-//                Log.d("corona", item.getString("name"));
-                total_item total_item = new total_item(
+            JSONArray Api = root.getJSONArray("result");
+            for (int i = 0; i < Api.length(); i++) {
+                JSONObject item = Api.getJSONObject(i);
+                charge_item charge_item = new charge_item(
                         item.getString("lat"),
                         item.getString("lon"),
-                        item.getString("name")
+                        item.getString("idx")
                 );
-                MainActivity.total_list.add(total_item);
+
+                MainActivity.charge_list.add(charge_item);
 
             }
             startFlagForCoronaApi = false;
@@ -91,29 +88,32 @@ public class JsonApi extends AsyncTask<String, String, String> {
         return data;
     }
 
-    public class total_item {
+    public class charge_item {
 
 
         private String lat;
         private String lng;
-        private String name;
-        private String remain_stat;
+        private String idx;
+        private String location;
+        private String week;
+        private String weekend;
+        private String holiday;
 
 
 
-        public total_item(String lat, String lng, String name) {
+        public charge_item(String lat, String lng, String idx) {
             this.lat = lat;
             this.lng = lng;
-            this.name = name;
+            this.idx = idx;
 
         }
 
         public String getName(){
-            return name;
+            return idx;
         }
 
-        public void setName(String name) {
-            this.name = name;
+        public void setName(String idx) {
+            this.idx = idx;
         }
 
 

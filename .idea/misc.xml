@@ -10,21 +10,40 @@
         <entry key="..\:/Users/Jaewan01/UMC_AbilityMap/app/src/main/res/layout/translate_up.xml" value="0.1" />
         <entry key="..\:/Users/Jaewan01/UMC_AbilityMap/app/src/main/res/menu/navigation_menu.xml" value="0.1" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1875" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/dialog.xml" value="0.2135" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1875" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/ic_logo.xml" value="0.1875" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/input_box.xml" value="0.1875" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/no_dialog.xml" value="0.2135" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/rectangle.xml" value="0.104" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/rectangle_clicked.xml" value="0.1875" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/rectangle_clicked_effect.xml" value="0.2135" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/rectangle_clicked_effect_notification.xml" value="0.1965" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/rectangle_clicked_notification.xml" value="0.1965" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/rectangle_emergency_call.xml" value="0.104" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/rectangle_menu_clicked.xml" value="0.1965" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/rectangle_menu_clicked_effect.xml" value="0.1965" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/rectangle_menu_unclicked.xml" value="0.1965" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/rectangle_notification.xml" value="0.104" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/rounded_corner_send_btn.xml" value="0.1875" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/save_button.xml" value="0.1875" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/save_button_clicked.xml" value="0.2135" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/save_button_effect.xml" value="0.2135" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/save_button_text_color.xml" value="0.2135" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/save_button_unclicked.xml" value="0.2135" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/save_button_uncliked_effect.xml" value="0.2135" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/shadow.xml" value="0.1875" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/square.xml" value="0.1875" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/view_line.xml" value="0.1875" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/view_uncliked.xml" value="0.1965" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/yes_dialog.xml" value="0.2135" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_add_phone_book.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_camera2.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_custom_dialog.xml" value="0.5" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_emergency_call.xml" value="0.33" />
-        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_main.xml" value="0.25" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_notification.xml" value="0.34739583333333335" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/dialog.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_home.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_navigation_header.xml" value="0.34739583333333335" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/item_emergency_call.xml" value="0.33" />
@@ -34,11 +53,9 @@
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/menu/navigation_menu.xml" value="0.34739583333333335" />
         <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/drawable-mdpi/field_border.xml" value="0.1" />
         <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/drawable/rectangle_clicked.xml" value="0.1" />
-        <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/drawable/rounded_corner_cancel_btn.xml" value="0.1835" />
         <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/drawable/rounded_corner_send_btn.xml" value="0.1" />
         <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/layout/activity_camera2.xml" value="0.2526041666666667" />
-        <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/layout/activity_main.xml" value="0.13994565217391305" />
-        <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/layout/report_detail.xml" value="0.12158054711246201" />
+        <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/layout/report_detail.xml" value="0.264" />
         <entry key="..\:/Users/tms/Desktop/UMC_Hackathon/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1275" />
         <entry key="..\:/Users/tms/Desktop/UMC_Hackathon/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1275" />
         <entry key="..\:/Users/tms/Desktop/UMC_Hackathon/app/src/main/res/drawable/ic_logo.xml" value="0.1615" />
