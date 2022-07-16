@@ -533,10 +533,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         naverMap.moveCamera(cameraUpdate);
         this.naverMap = naverMap;
 
-        SharedPreferences save = getSharedPreferences("total",Activity.MODE_PRIVATE);
+        SharedPreferences total1 = getSharedPreferences("total1",Activity.MODE_PRIVATE);
+        SharedPreferences hos2 = getSharedPreferences("hos2",Activity.MODE_PRIVATE);
         setMarker_hos(); //병원이랑 시설
         drawMarker_bike();
         setMarker_Charge();
+
+        System.out.println(total1.getAll()+"ㅎㅇ");
+        System.out.println(hos2.getAll()+"ㅎㅇ");
+
+
+
 
         System.out.println("new2");
         //충전기
@@ -889,19 +896,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //의료기관setMarker_facility_delete
     private void setMarker_hos() {
-        SharedPreferences save = getSharedPreferences("total",Activity.MODE_PRIVATE);
         for (int i =0 ; i< total_list.size(); i++){
             JsonApi_total.total_item item = total_list.get(i);
-            if ((save==null) || (save.getBoolean("total",true))){
-                setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"hos",naverMap);
-            }else{
-                System.out.println("델리트");
-                setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"hos",null);
+            setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"hos",naverMap);
             }
             //TotalmarkerList.add(setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"hos",naverMap));//클러스터링코드
 
-        }
-        return;
+        return ;
     }
 
 
