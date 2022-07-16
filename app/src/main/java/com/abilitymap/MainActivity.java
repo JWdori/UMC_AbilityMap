@@ -74,9 +74,11 @@ import java.util.Locale;
 
 
 
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker_facility, SetMarker_wheel {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker_facility, SetMarker_wheel
+         {
     private GpsTracker gpsTracker;
     private NaverMap naverMap;
+    public static Activity firstActivity;
     public static ArrayList<JsonApi_total.total_item> total_list = new ArrayList();
     public static ArrayList<JsonApi_bike.bike_item> bike_list = new ArrayList();
     public static ArrayList<JsonApi_charge.charge_item> charge_list = new ArrayList();
@@ -149,12 +151,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState){ //화면 생성과 함께 현재 위치 받아옴.
-
+        firstActivity = MainActivity.this;
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ImageButton Report_message = (ImageButton) findViewById(R.id.message_button);
-        System.out.println("oncreat");
+        System.out.println("oncreate");
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initClickListener();
@@ -493,8 +495,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         builder.create().show();
     }
 
-
-
+    public void Dead(){
+        finish();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -530,20 +533,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         naverMap.moveCamera(cameraUpdate);
         this.naverMap = naverMap;
 
-//        SharedPreferences.Editor editor = save.edit();
-//        editor.putBoolean("total",true);
-//        editor.commit();
-
-
         SharedPreferences save = getSharedPreferences("total",Activity.MODE_PRIVATE);
-            if ((save==null) || (save.getBoolean("total",true))){
-                setMarker_hos(); //병원이랑 시설
-                drawMarker_bike();
-                setMarker_Charge();
-                System.out.println("new");
-            }else{
-                System.out.println("안옴");
-            }
+        setMarker_hos(); //병원이랑 시설
+        drawMarker_bike();
+        setMarker_Charge();
 
         System.out.println("new2");
         //충전기
@@ -811,12 +804,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         binding.layoutToolBar.ivFilter.setOnClickListener(new View.OnClickListener(){
             @Override
 
-
-
-
             //필터
             public void onClick(View view) {
-                onPause();
                 Intent intent = new Intent(getApplicationContext(), FilterActivity.class);
                 startActivity(intent);
                 isFilter = true;
@@ -898,16 +887,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    //의료기관
+    //의료기관setMarker_facility_delete
     private void setMarker_hos() {
+        SharedPreferences save = getSharedPreferences("total",Activity.MODE_PRIVATE);
         for (int i =0 ; i< total_list.size(); i++){
             JsonApi_total.total_item item = total_list.get(i);
-            setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"hos",naverMap);
+            if ((save==null) || (save.getBoolean("total",true))){
+                setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"hos",naverMap);
+            }else{
+                System.out.println("델리트");
+                setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"hos",null);
+            }
             //TotalmarkerList.add(setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"hos",naverMap));//클러스터링코드
 
         }
         return;
     }
+
 
     //충전기
     private void setMarker_Charge() {
@@ -929,16 +925,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         return;
     }
-    private void drawMarker_bike_delete() {
-        for (int i =0 ; i< bike_list.size(); i++){
-            Marker marker = new Marker();
-            JsonApi_bike.bike_item item = bike_list.get(i);
-            AccidentCircle_delete((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()));
-            marker.setMap(null);
-//            TotalmarkerList.add(((Double.parseDouble(item.getLat())),Double.parseDouble(item.getLng()));//클러스터링코드
-        }
-        return;
-    }
+
 
 
 
@@ -946,17 +933,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onResume(){
         super.onResume();
-        SharedPreferences save = getSharedPreferences("total",Activity.MODE_PRIVATE);
-        if ((save==null) || (save.getBoolean("total",true))){
-            setMarker_hos(); //병원이랑 시설
-            drawMarker_bike();
-            setMarker_Charge();
-        }else{
-            drawMarker_bike_delete();
-            System.out.println("안옴");
-        }
         System.out.println("리섬");
+
     }
+
+    @Override
+    public void onStop(){
+        super.onStop();
+        System.out.println("스탑");
+    }
+
+    @Override
+    public void onStart(){
+        super.onStart();
+
+    }
+
 
 
     //자전거 사고 다발지역 마커
@@ -966,12 +958,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         circle.setRadius(30);
         circle.setColor(Color.parseColor("#30FF7B00"));
         circle.setOutlineColor(Color.parseColor("#30FF7B00"));
+        circle.setMinZoom(7);//줌 설정
         circle.setMap(naverMap);
 
         InfoWindow infoWindow = new InfoWindow();
         Marker marker = new Marker();
         marker.setPosition(new LatLng(x,y));
-        marker.setMinZoom(9);//줌 설정
+        marker.setMinZoom(7);//줌 설정
         marker.setIcon(OverlayImage.fromResource(R.drawable.danger_location_yellow));
         marker.setWidth(80);
         marker.setHeight(80);
@@ -1013,17 +1006,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         marker.setOnClickListener(listener);
 
     }
-
-
-
-
-    private void AccidentCircle_delete(double x, double y){
-        CircleOverlay circle = new CircleOverlay();
-        circle.setMap(null);
-        Marker marker = new Marker();
-        marker.setMap(null);
-    }
-
 
 
 

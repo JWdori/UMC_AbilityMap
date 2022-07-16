@@ -20,6 +20,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.abilitymap.databinding.FirstPopupBinding;
 import com.github.angads25.toggle.interfaces.OnToggledListener;
 import com.github.angads25.toggle.model.ToggleableView;
 import com.github.angads25.toggle.widget.LabeledSwitch;
@@ -39,7 +40,6 @@ public class FilterActivity extends AppCompatActivity {
         Filter_save();
         labeledSwitch_total = findViewById(R.id.total_toggle);
         filter_button = findViewById(R.id.button_filter);
-
         if ((save==null) || (save.getBoolean("total",true))) {
             labeledSwitch_total.setOn(true);
         }
@@ -66,10 +66,6 @@ public class FilterActivity extends AppCompatActivity {
         });
 
 
-
-
-
-
     }
 
 
@@ -89,12 +85,15 @@ public class FilterActivity extends AppCompatActivity {
 
 
     private void Filter_save() {
+        MainActivity firstActivity = (MainActivity) MainActivity.firstActivity;
         filter_button = findViewById(R.id.button_filter);
         filter_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
-
+                Intent intent = new Intent(getApplicationContext(), MainActivity.class);
+                startActivity(intent); //액티비티 열기
+                firstActivity.finish();
+                finish();//인텐트 종료
             }
 
         });
