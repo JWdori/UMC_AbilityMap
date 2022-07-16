@@ -544,9 +544,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 setMarker_Charge();
                 System.out.println("new");
             }
+        System.out.println("4444"+save.getAll());
 
-
-        System.out.println(save+"123");
         //충전기
         naverMap.setMaxZoom(19.0);
         naverMap.setMinZoom(5.0);

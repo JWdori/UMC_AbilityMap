@@ -8,7 +8,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -25,37 +27,47 @@ import com.naver.maps.map.overlay.Overlay;
 
 public class FilterActivity extends AppCompatActivity {
     LabeledSwitch labeledSwitch_total;
+    Button filter_button;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
 //        overridePendingTransition(R.anim.horizon_enter, R.anim.none)
         super.onCreate(savedInstanceState);
         SharedPreferences save = getSharedPreferences("total", Activity.MODE_PRIVATE);
-
         setContentView(R.layout.activity_filter);
         Filter_close();
         labeledSwitch_total = findViewById(R.id.total_toggle);
+        filter_button = findViewById(R.id.button_filter);
 
 
         if ((save==null) || (save.getBoolean("total",true))) {
             labeledSwitch_total.setOn(true);
         }
 
+
         labeledSwitch_total.setOnToggledListener(new OnToggledListener() {
-
-
             @Override
             public void onSwitched(ToggleableView toggleableView, boolean isOn) {
                 if (labeledSwitch_total.isOn()) {
                     Toast.makeText(FilterActivity.this, "확인", Toast.LENGTH_LONG).show();
                     SharedPreferences.Editor editor = save.edit();
+                    editor.putBoolean("total",true);
+                    editor.commit();
+                    System.out.println("5555"+save.getAll());
+                }else{
+                    SharedPreferences.Editor editor = save.edit();
                     editor.putBoolean("total",false);
                     editor.commit();
+                    System.out.println("5555"+save.getAll());
                 }
 
             }
 
         });
+
+
+
+
 
 
     }
