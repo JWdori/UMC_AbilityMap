@@ -72,7 +72,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import ted.gun0912.clustering.naver.TedNaverClustering;
+
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker_facility, SetMarker_wheel {
     private GpsTracker gpsTracker;
@@ -117,8 +117,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private long presstime = 0;
     private boolean isDrawerOpen = false;
     private boolean isFilter = false;
-    TedNaverClustering tedNaverClustering;
-    TedNaverClustering tedNaverClustering2;
+
 
 //    List<Double> latitudeList = new ArrayList<Double>();
 //    List<Double> longitudeList = new ArrayList<Double>();
