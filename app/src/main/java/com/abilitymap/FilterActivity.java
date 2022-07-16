@@ -1,6 +1,7 @@
 package com.abilitymap;
 
 import android.Manifest;
+import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -10,29 +11,58 @@ import android.os.Handler;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
+import com.github.angads25.toggle.interfaces.OnToggledListener;
+import com.github.angads25.toggle.model.ToggleableView;
+import com.github.angads25.toggle.widget.LabeledSwitch;
 import com.naver.maps.map.overlay.Overlay;
 
 public class FilterActivity extends AppCompatActivity {
-
+    LabeledSwitch labeledSwitch_total;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
 //        overridePendingTransition(R.anim.horizon_enter, R.anim.none)
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_filter);
+        SharedPreferences save = getSharedPreferences("total", Activity.MODE_PRIVATE);
 
+        setContentView(R.layout.activity_filter);
         Filter_close();
+        labeledSwitch_total = findViewById(R.id.total_toggle);
+
+
+        if ((save==null) || (save.getBoolean("total",true))) {
+            labeledSwitch_total.setOn(true);
+        }
+
+        labeledSwitch_total.setOnToggledListener(new OnToggledListener() {
+
+
+            @Override
+            public void onSwitched(ToggleableView toggleableView, boolean isOn) {
+                if (labeledSwitch_total.isOn()) {
+                    Toast.makeText(FilterActivity.this, "확인", Toast.LENGTH_LONG).show();
+                    SharedPreferences.Editor editor = save.edit();
+                    editor.putBoolean("total",false);
+                    editor.commit();
+                }
+
+            }
+
+        });
 
 
     }
 
-    //여기부터는 GPS 활성화를 위한 메소드들
+
+
+    //필터 닫기~~
     private void Filter_close() {
         ImageButton filterclose = findViewById(R.id.filter_close);
         filterclose.setOnClickListener(new View.OnClickListener() {

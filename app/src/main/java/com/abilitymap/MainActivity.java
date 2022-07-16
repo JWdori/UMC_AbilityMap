@@ -72,7 +72,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import ted.gun0912.clustering.naver.TedNaverClustering;
+
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker_facility, SetMarker_wheel {
     private GpsTracker gpsTracker;
@@ -117,8 +117,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private long presstime = 0;
     private boolean isDrawerOpen = false;
     private boolean isFilter = false;
-    TedNaverClustering tedNaverClustering;
-    TedNaverClustering tedNaverClustering2;
+
 
 //    List<Double> latitudeList = new ArrayList<Double>();
 //    List<Double> longitudeList = new ArrayList<Double>();
@@ -155,7 +154,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ImageButton Report_message = (ImageButton) findViewById(R.id.message_button);
-
+        System.out.println("oncreat");
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initClickListener();
@@ -531,10 +530,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         CameraUpdate cameraUpdate = CameraUpdate.scrollTo(currentPosition).animate(CameraAnimation.Fly,0);
         naverMap.moveCamera(cameraUpdate);
         this.naverMap = naverMap;
+        System.out.println("onMapReady");
+        SharedPreferences save = getSharedPreferences("total",Activity.MODE_PRIVATE);
+//        SharedPreferences.Editor editor = save.edit();
+//        editor.putBoolean("total",true);
+//        editor.commit();
 
-        setMarker_hos(); //병원이랑 시설
-        drawMarker_bike();
-        setMarker_Charge();   //충전기
+
+
+            if ((save==null) || (save.getBoolean("total",true))){
+                setMarker_hos(); //병원이랑 시설
+                drawMarker_bike();
+                setMarker_Charge();
+                System.out.println("new");
+            }
+
+
+        System.out.println(save+"123");
+        //충전기
         naverMap.setMaxZoom(19.0);
         naverMap.setMinZoom(5.0);
         UiSettings uiSettings = naverMap.getUiSettings();
@@ -912,7 +925,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         marker.setHeight(80);
         marker.setMap(naverMap);
 
-
         marker.setTag("자전거 사고다발 지역");
         infoWindow.setAdapter(new InfoWindow.DefaultTextAdapter(this) {
             @NonNull
@@ -922,9 +934,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 return (CharSequence)infoWindow.getMarker().getTag();
             }
         });
-
         infoWindow.setAlpha(0.8f);
-
         Overlay.OnClickListener listener = overlay -> {
             naverMap.setOnMapClickListener((coord, point) -> {
                 infoWindow.close();
@@ -948,11 +958,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             return true;
         };
-
-
         marker.setOnClickListener(listener);
-
-
 
     }
 
