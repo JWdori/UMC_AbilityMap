@@ -4,6 +4,8 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.graphics.Color
+import android.graphics.Typeface
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -46,8 +48,17 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
 
         holder.binding.ivDeleteEmergencyCall.setOnClickListener {
 
-        val dialog : Dialog = InfoDialog(mContext, personInfo[position].name!!)
+        val dialog : Dialog = InfoDialog(mContext)
         dialog.show()
+
+        val text = dialog.findViewById<TextView>(R.id.text_dialog)
+        val nameText = TextView(mContext)
+        nameText.setTypeface(null, Typeface.BOLD)
+        nameText.setTextColor(Color.parseColor("#000000"))
+        nameText.setTextSize(24f)
+        nameText.setText(personInfo[position].name!!)
+        text.setText(nameText.text.toString() + text.text.toString())
+
         val yesButton = dialog.findViewById<TextView>(R.id.tv_yes_dialog)
         val noButton = dialog.findViewById<TextView>(R.id.tv_no_dialog)
         yesButton.setOnClickListener {
