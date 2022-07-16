@@ -26,3 +26,19 @@ exports.postReport = async function(req, res){
 
     return res.send(baseResponse.SUCCESS);
 }
+
+
+/*
+    API No. 4.1
+    API Name: 제보 조회 API
+    [GET] /report
+*/
+
+exports.getReport = async function(req, res){
+    
+    //validation 처리
+    console.log("controller, getReport");
+    const reportInfo = await reportProvider.getReportInfo();
+
+    return res.send(response(baseResponse.SUCCESS,reportInfo));
+}
