@@ -87,6 +87,7 @@
                 android:layout_marginBottom="8dp"
                 android:textSize="14sp"
                 app:colorBorder="#007fff"
+                app:on="true"
                 app:colorOn="#007fff">
 
             </com.github.angads25.toggle.widget.LabeledSwitch>
