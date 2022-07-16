@@ -37,7 +37,7 @@ class EmergencyCallActivity : AppCompatActivity() {
         binding.ivArrowBackEmergencyCall.setOnClickListener {
             finish()
         }
-        binding.ivAddEmergencyCall.setOnClickListener {
+        binding.clAddClickEmergencyCall.setOnClickListener {
             val intent = Intent(this, AddPhoneBookActivity::class.java)
             startActivity(intent)
         }
