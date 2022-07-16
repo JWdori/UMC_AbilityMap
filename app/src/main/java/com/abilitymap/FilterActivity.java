@@ -36,9 +36,9 @@ public class FilterActivity extends AppCompatActivity {
         SharedPreferences save = getSharedPreferences("total", Activity.MODE_PRIVATE);
         setContentView(R.layout.activity_filter);
         Filter_close();
+        Filter_save();
         labeledSwitch_total = findViewById(R.id.total_toggle);
         filter_button = findViewById(R.id.button_filter);
-
 
         if ((save==null) || (save.getBoolean("total",true))) {
             labeledSwitch_total.setOn(true);
@@ -79,8 +79,22 @@ public class FilterActivity extends AppCompatActivity {
         ImageButton filterclose = findViewById(R.id.filter_close);
         filterclose.setOnClickListener(new View.OnClickListener() {
             @Override
+
+
             public void onClick(View view) {
                 finish();
+            }
+        });
+    }
+
+
+    private void Filter_save() {
+        filter_button = findViewById(R.id.button_filter);
+        filter_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+
             }
 
         });
