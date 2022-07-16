@@ -13,6 +13,19 @@ async function insertReport(connection, insertReportParams) {
     return insertReportRow;
 };
 
+async function getReport(connection){
+    const getReportQuery = `
+        SELECT reportLocation, reportDate, reportContent, nickName
+        FROM Report
+
+    `;
+
+    const [reportInfoRow] = await connection.query(getReportQuery);
+    console.log(reportInfoRow);
+    return reportInfoRow;
+}
+
 module.exports = {
-    insertReport
+    insertReport,
+    getReport
 };
