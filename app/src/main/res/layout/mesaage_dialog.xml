@@ -8,10 +8,10 @@
     android:background="@drawable/dialog">
 
     <TextView
-        android:id="@+id/mesaage_dialog"
+        android:id="@+id/text_dialog_"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="에게\n 긴급 문자를 전송하시겠습니까?"
+        android:text="(로)에게\n 문자를 전송하시겠습니까?"
         android:textColor="@color/black"
         android:fontFamily="sans-serif"
         android:textSize="24dp"
@@ -27,14 +27,14 @@
         app:layout_constraintBottom_toTopOf="@id/layout_dialog"/>
 
     <LinearLayout
-        android:id="@+id/message_layout_dialog"
+        android:id="@+id/layout_dialog"
         android:layout_width="0dp"
         android:layout_height="60dp"
         android:orientation="horizontal"
         android:layout_marginTop="42dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/mesaage_dialog">
+        app:layout_constraintTop_toBottomOf="@id/text_dialog_">
 
         <TextView
             android:id="@+id/tv_no_dialog"

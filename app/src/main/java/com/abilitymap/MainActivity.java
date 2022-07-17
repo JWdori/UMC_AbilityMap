@@ -16,6 +16,7 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.Rect;
+import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.InsetDrawable;
 import android.location.Address;
@@ -719,7 +720,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     SharedPreferences pref = getSharedPreferences("isFirst", Activity.MODE_PRIVATE);
                     boolean first_touch = pref.getBoolean("isFirst", false);
 
-
+                    System.out.println("허용");
                     //이전 선택된 연락처 기록 가져오기
                     SharedPreferences spfPersonInfo = getSharedPreferences("personInfo", MODE_PRIVATE);
                     String name = spfPersonInfo.getString("name", "");
@@ -728,15 +729,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     Log.d("이름",  name);
                     Log.d("번호",  phoneNumber);
 
-                    if(name.equals("") && phoneNumber.equals("")){    //연락처 선택한 기록이 없을 시 연락처 추가하기로 이동 (저장된 연락처 확인하고 이것도 없으면 추가하기로 이동하는게 낫지 않을까요?)
-                        Intent intent = new Intent(getApplicationContext(), AddPhoneBookActivity.class);
-                        startActivity(intent);
-                    }
+//                    if(name.equals("") && phoneNumber.equals("")){    //연락처 선택한 기록이 없을 시 연락처 추가하기로 이동 (저장된 연락처 확인하고 이것도 없으면 추가하기로 이동하는게 낫지 않을까요?)
+//                        Intent intent = new Intent(getApplicationContext(), AddPhoneBookActivity.class);
+//                        startActivity(intent);
+//                    }
 
 
 
-                    if(first_touch==false){
-                        Toast.makeText(getApplicationContext(), "최초 실행", Toast.LENGTH_LONG).show();
+                    if(name.equals("") || phoneNumber.equals("")){
                         //앱 최초 실행시 하고 싶은 작업
                         View dialogView = getLayoutInflater().inflate(R.layout.first_popup, null);
                         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
@@ -761,16 +761,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             public void onClick(View view) {
                                 Intent intent = new Intent(getApplicationContext(), EmergencyCallActivity.class);
                                 startActivity(intent);
-                                //현규
-                                //if(데이터베이스 선택한거 == null) 이면 연락처로 이동!
-                                //여기서 사용자가 연락처를 선택했으면! (이 코드는 밑에 코드입니다)
-                                //이 코드 들어가고 다음부턴 연락처 페이지로 이동하는 팝업 안뜸
-
-
-                                //선택 안했으면
-                                //그냥 이동만하고 끝. sharePre코드 작동 안해서, 두 번째 실행에서도 다시 연락처 페이지로 이동하는 팝업 뜸
-
-
+                                Toast.makeText(getApplicationContext(), "연락처를 클릭해서 문자를 전송할 연락처를 선택해주세요!", Toast.LENGTH_LONG).show();
                                 SharedPreferences.Editor editor = pref.edit();
                                 editor.putBoolean("isFirst", true);
                                 editor.commit();
@@ -779,10 +770,46 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                             }
                         });
-                        alertDialog.show();
+//                        alertDialog.show();
                     }else{
-                        Toast.makeText(getApplicationContext(), "두번째 실행", Toast.LENGTH_LONG).show();
-                        sendSms();
+
+                        View dialogView = getLayoutInflater().inflate(R.layout.mesaage_dialog, null);
+                        TextView set11;
+                        set11 = (TextView)dialogView.findViewById(R.id.text_dialog_);
+                        set11.setText(name + set11.getText());
+
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                        builder.setView(dialogView);
+                        final AlertDialog alertDialog = builder.create();
+                        ColorDrawable back = new ColorDrawable(Color.TRANSPARENT);
+                        InsetDrawable inset = new InsetDrawable(back, 24);
+                        alertDialog.getWindow().setBackgroundDrawable(inset);
+                        alertDialog.setCanceledOnTouchOutside(false);//없어지지 않도록 설정
+                        alertDialog.show();
+
+//                        String nameText = TextView(mContext)
+//                        nameText.S(name);
+//                        text.setText(nameText.text.toString() + text.text.toString());
+
+                        TextView noButton = alertDialog.findViewById(R.id.tv_no_dialog);
+                        noButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                alertDialog.dismiss();
+                            }
+                        });
+                        TextView yesButton = alertDialog.findViewById(R.id.tv_yes_dialog);
+                        yesButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                sendSms();
+                                Toast.makeText(getApplicationContext(), "긴급 문자가 전송되었습니다!", Toast.LENGTH_LONG).show();
+                                alertDialog.dismiss();
+
+                            }
+                        });
+/*                        alertDialog.show();*/
                     }
                 }
 
