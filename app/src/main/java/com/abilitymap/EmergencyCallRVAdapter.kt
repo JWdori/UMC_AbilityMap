@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.graphics.Color
 import android.graphics.Typeface
 import android.view.LayoutInflater
@@ -27,8 +28,8 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
 
     interface MyItemClickListener{
         fun onRemovePerson(PersonId : Int)
-        fun onItemClicked(personInfo: PersonInfo, position: Int)
-        fun onUpdatePerson(PersonId : Int)
+        fun onItemClicked(personInfo: PersonInfo, position: Int, name: String, phoneNumber: String, binding: ItemEmergencyCallBinding)
+//        fun onUpdatePerson(PersonId : Int)
     }
 
     private lateinit var mItemClickListener : MyItemClickListener
@@ -46,35 +47,18 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
     override fun onBindViewHolder(holder: EmergencyCallRVAdapter.ViewHolder, position: Int) {
         holder.bind(personInfo[position], position)
 
+        holder.binding.layoutEmergencyCall.setOnClickListener {
+            mItemClickListener.onItemClicked(personInfo[position], position, personInfo[position].name!!, personInfo[position].phoneNumber!!, holder.binding)
+
+        }
+
         holder.binding.ivDeleteEmergencyCall.setOnClickListener {
-
-        val dialog : Dialog = InfoDialog(mContext)
-        dialog.show()
-
-        val text = dialog.findViewById<TextView>(R.id.text_dialog)
-        val nameText = TextView(mContext)
-        nameText.setTypeface(null, Typeface.BOLD)
-        nameText.setTextColor(Color.parseColor("#000000"))
-        nameText.setTextSize(24f)
-        nameText.setText(personInfo[position].name!!)
-        text.setText(nameText.text.toString() + text.text.toString())
-
-        val yesButton = dialog.findViewById<TextView>(R.id.tv_yes_dialog)
-        val noButton = dialog.findViewById<TextView>(R.id.tv_no_dialog)
-        yesButton.setOnClickListener {
-            mItemClickListener.onRemovePerson(personInfo[position].personId)
-            removePerson(position)
-            dialog.dismiss()
-            Toast.makeText(mContext, "선택하신 연락처를 삭제하였습니다", Toast.LENGTH_SHORT).show()
-        }
-        noButton.setOnClickListener { dialog.dismiss() }
-
-
+            showDialog(position)
         }
 
-        holder.binding.ivModifyEmergencyCall.setOnClickListener {
-            mItemClickListener.onItemClicked(personInfo[position], position)
-        }
+//        holder.binding.ivModifyEmergencyCall.setOnClickListener {
+//            mItemClickListener.onItemClicked(personInfo[position], position)
+//        }
 
 
 //        mContext.setMyItemClickListener(object : AddPhoneBookActivity.MyItemClickListener{
@@ -131,5 +115,27 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
         }
     }
 
+    fun showDialog(position : Int){
+        val dialog : Dialog = InfoDialog(mContext)
+        dialog.show()
+
+        val text = dialog.findViewById<TextView>(R.id.text_dialog)
+        val nameText = TextView(mContext)
+        nameText.setTypeface(null, Typeface.BOLD)
+        nameText.setTextColor(Color.parseColor("#000000"))
+        nameText.setTextSize(24f)
+        nameText.setText(personInfo[position].name!!)
+        text.setText(nameText.text.toString() + text.text.toString())
+
+        val yesButton = dialog.findViewById<TextView>(R.id.tv_yes_dialog)
+        val noButton = dialog.findViewById<TextView>(R.id.tv_no_dialog)
+        yesButton.setOnClickListener {
+            mItemClickListener.onRemovePerson(personInfo[position].personId)
+            removePerson(position)
+            dialog.dismiss()
+            Toast.makeText(mContext, "선택하신 연락처를 삭제하였습니다", Toast.LENGTH_SHORT).show()
+        }
+        noButton.setOnClickListener { dialog.dismiss() }
+    }
 
 }

@@ -718,6 +718,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     //퍼미션 허용받으면 이쪽입니다~~~
                     SharedPreferences pref = getSharedPreferences("isFirst", Activity.MODE_PRIVATE);
                     boolean first_touch = pref.getBoolean("isFirst", false);
+
+
+//                    //이전 선택된 연락처 기록 가져오기
+//                    SharedPreferences spfPersonInfo = getSharedPreferences("personInfo", MODE_PRIVATE);
+//                    String name = spfPersonInfo.getString("name", "이름");
+//                    String phoneNumber = spfPersonInfo.getString("phoneNumber", "phoneNumber");
+//
+//                    Log.d("이름",  name);
+//                    Log.d("번호",  phoneNumber);
+//
+//                    if(name.equals("이름") && phoneNumber.equals("phoneNumber")){    //연락처 선택한 기록이 없을 시
+//                        Intent intent = new Intent(getApplicationContext(), AddPhoneBookActivity.class);
+//                        startActivity(intent);
+//                    }
+
+
+
                     if(first_touch==false){
                         Toast.makeText(getApplicationContext(), "최초 실행", Toast.LENGTH_LONG).show();
                         //앱 최초 실행시 하고 싶은 작업
