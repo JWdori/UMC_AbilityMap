@@ -24,7 +24,7 @@
                 android:id="@+id/iv_arrow_back_emergency_call"
                 android:layout_width="48dp"
                 android:layout_height="48dp"
-                android:src="@drawable/arrow_back"
+                app:srcCompat="@drawable/arrow_back"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -55,7 +55,7 @@
                 app:layout_constraintEnd_toEndOf="parent"/>
 
             <View
-                android:id="@+id/view_notification"
+                android:id="@+id/view_emergency_call"
                 android:layout_width="match_parent"
                 android:layout_height="3dp"
                 android:background="#1e000000"
@@ -69,11 +69,20 @@
             android:id="@+id/cl_119_emergency_call"
             android:layout_width="match_parent"
             android:layout_height="98dp"
-            android:background="@drawable/rectangle"
+            android:background="@drawable/rectangle_119"
             app:layout_constraintTop_toBottomOf="@id/layout"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             android:clickable="true">
+
+            <TextView
+                android:id="@+id/flag_119"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="false"
+                android:visibility="invisible"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"/>
 
             <TextView
                 android:id="@+id/tv_119_emergency_call"
@@ -90,11 +99,21 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
+        <View
+            android:id="@+id/view_119"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="#1e000000"
+            app:layout_constraintTop_toBottomOf="@id/cl_119_emergency_call"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"/>
+
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/rv_emergency_call"
             android:layout_width="match_parent"
             android:layout_height="0dp"
-            app:layout_constraintTop_toBottomOf="@id/cl_119_emergency_call"
+            app:layout_constraintTop_toBottomOf="@id/view_119"
             tools:listitem="@layout/item_emergency_call"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical"
@@ -112,15 +131,27 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:visibility="visible">
 
-            <ImageView
-                android:id="@+id/iv_add_emergency_call"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:src="@drawable/vector"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/cl_add_click_emergency_call"
+                android:layout_width="70dp"
+                android:layout_height="70dp"
+                android:clickable="true"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintEnd_toEndOf="parent">
+
+                <ImageView
+                    android:id="@+id/iv_add_emergency_call"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    app:srcCompat="@drawable/vector"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"/>
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

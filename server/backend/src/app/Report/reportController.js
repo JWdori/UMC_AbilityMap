@@ -16,13 +16,29 @@ const crypto = require("crypto");
 */
 
 exports.postReport = async function(req, res){
-    const { reportLocation, reportDate, reportContent, nickName } = req.body;
+    const { reportLocation, reportDate, reportContent, nickName, lat, lon } = req.body;
 
     //validation 처리
 
     console.log("controller.js");
     //create 작업을 위해 내용들 service로 전송
-    const createReportResponse = await reportService.createReport(reportLocation, reportDate, reportContent, nickName);
+    const createReportResponse = await reportService.createReport(reportLocation, reportDate, reportContent, nickName, lat, lon);
 
     return res.send(baseResponse.SUCCESS);
+}
+
+
+/*
+    API No. 4.1
+    API Name: 제보 조회 API
+    [GET] /report
+*/
+
+exports.getReport = async function(req, res){
+    
+    //validation 처리
+    console.log("controller, getReport");
+    const reportInfo = await reportProvider.getReportInfo();
+
+    return res.send(response(baseResponse.SUCCESS,reportInfo));
 }

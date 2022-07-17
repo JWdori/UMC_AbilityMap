@@ -148,6 +148,7 @@
             android:layout_height="60dp"
             android:textSize="24sp"
             android:textStyle="bold"
+
             android:textColor="@drawable/save_button_text_color"
             android:text="저장"
             android:gravity="center"

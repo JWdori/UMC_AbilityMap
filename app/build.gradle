@@ -5,7 +5,7 @@ plugins {
 }
 
 android {
-    compileSdkVersion 31
+    compileSdkVersion 32
     buildToolsVersion "30.0.3"
 
     buildFeatures{
@@ -17,7 +17,7 @@ android {
         vectorDrawables.useSupportLibrary = true
         applicationId "com.abilitymap"
         minSdkVersion 21
-        targetSdkVersion 31
+        targetSdkVersion 32
         versionCode 1
         versionName "1.0"
         multiDexEnabled true
@@ -69,6 +69,8 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.4.1'
     kapt 'androidx.room:room-compiler:2.4.1'
 
-    //클러스터링 오픈소스
-    implementation 'io.github.ParkSangGwon:tedclustering-naver:1.0.2'
+
+    //토글버튼 오픈소스
+    implementation 'com.github.angads25:toggle:1.1.0'
+
 }
