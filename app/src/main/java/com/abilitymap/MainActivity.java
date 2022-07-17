@@ -12,6 +12,7 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PointF;
@@ -120,7 +121,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private long presstime = 0;
     private boolean isDrawerOpen = false;
     private boolean isFilter = false;
-
+    ProgressDialog dialog; //원형 프로그레스바
 
 //    List<Double> latitudeList = new ArrayList<Double>();
 //    List<Double> longitudeList = new ArrayList<Double>();
@@ -149,9 +150,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState){ //화면 생성과 함께 현재 위치 받아옴.
+        dialog = new ProgressDialog(MainActivity.this); //프로그레스 대화상자 객체 생성
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); //프로그레스 대화상자 스타일 원형으로 설정
+        dialog.setCancelable(false);
+        dialog.setMessage("잠시만 기다려주세요."); //프로그레스 대화상자 메시지 설정
+        dialog.show(); //프로그레스 대화상자 띄우기
+
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable(){
+            @Override
+            public void run() {
+                dialog.dismiss(); // 3초 시간지연 후 프로그레스 대화상자 닫기
+            }
+        }, 1000);
+        //로딩
+
         firstActivity = MainActivity.this;
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         super.onCreate(savedInstanceState);
@@ -208,9 +225,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         items = new ArrayList<>();
         // 핸들러
 
-
-
-//
 
 
 
@@ -530,6 +544,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
+
         CameraUpdate cameraUpdate = CameraUpdate.scrollTo(currentPosition).animate(CameraAnimation.Fly,0);
         naverMap.moveCamera(cameraUpdate);
         this.naverMap = naverMap;
