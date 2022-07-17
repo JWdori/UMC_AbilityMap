@@ -91,11 +91,6 @@ public class FilterActivity extends AppCompatActivity {
 //            labeledSwitch_danger9.setOn(false);
 //        }
 
-        if (hos2.getBoolean("total",true)) {
-            labeledSwitch_hos2.setOn(true);
-        }else{
-            labeledSwitch_hos2.setOn(false);
-        }
 
 
         if (hos2.getBoolean("total",true)) {

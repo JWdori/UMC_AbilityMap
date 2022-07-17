@@ -549,11 +549,54 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         naverMap.moveCamera(cameraUpdate);
         this.naverMap = naverMap;
 
-        SharedPreferences total1 = getSharedPreferences("total1",Activity.MODE_PRIVATE);
-        SharedPreferences hos2 = getSharedPreferences("hos2",Activity.MODE_PRIVATE);
-        setMarker_hos(); //병원이랑 시설
-        drawMarker_bike();
-        setMarker_Charge();
+        SharedPreferences total1 = getSharedPreferences("total", Activity.MODE_PRIVATE);
+        SharedPreferences hos2 = getSharedPreferences("hos2", Activity.MODE_PRIVATE);
+        SharedPreferences fac3 = getSharedPreferences("fac3", Activity.MODE_PRIVATE);
+        SharedPreferences charge4 = getSharedPreferences("charge4", Activity.MODE_PRIVATE);
+        SharedPreferences wheel5 = getSharedPreferences("wheel5", Activity.MODE_PRIVATE);
+        SharedPreferences ele6 = getSharedPreferences("ele6", Activity.MODE_PRIVATE);
+        SharedPreferences bike7 = getSharedPreferences("bike7", Activity.MODE_PRIVATE);
+        SharedPreferences slope8 = getSharedPreferences("slope8", Activity.MODE_PRIVATE);
+        SharedPreferences danger9 = getSharedPreferences("danger9", Activity.MODE_PRIVATE);
+
+
+        if(total1.getBoolean("total",true)){
+            setMarker_hos(); //병원이랑 시설
+            drawMarker_bike();
+            setMarker_Charge();
+        }else {
+            if (hos2.getBoolean("total", true)) {
+                setMarker_hos(); //병원이랑 시설
+            }
+            if (fac3.getBoolean("total", true)) {
+
+            }
+            if (charge4.getBoolean("total", true)) {
+                setMarker_Charge();
+            }
+
+            if (wheel5.getBoolean("total", true)) {
+
+            }
+
+            if (ele6.getBoolean("total", true)) {
+
+            }
+
+            if (bike7.getBoolean("total", true)) {
+                drawMarker_bike();
+            }
+
+            if (slope8.getBoolean("total", true)) {
+
+            }
+
+            if (danger9.getBoolean("total", true)) {
+
+            }
+        }
+
+
 
         System.out.println(total1.getAll()+"ㅎㅇ");
         System.out.println(hos2.getAll()+"ㅎㅇ");
