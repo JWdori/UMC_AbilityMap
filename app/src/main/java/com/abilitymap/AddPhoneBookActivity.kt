@@ -117,25 +117,25 @@ class AddPhoneBookActivity : AppCompatActivity() {
                 finish()
             }
             else{       //데이터 수정
-                Log.d("Item ID", intent.getIntExtra("position", 0).toString())
-                Log.d("수정된 Name", binding.etNameAddPhoneBook.text.toString())
-                Log.d("수정된 PhoneNumber",binding.etPhoneNumberAddPhoneBook.text.toString())
+//                Log.d("Item ID", intent.getIntExtra("position", 0).toString())
+//                Log.d("수정된 Name", binding.etNameAddPhoneBook.text.toString())
+//                Log.d("수정된 PhoneNumber",binding.etPhoneNumberAddPhoneBook.text.toString())
+////                personInfoDatabase.personInfoDao().updatePerson(binding.etNameAddPhoneBook.text.toString(), binding.etPhoneNumberAddPhoneBook.text.toString(), intent.getIntExtra("position", 0))
+////                Log.d("DB 수정 후", personInfoDatabase.personInfoDao().getPersonList().toString())
+////                finish()
+////                mItemClickListener.onClick()
+//
+//                Log.d("DB 수정 전", personInfoDatabase.personInfoDao().getPersonList().toString())
 //                personInfoDatabase.personInfoDao().updatePerson(binding.etNameAddPhoneBook.text.toString(), binding.etPhoneNumberAddPhoneBook.text.toString(), intent.getIntExtra("position", 0))
 //                Log.d("DB 수정 후", personInfoDatabase.personInfoDao().getPersonList().toString())
+//
+//                intent.putExtra("name", binding.etNameAddPhoneBook.text.toString())
+//                intent.putExtra("phoneNumber", binding.etPhoneNumberAddPhoneBook.text.toString())
+//                intent.putExtra("position",intent.getIntExtra("position",0))
+//                setResult(RESULT_OK, intent)
+//
+//                Toast.makeText(this,"연락처를 수정하였습니다", Toast.LENGTH_SHORT).show()
 //                finish()
-//                mItemClickListener.onClick()
-
-                Log.d("DB 수정 전", personInfoDatabase.personInfoDao().getPersonList().toString())
-                personInfoDatabase.personInfoDao().updatePerson(binding.etNameAddPhoneBook.text.toString(), binding.etPhoneNumberAddPhoneBook.text.toString(), intent.getIntExtra("position", 0))
-                Log.d("DB 수정 후", personInfoDatabase.personInfoDao().getPersonList().toString())
-
-                intent.putExtra("name", binding.etNameAddPhoneBook.text.toString())
-                intent.putExtra("phoneNumber", binding.etPhoneNumberAddPhoneBook.text.toString())
-                intent.putExtra("position",intent.getIntExtra("position",0))
-                setResult(RESULT_OK, intent)
-
-                Toast.makeText(this,"연락처를 수정하였습니다", Toast.LENGTH_SHORT).show()
-                finish()
             }
         }
     }

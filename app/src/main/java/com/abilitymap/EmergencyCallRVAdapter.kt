@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
+import android.content.Context.MODE_PRIVATE
 import android.graphics.Color
 import android.graphics.Typeface
 import android.view.LayoutInflater
@@ -27,7 +28,7 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
 
     interface MyItemClickListener{
         fun onRemovePerson(PersonId : Int)
-        fun onItemClicked(personInfo: PersonInfo, position: Int)
+        fun onItemClicked(personInfo: PersonInfo, position: Int, name: String, phoneNumber: String)
         fun onUpdatePerson(PersonId : Int)
     }
 
@@ -45,6 +46,10 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
 
     override fun onBindViewHolder(holder: EmergencyCallRVAdapter.ViewHolder, position: Int) {
         holder.bind(personInfo[position], position)
+
+        holder.binding.layoutEmergencyCall.setOnClickListener {
+            mItemClickListener.onItemClicked(personInfo[position], position, personInfo[position].name!!, personInfo[position].phoneNumber!!)
+        }
 
         holder.binding.ivDeleteEmergencyCall.setOnClickListener {
 
@@ -72,9 +77,9 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
 
         }
 
-        holder.binding.ivModifyEmergencyCall.setOnClickListener {
-            mItemClickListener.onItemClicked(personInfo[position], position)
-        }
+//        holder.binding.ivModifyEmergencyCall.setOnClickListener {
+//            mItemClickListener.onItemClicked(personInfo[position], position)
+//        }
 
 
 //        mContext.setMyItemClickListener(object : AddPhoneBookActivity.MyItemClickListener{

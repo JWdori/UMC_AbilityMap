@@ -2,6 +2,7 @@ package com.abilitymap
 
 import android.app.Activity
 import android.content.Intent
+import android.content.SharedPreferences
 import android.opengl.Visibility
 import android.os.Bundle
 import android.util.Log
@@ -17,6 +18,7 @@ class EmergencyCallActivity : AppCompatActivity() {
     private lateinit var binding : ActivityEmergencyCallBinding
     private lateinit var emergencyCallRVAdapter : EmergencyCallRVAdapter
     private lateinit var personInfoDB : PersonInfoDatabase
+    private lateinit var spf : SharedPreferences
     lateinit var name : String
     lateinit var phoneNumber : String
     var position : Int = -1
@@ -41,6 +43,14 @@ class EmergencyCallActivity : AppCompatActivity() {
             val intent = Intent(this, AddPhoneBookActivity::class.java)
             startActivity(intent)
         }
+        binding.cl119EmergencyCall.setOnClickListener {
+            spf = getSharedPreferences("personInfo", MODE_PRIVATE)
+            val editor : SharedPreferences.Editor = spf.edit()
+            editor.putString("name", "119")
+            editor.putString("phoneNumber", "119")
+            editor.apply()
+            editor.commit()
+        }
     }
 
     private fun initRecyclerView(){
@@ -57,13 +67,20 @@ class EmergencyCallActivity : AppCompatActivity() {
                 checkNumberOfItems()
                 binding.tvNumOfInfoEmergencyCall.setText(personInfoDB.personInfoDao().getPersonList().size.toString()+"/5")
             }
-            override fun onItemClicked(personInfo: PersonInfo, position : Int) {
-                val intent = Intent(this@EmergencyCallActivity,
-                    activity::class.java)     //edit text에 적힌 data 보내기
-                intent.putExtra("name", personInfo.name)
-                intent.putExtra("phoneNumber", personInfo.phoneNumber)
-                intent.putExtra("position", position)
-                startActivityForResult(intent, 1000)
+            override fun onItemClicked(personInfo: PersonInfo, position : Int, name : String, phoneNumber : String) {
+                spf = getSharedPreferences("personInfo", MODE_PRIVATE)
+                val editor : SharedPreferences.Editor = spf.edit()
+                editor.putString("name", name)
+                editor.putString("phoneNumber", phoneNumber)
+                editor.apply()
+                editor.commit()
+
+//                val intent = Intent(this@EmergencyCallActivity,
+//                    activity::class.java)     //edit text에 적힌 data 보내기
+//                intent.putExtra("name", personInfo.name)
+//                intent.putExtra("phoneNumber", personInfo.phoneNumber)
+//                intent.putExtra("position", position)
+//                startActivityForResult(intent, 1000)
             }
 
             override fun onUpdatePerson(PersonId: Int) {
@@ -86,27 +103,27 @@ class EmergencyCallActivity : AppCompatActivity() {
         binding.tvNumOfInfoEmergencyCall.setText(personInfoDB.personInfoDao().getPersonList().size.toString()+"/5")
     }
 
-    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-
-        if (resultCode == RESULT_OK){
-            name = data?.getStringExtra("name")!!
-            phoneNumber = data?.getStringExtra("phoneNumber")!!
-            position = data?.getIntExtra("position", 0)
-            Log.d("Data from edit text", "데이터 가져오기 성공")
-
-            Log.d("변경 후 pos", position.toString())
-            Log.d("변경 후 name", name!!)
-            Log.d("변경 후 phoneNumber",phoneNumber!!)
-
-            personInfoDB.personInfoDao().updatePerson(name, phoneNumber, position!!)
-            Log.d("DB 수정 후", personInfoDB.personInfoDao().getPersonList().toString())
-            emergencyCallRVAdapter.updatePerson(name!!, phoneNumber!!, position!!)
-            Log.d("DB 수정 후1", personInfoDB.personInfoDao().getPersonList().toString())
-            emergencyCallRVAdapter.addPersonInfo(personInfoDB.personInfoDao().getPersonList() as ArrayList<PersonInfo>)
-            Log.d("DB 수정 후3", personInfoDB.personInfoDao().getPersonList().toString())
-        }
-    }
+//    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+//        super.onActivityResult(requestCode, resultCode, data)
+//
+//        if (resultCode == RESULT_OK){
+//            name = data?.getStringExtra("name")!!
+//            phoneNumber = data?.getStringExtra("phoneNumber")!!
+//            position = data?.getIntExtra("position", 0)
+//            Log.d("Data from edit text", "데이터 가져오기 성공")
+//
+//            Log.d("변경 후 pos", position.toString())
+//            Log.d("변경 후 name", name!!)
+//            Log.d("변경 후 phoneNumber",phoneNumber!!)
+//
+//            personInfoDB.personInfoDao().updatePerson(name, phoneNumber, position!!)
+//            Log.d("DB 수정 후", personInfoDB.personInfoDao().getPersonList().toString())
+//            emergencyCallRVAdapter.updatePerson(name!!, phoneNumber!!, position!!)
+//            Log.d("DB 수정 후1", personInfoDB.personInfoDao().getPersonList().toString())
+//            emergencyCallRVAdapter.addPersonInfo(personInfoDB.personInfoDao().getPersonList() as ArrayList<PersonInfo>)
+//            Log.d("DB 수정 후3", personInfoDB.personInfoDao().getPersonList().toString())
+//        }
+//    }
 
     private fun checkNumberOfItems(){
         if (personInfoDB.personInfoDao().getPersonList().size>=5)
