@@ -26,6 +26,8 @@ import com.github.angads25.toggle.model.ToggleableView;
 import com.github.angads25.toggle.widget.LabeledSwitch;
 import com.naver.maps.map.overlay.Overlay;
 
+import java.util.Map;
+
 public class FilterActivity extends AppCompatActivity {
     LabeledSwitch labeledSwitch_total1;
     LabeledSwitch labeledSwitch_hos2;
@@ -37,15 +39,33 @@ public class FilterActivity extends AppCompatActivity {
     LabeledSwitch labeledSwitch_slope8;
     LabeledSwitch labeledSwitch_danger9;
     Button filter_button;
+
+
+    Map<String, ?> total1_;
+    Map<String, ?> hos2_;
+    Map<String, ?> fac3_;
+    Map<String, ?> charge4_;
+    Map<String, ?> wheel5_;
+    Map<String, ?> ele6_;
+    Map<String, ?> bike7_;
+    Map<String, ?> slope8_;
+    Map<String, ?> danger9_;
+
+
+
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-//        overridePendingTransition(R.anim.horizon_enter, R.anim.none)
+//      overridePendingTransition(R.anim.horizon_enter, R.anim.none)
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_filter);
         Filter_close();
         Filter_save();
+
         filter_button = findViewById(R.id.button_filter);
+
+
         SharedPreferences total1 = getSharedPreferences("total", Activity.MODE_PRIVATE);
         SharedPreferences hos2 = getSharedPreferences("hos2", Activity.MODE_PRIVATE);
         SharedPreferences fac3 = getSharedPreferences("fac3", Activity.MODE_PRIVATE);
@@ -65,8 +85,15 @@ public class FilterActivity extends AppCompatActivity {
         labeledSwitch_slope8 = findViewById(R.id.slope_toggle);
         labeledSwitch_danger9 = findViewById(R.id.danger_toggle);
 
-        System.out.println(total1.getAll()+"ㅎㅇ");
-
+        total1_ = total1.getAll();
+        hos2_ = hos2.getAll();
+        fac3_ = fac3.getAll();
+        charge4_ = charge4.getAll();
+        wheel5_ = wheel5.getAll();
+        ele6_ = ele6.getAll();
+        bike7_ = bike7.getAll();
+        slope8_ = slope8.getAll();
+        danger9_ = danger9.getAll();
 
 
 //        if (total1.getBoolean("total",true)) {
@@ -91,18 +118,19 @@ public class FilterActivity extends AppCompatActivity {
 //            labeledSwitch_danger9.setOn(false);
 //        }
 
+
+        if (total1.getBoolean("total",true)) {
+            labeledSwitch_total1.setOn(true);
+        }else{
+            labeledSwitch_total1.setOn(false);
+        }
+
         if (hos2.getBoolean("total",true)) {
             labeledSwitch_hos2.setOn(true);
         }else{
             labeledSwitch_hos2.setOn(false);
         }
 
-
-        if (hos2.getBoolean("total",true)) {
-            labeledSwitch_hos2.setOn(true);
-        }else{
-            labeledSwitch_hos2.setOn(false);
-        }
 
         if (fac3.getBoolean("total",true)) {
             labeledSwitch_fac3.setOn(true);
@@ -146,8 +174,6 @@ public class FilterActivity extends AppCompatActivity {
             labeledSwitch_danger9.setOn(false);
         }
 
-
-
         if ((hos2.getBoolean("total",true))&&(fac3.getBoolean("total",true))&&(charge4.getBoolean("total",true))
                 &&(wheel5.getBoolean("total",true))&&(ele6.getBoolean("total",true))&&(bike7.getBoolean("total",true))
                 &&(slope8.getBoolean("total",true))&&(danger9.getBoolean("total",true))){
@@ -155,8 +181,6 @@ public class FilterActivity extends AppCompatActivity {
         }else{
             labeledSwitch_total1.setOn(false);
         }
-
-
 
 
 
@@ -272,7 +296,6 @@ public class FilterActivity extends AppCompatActivity {
                     editor.putBoolean("total",false);
                     editor.commit();
                 }
-                System.out.println("hos"+hos2.getAll());
             }
 
         });
@@ -488,31 +511,231 @@ public class FilterActivity extends AppCompatActivity {
         });
 
 
+    }
 
 
 
 
 
+
+    public void onStop(){
+        super.onStop();
 
     }
+
 
 
 
     //필터 닫기~~
     private void Filter_close() {
+        SharedPreferences total1 = getSharedPreferences("total", Activity.MODE_PRIVATE);
+        SharedPreferences hos2 = getSharedPreferences("hos2", Activity.MODE_PRIVATE);
+        SharedPreferences fac3 = getSharedPreferences("fac3", Activity.MODE_PRIVATE);
+        SharedPreferences charge4 = getSharedPreferences("charge4", Activity.MODE_PRIVATE);
+        SharedPreferences wheel5 = getSharedPreferences("wheel5", Activity.MODE_PRIVATE);
+        SharedPreferences ele6 = getSharedPreferences("ele6", Activity.MODE_PRIVATE);
+        SharedPreferences bike7 = getSharedPreferences("bike7", Activity.MODE_PRIVATE);
+        SharedPreferences slope8 = getSharedPreferences("slope8", Activity.MODE_PRIVATE);
+        SharedPreferences danger9 = getSharedPreferences("danger9", Activity.MODE_PRIVATE);
+
         ImageButton filterclose = findViewById(R.id.filter_close);
         filterclose.setOnClickListener(new View.OnClickListener() {
             @Override
 
-
             public void onClick(View view) {
                 finish();
+                if(total1_.get("total")==null){
+                    SharedPreferences.Editor editor = total1.edit();
+                    editor.putBoolean("total",true);
+                    editor.commit();
+                }else if(total1.getAll().equals(total1_)==false){
+                    SharedPreferences.Editor editor = total1.edit();
+                    editor.putBoolean("total",(boolean)total1_.get("total"));
+                    editor.commit();
+                }if(hos2_.get("total")==null){
+                    SharedPreferences.Editor editor = hos2.edit();
+                    editor.putBoolean("total",true);
+                    editor.commit();
+                }else if(hos2.getAll().equals(hos2_)==false){
+                    SharedPreferences.Editor editor = hos2.edit();
+                    editor.putBoolean("total",(boolean)hos2_.get("total"));
+                    editor.commit();
+                }
+
+                if(fac3_.get("total")==null) {
+                    SharedPreferences.Editor editor = fac3.edit();
+                    editor.putBoolean("total", true);
+                    editor.commit();
+                }else if(fac3.getAll().equals(fac3_)==false){
+                    SharedPreferences.Editor editor = fac3.edit();
+                    editor.putBoolean("total",(boolean)fac3_.get("total"));
+                    editor.commit();
+                }
+
+
+                if(charge4_.get("total")==null){
+                    SharedPreferences.Editor editor = charge4.edit();
+                    editor.putBoolean("total",true);
+                    editor.commit();
+                }else if(charge4.getAll().equals(charge4_)==false){
+                    SharedPreferences.Editor editor = charge4.edit();
+                    editor.putBoolean("total",(boolean)charge4_.get("total"));
+                    editor.commit();
+                }
+                if(wheel5_.get("total")==null){
+                    SharedPreferences.Editor editor = wheel5.edit();
+                    editor.putBoolean("total",true);
+                    editor.commit();
+                }else if(wheel5.getAll().equals(wheel5_)==false){
+                    SharedPreferences.Editor editor = wheel5.edit();
+                    editor.putBoolean("total",(boolean)wheel5_.get("total"));
+                    editor.commit();
+                }
+                if(ele6_.get("total")==null){
+                    SharedPreferences.Editor editor = ele6.edit();
+                    editor.putBoolean("total",true);
+                    editor.commit();
+                }else if(ele6.getAll().equals(ele6_)==false){
+                    SharedPreferences.Editor editor = ele6.edit();
+                    editor.putBoolean("total",(boolean)ele6_.get("total"));
+                    editor.commit();
+                }
+                if(bike7_.get("total")==null){
+                    SharedPreferences.Editor editor = bike7.edit();
+                    editor.putBoolean("total",true);
+                    editor.commit();
+                }else if(bike7.getAll().equals(bike7_)==false){
+                    SharedPreferences.Editor editor = bike7.edit();
+                    editor.putBoolean("total",(boolean)bike7_.get("total"));
+                    editor.commit();
+                }
+
+                if(slope8_.get("total")==null){
+                    SharedPreferences.Editor editor = slope8.edit();
+                    editor.putBoolean("total",true);
+                    editor.commit();
+                }else if(slope8.getAll().equals(slope8_)==false){
+                    SharedPreferences.Editor editor = slope8.edit();
+                    editor.putBoolean("total",(boolean)slope8_.get("total"));
+                    editor.commit();
+                }
+                if(danger9_.get("total")==null){
+                    SharedPreferences.Editor editor = danger9.edit();
+                    editor.putBoolean("total",true);
+                    editor.commit();
+                }else if(danger9.getAll().equals(danger9_)==false){
+                    SharedPreferences.Editor editor = danger9.edit();
+                    editor.putBoolean("total",(boolean)danger9_.get("total"));
+                    editor.commit();
+                }
+
+
+
             }
         });
     }
 
 
+    public void onBackPressed(){
+        SharedPreferences total1 = getSharedPreferences("total", Activity.MODE_PRIVATE);
+        SharedPreferences hos2 = getSharedPreferences("hos2", Activity.MODE_PRIVATE);
+        SharedPreferences fac3 = getSharedPreferences("fac3", Activity.MODE_PRIVATE);
+        SharedPreferences charge4 = getSharedPreferences("charge4", Activity.MODE_PRIVATE);
+        SharedPreferences wheel5 = getSharedPreferences("wheel5", Activity.MODE_PRIVATE);
+        SharedPreferences ele6 = getSharedPreferences("ele6", Activity.MODE_PRIVATE);
+        SharedPreferences bike7 = getSharedPreferences("bike7", Activity.MODE_PRIVATE);
+        SharedPreferences slope8 = getSharedPreferences("slope8", Activity.MODE_PRIVATE);
+        SharedPreferences danger9 = getSharedPreferences("danger9", Activity.MODE_PRIVATE);
+        super.onBackPressed();
+        if(total1_.get("total")==null){
+            SharedPreferences.Editor editor = total1.edit();
+            editor.putBoolean("total",true);
+            editor.commit();
+        }else if(total1.getAll().equals(total1_)==false){
+            SharedPreferences.Editor editor = total1.edit();
+            editor.putBoolean("total",(boolean)total1_.get("total"));
+            editor.commit();
+        }if(hos2_.get("total")==null){
+            SharedPreferences.Editor editor = hos2.edit();
+            editor.putBoolean("total",true);
+            editor.commit();
+        }else if(hos2.getAll().equals(hos2_)==false){
+            SharedPreferences.Editor editor = hos2.edit();
+            editor.putBoolean("total",(boolean)hos2_.get("total"));
+            editor.commit();
+        }
+
+        if(fac3_.get("total")==null) {
+            SharedPreferences.Editor editor = fac3.edit();
+            editor.putBoolean("total", true);
+            editor.commit();
+        }else if(fac3.getAll().equals(fac3_)==false){
+            SharedPreferences.Editor editor = fac3.edit();
+            editor.putBoolean("total",(boolean)fac3_.get("total"));
+            editor.commit();
+        }
+
+
+        if(charge4_.get("total")==null){
+            SharedPreferences.Editor editor = charge4.edit();
+            editor.putBoolean("total",true);
+            editor.commit();
+        }else if(charge4.getAll().equals(charge4_)==false){
+            SharedPreferences.Editor editor = charge4.edit();
+            editor.putBoolean("total",(boolean)charge4_.get("total"));
+            editor.commit();
+        }
+        if(wheel5_.get("total")==null){
+            SharedPreferences.Editor editor = wheel5.edit();
+            editor.putBoolean("total",true);
+            editor.commit();
+        }else if(wheel5.getAll().equals(wheel5_)==false){
+            SharedPreferences.Editor editor = wheel5.edit();
+            editor.putBoolean("total",(boolean)wheel5_.get("total"));
+            editor.commit();
+        }
+        if(ele6_.get("total")==null){
+            SharedPreferences.Editor editor = ele6.edit();
+            editor.putBoolean("total",true);
+            editor.commit();
+        }else if(ele6.getAll().equals(ele6_)==false){
+            SharedPreferences.Editor editor = ele6.edit();
+            editor.putBoolean("total",(boolean)ele6_.get("total"));
+            editor.commit();
+        }
+        if(bike7_.get("total")==null){
+            SharedPreferences.Editor editor = bike7.edit();
+            editor.putBoolean("total",true);
+            editor.commit();
+        }else if(bike7.getAll().equals(bike7_)==false){
+            SharedPreferences.Editor editor = bike7.edit();
+            editor.putBoolean("total",(boolean)bike7_.get("total"));
+            editor.commit();
+        }
+
+        if(slope8_.get("total")==null){
+            SharedPreferences.Editor editor = slope8.edit();
+            editor.putBoolean("total",true);
+            editor.commit();
+        }else if(slope8.getAll().equals(slope8_)==false){
+            SharedPreferences.Editor editor = slope8.edit();
+            editor.putBoolean("total",(boolean)slope8_.get("total"));
+            editor.commit();
+        }
+        if(danger9_.get("total")==null){
+            SharedPreferences.Editor editor = danger9.edit();
+            editor.putBoolean("total",true);
+            editor.commit();
+        }else if(danger9.getAll().equals(danger9_)==false){
+            SharedPreferences.Editor editor = danger9.edit();
+            editor.putBoolean("total",(boolean)danger9_.get("total"));
+            editor.commit();
+        }
+    }
+
+
     private void Filter_save() {
+        SharedPreferences total1 = getSharedPreferences("total", Activity.MODE_PRIVATE);
         MainActivity firstActivity = (MainActivity) MainActivity.firstActivity;
         filter_button = findViewById(R.id.button_filter);
         filter_button.setOnClickListener(new View.OnClickListener() {
