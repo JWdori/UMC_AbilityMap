@@ -555,6 +555,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         naverMap.moveCamera(cameraUpdate);
         this.naverMap = naverMap;
 
+
         SharedPreferences total1 = getSharedPreferences("total", Activity.MODE_PRIVATE);
         SharedPreferences hos2 = getSharedPreferences("hos2", Activity.MODE_PRIVATE);
         SharedPreferences fac3 = getSharedPreferences("fac3", Activity.MODE_PRIVATE);
@@ -571,7 +572,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             drawMarker_bike();
             setMarker_Charge();
             drawMarker_slope();
-        }else {
+        }else{
             if (hos2.getBoolean("total", true)) {
                 setMarker_hos(); //병원이랑 시설
             }
@@ -581,36 +582,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             if (charge4.getBoolean("total", true)) {
                 setMarker_Charge();
             }
-
             if (wheel5.getBoolean("total", true)) {
 
             }
-
             if (ele6.getBoolean("total", true)) {
 
             }
-
             if (bike7.getBoolean("total", true)) {
                 drawMarker_bike();
             }
-
             if (slope8.getBoolean("total", true)) {
                 drawMarker_slope();
             }
-
             if (danger9.getBoolean("total", true)) {
 
             }
+
         }
 
 
 
         System.out.println(total1.getAll()+"ㅎㅇ");
         System.out.println(hos2.getAll()+"ㅎㅇ");
-
-
-
-
         System.out.println("new2");
         //충전기
         naverMap.setMaxZoom(19.0);
@@ -1052,17 +1045,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-             @Override
+    @Override
     public void onResume(){
         super.onResume();
-        System.out.println("리섬");
 
     }
 
     @Override
     public void onStop(){
         super.onStop();
-        System.out.println("스탑");
     }
 
     @Override
