@@ -12,13 +12,14 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.abilitymap.databinding.ActivityEmergencyCallBinding
+import com.abilitymap.databinding.ItemEmergencyCallBinding
 
 class EmergencyCallActivity : AppCompatActivity() {
 
     private lateinit var binding : ActivityEmergencyCallBinding
     private lateinit var emergencyCallRVAdapter : EmergencyCallRVAdapter
     private lateinit var personInfoDB : PersonInfoDatabase
-    private lateinit var spf : SharedPreferences
+    private lateinit var spfPersonInfo : SharedPreferences
     lateinit var name : String
     lateinit var phoneNumber : String
     var position : Int = -1
@@ -44,22 +45,26 @@ class EmergencyCallActivity : AppCompatActivity() {
             startActivity(intent)
         }
         binding.cl119EmergencyCall.setOnClickListener {
-            spf = getSharedPreferences("personInfo", MODE_PRIVATE)
-            val editor : SharedPreferences.Editor = spf.edit()
+
+            spfPersonInfo = getSharedPreferences("personInfo", MODE_PRIVATE)
+            val editor : SharedPreferences.Editor = spfPersonInfo.edit()
             editor.putString("name", "119")
             editor.putString("phoneNumber", "119")
             editor.apply()
             editor.commit()
+
         }
     }
 
-    private fun initRecyclerView(){
-        val activity = AddPhoneBookActivity()
+    private fun setUpRecyclerView(){
         emergencyCallRVAdapter = EmergencyCallRVAdapter()
         emergencyCallRVAdapter.mContext = this
         binding.rvEmergencyCall.adapter = emergencyCallRVAdapter
         binding.rvEmergencyCall.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
+    }
 
+    private fun initRecyclerView(){
+        setUpRecyclerView()
         emergencyCallRVAdapter.setMyItemClickListener(object: EmergencyCallRVAdapter.MyItemClickListener{
             override fun onRemovePerson(PersonId: Int) {
                 personInfoDB.personInfoDao().deletePerson(PersonId)
@@ -67,13 +72,17 @@ class EmergencyCallActivity : AppCompatActivity() {
                 checkNumberOfItems()
                 binding.tvNumOfInfoEmergencyCall.setText(personInfoDB.personInfoDao().getPersonList().size.toString()+"/5")
             }
-            override fun onItemClicked(personInfo: PersonInfo, position : Int, name : String, phoneNumber : String) {
-                spf = getSharedPreferences("personInfo", MODE_PRIVATE)
-                val editor : SharedPreferences.Editor = spf.edit()
-                editor.putString("name", name)
-                editor.putString("phoneNumber", phoneNumber)
-                editor.apply()
-                editor.commit()
+            override fun onItemClicked(personInfo: PersonInfo, position : Int, name : String, phoneNumber : String, binding: ItemEmergencyCallBinding) {
+
+                binding.layoutEmergencyCall.setBackgroundDrawable(resources.getDrawable(R.drawable.rectangle_clicked))
+                binding.flag.setText("true")
+
+                for (i : Int in 1..emergencyCallRVAdapter.itemCount){
+                    if (i != position && binding.flag.text.toString().equals("true")){         //클릭 된 것을 제외한 view들 원 상태로 복귀
+
+                    }
+                }
+                putSPF(name, phoneNumber)
 
 //                val intent = Intent(this@EmergencyCallActivity,
 //                    activity::class.java)     //edit text에 적힌 data 보내기
@@ -83,10 +92,10 @@ class EmergencyCallActivity : AppCompatActivity() {
 //                startActivityForResult(intent, 1000)
             }
 
-            override fun onUpdatePerson(PersonId: Int) {
-                emergencyCallRVAdapter.setModifiedData(name, phoneNumber, position)
-                personInfoDB.personInfoDao().updatePerson(name, phoneNumber, position)
-            }
+//            override fun onUpdatePerson(PersonId: Int) {
+//                emergencyCallRVAdapter.setModifiedData(name, phoneNumber, position)
+//                personInfoDB.personInfoDao().updatePerson(name, phoneNumber, position)
+//            }
         })
         initPersonInfoDB()
     }
@@ -130,6 +139,15 @@ class EmergencyCallActivity : AppCompatActivity() {
             binding.clAddEmergencyCall.visibility = View.GONE
         else
             binding.clAddEmergencyCall.visibility = View.VISIBLE
+    }
+
+    private fun putSPF(name : String, phoneNumber : String){
+        spfPersonInfo = getSharedPreferences("personInfo", MODE_PRIVATE)
+        val editor : SharedPreferences.Editor = spfPersonInfo.edit()
+        editor.putString("name", name)
+        editor.putString("phoneNumber", phoneNumber)
+        editor.apply()
+        editor.commit()
     }
 
 }
