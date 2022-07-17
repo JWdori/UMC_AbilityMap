@@ -1,6 +1,6 @@
 package com.abilitymap;
+
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -8,7 +8,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
@@ -16,7 +15,6 @@ import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.Rect;
-import android.graphics.Typeface;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.InsetDrawable;
 import android.location.Address;
@@ -24,6 +22,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 
 import java.text.SimpleDateFormat;
+
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
@@ -31,32 +30,32 @@ import android.os.Build;
 import android.os.Handler;
 import android.telephony.SmsManager;
 import android.util.Log;
+
 import androidx.appcompat.app.AlertDialog;
 
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.abilitymap.databinding.ActivityFilterBinding;
 import com.abilitymap.databinding.ActivityMainBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
-import com.naver.maps.geometry.LatLngBounds;
 import com.naver.maps.map.CameraAnimation;
 import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
+
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Toast;
+
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.UiSettings;
@@ -74,9 +73,7 @@ import java.util.List;
 import java.util.Locale;
 
 
-
-public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker_facility, SetMarker_wheel
-         {
+public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker_facility, SetMarker_wheel {
     private GpsTracker gpsTracker;
     private NaverMap naverMap;
     public static Activity firstActivity;
@@ -148,10 +145,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //    }
 
 
-
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
-    protected void onCreate(Bundle savedInstanceState){ //화면 생성과 함께 현재 위치 받아옴.
+    protected void onCreate(Bundle savedInstanceState) { //화면 생성과 함께 현재 위치 받아옴.
         firstActivity = MainActivity.this;
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         super.onCreate(savedInstanceState);
@@ -163,29 +159,29 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         initClickListener();
         initLauncher();
         FragmentManager fm = getSupportFragmentManager();
-        MapFragment mapFragment = (MapFragment)fm.findFragmentById(R.id.map);
+        MapFragment mapFragment = (MapFragment) fm.findFragmentById(R.id.map);
 
-        if(mapFragment ==null ){
+        if (mapFragment == null) {
             mapFragment = MapFragment.newInstance();
             fm.beginTransaction().add(R.id.map, mapFragment).commit();
         }
         mapFragment.getMapAsync(this);
         if (!checkLocationServicesStatus()) {
             showDialogForLocationServiceSetting();
-        }else {
+        } else {
 
             checkRunTimePermission();
         }
-        locationSource = new FusedLocationSource(this,LOCATION_PERMISSION_REQUEST_CODE);
+        locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
-                        if(location == null) {
+                        if (location == null) {
                             currentPosition = new LatLng(37.3595316, 127.1052133);
                             // Got last known location. In some rare situations this can be null.
-                        }else{
-                            currentPosition = new LatLng(location.getLatitude(),location.getLongitude());
+                        } else {
+                            currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
                             // Logic to handle location object
                         }
                     }
@@ -195,11 +191,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         JsonApi_total total_api = new JsonApi_total();
-        JsonApi_bike bike_api  = new JsonApi_bike();
-        JsonApi_charge charge_api  = new JsonApi_charge();
-        total_api.execute(lat,lon,"");
-        bike_api.execute(lat,lon,"");
-        charge_api.execute(lat,lon,"");
+        JsonApi_bike bike_api = new JsonApi_bike();
+        JsonApi_charge charge_api = new JsonApi_charge();
+        total_api.execute(lat, lon, "");
+        bike_api.execute(lat, lon, "");
+        charge_api.execute(lat, lon, "");
 
 //        new Thread(() -> {
 //            setUpMap(); // network 동작, 인터넷에서 xml을 받아오는 코드
@@ -209,27 +205,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         // 핸들러
 
 
-
 //
-
 
 
     }
 
 
-
-
-
-
-
-
     //
     @Override
-    public void onRequestPermissionsResult ( int requestCode,
-                                             @NonNull String[] permissions, @NonNull int[] grandResults) {
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions, @NonNull int[] grandResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grandResults);
 
-        if (requestCode == PERMISSIONS_REQUEST_CODE  && grandResults.length == REQUIRED_PERMISSIONS.length) {
+        if (requestCode == PERMISSIONS_REQUEST_CODE && grandResults.length == REQUIRED_PERMISSIONS.length) {
             boolean check_result = true;
             for (int result : grandResults) {
                 if (result != PackageManager.PERMISSION_GRANTED) {
@@ -269,8 +257,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public boolean onClick(@NonNull Overlay overlay) {
-        ImageButton repot_message = (ImageButton)findViewById(R.id.message_button);
-        ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
+        ImageButton repot_message = (ImageButton) findViewById(R.id.message_button);
+        ImageButton Report_button = (ImageButton) findViewById(R.id.repot_button);
 
         /*Report_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -299,9 +287,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 setCamera(intent);
             }
         });*/
-        if(overlay instanceof Marker && clickable){
+        if (overlay instanceof Marker && clickable) {
 //            Toast.makeText(this.getApplicationContext(),"위험지역입니다",Toast.LENGTH_LONG).show();
-            LocationDetailFragment infoFragment = new LocationDetailFragment();
+            Object object = overlay.getTag();
+            String tag = String.valueOf(object);
+            //charge_list.get()
+
+            JsonApi_charge.charge_item selectedItem = findThisMarkerItem(((Marker) overlay).getPosition(), charge_list);
+
+            String location = selectedItem.getLocation();
+            String week = selectedItem.getWeek();
+            String weekend = selectedItem.getWeekend();
+            String holiday = selectedItem.getHoliday();
+
+            System.out.println("리스트 검색 결과 : "+ location + "," + week +"," + weekend +","+holiday);
+
+            LocationDetailFragment infoFragment = new LocationDetailFragment(tag,location,week,weekend,holiday);
+
+
+            //LocationDetailFragment infoFragment = new LocationDetailFragment(tag);
+
             getSupportFragmentManager().beginTransaction().add(R.id.map, infoFragment).addToBackStack(null).commit();
             clickable = false;
             repot_message.setVisibility(View.INVISIBLE);
@@ -310,9 +315,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.d("clickable?", String.valueOf(clickable));
 
             LatLng selectedPosition = ((Marker) overlay).getPosition();
-            CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition,16).pivot(new PointF(0.5f,0.37f)).animate(CameraAnimation.Easing);
+            CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.37f)).animate(CameraAnimation.Easing);
             naverMap.moveCamera(cameraUpdate);
-
 
 
             naverMap.setOnMapClickListener(new NaverMap.OnMapClickListener() {
@@ -325,12 +329,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     repot_message.setVisibility(View.VISIBLE);
                     Report_button.setVisibility(View.VISIBLE);
                     Log.d("clickable?", String.valueOf(clickable));
-                    Log.d("click event","onMapClick");
+                    Log.d("click event", "onMapClick");
 
 
                 }
-
-
 
 
             });
@@ -338,11 +340,30 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             return true;
         }
         return false;
-
     }
 
+    JsonApi_charge.charge_item findThisMarkerItem(LatLng location, ArrayList<JsonApi_charge.charge_item> list) {
+        String thisLat = String.valueOf(location.latitude);
+        String thisLng = String.valueOf(location.longitude);
+        JsonApi_charge.charge_item selectedItem = null;
+
+        System.out.println(thisLat);
+        System.out.println(thisLng);
+
+        for (int i = 0; i < list.size(); i++) {
+            JsonApi_charge.charge_item item = list.get(i);
+            System.out.println(i+"," + item + ", Lat : "+item.getLat() + "Lng : " + item.getLng());
+            if ( thisLat.equals(item.getLat()) && thisLng.equals(item.getLng()) ) {
+                selectedItem = item;
+                System.out.println("item Found!");
+            }
+        }
+        return selectedItem;
+    }
+
+
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
 //        ImageButton Call_button = (ImageButton)findViewById(R.id.call_button);
 //        ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
 //        ImageButton Report_message = (ImageButton)findViewById(R.id.repot_message);
@@ -358,27 +379,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (isDrawerOpen) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
             isDrawerOpen = false;
-        }
-        else if(isFilter) {
+        } else if (isFilter) {
             isFilter = false;
-        }else{
+        } else {
 
             if (clickable) {
 
                 long tempTime = System.currentTimeMillis();
                 long intervalTime = tempTime - presstime;
 
-                if (0 <= intervalTime && finishtimeed >= intervalTime)
-                {
+                if (0 <= intervalTime && finishtimeed >= intervalTime) {
                     finish();
-                }
-                else
-                {
+                } else {
                     presstime = tempTime;
                     Toast.makeText(getApplicationContext(), "한번더 누르시면 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
                 }
 
-            }else {
+            } else {
                 super.onBackPressed();
                 ImageButton message_button = (ImageButton) findViewById(R.id.message_button);
                 ImageButton Report_button = (ImageButton) findViewById(R.id.repot_button);
@@ -388,7 +405,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
             }
-
 
 
         }
@@ -437,8 +453,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-
-    public String getCurrentAddress( double latitude, double longitude) {
+    public String getCurrentAddress(double latitude, double longitude) {
         //지오코더... GPS를 주소로 변환
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         List<Address> addresses;
@@ -465,9 +480,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Address address = addresses.get(0);
 
-        return address.getAddressLine(0).toString()+"\n";
+        return address.getAddressLine(0).toString() + "\n";
     }
-
 
 
     //여기부터는 GPS 활성화를 위한 메소드들
@@ -484,7 +498,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivityForResult(callGPSSettingIntent, GPS_ENABLE_REQUEST_CODE);
 
-                ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.ACCESS_BACKGROUND_LOCATION}, id);
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION}, id);
             }
         });
         builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -496,7 +510,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         builder.create().show();
     }
 
-    public void Dead(){
+    public void Dead() {
         finish();
     }
 
@@ -530,20 +544,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onMapReady(@NonNull NaverMap naverMap) {
-        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(currentPosition).animate(CameraAnimation.Fly,0);
+        CameraUpdate cameraUpdate = CameraUpdate.scrollTo(currentPosition).animate(CameraAnimation.Fly, 0);
         naverMap.moveCamera(cameraUpdate);
         this.naverMap = naverMap;
 
-        SharedPreferences total1 = getSharedPreferences("total1",Activity.MODE_PRIVATE);
-        SharedPreferences hos2 = getSharedPreferences("hos2",Activity.MODE_PRIVATE);
+        SharedPreferences total1 = getSharedPreferences("total1", Activity.MODE_PRIVATE);
+        SharedPreferences hos2 = getSharedPreferences("hos2", Activity.MODE_PRIVATE);
         setMarker_hos(); //병원이랑 시설
         drawMarker_bike();
         setMarker_Charge();
 
-        System.out.println(total1.getAll()+"ㅎㅇ");
-        System.out.println(hos2.getAll()+"ㅎㅇ");
-
-
+        System.out.println(total1.getAll() + "ㅎㅇ");
+        System.out.println(hos2.getAll() + "ㅎㅇ");
 
 
         System.out.println("new2");
@@ -557,12 +569,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         uiSettings.setLocationButtonEnabled(true);
 
 
-
         naverMap.setLocationSource(locationSource);
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
 
 
-        final TextView location_text = (TextView)findViewById(R.id.location_text);
+        final TextView location_text = (TextView) findViewById(R.id.location_text);
 
 
 
@@ -590,7 +601,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 // getSpeed() 함수를 이용하여 속도 계산(m/s -> km/h)
                 getSpeed = Double.parseDouble(String.format("%.3f", location.getSpeed() * 3.6));
                 // 위치 변경이 두번째로 변경된 경우 계산에 의해 속도 계산
-                if(mLastlocation != null){
+                if (mLastlocation != null) {
                     deltaTime = (location.getTime() - mLastlocation.getTime());
                     // 속도 계산(시간=ms, 거리=m -> km/h)
                     speed = (mLastlocation.distanceTo(location) / deltaTime) * 3600;
@@ -606,23 +617,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
                 String addrCut[] = address.split(" ");
-                if(addrCut.length >= 6) {
+                if (addrCut.length >= 6) {
                     location_text.setText(addrCut[2] + " " + addrCut[3] + " " + addrCut[4] + " " + addrCut[5]);
-                }else if(addrCut.length >= 5){
+                } else if (addrCut.length >= 5) {
                     location_text.setText(addrCut[2] + " " + addrCut[3] + " " + addrCut[4]);
-                }else if(addrCut.length >= 4){
+                } else if (addrCut.length >= 4) {
                     location_text.setText(addrCut[2] + " " + addrCut[3]);
-               }else if(addrCut.length >= 3){
-                    location_text.setText(addrCut[1] + " "+addrCut[2]);
-                }else if(addrCut.length >= 2){
-                    location_text.setText(addrCut[0]+ " "+addrCut[1]);
-                }else if(addrCut.length >= 1){
+                } else if (addrCut.length >= 3) {
+                    location_text.setText(addrCut[1] + " " + addrCut[2]);
+                } else if (addrCut.length >= 2) {
+                    location_text.setText(addrCut[0] + " " + addrCut[1]);
+                } else if (addrCut.length >= 1) {
                     location_text.setText(addrCut[0]);
-                }else{
+                } else {
                     location_text.setText("위치 정보 없음");
                 }
-
-
 
 
                 String lat_str = Double.toString(latitude);
@@ -637,7 +646,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 String cs_str = Double.toString(calSpeed);
 
 
-
             }
 
         });
@@ -646,20 +654,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void initLauncher(){
+    private void initLauncher() {
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            if(result.getResultCode() == 3000){
+            if (result.getResultCode() == 3000) {
                 Intent cameraIntent = result.getData();
                 String cameraFlag = cameraIntent.getStringExtra(Camera2Activity.picSaved);
                 //Toast.makeText(MainActivity.this,cameraFlag, Toast.LENGTH_SHORT).show();
-                Log.d("lancher","launch ok");
+                Log.d("lancher", "launch ok");
             }
 
         });
     }
 
 
-    private void setCamera(Intent cameraIntent){
+    private void setCamera(Intent cameraIntent) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             cameraIntent = new Intent(getApplicationContext(), Camera2Activity.class);
             //activityResultLauncher.launch(cameraIntent);
@@ -670,18 +678,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     //메시지 보내기 함수
-    private void sendSms(){
+    private void sendSms() {
         SmsManager manager = SmsManager.getDefault();
         manager.sendTextMessage("01031142949", null, "테스트", null, null);
     }
 
 
-
     @Override
-    public boolean dispatchTouchEvent(MotionEvent ev){
+    public boolean dispatchTouchEvent(MotionEvent ev) {
         Rect dialogBounds = new Rect();
         getWindow().getDecorView().getHitRect(dialogBounds);
-        if(!dialogBounds.contains((int) ev.getX(),(int) ev.getY())){
+        if (!dialogBounds.contains((int) ev.getX(), (int) ev.getY())) {
             return false;
         }
         return super.dispatchTouchEvent(ev);
@@ -691,8 +698,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void initClickListener() {
 
         //긴급신고 메세지지
-       ImageButton Report_message = findViewById(R.id.message_button);
-       Report_message.setOnClickListener(new View.OnClickListener() {
+        ImageButton Report_message = findViewById(R.id.message_button);
+        Report_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //로컬에 기록하기. 그걸 가지고 1,2,3번 시도 구분
@@ -703,19 +710,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, REQUIRED_PERMISSIONS2[1])) {
                         //2번 퍼미션 시도
                         SharedPreferences.Editor editor = pref2.edit();
-                        editor.putBoolean("Permission_touch",true);
+                        editor.putBoolean("Permission_touch", true);
                         editor.commit();
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
-                    }else {
-                        if( Permission_touch==true ){
+                    } else {
+                        if (Permission_touch == true) {
                             //3번째부터
                             Toast.makeText(getApplicationContext(), "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ", Toast.LENGTH_LONG).show();
-                        }else{
+                        } else {
                             //1번째 퍼미션 시도
                         }
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
                     }//팝업 이어갈 예정
-                }else{
+                } else {
                     //퍼미션 허용받으면 이쪽입니다~~~
                     SharedPreferences pref = getSharedPreferences("isFirst", Activity.MODE_PRIVATE);
                     boolean first_touch = pref.getBoolean("isFirst", false);
@@ -726,8 +733,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     String name = spfPersonInfo.getString("name", "");
                     String phoneNumber = spfPersonInfo.getString("phoneNumber", "");
 
-                    Log.d("이름",  name);
-                    Log.d("번호",  phoneNumber);
+                    Log.d("이름", name);
+                    Log.d("번호", phoneNumber);
 
 //                    if(name.equals("") && phoneNumber.equals("")){    //연락처 선택한 기록이 없을 시 연락처 추가하기로 이동 (저장된 연락처 확인하고 이것도 없으면 추가하기로 이동하는게 낫지 않을까요?)
 //                        Intent intent = new Intent(getApplicationContext(), AddPhoneBookActivity.class);
@@ -735,8 +742,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //                    }
 
 
-
-                    if(name.equals("") || phoneNumber.equals("")){
+                    if (name.equals("") || phoneNumber.equals("")) {
                         //앱 최초 실행시 하고 싶은 작업
                         View dialogView = getLayoutInflater().inflate(R.layout.first_popup, null);
                         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
@@ -771,11 +777,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             }
                         });
 //                        alertDialog.show();
-                    }else{
+                    } else {
 
                         View dialogView = getLayoutInflater().inflate(R.layout.mesaage_dialog, null);
                         TextView set11;
-                        set11 = (TextView)dialogView.findViewById(R.id.text_dialog_);
+                        set11 = (TextView) dialogView.findViewById(R.id.text_dialog_);
                         set11.setText(name + set11.getText());
 
 
@@ -809,42 +815,42 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                             }
                         });
-/*                        alertDialog.show();*/
+                        /*                        alertDialog.show();*/
                     }
                 }
 
             }
         });
 
-       ImageButton Report_button = findViewById(R.id.repot_button);
-       Report_button.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               //현 위치 location 받아와서 서버로 넘겨줘야함
-               //넘겨줄 것 : 사진, text, 닉네임, 좌표, 신고일자
+        ImageButton Report_button = findViewById(R.id.repot_button);
+        Report_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //현 위치 location 받아와서 서버로 넘겨줘야함
+                //넘겨줄 것 : 사진, text, 닉네임, 좌표, 신고일자
 
-               //카메라 권한요청, 내 파일 권한 요청 필요
+                //카메라 권한요청, 내 파일 권한 요청 필요
 
-               //카메라 화면이 먼저 나옴
-               //사진 찍고
-               //report detail 화면 띄워서
-               //입력받고 전송하기 버튼 누르면
+                //카메라 화면이 먼저 나옴
+                //사진 찍고
+                //report detail 화면 띄워서
+                //입력받고 전송하기 버튼 누르면
 
-               //현 위치 : locationSource
+                //현 위치 : locationSource
 
-               //아니 여기 왜 버튼이 안눌려렬렬려려려려려려려려려렬
-               //버튼 init버튼인가 밑에 함수에서 설정하면 됩니다^^
+                //아니 여기 왜 버튼이 안눌려렬렬려려려려려려려려려렬
+                //버튼 init버튼인가 밑에 함수에서 설정하면 됩니다^^
 //zzzzz
 
-               Log.d("camera","Reportbutton clicked");
+                Log.d("camera", "Reportbutton clicked");
 
-               Intent intent = null;
-               Log.d("camera","clicked");
-               setCamera(intent);
-           }
-       });
+                Intent intent = null;
+                Log.d("camera", "clicked");
+                setCamera(intent);
+            }
+        });
 
-        binding.layoutToolBar.ivMenu.setOnClickListener(new View.OnClickListener(){
+        binding.layoutToolBar.ivMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {            //menu 클릭 시 open drawer
                 binding.drawerLayout.openDrawer(GravityCompat.START);
@@ -852,7 +858,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-        binding.layoutToolBar.ivFilter.setOnClickListener(new View.OnClickListener(){
+        binding.layoutToolBar.ivFilter.setOnClickListener(new View.OnClickListener() {
             @Override
 
             //필터
@@ -864,45 +870,38 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
 
+        View header = binding.navigationView.getHeaderView(0);
+        ImageView image = header.findViewById(R.id.iv_close);
 
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {        // X 클릭 시 close drawer
+                binding.drawerLayout.closeDrawer(GravityCompat.START);
+            }
+        });
 
-
-       View header = binding.navigationView.getHeaderView(0);
-       ImageView image = header.findViewById(R.id.iv_close);
-
-       image.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {        // X 클릭 시 close drawer
-               binding.drawerLayout.closeDrawer(GravityCompat.START);
-           }
-       });
-
-       binding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-           @Override
-           public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-               if (item.getItemId() == R.id.nav_notification) {
+        binding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.nav_notification) {
 //                 binding.drawerLayout.closeDrawer(GravityCompat.START); //열려있는 메뉴판 닫고 화면 전환
-                   Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
-                   startActivity(intent);
-               }
-               else if (item.getItemId() == R.id.nav_call) {
-                   Intent intent = new Intent(getApplicationContext(), EmergencyCallActivity.class);
-                   startActivity(intent);
-               }
-               else if (item.getItemId() == R.id.nav_report) {
-                   Intent intent = null;
-                   Log.d("camera","clicked");
-                   setCamera(intent);
-               }
-               else if (item.getItemId() == R.id.nav_book) {
+                    Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
+                    startActivity(intent);
+                } else if (item.getItemId() == R.id.nav_call) {
+                    Intent intent = new Intent(getApplicationContext(), EmergencyCallActivity.class);
+                    startActivity(intent);
+                } else if (item.getItemId() == R.id.nav_report) {
+                    Intent intent = null;
+                    Log.d("camera", "clicked");
+                    setCamera(intent);
+                } else if (item.getItemId() == R.id.nav_book) {
 
-               }
-               else if (item.getItemId() == R.id.nav_review) {
+                } else if (item.getItemId() == R.id.nav_review) {
 
-               }
-               return true;
-           }
-       });
+                }
+                return true;
+            }
+        });
 
     }
 
@@ -940,22 +939,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //의료기관setMarker_facility_delete
     private void setMarker_hos() {
-        for (int i =0 ; i< total_list.size(); i++){
+        for (int i = 0; i < total_list.size(); i++) {
             JsonApi_total.total_item item = total_list.get(i);
-            setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"hos",naverMap);
-            }
-            //TotalmarkerList.add(setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"hos",naverMap));//클러스터링코드
-
-        return ;
+            setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "hos", naverMap);
+        }
+        //TotalmarkerList.add(setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"hos",naverMap));//클러스터링코드
+        System.out.println("setMarker_hos");
+        return;
     }
 
 
     //충전기
     private void setMarker_Charge() {
-        for (int i =0 ; i< charge_list.size(); i++){
+        for (int i = 0; i < charge_list.size(); i++) {
             JsonApi_charge.charge_item item = charge_list.get(i);
-            setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"charge",naverMap);
+            setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "charge", naverMap);
             // cluster_item2.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
+            System.out.println("setMarker_charge");
         }
         return;
     }
@@ -963,7 +963,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //자전거 사고 다발지역 만들기
     private void drawMarker_bike() {
-        for (int i =0 ; i< bike_list.size(); i++){
+        for (int i = 0; i < bike_list.size(); i++) {
             JsonApi_bike.bike_item item = bike_list.get(i);
             AccidentCircle((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()));
             //cluster_item.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
@@ -972,32 +972,28 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-
-
-
     @Override
-    public void onResume(){
+    public void onResume() {
         super.onResume();
         System.out.println("리섬");
 
     }
 
     @Override
-    public void onStop(){
+    public void onStop() {
         super.onStop();
         System.out.println("스탑");
     }
 
     @Override
-    public void onStart(){
+    public void onStart() {
         super.onStart();
 
     }
 
 
-
     //자전거 사고 다발지역 마커
-    private void AccidentCircle(double x, double y){
+    private void AccidentCircle(double x, double y) {
         CircleOverlay circle = new CircleOverlay();
         circle.setCenter(new LatLng(x, y));
         circle.setRadius(30);
@@ -1008,7 +1004,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         InfoWindow infoWindow = new InfoWindow();
         Marker marker = new Marker();
-        marker.setPosition(new LatLng(x,y));
+        marker.setPosition(new LatLng(x, y));
         marker.setMinZoom(7);//줌 설정
         marker.setIcon(OverlayImage.fromResource(R.drawable.danger_location_yellow));
         marker.setWidth(80);
@@ -1021,7 +1017,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public CharSequence getText(@NonNull InfoWindow infoWindow) {
                 // 정보 창이 열린 마커의 tag를 텍스트로 노출하도록 반환
-                return (CharSequence)infoWindow.getMarker().getTag();
+                return (CharSequence) infoWindow.getMarker().getTag();
             }
         });
         infoWindow.setAlpha(0.8f);
@@ -1033,13 +1029,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 // 현재 마커에 정보 창이 열려있지 않을 경우 엶
                 infoWindow.open(marker);
                 Handler handler = new Handler();
-                if(marker.getInfoWindow() != null){
+                if (marker.getInfoWindow() != null) {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             infoWindow.close();
                         }
-                    },3000);	//3초 동안 딜레이
+                    }, 3000);    //3초 동안 딜레이
                 }
             } else {
                 // 이미 현재 마커에 정보 창이 열려있을 경우 닫음
@@ -1051,7 +1047,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         marker.setOnClickListener(listener);
 
     }
-
 
 
 }
