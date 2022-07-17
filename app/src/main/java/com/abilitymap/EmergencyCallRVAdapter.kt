@@ -27,6 +27,7 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
 
 
     interface MyItemClickListener{
+        fun onResetViewHolder(holder: ViewHolder)
         fun onRemovePerson(PersonId : Int)
         fun onItemClicked(personInfo: PersonInfo, position: Int, name: String, phoneNumber: String, binding: ItemEmergencyCallBinding)
 //        fun onUpdatePerson(PersonId : Int)
@@ -53,7 +54,12 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
         }
 
         holder.binding.ivDeleteEmergencyCall.setOnClickListener {
-            showDialog(position)
+            mItemClickListener.onItemClicked(personInfo[position], position, personInfo[position].name!!, personInfo[position].phoneNumber!!, holder.binding)
+            showDialog(holder, position)
+        }
+
+        holder.binding.ivDeleteEmergencyCallWhite.setOnClickListener {
+            showDialog(holder, position)
         }
 
 //        holder.binding.ivModifyEmergencyCall.setOnClickListener {
@@ -115,7 +121,7 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
         }
     }
 
-    fun showDialog(position : Int){
+    fun showDialog(holder: EmergencyCallRVAdapter.ViewHolder, position : Int){
         val dialog : Dialog = InfoDialog(mContext)
         dialog.show()
 
@@ -132,6 +138,7 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
         yesButton.setOnClickListener {
             mItemClickListener.onRemovePerson(personInfo[position].personId)
             removePerson(position)
+            mItemClickListener.onResetViewHolder(holder)
             dialog.dismiss()
             Toast.makeText(mContext, "선택하신 연락처를 삭제하였습니다", Toast.LENGTH_SHORT).show()
         }
