@@ -21,7 +21,7 @@ class InfoDialog(context: Context) : Dialog(context){
     }
 
     private fun initViews() = with(binding) {
-        setCancelable(false)
+//        setCancelable(false)
         window?.setBackgroundDrawable(ColorDrawable(Color.TRANSPARENT))
 
     }
