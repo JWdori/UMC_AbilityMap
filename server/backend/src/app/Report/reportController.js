@@ -16,13 +16,13 @@ const crypto = require("crypto");
 */
 
 exports.postReport = async function(req, res){
-    const { reportLocation, reportDate, reportContent, nickName } = req.body;
+    const { reportLocation, reportDate, reportContent, nickName, lat, lon } = req.body;
 
     //validation 처리
 
     console.log("controller.js");
     //create 작업을 위해 내용들 service로 전송
-    const createReportResponse = await reportService.createReport(reportLocation, reportDate, reportContent, nickName);
+    const createReportResponse = await reportService.createReport(reportLocation, reportDate, reportContent, nickName, lat, lon);
 
     return res.send(baseResponse.SUCCESS);
 }

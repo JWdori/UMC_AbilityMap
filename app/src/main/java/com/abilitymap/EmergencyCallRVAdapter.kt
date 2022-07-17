@@ -27,7 +27,7 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
 
 
     interface MyItemClickListener{
-        fun onResetViewHolder(holder: ViewHolder)
+        fun onResetViewHolder(holder: ViewHolder, position: Int)
         fun onRemovePerson(PersonId : Int)
         fun onItemClicked(personInfo: PersonInfo, position: Int, name: String, phoneNumber: String, binding: ItemEmergencyCallBinding)
 //        fun onUpdatePerson(PersonId : Int)
@@ -138,7 +138,7 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
         yesButton.setOnClickListener {
             mItemClickListener.onRemovePerson(personInfo[position].personId)
             removePerson(position)
-            mItemClickListener.onResetViewHolder(holder)
+            mItemClickListener.onResetViewHolder(holder, position)
             dialog.dismiss()
             Toast.makeText(mContext, "선택하신 연락처를 삭제하였습니다", Toast.LENGTH_SHORT).show()
         }
