@@ -254,7 +254,6 @@ class EmergencyCallActivity : AppCompatActivity() {
                         holder.itemView.findViewById<ImageView>(R.id.iv_delete_emergency_call).visibility = View.INVISIBLE
                         holder.itemView.findViewById<ImageView>(R.id.iv_delete_emergency_call_white).visibility = View.VISIBLE
                         holder.itemView.findViewById<TextView>(R.id.flag).setText("true")
-
                         binding.rvEmergencyCall.viewTreeObserver.removeOnGlobalLayoutListener(this)
 
                         }

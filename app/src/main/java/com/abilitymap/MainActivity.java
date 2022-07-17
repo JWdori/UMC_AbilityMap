@@ -84,6 +84,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static ArrayList<JsonApi_total.total_item> total_list = new ArrayList();
     public static ArrayList<JsonApi_bike.bike_item> bike_list = new ArrayList();
     public static ArrayList<JsonApi_charge.charge_item> charge_list = new ArrayList();
+    public static ArrayList<JsonApi_slope.slope_item> slope_list = new ArrayList();
+
+
+
     private FusedLocationSource locationSource;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int CAMERA_PICTURE_SAVED_CODE = 3001;
@@ -213,10 +217,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         JsonApi_total total_api = new JsonApi_total();
         JsonApi_bike bike_api  = new JsonApi_bike();
+        JsonApi_slope slope_api  = new JsonApi_slope();
         JsonApi_charge charge_api  = new JsonApi_charge();
         total_api.execute(lat,lon,"");
         bike_api.execute(lat,lon,"");
         charge_api.execute(lat,lon,"");
+        slope_api.execute(lat,lon,"");
 
 //        new Thread(() -> {
 //            setUpMap(); // network 동작, 인터넷에서 xml을 받아오는 코드
@@ -564,6 +570,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             setMarker_hos(); //병원이랑 시설
             drawMarker_bike();
             setMarker_Charge();
+            drawMarker_slope();
         }else {
             if (hos2.getBoolean("total", true)) {
                 setMarker_hos(); //병원이랑 시설
@@ -588,7 +595,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
 
             if (slope8.getBoolean("total", true)) {
-
+                drawMarker_slope();
             }
 
             if (danger9.getBoolean("total", true)) {
@@ -915,6 +922,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             //필터
             public void onClick(View view) {
+
                 Intent intent = new Intent(getApplicationContext(), FilterActivity.class);
                 startActivity(intent);
                 isFilter = true;
@@ -1023,8 +1031,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void drawMarker_bike() {
         for (int i =0 ; i< bike_list.size(); i++){
             JsonApi_bike.bike_item item = bike_list.get(i);
-            AccidentCircle((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()));
+            AccidentCircle((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()),"자전거 사고다발 지역");
             //cluster_item.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
+        }
+        return;
+    }
+
+
+    //자전거 사고 다발지역 만들기
+    private void drawMarker_slope() {
+        for (int i =0 ; i< slope_list.size(); i++){
+            JsonApi_slope.slope_item item = slope_list.get(i);
+            AccidentCircle_slope((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()),"급경사 지역");
+                     //cluster_item.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
         }
         return;
     }
@@ -1033,7 +1052,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-    @Override
+             @Override
     public void onResume(){
         super.onResume();
         System.out.println("리섬");
@@ -1055,25 +1074,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
     //자전거 사고 다발지역 마커
-    private void AccidentCircle(double x, double y){
+    private void AccidentCircle(double x, double y, String z){
         CircleOverlay circle = new CircleOverlay();
         circle.setCenter(new LatLng(x, y));
         circle.setRadius(30);
         circle.setColor(Color.parseColor("#30FF7B00"));
         circle.setOutlineColor(Color.parseColor("#30FF7B00"));
-        circle.setMinZoom(7);//줌 설정
+        circle.setMinZoom(12);//줌 설정
         circle.setMap(naverMap);
 
         InfoWindow infoWindow = new InfoWindow();
         Marker marker = new Marker();
         marker.setPosition(new LatLng(x,y));
-        marker.setMinZoom(7);//줌 설정
+        marker.setMinZoom(12);//줌 설정
         marker.setIcon(OverlayImage.fromResource(R.drawable.danger_location_yellow));
         marker.setWidth(80);
         marker.setHeight(80);
         marker.setMap(naverMap);
 
-        marker.setTag("자전거 사고다발 지역");
+        marker.setTag(z);
         infoWindow.setAdapter(new InfoWindow.DefaultTextAdapter(this) {
             @NonNull
             @Override
@@ -1109,6 +1128,56 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         marker.setOnClickListener(listener);
 
     }
+
+
+             //자전거 사고 다발지역 마커
+             private void AccidentCircle_slope(double x, double y, String z){
+                 InfoWindow infoWindow = new InfoWindow();
+                 Marker marker = new Marker();
+                 marker.setPosition(new LatLng(x,y));
+                 marker.setMinZoom(12);//줌 설정
+                 marker.setIcon(OverlayImage.fromResource(R.drawable.danger_location_yellow));
+                 marker.setWidth(80);
+                 marker.setHeight(80);
+                 marker.setMap(naverMap);
+
+                 marker.setTag(z);
+                 infoWindow.setAdapter(new InfoWindow.DefaultTextAdapter(this) {
+                     @NonNull
+                     @Override
+                     public CharSequence getText(@NonNull InfoWindow infoWindow) {
+                         // 정보 창이 열린 마커의 tag를 텍스트로 노출하도록 반환
+                         return (CharSequence)infoWindow.getMarker().getTag();
+                     }
+                 });
+                 infoWindow.setAlpha(0.8f);
+                 Overlay.OnClickListener listener = overlay -> {
+                     naverMap.setOnMapClickListener((coord, point) -> {
+                         infoWindow.close();
+                     });
+                     if (marker.getInfoWindow() == null) {
+                         // 현재 마커에 정보 창이 열려있지 않을 경우 엶
+                         infoWindow.open(marker);
+                         Handler handler = new Handler();
+                         if(marker.getInfoWindow() != null){
+                             handler.postDelayed(new Runnable() {
+                                 @Override
+                                 public void run() {
+                                     infoWindow.close();
+                                 }
+                             },3000);	//3초 동안 딜레이
+                         }
+                     } else {
+                         // 이미 현재 마커에 정보 창이 열려있을 경우 닫음
+                         infoWindow.close();
+                     }
+
+                     return true;
+                 };
+                 marker.setOnClickListener(listener);
+
+             }
+
 
 
 

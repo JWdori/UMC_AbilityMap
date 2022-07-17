@@ -26,6 +26,8 @@ import com.github.angads25.toggle.model.ToggleableView;
 import com.github.angads25.toggle.widget.LabeledSwitch;
 import com.naver.maps.map.overlay.Overlay;
 
+import java.util.Map;
+
 public class FilterActivity extends AppCompatActivity {
     LabeledSwitch labeledSwitch_total1;
     LabeledSwitch labeledSwitch_hos2;
@@ -93,6 +95,13 @@ public class FilterActivity extends AppCompatActivity {
 
 
 
+        System.out.println(total1.getAll()+"외외외외");
+        Map<String, ?> total2 = total1.getAll();
+        System.out.println(total2+"외외외외");
+        System.out.println(total1.getAll()+"외외외외");
+
+
+
         if (hos2.getBoolean("total",true)) {
             labeledSwitch_hos2.setOn(true);
         }else{
@@ -140,8 +149,6 @@ public class FilterActivity extends AppCompatActivity {
         }else{
             labeledSwitch_danger9.setOn(false);
         }
-
-
 
         if ((hos2.getBoolean("total",true))&&(fac3.getBoolean("total",true))&&(charge4.getBoolean("total",true))
                 &&(wheel5.getBoolean("total",true))&&(ele6.getBoolean("total",true))&&(bike7.getBoolean("total",true))
@@ -481,7 +488,6 @@ public class FilterActivity extends AppCompatActivity {
             }
 
         });
-
 
 
 
