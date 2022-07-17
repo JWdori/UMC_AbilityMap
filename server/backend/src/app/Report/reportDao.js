@@ -3,8 +3,8 @@ async function insertReport(connection, insertReportParams) {
 
     const insertReportQuery = `
     
-        INSERT INTO Report(reportLocation, reportDate, reportContent, nickName)
-        VALUES (?,?,?,?);
+        INSERT INTO Report(reportLocation, reportDate, reportContent, nickName, lat, lon)
+        VALUES (?,?,?,?,?,?);
     
     `;
 
@@ -15,7 +15,7 @@ async function insertReport(connection, insertReportParams) {
 
 async function getReport(connection){
     const getReportQuery = `
-        SELECT reportLocation, reportDate, reportContent, nickName
+        SELECT *
         FROM Report
 
     `;
