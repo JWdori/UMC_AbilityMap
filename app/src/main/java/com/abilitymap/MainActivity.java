@@ -860,6 +860,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                else if (item.getItemId() == R.id.nav_review) {
 
                }
+               else if (item.getItemId() == R.id.nav_oss) {
+                   Intent intent = new Intent(getApplicationContext(), OssActivity.class);
+                   startActivity(intent);
+               }
                return true;
            }
        });
