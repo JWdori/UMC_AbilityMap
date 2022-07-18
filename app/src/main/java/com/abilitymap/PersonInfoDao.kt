@@ -23,9 +23,9 @@ interface PersonInfoDao {
     @Query("Update PersonInfoTable Set name =:name, phoneNumber =:phoneNumber Where personId =:personId")
     fun updatePerson(name : String, phoneNumber : String, personId : Int)
 
-    @Query("Select phoneNumber From PersonInfoTable Where personId =:personId")
-    fun getPhoneNumber(personId : Int) : String
-
-    @Query("Select text From PersonInfoTable Where personId =:personId")
-    fun getText(personId : Int) : String
+//    @Query("Select phoneNumber From PersonInfoTable Where personId =:personId")
+//    fun getPhoneNumber(personId : Int) : String
+//
+//    @Query("Select text From PersonInfoTable Where personId =:personId")
+//    fun getText(personId : Int) : String
 }

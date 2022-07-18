@@ -687,8 +687,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Log.d("데이타 베이스 텍스트", pL.get(personId).getText());
 
 
-        if (personId != -1){
-
+        if (!(pL.get(personId).getText().equals(""))){  //텍스트 입력한 기록이 있는 연락처에 한정
             manager.sendTextMessage(pL.get(personId).getPhoneNumber(), null, pL.get(personId).getText(), null, null);
         }
 
