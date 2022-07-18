@@ -742,7 +742,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     //메시지 보내기 함수
     private void sendSms() {
         SmsManager manager = SmsManager.getDefault();
-        manager.sendTextMessage("01031142949", null, "테스트", null, null);
+        
+        SharedPreferences spfPersonInfo = getSharedPreferences("personInfo", MODE_PRIVATE);
+        int personId = spfPersonInfo.getInt("position", -1);
+        Log.d("DB POSITION", String.valueOf(personId));
+
+        PersonInfoDatabase personInfoDatabase = PersonInfoDatabase.Companion.getInstance(this);
+        List<PersonInfo> pL = personInfoDatabase.personInfoDao().getPersonList();
+        Log.d("데이타 베이스 확인 ! ! !", personInfoDatabase.personInfoDao().getPersonList().toString());
+        Log.d("데이타 베이스 번호", pL.get(personId).getPhoneNumber());
+        Log.d("데이타 베이스 텍스트", pL.get(personId).getText());
+
+
+        if (!(pL.get(personId).getText().equals(""))){  //텍스트 입력한 기록이 있는 연락처에 한정
+            manager.sendTextMessage(pL.get(personId).getPhoneNumber(), null, pL.get(personId).getText(), null, null);
+        }
     }
 
 
@@ -794,6 +808,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     SharedPreferences spfPersonInfo = getSharedPreferences("personInfo", MODE_PRIVATE);
                     String name = spfPersonInfo.getString("name", "");
                     String phoneNumber = spfPersonInfo.getString("phoneNumber", "");
+                    int personId = spfPersonInfo.getInt("position", -1);
 
                     Log.d("이름", name);
                     Log.d("번호", phoneNumber);
@@ -948,23 +963,35 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.nav_notification) {
 //                 binding.drawerLayout.closeDrawer(GravityCompat.START); //열려있는 메뉴판 닫고 화면 전환
-                    Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
-                    startActivity(intent);
-                } else if (item.getItemId() == R.id.nav_call) {
-                    Intent intent = new Intent(getApplicationContext(), EmergencyCallActivity.class);
-                    startActivity(intent);
-                } else if (item.getItemId() == R.id.nav_report) {
-                    Intent intent = null;
-                    Log.d("camera", "clicked");
-                    setCamera(intent);
-                } else if (item.getItemId() == R.id.nav_book) {
 
-                } else if (item.getItemId() == R.id.nav_review) {
+                   Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
+                   startActivity(intent);
+               }
+               else if (item.getItemId() == R.id.nav_call) {
+                   Intent intent = new Intent(getApplicationContext(), EmergencyCallActivity.class);
+                   startActivity(intent);
+               }
+               else if (item.getItemId() == R.id.nav_report) {
+                   Intent intent = null;
+                   Log.d("camera","clicked");
+                   setCamera(intent);
+               }
+               else if (item.getItemId() == R.id.nav_book) {
 
-                }
-                return true;
-            }
-        });
+               }
+               else if (item.getItemId() == R.id.nav_review) {
+
+               }
+               else if (item.getItemId() == R.id.nav_oss) {
+                   Intent intent = new Intent(getApplicationContext(), OssActivity.class);
+                   startActivity(intent);
+               }
+               return true;
+           }
+       });
+                 
+    
+             
 
     }
 
