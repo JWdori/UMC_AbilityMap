@@ -82,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static ArrayList<JsonApi_bike.bike_item> bike_list = new ArrayList();
     public static ArrayList<JsonApi_charge.charge_item> charge_list = new ArrayList();
     public static ArrayList<JsonApi_slope.slope_item> slope_list = new ArrayList();
+    public static ArrayList<JsonApi_danger.danger_item> danger_list = new ArrayList();
 
 
 
@@ -101,7 +102,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
     private LatLng currentPosition;
-    List<DTO> items;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     String[] REQUIRED_PERMISSIONS = {
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -216,16 +216,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         JsonApi_bike bike_api  = new JsonApi_bike();
         JsonApi_slope slope_api  = new JsonApi_slope();
         JsonApi_charge charge_api  = new JsonApi_charge();
+        JsonApi_danger danger_api  = new JsonApi_danger();
         total_api.execute(lat,lon,"");
         bike_api.execute(lat,lon,"");
         charge_api.execute(lat,lon,"");
         slope_api.execute(lat,lon,"");
+        danger_api.execute(lat, lon, "");
 
 //        new Thread(() -> {
 //            setUpMap(); // network 동작, 인터넷에서 xml을 받아오는 코드
 //        }).start();
 
-        items = new ArrayList<>();
+
         // 핸들러
 
                          
@@ -1050,6 +1052,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         return;
     }
+
+    //위험지역
+    private void setMarker_danger() {
+        for (int i = 0; i < danger_list.size(); i++) {
+            JsonApi_danger.danger_item item = danger_list.get(i);
+            setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "danger", naverMap);
+            // cluster_item2.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
+        }
+        return;
+    }
+
 
 
     //자전거 사고 다발지역 만들기
