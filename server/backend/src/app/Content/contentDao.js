@@ -60,10 +60,46 @@ async function getChargerLocation(connection) {
   return getChargerLocation;
 }
 
+// 급경사지 위치 받아오기
+async function getRampLocation(connection) {
+  const getRampLocationQuery = `
+                SELECT *
+                FROM ramp;
+                `;
+  const [getRampLocation] = await connection.query(getRampLocationQuery);
+
+  return getRampLocation;
+}
+
+// 학교 휠체어 경사로 위치 받아오기
+async function getSchool(connection) {
+  const getSchoolQuery = `
+              SELECT *
+              FROM school;
+              `;
+  const [getSchool] = await connection.query(getSchoolQuery);
+
+  return getSchool;
+}
+
+// 지하철역 엘리베이터 위치 받아오기
+async function getElevator(connection) {
+  const getElevatorQuery = `
+              SELECT *
+              FROM elevator;
+              `;
+  const [getElevator] = await connection.query(getElevatorQuery);
+
+  return getElevator;
+}
+
 module.exports = {
   getAllList,
   updateBike,
   dropBike,
   getBikeData,
-  getChargerLocation
+  getChargerLocation,
+  getRampLocation,
+  getSchool,
+  getElevator
 };
