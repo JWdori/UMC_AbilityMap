@@ -24,7 +24,7 @@
         android:title="사용자 리뷰"/>
     <item
         android:id="@+id/nav_oss"
-        android:icon="@drawable/rate_review"
+        android:icon="@drawable/opensourc"
         android:title="오픈소스 라이선스"/>
 
 </menu>
