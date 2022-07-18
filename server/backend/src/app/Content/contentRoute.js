@@ -14,6 +14,15 @@ module.exports = function(app){
     // 2.2 휠체어 급속 충전기 위치
     app.get("/get/charger", content.getCharger);
 
+    // 2.3 급경사지 위치
+    app.get('/get/ramp', content.getRamp);
+
+    // 2.4 학교 휠체어 경사로 위치 받아오기
+    app.get("/get/school", content.getSchool);
+
+    // 2.5 지하철 역 엘리베이터 위치 받아오기
+    app.get("/get/elevator", content.getElevator);
+
     // 3.0 공공 데이터 자전거 사고 다발지역 정보 업데이트 -> 클라이언트 측 사용 X, 관리자가 데이터 업데이트 할 때 사용 예정
     app.get('/update/bike', content.updateBike);
 };
