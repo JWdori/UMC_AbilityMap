@@ -23,12 +23,11 @@ public interface SetMarker_facility extends Overlay.OnClickListener {
             case "charge": marker.setIcon(OverlayImage.fromResource(R.drawable.charge_icon)); break;
         }
         marker.setMap(naverMap);
-
+        marker.setTag(markerType);
         marker.setOnClickListener(this);
     }
 
     @Override
     boolean onClick(@NonNull Overlay overlay);
-
 
 }

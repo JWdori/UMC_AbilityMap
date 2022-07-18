@@ -22,7 +22,7 @@
             android:id="@+id/location_name_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="서울누리의원"
+            android:text="서울누리누리누리누리의원"
 
             android:fontFamily="sans-serif"
             android:textStyle="bold"
@@ -35,6 +35,27 @@
             app:layout_constraintStart_toStartOf="@id/detail_layout"
             app:layout_constraintBottom_toTopOf="@id/horizontal_line_view"
             />
+        <TextView
+            android:id="@+id/detail_category"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:fontFamily="sans-serif"
+            android:textStyle="normal"
+            android:textSize="14sp"
+            android:textColor="#aaaaaa"
+            android:letterSpacing="0.01"
+            android:lineSpacingExtra="2.8sp"
+            android:text="병원"
+
+            app:layout_constraintStart_toEndOf="@id/location_name_textView"
+            app:layout_constraintBottom_toBottomOf="@id/location_name_textView"
+            android:layout_marginStart="4dp"
+            />
+
+
+
+
 
         <View
             android:id="@+id/horizontal_line_view"
@@ -100,13 +121,17 @@
                 android:src="@drawable/danger"
                 />
 
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
             <TextView
-                android:id="@+id/hour_detail_textView"
+                android:id="@+id/week_hour_detail_textView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
 
                 android:layout_marginStart="8dp"
-                android:text="진료시간\n월~금 9:00~19:00\n월~금 점심시간 13:00~14:00"
+                android:text="진료시간\n월~금 9:00~19:00"
 
                 android:fontFamily="sans-serif-medium"
                 android:textStyle="normal"
@@ -115,6 +140,23 @@
                 android:letterSpacing="0.01"
                 android:lineSpacingExtra="3.2sp"
                 />
+
+            <TextView
+                android:id="@+id/weekend_hour_detail_textView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+
+                android:layout_marginStart="8dp"
+                android:text="토 09:00 ~ 21:00"
+
+                android:fontFamily="sans-serif-medium"
+                android:textStyle="normal"
+                android:textSize="16sp"
+                android:textColor="#000000"
+                android:letterSpacing="0.01"
+                android:lineSpacingExtra="3.2sp"
+                />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -130,8 +172,6 @@
                 android:id="@+id/phone_icon_imageView"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/icon_emergency_call"
-                android:background="@color/purple_200"
                 />
 
             <TextView

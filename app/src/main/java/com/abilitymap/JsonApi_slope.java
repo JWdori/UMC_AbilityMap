@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class JsonApi_charge extends AsyncTask<String, String, String> {
+public class JsonApi_slope extends AsyncTask<String, String, String> {
     public static boolean startFlagForCoronaApi;
 
 
@@ -32,9 +32,11 @@ public class JsonApi_charge extends AsyncTask<String, String, String> {
     @Override
     protected String doInBackground(String... strings) {
 
+        Log.d("Task3", "POST");
         String temp = "Not Gained";
         try {
             temp = GET(strings[0], strings[1]);
+            Log.d("REST", temp);
             return temp;
         } catch (IOException e) {
             e.printStackTrace();
@@ -44,8 +46,9 @@ public class JsonApi_charge extends AsyncTask<String, String, String> {
 
     private String GET(String x, String y) throws IOException {
 
+
         String data = "";
-        String myUrl3 = "http://3.35.237.29/get/charger";
+        String myUrl3 = "http://3.35.237.29/get/ramp";
         try {
             URL url = new URL(myUrl3);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -69,18 +72,12 @@ public class JsonApi_charge extends AsyncTask<String, String, String> {
             JSONArray Api = root.getJSONArray("result");
             for (int i = 0; i < Api.length(); i++) {
                 JSONObject item = Api.getJSONObject(i);
-                charge_item charge_item = new charge_item(
+                slope_item slope_item = new slope_item(
                         item.getString("lat"),
                         item.getString("lon"),
-                        item.getString("idx"),
-                        item.getString("location"),
-                        item.getString("week"),
-                        item.getString("weekend"),
-                        item.getString("holiday")
-
+                        item.getString("idx")
                 );
-
-                MainActivity.charge_list.add(charge_item);
+                MainActivity.slope_list.add(slope_item);
 
             }
             startFlagForCoronaApi = false;
@@ -93,28 +90,20 @@ public class JsonApi_charge extends AsyncTask<String, String, String> {
         return data;
     }
 
-    public class charge_item {
+    public class slope_item {
 
 
         private String lat;
         private String lng;
         private String idx;
-        private String location;
-        private String week;
-        private String weekend;
-        private String holiday;
+        private String remain_stat;
 
 
 
-        public charge_item(String lat, String lng, String idx,
-                           String location, String week, String weekend, String holiday) {
+        public slope_item(String lat, String lng, String idx) {
             this.lat = lat;
             this.lng = lng;
             this.idx = idx;
-            this.location = location;
-            this.week = week;
-            this.weekend = weekend;
-            this.holiday = holiday;
 
         }
 
@@ -141,11 +130,6 @@ public class JsonApi_charge extends AsyncTask<String, String, String> {
         public void setlng(String lng) {
             this.lng = lng;
         }
-
-        public String getLocation() { return location; }
-        public String getWeek() { return week; }
-        public String getWeekend() { return weekend; }
-        public String getHoliday() { return holiday; }
 
 
 
