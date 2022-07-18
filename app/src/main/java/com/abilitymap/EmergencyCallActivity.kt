@@ -47,7 +47,7 @@ class EmergencyCallActivity : AppCompatActivity() {
         binding.ivArrowBackEmergencyCall.setOnClickListener {
             finish()
         }
-        binding.clAddClickEmergencyCall.setOnClickListener {
+        binding.clAddEmergencyCall.setOnClickListener {
             putSPF("","",-1)
 
             for (i : Int in 0..emergencyCallRVAdapter.itemCount-1){

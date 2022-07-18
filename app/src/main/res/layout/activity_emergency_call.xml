@@ -81,33 +81,23 @@
             android:id="@+id/cl_add_emergency_call"
             android:layout_width="match_parent"
             android:layout_height="98dp"
-            android:background="@drawable/rectangle"
+            android:background="@drawable/rectangle_clicked_effect_notification"
             app:layout_constraintTop_toBottomOf="@id/rv_emergency_call"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            android:clickable="true"
             android:visibility="visible">
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/cl_add_click_emergency_call"
-                android:layout_width="70dp"
-                android:layout_height="70dp"
-                android:clickable="true"
+            <ImageView
+                android:id="@+id/iv_add_emergency_call"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                app:srcCompat="@drawable/vector"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent">
-
-                <ImageView
-                    android:id="@+id/iv_add_emergency_call"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    app:srcCompat="@drawable/vector"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"/>
-
-            </androidx.constraintlayout.widget.ConstraintLayout>
+                app:layout_constraintEnd_toEndOf="parent"
+                android:clickable="false"/>
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
