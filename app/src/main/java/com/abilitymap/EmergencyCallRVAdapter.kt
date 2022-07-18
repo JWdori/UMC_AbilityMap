@@ -27,9 +27,9 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
 
 
     interface MyItemClickListener{
-        fun onResetViewHolder(holder: ViewHolder, position: Int)
+        fun onResetViewHolder(holder: ViewHolder, position: Int, size : Int)
         fun onRemovePerson(PersonId : Int)
-        fun onItemClicked(personInfo: PersonInfo, position: Int, name: String, phoneNumber: String, binding: ItemEmergencyCallBinding, isLayout: Boolean)
+        fun onItemClicked(personInfo: PersonInfo, position: Int, name: String, phoneNumber: String, binding: ItemEmergencyCallBinding)
 //        fun onUpdatePerson(PersonId : Int)
     }
 
@@ -49,12 +49,12 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
         holder.bind(personInfo[position], position)
 
         holder.binding.layoutEmergencyCall.setOnClickListener {
-            mItemClickListener.onItemClicked(personInfo[position], position, personInfo[position].name!!, personInfo[position].phoneNumber!!, holder.binding, true)
+            mItemClickListener.onItemClicked(personInfo[position], position, personInfo[position].name!!, personInfo[position].phoneNumber!!, holder.binding)
 
         }
 
         holder.binding.ivDeleteEmergencyCall.setOnClickListener {
-            mItemClickListener.onItemClicked(personInfo[position], position, personInfo[position].name!!, personInfo[position].phoneNumber!!, holder.binding, false)
+//            mItemClickListener.onItemClicked(personInfo[position], position, personInfo[position].name!!, personInfo[position].phoneNumber!!, holder.binding)
             showDialog(holder, position)
         }
 
@@ -135,13 +135,15 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
 
         val yesButton = dialog.findViewById<TextView>(R.id.tv_yes_dialog)
         val noButton = dialog.findViewById<TextView>(R.id.tv_no_dialog)
-        yesButton.setOnClickListener {
+
+        yesButton.setOnClickListener {      //삭제 "예" 눌렀을 시 선택됐던 연락처 초기화
             mItemClickListener.onRemovePerson(personInfo[position].personId)
             removePerson(position)
-            mItemClickListener.onResetViewHolder(holder, position)
+            mItemClickListener.onResetViewHolder(holder, position, personInfo.size)
             dialog.dismiss()
             Toast.makeText(mContext, "선택하신 연락처를 삭제하였습니다", Toast.LENGTH_SHORT).show()
         }
+
         noButton.setOnClickListener { dialog.dismiss() }
     }
 

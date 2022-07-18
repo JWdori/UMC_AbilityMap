@@ -1,21 +1,16 @@
 package com.abilitymap
 
-import android.app.Activity
 import android.content.Intent
 import android.content.SharedPreferences
 import android.graphics.Color
-import android.opengl.Visibility
 import android.os.Bundle
-import android.text.Layout
 import android.util.Log
 import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.abilitymap.databinding.ActivityEmergencyCallBinding
@@ -48,15 +43,15 @@ class EmergencyCallActivity : AppCompatActivity() {
             finish()
         }
         binding.clAddEmergencyCall.setOnClickListener {
-            putSPF("","",-1)
+//            putSPF("","",-1)
 
-            for (i : Int in 0..emergencyCallRVAdapter.itemCount-1){
-                val holder : RecyclerView.ViewHolder = binding.rvEmergencyCall.findViewHolderForAdapterPosition(i)!!
-                if (holder.itemView.findViewById<TextView>(R.id.flag).text.toString().equals("true")){         //클릭 된 것을 제외한 view들 원 상태로 복귀
-                    resetViewHolder(holder)
-                    break
-                }
-            }
+//            for (i : Int in 0..emergencyCallRVAdapter.itemCount-1){
+//                val holder : RecyclerView.ViewHolder = binding.rvEmergencyCall.findViewHolderForAdapterPosition(i)!!
+//                if (holder.itemView.findViewById<TextView>(R.id.flag).text.toString().equals("true")){         //클릭 된 view를 원 상태로 복귀
+//                    resetViewHolder(holder)
+//                    break
+//                }
+//            }
 
             val intent = Intent(this, AddPhoneBookActivity::class.java)
             startActivity(intent)
@@ -74,9 +69,28 @@ class EmergencyCallActivity : AppCompatActivity() {
     private fun initRecyclerView(){
         setUpRecyclerView()
         emergencyCallRVAdapter.setMyItemClickListener(object: EmergencyCallRVAdapter.MyItemClickListener{
-            override fun onResetViewHolder(holder: EmergencyCallRVAdapter.ViewHolder, position : Int) {
-                resetViewHolder(holder)
-                putSPF("","", -1)
+            override fun onResetViewHolder(holder: EmergencyCallRVAdapter.ViewHolder, position : Int, size : Int) {
+
+                if (holder.itemView.findViewById<TextView>(R.id.flag).text.toString().equals("true")) { //삭제 대상이 선택된 연락처일 시
+                    putSPF("","", -1)
+                    resetViewHolder(holder)
+                }
+                else{                       //삭제 대상이 선택된 연락처가 아닌 다른 연락처일 시
+                    val spfPersonInfo = getSharedPreferences("personInfo", MODE_PRIVATE)
+                    val name = spfPersonInfo.getString("name", "")
+                    val phoneNumber = spfPersonInfo.getString("phoneNumber", "")
+                    val pos = spfPersonInfo.getInt("position", -1)
+
+                    if (pos >= size){   //recyclerview의 마지막 viewholder가 삭제 될 시
+                        putSPF(name!!,phoneNumber!!,pos-1)
+                        checkSelectedPersonInfo()
+//                        val tHolder : RecyclerView.ViewHolder = binding.rvEmergencyCall.findViewHolderForAdapterPosition(pos-1)!!
+//                        resetViewHolder(tHolder)
+                    }
+                    else{
+                        resetViewHolder(holder)
+                    }
+                }
             }
 
             override fun onRemovePerson(PersonId: Int) {
@@ -85,7 +99,7 @@ class EmergencyCallActivity : AppCompatActivity() {
                 checkNumberOfItems()
                 binding.tvNumOfInfoEmergencyCall.setText(personInfoDB.personInfoDao().getPersonList().size.toString()+"/5")
             }
-            override fun onItemClicked(personInfo: PersonInfo, position : Int, name : String, phoneNumber : String, bindingE: ItemEmergencyCallBinding, isLayout: Boolean) {
+            override fun onItemClicked(personInfo: PersonInfo, position : Int, name : String, phoneNumber : String, bindingE: ItemEmergencyCallBinding) {
 
                 if(bindingE.flag.text.toString().equals("true")){  //클릭된 layout이 직전 클릭된 layout과 동일할 시
                     resetViewHolder(binding.rvEmergencyCall.findViewHolderForAdapterPosition(position)!!)
@@ -93,16 +107,14 @@ class EmergencyCallActivity : AppCompatActivity() {
                     putSPF("", "", -1)
                 }
                 else{
-
-                    if (isLayout){
-                        //클릭된 layout 배경 변경 (delete icon이 아닌 layout째로 눌렸을 때만
-                        bindingE.layoutEmergencyCall.setBackgroundDrawable(resources.getDrawable(R.drawable.rectangle_clicked))
-                        bindingE.tvNameEmergencyCall.setTextColor(Color.parseColor("#ffffff"))
-                        bindingE.tvPhoneNumberEmergencyCall.setTextColor(Color.parseColor("#ffffff"))
-                        bindingE.ivDeleteEmergencyCall.visibility = View.INVISIBLE
-                        bindingE.ivDeleteEmergencyCallWhite.visibility = View.VISIBLE
-                        bindingE.flag.setText("true")
-                    }
+                    //직전 layout과 다른, 클릭된 layout 배경 변경 (delete icon이 아닌 layout째로 눌렸을 때만)
+                    bindingE.layoutEmergencyCall.setBackgroundDrawable(resources.getDrawable(R.drawable.rectangle_clicked))
+                    bindingE.tvNameEmergencyCall.setTextColor(Color.parseColor("#ffffff"))
+                    bindingE.tvPhoneNumberEmergencyCall.setTextColor(Color.parseColor("#ffffff"))
+                    bindingE.ivDeleteEmergencyCall.visibility = View.INVISIBLE
+                    bindingE.ivDeleteEmergencyCallWhite.visibility = View.VISIBLE
+                    bindingE.flag.setText("true")
+                    putSPF(name, phoneNumber, position)
 
                     //직전 클릭이 rv의 layout일 시 직전 layout 배경 reset
 
@@ -115,7 +127,6 @@ class EmergencyCallActivity : AppCompatActivity() {
                             break
                         }
                     }
-                    putSPF(name, phoneNumber, position)
                 }
 
 
@@ -206,7 +217,7 @@ class EmergencyCallActivity : AppCompatActivity() {
                 override fun onGlobalLayout() {
                     val holder : RecyclerView.ViewHolder = binding.rvEmergencyCall.findViewHolderForAdapterPosition(pos)!!
                     
-                    <ConstraintLayout>(R.id.layout_emergency_call).setBackgroundDrawable(resources.getDrawable(R.drawable.rectangle_clicked))
+                    holder.itemView.findViewById<ConstraintLayout>(R.id.layout_emergency_call).setBackgroundDrawable(resources.getDrawable(R.drawable.rectangle_clicked))
                     holder.itemView.findViewById<TextView>(R.id.tv_name_emergency_call).setTextColor(Color.parseColor("#ffffff"))
                     holder.itemView.findViewById<TextView>(R.id.tv_phoneNumber_emergency_call).setTextColor(Color.parseColor("#ffffff"))
                     holder.itemView.findViewById<ImageView>(R.id.iv_delete_emergency_call).visibility = View.INVISIBLE
