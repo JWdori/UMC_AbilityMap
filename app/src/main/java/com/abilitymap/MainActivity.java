@@ -37,11 +37,13 @@ import androidx.appcompat.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.abilitymap.databinding.ActivityMainBinding;
+import com.github.angads25.toggle.widget.LabeledSwitch;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -72,6 +74,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker_facility, SetMarker_wheel {
@@ -82,6 +85,30 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static ArrayList<JsonApi_bike.bike_item> bike_list = new ArrayList();
     public static ArrayList<JsonApi_charge.charge_item> charge_list = new ArrayList();
     public static ArrayList<JsonApi_slope.slope_item> slope_list = new ArrayList();
+    public static ArrayList<JsonApi_danger.danger_item> danger_list = new ArrayList();
+
+
+    LabeledSwitch labeledSwitch_total1;
+    LabeledSwitch labeledSwitch_hos2;
+    LabeledSwitch labeledSwitch_fac3;
+    LabeledSwitch labeledSwitch_charge4;
+    LabeledSwitch labeledSwitch_wheel5;
+    LabeledSwitch labeledSwitch_ele6;
+    LabeledSwitch labeledSwitch_bike7;
+    LabeledSwitch labeledSwitch_slope8;
+    LabeledSwitch labeledSwitch_danger9;
+    Button filter_button;
+
+
+    Map<String, ?> total1_;
+    Map<String, ?> hos2_;
+    Map<String, ?> fac3_;
+    Map<String, ?> charge4_;
+    Map<String, ?> wheel5_;
+    Map<String, ?> ele6_;
+    Map<String, ?> bike7_;
+    Map<String, ?> slope8_;
+    Map<String, ?> danger9_;
 
 
 
@@ -101,7 +128,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Manifest.permission.ACCESS_COARSE_LOCATION
     };
     private LatLng currentPosition;
-    List<DTO> items;
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1000;
     String[] REQUIRED_PERMISSIONS = {
             Manifest.permission.ACCESS_FINE_LOCATION,
@@ -167,7 +193,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void run() {
                 dialog.dismiss(); // 3초 시간지연 후 프로그레스 대화상자 닫기
             }
-        }, 1000);
+        }, 2000);
         //로딩
 
         firstActivity = MainActivity.this;
@@ -216,16 +242,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         JsonApi_bike bike_api  = new JsonApi_bike();
         JsonApi_slope slope_api  = new JsonApi_slope();
         JsonApi_charge charge_api  = new JsonApi_charge();
+        JsonApi_danger danger_api  = new JsonApi_danger();
         total_api.execute(lat,lon,"");
         bike_api.execute(lat,lon,"");
         charge_api.execute(lat,lon,"");
         slope_api.execute(lat,lon,"");
+        danger_api.execute(lat, lon, "");
 
 //        new Thread(() -> {
 //            setUpMap(); // network 동작, 인터넷에서 xml을 받아오는 코드
 //        }).start();
 
-        items = new ArrayList<>();
+
         // 핸들러
 
                          
@@ -314,7 +342,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Object object = overlay.getTag();
             String tag = String.valueOf(object);
             //charge_list.get()
-
             JsonApi_charge.charge_item selectedItem = findThisMarkerItem(((Marker) overlay).getPosition(), charge_list);
 
             String location = selectedItem.getLocation();
@@ -587,6 +614,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             drawMarker_bike();
             setMarker_Charge();
             drawMarker_slope();
+            setMarker_danger();
         }else{
             if (hos2.getBoolean("total", true)) {
                 setMarker_hos(); //병원이랑 시설
@@ -610,20 +638,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 drawMarker_slope();
             }
             if (danger9.getBoolean("total", true)) {
-
-
+                setMarker_danger();
             }
 
         }
 
 
 
-        System.out.println(total1.getAll()+"ㅎㅇ");
-        System.out.println(hos2.getAll()+"ㅎㅇ");
-        System.out.println("new2");
         //충전기
         naverMap.setMaxZoom(19.0);
-        naverMap.setMinZoom(5.0);
+        naverMap.setMinZoom(2.0);
         UiSettings uiSettings = naverMap.getUiSettings();
         uiSettings.setCompassEnabled(false);
         uiSettings.setScaleBarEnabled(false);
@@ -742,7 +766,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     //메시지 보내기 함수
     private void sendSms() {
         SmsManager manager = SmsManager.getDefault();
-        manager.sendTextMessage("01031142949", null, "테스트", null, null);
+        
+        SharedPreferences spfPersonInfo = getSharedPreferences("personInfo", MODE_PRIVATE);
+        int personId = spfPersonInfo.getInt("position", -1);
+        Log.d("DB POSITION", String.valueOf(personId));
+
+        if (personId != -1){    //선택된 연락처가 있을 때만
+            PersonInfoDatabase personInfoDatabase = PersonInfoDatabase.Companion.getInstance(this);
+            List<PersonInfo> pL = personInfoDatabase.personInfoDao().getPersonList();
+            Log.d("데이타 베이스 확인 ! ! !", personInfoDatabase.personInfoDao().getPersonList().toString());
+            Log.d("데이타 베이스 번호", pL.get(personId).getPhoneNumber());
+            Log.d("데이타 베이스 텍스트", pL.get(personId).getText());
+            
+            if (!(pL.get(personId).getText().equals(""))){  //텍스트 입력한 기록이 있는 연락처에 한정
+                manager.sendTextMessage(pL.get(personId).getPhoneNumber(), null, pL.get(personId).getText(), null, null);
+            }
+        }
     }
 
 
@@ -794,6 +833,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     SharedPreferences spfPersonInfo = getSharedPreferences("personInfo", MODE_PRIVATE);
                     String name = spfPersonInfo.getString("name", "");
                     String phoneNumber = spfPersonInfo.getString("phoneNumber", "");
+                    int personId = spfPersonInfo.getInt("position", -1);
 
                     Log.d("이름", name);
                     Log.d("번호", phoneNumber);
@@ -813,7 +853,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         ColorDrawable back = new ColorDrawable(Color.TRANSPARENT);
                         InsetDrawable inset = new InsetDrawable(back, 24);
                         alertDialog.getWindow().setBackgroundDrawable(inset);
-                        alertDialog.setCanceledOnTouchOutside(false);//없어지지 않도록 설정
+                        alertDialog.setCanceledOnTouchOutside(true);//없어지지 않도록 설정
                         alertDialog.show();
 
                         TextView noButton = alertDialog.findViewById(R.id.first_no_button);
@@ -853,7 +893,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         ColorDrawable back = new ColorDrawable(Color.TRANSPARENT);
                         InsetDrawable inset = new InsetDrawable(back, 24);
                         alertDialog.getWindow().setBackgroundDrawable(inset);
-                        alertDialog.setCanceledOnTouchOutside(false);//없어지지 않도록 설정
+                        alertDialog.setCanceledOnTouchOutside(true);//없어지지 않도록 설정
                         alertDialog.show();
 
 //                        String nameText = TextView(mContext)
@@ -925,10 +965,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             //필터
             public void onClick(View view) {
-
                 Intent intent = new Intent(getApplicationContext(), FilterActivity.class);
                 startActivity(intent);
                 isFilter = true;
+
             }
         });
 
@@ -948,24 +988,143 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.nav_notification) {
 //                 binding.drawerLayout.closeDrawer(GravityCompat.START); //열려있는 메뉴판 닫고 화면 전환
-                    Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
-                    startActivity(intent);
-                } else if (item.getItemId() == R.id.nav_call) {
-                    Intent intent = new Intent(getApplicationContext(), EmergencyCallActivity.class);
-                    startActivity(intent);
-                } else if (item.getItemId() == R.id.nav_report) {
-                    Intent intent = null;
-                    Log.d("camera", "clicked");
-                    setCamera(intent);
-                } else if (item.getItemId() == R.id.nav_book) {
 
-                } else if (item.getItemId() == R.id.nav_review) {
+                   Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
+                   startActivity(intent);
+               }
+               else if (item.getItemId() == R.id.nav_call) {
+                   Intent intent = new Intent(getApplicationContext(), EmergencyCallActivity.class);
+                   startActivity(intent);
+               }
+               else if (item.getItemId() == R.id.nav_report) {
+                   Intent intent = null;
+                   Log.d("camera","clicked");
+                   setCamera(intent);
+               }
+               else if (item.getItemId() == R.id.nav_book) {
 
+               }
+               else if (item.getItemId() == R.id.nav_review) {
+
+               }
+               else if (item.getItemId() == R.id.nav_oss) {
+                   Intent intent = new Intent(getApplicationContext(), OssActivity.class);
+                   startActivity(intent);
+               }
+               return true;
+           }
+       });
+    }
+
+
+
+    //필터 닫기~~
+    private void Filter_close() {
+        SharedPreferences total1 = getSharedPreferences("total", Activity.MODE_PRIVATE);
+        SharedPreferences hos2 = getSharedPreferences("hos2", Activity.MODE_PRIVATE);
+        SharedPreferences fac3 = getSharedPreferences("fac3", Activity.MODE_PRIVATE);
+        SharedPreferences charge4 = getSharedPreferences("charge4", Activity.MODE_PRIVATE);
+        SharedPreferences wheel5 = getSharedPreferences("wheel5", Activity.MODE_PRIVATE);
+        SharedPreferences ele6 = getSharedPreferences("ele6", Activity.MODE_PRIVATE);
+        SharedPreferences bike7 = getSharedPreferences("bike7", Activity.MODE_PRIVATE);
+        SharedPreferences slope8 = getSharedPreferences("slope8", Activity.MODE_PRIVATE);
+        SharedPreferences danger9 = getSharedPreferences("danger9", Activity.MODE_PRIVATE);
+
+        ImageButton filterclose = findViewById(R.id.filter_close);
+        filterclose.setOnClickListener(new View.OnClickListener() {
+            @Override
+
+            public void onClick(View view) {
+                finish();
+                if(total1_.get("total")==null){
+                    SharedPreferences.Editor editor = total1.edit();
+                    editor.putBoolean("total",true);
+                    editor.commit();
+                }else if(total1.getAll().equals(total1_)==false){
+                    SharedPreferences.Editor editor = total1.edit();
+                    editor.putBoolean("total",(boolean)total1_.get("total"));
+                    editor.commit();
+                }if(hos2_.get("total")==null){
+                    SharedPreferences.Editor editor = hos2.edit();
+                    editor.putBoolean("total",true);
+                    editor.commit();
+                }else if(hos2.getAll().equals(hos2_)==false){
+                    SharedPreferences.Editor editor = hos2.edit();
+                    editor.putBoolean("total",(boolean)hos2_.get("total"));
+                    editor.commit();
                 }
-                return true;
+
+                if(fac3_.get("total")==null) {
+                    SharedPreferences.Editor editor = fac3.edit();
+                    editor.putBoolean("total", true);
+                    editor.commit();
+                }else if(fac3.getAll().equals(fac3_)==false){
+                    SharedPreferences.Editor editor = fac3.edit();
+                    editor.putBoolean("total",(boolean)fac3_.get("total"));
+                    editor.commit();
+                }
+
+
+                if(charge4_.get("total")==null){
+                    SharedPreferences.Editor editor = charge4.edit();
+                    editor.putBoolean("total",true);
+                    editor.commit();
+                }else if(charge4.getAll().equals(charge4_)==false){
+                    SharedPreferences.Editor editor = charge4.edit();
+                    editor.putBoolean("total",(boolean)charge4_.get("total"));
+                    editor.commit();
+                }
+                if(wheel5_.get("total")==null){
+                    SharedPreferences.Editor editor = wheel5.edit();
+                    editor.putBoolean("total",true);
+                    editor.commit();
+                }else if(wheel5.getAll().equals(wheel5_)==false){
+                    SharedPreferences.Editor editor = wheel5.edit();
+                    editor.putBoolean("total",(boolean)wheel5_.get("total"));
+                    editor.commit();
+                }
+                if(ele6_.get("total")==null){
+                    SharedPreferences.Editor editor = ele6.edit();
+                    editor.putBoolean("total",true);
+                    editor.commit();
+                }else if(ele6.getAll().equals(ele6_)==false){
+                    SharedPreferences.Editor editor = ele6.edit();
+                    editor.putBoolean("total",(boolean)ele6_.get("total"));
+                    editor.commit();
+                }
+                if(bike7_.get("total")==null){
+                    SharedPreferences.Editor editor = bike7.edit();
+                    editor.putBoolean("total",true);
+                    editor.commit();
+                }else if(bike7.getAll().equals(bike7_)==false){
+                    SharedPreferences.Editor editor = bike7.edit();
+                    editor.putBoolean("total",(boolean)bike7_.get("total"));
+                    editor.commit();
+                }
+
+                if(slope8_.get("total")==null){
+                    SharedPreferences.Editor editor = slope8.edit();
+                    editor.putBoolean("total",true);
+                    editor.commit();
+                }else if(slope8.getAll().equals(slope8_)==false){
+                    SharedPreferences.Editor editor = slope8.edit();
+                    editor.putBoolean("total",(boolean)slope8_.get("total"));
+                    editor.commit();
+                }
+                if(danger9_.get("total")==null){
+                    SharedPreferences.Editor editor = danger9.edit();
+                    editor.putBoolean("total",true);
+                    editor.commit();
+                }else if(danger9.getAll().equals(danger9_)==false){
+                    SharedPreferences.Editor editor = danger9.edit();
+                    editor.putBoolean("total",(boolean)danger9_.get("total"));
+                    editor.commit();
+                }
+
+
+
             }
         });
-
     }
 
     // xml 가져오는 코드
@@ -1022,6 +1181,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         return;
     }
+
+    //위험지역
+    private void setMarker_danger() {
+        for (int i = 0; i < danger_list.size(); i++) {
+            JsonApi_danger.danger_item item = danger_list.get(i);
+            System.out.println("setMarker_danger");
+            setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "danger", naverMap);
+            // cluster_item2.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
+        }
+        return;
+    }
+
 
 
     //자전거 사고 다발지역 만들기

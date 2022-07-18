@@ -51,7 +51,7 @@
             android:lineSpacingExtra="4.8sp"
             app:layout_constraintEnd_toStartOf="@id/tv_yes_dialog"
             app:layout_constraintTop_toBottomOf="@id/text_dialog"
-            android:background="@drawable/no_dialog"/>
+            android:background="@drawable/no_dialog_clicked_event"/>
 
         <TextView
             android:id="@+id/tv_yes_dialog"
@@ -68,7 +68,7 @@
             android:lineSpacingExtra="4.8sp"
             app:layout_constraintStart_toEndOf="@id/tv_no_dialog"
             app:layout_constraintTop_toBottomOf="@id/text_dialog"
-            android:background="@drawable/yes_dialog"/>
+            android:background="@drawable/yes_dialog_clicked_event"/>
 
     </LinearLayout>
 
