@@ -1,6 +1,6 @@
 package com.abilitymap;
+
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContract;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -8,10 +8,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PointF;
@@ -23,6 +23,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 
 import java.text.SimpleDateFormat;
+
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
@@ -30,32 +31,32 @@ import android.os.Build;
 import android.os.Handler;
 import android.telephony.SmsManager;
 import android.util.Log;
+
 import androidx.appcompat.app.AlertDialog;
 
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.abilitymap.databinding.ActivityFilterBinding;
 import com.abilitymap.databinding.ActivityMainBinding;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.navigation.NavigationView;
-import com.naver.maps.geometry.LatLngBounds;
 import com.naver.maps.map.CameraAnimation;
 import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
+
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.widget.Toast;
+
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.LocationTrackingMode;
 import com.naver.maps.map.UiSettings;
@@ -73,13 +74,17 @@ import java.util.List;
 import java.util.Locale;
 
 
-
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker_facility, SetMarker_wheel {
     private GpsTracker gpsTracker;
     private NaverMap naverMap;
+    public static Activity firstActivity;
     public static ArrayList<JsonApi_total.total_item> total_list = new ArrayList();
     public static ArrayList<JsonApi_bike.bike_item> bike_list = new ArrayList();
     public static ArrayList<JsonApi_charge.charge_item> charge_list = new ArrayList();
+    public static ArrayList<JsonApi_slope.slope_item> slope_list = new ArrayList();
+
+
+
     private FusedLocationSource locationSource;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int CAMERA_PICTURE_SAVED_CODE = 3001;
@@ -117,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private long presstime = 0;
     private boolean isDrawerOpen = false;
     private boolean isFilter = false;
-
+    ProgressDialog dialog; //원형 프로그레스바
 
 //    List<Double> latitudeList = new ArrayList<Double>();
 //    List<Double> longitudeList = new ArrayList<Double>();
@@ -146,43 +151,59 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
+
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState){ //화면 생성과 함께 현재 위치 받아옴.
+        dialog = new ProgressDialog(MainActivity.this); //프로그레스 대화상자 객체 생성
+        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); //프로그레스 대화상자 스타일 원형으로 설정
+        dialog.setCancelable(false);
+        dialog.setMessage("잠시만 기다려주세요."); //프로그레스 대화상자 메시지 설정
+        dialog.show(); //프로그레스 대화상자 띄우기
 
+        Handler handler = new Handler();
+        handler.postDelayed(new Runnable(){
+            @Override
+            public void run() {
+                dialog.dismiss(); // 3초 시간지연 후 프로그레스 대화상자 닫기
+            }
+        }, 1000);
+        //로딩
+
+        firstActivity = MainActivity.this;
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ImageButton Report_message = (ImageButton) findViewById(R.id.message_button);
-        System.out.println("oncreat");
+        System.out.println("oncreate");
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initClickListener();
         initLauncher();
         FragmentManager fm = getSupportFragmentManager();
-        MapFragment mapFragment = (MapFragment)fm.findFragmentById(R.id.map);
+        MapFragment mapFragment = (MapFragment) fm.findFragmentById(R.id.map);
 
-        if(mapFragment ==null ){
+        if (mapFragment == null) {
             mapFragment = MapFragment.newInstance();
             fm.beginTransaction().add(R.id.map, mapFragment).commit();
         }
         mapFragment.getMapAsync(this);
         if (!checkLocationServicesStatus()) {
             showDialogForLocationServiceSetting();
-        }else {
+        } else {
 
             checkRunTimePermission();
         }
-        locationSource = new FusedLocationSource(this,LOCATION_PERMISSION_REQUEST_CODE);
+        locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
                     @Override
                     public void onSuccess(Location location) {
-                        if(location == null) {
+                        if (location == null) {
                             currentPosition = new LatLng(37.3595316, 127.1052133);
                             // Got last known location. In some rare situations this can be null.
-                        }else{
-                            currentPosition = new LatLng(location.getLatitude(),location.getLongitude());
+                        } else {
+                            currentPosition = new LatLng(location.getLatitude(), location.getLongitude());
                             // Logic to handle location object
                         }
                     }
@@ -193,10 +214,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         JsonApi_total total_api = new JsonApi_total();
         JsonApi_bike bike_api  = new JsonApi_bike();
+        JsonApi_slope slope_api  = new JsonApi_slope();
         JsonApi_charge charge_api  = new JsonApi_charge();
         total_api.execute(lat,lon,"");
         bike_api.execute(lat,lon,"");
         charge_api.execute(lat,lon,"");
+        slope_api.execute(lat,lon,"");
 
 //        new Thread(() -> {
 //            setUpMap(); // network 동작, 인터넷에서 xml을 받아오는 코드
@@ -205,28 +228,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         items = new ArrayList<>();
         // 핸들러
 
-
-
-//
-
-
+                         
 
     }
 
 
-
-
-
-
-
-
     //
     @Override
-    public void onRequestPermissionsResult ( int requestCode,
-                                             @NonNull String[] permissions, @NonNull int[] grandResults) {
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions, @NonNull int[] grandResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grandResults);
 
-        if (requestCode == PERMISSIONS_REQUEST_CODE  && grandResults.length == REQUIRED_PERMISSIONS.length) {
+        if (requestCode == PERMISSIONS_REQUEST_CODE && grandResults.length == REQUIRED_PERMISSIONS.length) {
             boolean check_result = true;
             for (int result : grandResults) {
                 if (result != PackageManager.PERMISSION_GRANTED) {
@@ -266,8 +279,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public boolean onClick(@NonNull Overlay overlay) {
-        ImageButton repot_message = (ImageButton)findViewById(R.id.message_button);
-        ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
+        ImageButton repot_message = (ImageButton) findViewById(R.id.message_button);
+        ImageButton Report_button = (ImageButton) findViewById(R.id.repot_button);
 
         /*Report_button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -296,9 +309,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 setCamera(intent);
             }
         });*/
-        if(overlay instanceof Marker && clickable){
+        if (overlay instanceof Marker && clickable) {
 //            Toast.makeText(this.getApplicationContext(),"위험지역입니다",Toast.LENGTH_LONG).show();
-            LocationDetailFragment infoFragment = new LocationDetailFragment();
+            Object object = overlay.getTag();
+            String tag = String.valueOf(object);
+            //charge_list.get()
+
+            JsonApi_charge.charge_item selectedItem = findThisMarkerItem(((Marker) overlay).getPosition(), charge_list);
+
+            String location = selectedItem.getLocation();
+            String week = selectedItem.getWeek();
+            String weekend = selectedItem.getWeekend();
+            String holiday = selectedItem.getHoliday();
+
+            System.out.println("리스트 검색 결과 : "+ location + "," + week +"," + weekend +","+holiday);
+
+            LocationDetailFragment infoFragment = new LocationDetailFragment(tag,location,week,weekend,holiday);
+
+
+            //LocationDetailFragment infoFragment = new LocationDetailFragment(tag);
+
             getSupportFragmentManager().beginTransaction().add(R.id.map, infoFragment).addToBackStack(null).commit();
             clickable = false;
             repot_message.setVisibility(View.INVISIBLE);
@@ -307,9 +337,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.d("clickable?", String.valueOf(clickable));
 
             LatLng selectedPosition = ((Marker) overlay).getPosition();
-            CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition,16).pivot(new PointF(0.5f,0.37f)).animate(CameraAnimation.Easing);
+            CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.37f)).animate(CameraAnimation.Easing);
             naverMap.moveCamera(cameraUpdate);
-
 
 
             naverMap.setOnMapClickListener(new NaverMap.OnMapClickListener() {
@@ -322,12 +351,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     repot_message.setVisibility(View.VISIBLE);
                     Report_button.setVisibility(View.VISIBLE);
                     Log.d("clickable?", String.valueOf(clickable));
-                    Log.d("click event","onMapClick");
+                    Log.d("click event", "onMapClick");
 
 
                 }
-
-
 
 
             });
@@ -335,11 +362,30 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             return true;
         }
         return false;
-
     }
 
+    JsonApi_charge.charge_item findThisMarkerItem(LatLng location, ArrayList<JsonApi_charge.charge_item> list) {
+        String thisLat = String.valueOf(location.latitude);
+        String thisLng = String.valueOf(location.longitude);
+        JsonApi_charge.charge_item selectedItem = null;
+
+        System.out.println(thisLat);
+        System.out.println(thisLng);
+
+        for (int i = 0; i < list.size(); i++) {
+            JsonApi_charge.charge_item item = list.get(i);
+            System.out.println(i+"," + item + ", Lat : "+item.getLat() + "Lng : " + item.getLng());
+            if ( thisLat.equals(item.getLat()) && thisLng.equals(item.getLng()) ) {
+                selectedItem = item;
+                System.out.println("item Found!");
+            }
+        }
+        return selectedItem;
+    }
+
+
     @Override
-    public void onBackPressed(){
+    public void onBackPressed() {
 //        ImageButton Call_button = (ImageButton)findViewById(R.id.call_button);
 //        ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
 //        ImageButton Report_message = (ImageButton)findViewById(R.id.repot_message);
@@ -355,27 +401,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (isDrawerOpen) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
             isDrawerOpen = false;
-        }
-        else if(isFilter) {
+        } else if (isFilter) {
             isFilter = false;
-        }else{
+        } else {
 
             if (clickable) {
 
                 long tempTime = System.currentTimeMillis();
                 long intervalTime = tempTime - presstime;
 
-                if (0 <= intervalTime && finishtimeed >= intervalTime)
-                {
+                if (0 <= intervalTime && finishtimeed >= intervalTime) {
                     finish();
-                }
-                else
-                {
+                } else {
                     presstime = tempTime;
                     Toast.makeText(getApplicationContext(), "한번더 누르시면 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
                 }
 
-            }else {
+            } else {
                 super.onBackPressed();
                 ImageButton message_button = (ImageButton) findViewById(R.id.message_button);
                 ImageButton Report_button = (ImageButton) findViewById(R.id.repot_button);
@@ -385,7 +427,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
             }
-
 
 
         }
@@ -434,8 +475,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-
-    public String getCurrentAddress( double latitude, double longitude) {
+    public String getCurrentAddress(double latitude, double longitude) {
         //지오코더... GPS를 주소로 변환
         Geocoder geocoder = new Geocoder(this, Locale.getDefault());
         List<Address> addresses;
@@ -462,10 +502,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Address address = addresses.get(0);
 
-        return address.getAddressLine(0).toString()+"\n";
-
+        return address.getAddressLine(0).toString() + "\n";
     }
-
 
 
     //여기부터는 GPS 활성화를 위한 메소드들
@@ -482,7 +520,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         = new Intent(android.provider.Settings.ACTION_LOCATION_SOURCE_SETTINGS);
                 startActivityForResult(callGPSSettingIntent, GPS_ENABLE_REQUEST_CODE);
 
-                ActivityCompat.requestPermissions(MainActivity.this, new String[] {Manifest.permission.ACCESS_BACKGROUND_LOCATION}, id);
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.ACCESS_BACKGROUND_LOCATION}, id);
             }
         });
         builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -494,8 +532,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         builder.create().show();
     }
 
-
-
+    public void Dead() {
+        finish();
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -530,23 +569,58 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         CameraUpdate cameraUpdate = CameraUpdate.scrollTo(currentPosition).animate(CameraAnimation.Fly,0);
         naverMap.moveCamera(cameraUpdate);
         this.naverMap = naverMap;
-        System.out.println("onMapReady");
-        SharedPreferences save = getSharedPreferences("total",Activity.MODE_PRIVATE);
-//        SharedPreferences.Editor editor = save.edit();
-//        editor.putBoolean("total",true);
-//        editor.commit();
 
 
+        SharedPreferences total1 = getSharedPreferences("total", Activity.MODE_PRIVATE);
+        SharedPreferences hos2 = getSharedPreferences("hos2", Activity.MODE_PRIVATE);
+        SharedPreferences fac3 = getSharedPreferences("fac3", Activity.MODE_PRIVATE);
+        SharedPreferences charge4 = getSharedPreferences("charge4", Activity.MODE_PRIVATE);
+        SharedPreferences wheel5 = getSharedPreferences("wheel5", Activity.MODE_PRIVATE);
+        SharedPreferences ele6 = getSharedPreferences("ele6", Activity.MODE_PRIVATE);
+        SharedPreferences bike7 = getSharedPreferences("bike7", Activity.MODE_PRIVATE);
+        SharedPreferences slope8 = getSharedPreferences("slope8", Activity.MODE_PRIVATE);
+        SharedPreferences danger9 = getSharedPreferences("danger9", Activity.MODE_PRIVATE);
 
-            if ((save==null) || (save.getBoolean("total",true))){
+
+        if(total1.getBoolean("total",true)){
+            setMarker_hos(); //병원이랑 시설
+            drawMarker_bike();
+            setMarker_Charge();
+            drawMarker_slope();
+        }else{
+            if (hos2.getBoolean("total", true)) {
                 setMarker_hos(); //병원이랑 시설
-                drawMarker_bike();
+            }
+            if (fac3.getBoolean("total", true)) {
+
+            }
+            if (charge4.getBoolean("total", true)) {
                 setMarker_Charge();
-                System.out.println("new");
+            }
+            if (wheel5.getBoolean("total", true)) {
+
+            }
+            if (ele6.getBoolean("total", true)) {
+
+            }
+            if (bike7.getBoolean("total", true)) {
+                drawMarker_bike();
+            }
+            if (slope8.getBoolean("total", true)) {
+                drawMarker_slope();
+            }
+            if (danger9.getBoolean("total", true)) {
+
+
             }
 
+        }
 
-        System.out.println(save+"123");
+
+
+        System.out.println(total1.getAll()+"ㅎㅇ");
+        System.out.println(hos2.getAll()+"ㅎㅇ");
+        System.out.println("new2");
         //충전기
         naverMap.setMaxZoom(19.0);
         naverMap.setMinZoom(5.0);
@@ -557,12 +631,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         uiSettings.setLocationButtonEnabled(true);
 
 
-
         naverMap.setLocationSource(locationSource);
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
 
 
-        final TextView location_text = (TextView)findViewById(R.id.location_text);
+        final TextView location_text = (TextView) findViewById(R.id.location_text);
 
 
 
@@ -584,16 +657,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         naverMap.addOnLocationChangeListener(new NaverMap.OnLocationChangeListener() {
             @Override
             public void onLocationChange(@NonNull Location location) {
-
                 gpsTracker = new GpsTracker(MainActivity.this);
                 SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
                 double deltaTime = 0;
-
                 // getSpeed() 함수를 이용하여 속도 계산(m/s -> km/h)
                 getSpeed = Double.parseDouble(String.format("%.3f", location.getSpeed() * 3.6));
-
                 // 위치 변경이 두번째로 변경된 경우 계산에 의해 속도 계산
-                if(mLastlocation != null){
+                if (mLastlocation != null) {
                     deltaTime = (location.getTime() - mLastlocation.getTime());
                     // 속도 계산(시간=ms, 거리=m -> km/h)
                     speed = (mLastlocation.distanceTo(location) / deltaTime) * 3600;
@@ -609,23 +679,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
                 String addrCut[] = address.split(" ");
-                if(addrCut.length >= 6) {
+                if (addrCut.length >= 6) {
                     location_text.setText(addrCut[2] + " " + addrCut[3] + " " + addrCut[4] + " " + addrCut[5]);
-                }else if(addrCut.length >= 5){
+                } else if (addrCut.length >= 5) {
                     location_text.setText(addrCut[2] + " " + addrCut[3] + " " + addrCut[4]);
-                }else if(addrCut.length >= 4){
+                } else if (addrCut.length >= 4) {
                     location_text.setText(addrCut[2] + " " + addrCut[3]);
-               }else if(addrCut.length >= 3){
-                    location_text.setText(addrCut[1] + " "+addrCut[2]);
-                }else if(addrCut.length >= 2){
-                    location_text.setText(addrCut[0]+ " "+addrCut[1]);
-                }else if(addrCut.length >= 1){
+                } else if (addrCut.length >= 3) {
+                    location_text.setText(addrCut[1] + " " + addrCut[2]);
+                } else if (addrCut.length >= 2) {
+                    location_text.setText(addrCut[0] + " " + addrCut[1]);
+                } else if (addrCut.length >= 1) {
                     location_text.setText(addrCut[0]);
-                }else{
+                } else {
                     location_text.setText("위치 정보 없음");
                 }
-
-
 
 
                 String lat_str = Double.toString(latitude);
@@ -640,7 +708,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 String cs_str = Double.toString(calSpeed);
 
 
-
             }
 
         });
@@ -649,20 +716,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void initLauncher(){
+    private void initLauncher() {
         activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            if(result.getResultCode() == 3000){
+            if (result.getResultCode() == 3000) {
                 Intent cameraIntent = result.getData();
                 String cameraFlag = cameraIntent.getStringExtra(Camera2Activity.picSaved);
                 //Toast.makeText(MainActivity.this,cameraFlag, Toast.LENGTH_SHORT).show();
-                Log.d("lancher","launch ok");
+                Log.d("lancher", "launch ok");
             }
 
         });
     }
 
 
-    private void setCamera(Intent cameraIntent){
+    private void setCamera(Intent cameraIntent) {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             cameraIntent = new Intent(getApplicationContext(), Camera2Activity.class);
             //activityResultLauncher.launch(cameraIntent);
@@ -673,9 +740,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     //메시지 보내기 함수
-    private void sendSms(){
+    private void sendSms() {
         SmsManager manager = SmsManager.getDefault();
-
+        
         SharedPreferences spfPersonInfo = getSharedPreferences("personInfo", MODE_PRIVATE);
         int personId = spfPersonInfo.getInt("position", -1);
         Log.d("DB POSITION", String.valueOf(personId));
@@ -690,25 +757,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (!(pL.get(personId).getText().equals(""))){  //텍스트 입력한 기록이 있는 연락처에 한정
             manager.sendTextMessage(pL.get(personId).getPhoneNumber(), null, pL.get(personId).getText(), null, null);
         }
-
     }
 
 
     @Override
-    public boolean dispatchTouchEvent(MotionEvent ev){
+    public boolean dispatchTouchEvent(MotionEvent ev) {
         Rect dialogBounds = new Rect();
         getWindow().getDecorView().getHitRect(dialogBounds);
-        if(!dialogBounds.contains((int) ev.getX(),(int) ev.getY())){
+        if (!dialogBounds.contains((int) ev.getX(), (int) ev.getY())) {
             return false;
         }
         return super.dispatchTouchEvent(ev);
     }
 
+
     private void initClickListener() {
 
         //긴급신고 메세지지
-       ImageButton Report_message = findViewById(R.id.message_button);
-       Report_message.setOnClickListener(new View.OnClickListener() {
+        ImageButton Report_message = findViewById(R.id.message_button);
+        Report_message.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //로컬에 기록하기. 그걸 가지고 1,2,3번 시도 구분
@@ -719,42 +786,40 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, REQUIRED_PERMISSIONS2[1])) {
                         //2번 퍼미션 시도
                         SharedPreferences.Editor editor = pref2.edit();
-                        editor.putBoolean("Permission_touch",true);
+                        editor.putBoolean("Permission_touch", true);
                         editor.commit();
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
-                    }else {
-                        if( Permission_touch==true ){
+                    } else {
+                        if (Permission_touch == true) {
                             //3번째부터
                             Toast.makeText(getApplicationContext(), "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ", Toast.LENGTH_LONG).show();
-                        }else{
+                        } else {
                             //1번째 퍼미션 시도
                         }
                         ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.SEND_SMS}, MY_PERMISSIONS_REQUEST_SEND_SMS);
                     }//팝업 이어갈 예정
-                }else{
+                } else {
                     //퍼미션 허용받으면 이쪽입니다~~~
                     SharedPreferences pref = getSharedPreferences("isFirst", Activity.MODE_PRIVATE);
                     boolean first_touch = pref.getBoolean("isFirst", false);
 
-
+                    System.out.println("허용");
                     //이전 선택된 연락처 기록 가져오기
                     SharedPreferences spfPersonInfo = getSharedPreferences("personInfo", MODE_PRIVATE);
                     String name = spfPersonInfo.getString("name", "");
                     String phoneNumber = spfPersonInfo.getString("phoneNumber", "");
                     int personId = spfPersonInfo.getInt("position", -1);
 
-                    Log.d("이름",  name);
-                    Log.d("번호",  phoneNumber);
+                    Log.d("이름", name);
+                    Log.d("번호", phoneNumber);
 
-                    if(name.equals("") && phoneNumber.equals("")){    //연락처 선택한 기록이 없을 시 연락처 추가하기로 이동 (저장된 연락처 확인하고 이것도 없으면 추가하기로 이동하는게 낫지 않을까요?)
-                        Intent intent = new Intent(getApplicationContext(), AddPhoneBookActivity.class);
-                        startActivity(intent);
-                    }
+//                    if(name.equals("") && phoneNumber.equals("")){    //연락처 선택한 기록이 없을 시 연락처 추가하기로 이동 (저장된 연락처 확인하고 이것도 없으면 추가하기로 이동하는게 낫지 않을까요?)
+//                        Intent intent = new Intent(getApplicationContext(), AddPhoneBookActivity.class);
+//                        startActivity(intent);
+//                    }
 
 
-
-                    if(first_touch==false){
-                        Toast.makeText(getApplicationContext(), "최초 실행", Toast.LENGTH_LONG).show();
+                    if (name.equals("") || phoneNumber.equals("")) {
                         //앱 최초 실행시 하고 싶은 작업
                         View dialogView = getLayoutInflater().inflate(R.layout.first_popup, null);
                         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
@@ -777,52 +842,92 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         yesButton.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View view) {
+                                Intent intent = new Intent(getApplicationContext(), EmergencyCallActivity.class);
+                                startActivity(intent);
+                                Toast.makeText(getApplicationContext(), "연락처를 클릭해서 문자를 전송할 연락처를 선택해주세요!", Toast.LENGTH_LONG).show();
                                 SharedPreferences.Editor editor = pref.edit();
-                                editor.putBoolean("isFirst",true);
+                                editor.putBoolean("isFirst", true);
                                 editor.commit();
                                 alertDialog.dismiss();
-                                finish();
+
+
                             }
                         });
+//                        alertDialog.show();
+                    } else {
+
+                        View dialogView = getLayoutInflater().inflate(R.layout.mesaage_dialog, null);
+                        TextView set11;
+                        set11 = (TextView) dialogView.findViewById(R.id.text_dialog_);
+                        set11.setText(name + set11.getText());
+
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+                        builder.setView(dialogView);
+                        final AlertDialog alertDialog = builder.create();
+                        ColorDrawable back = new ColorDrawable(Color.TRANSPARENT);
+                        InsetDrawable inset = new InsetDrawable(back, 24);
+                        alertDialog.getWindow().setBackgroundDrawable(inset);
+                        alertDialog.setCanceledOnTouchOutside(false);//없어지지 않도록 설정
                         alertDialog.show();
-                    }else{
-                        Toast.makeText(getApplicationContext(), "두번째 실행", Toast.LENGTH_LONG).show();
-                        sendSms();
+
+//                        String nameText = TextView(mContext)
+//                        nameText.S(name);
+//                        text.setText(nameText.text.toString() + text.text.toString());
+
+                        TextView noButton = alertDialog.findViewById(R.id.tv_no_dialog);
+                        noButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                alertDialog.dismiss();
+                            }
+                        });
+                        TextView yesButton = alertDialog.findViewById(R.id.tv_yes_dialog);
+                        yesButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View view) {
+                                sendSms();
+                                Toast.makeText(getApplicationContext(), "긴급 문자가 전송되었습니다!", Toast.LENGTH_LONG).show();
+                                alertDialog.dismiss();
+
+                            }
+                        });
+                        /*                        alertDialog.show();*/
                     }
                 }
 
             }
         });
 
-       ImageButton Report_button = findViewById(R.id.repot_button);
-       Report_button.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {
-               //현 위치 location 받아와서 서버로 넘겨줘야함
-               //넘겨줄 것 : 사진, text, 닉네임, 좌표, 신고일자
+        ImageButton Report_button = findViewById(R.id.repot_button);
+        Report_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //현 위치 location 받아와서 서버로 넘겨줘야함
+                //넘겨줄 것 : 사진, text, 닉네임, 좌표, 신고일자
 
-               //카메라 권한요청, 내 파일 권한 요청 필요
+                //카메라 권한요청, 내 파일 권한 요청 필요
 
-               //카메라 화면이 먼저 나옴
-               //사진 찍고
-               //report detail 화면 띄워서
-               //입력받고 전송하기 버튼 누르면
+                //카메라 화면이 먼저 나옴
+                //사진 찍고
+                //report detail 화면 띄워서
+                //입력받고 전송하기 버튼 누르면
 
-               //현 위치 : locationSource
+                //현 위치 : locationSource
 
-               //아니 여기 왜 버튼이 안눌려렬렬려려려려려려려려려렬
-               //버튼 init버튼인가 밑에 함수에서 설정하면 됩니다^^
+                //아니 여기 왜 버튼이 안눌려렬렬려려려려려려려려려렬
+                //버튼 init버튼인가 밑에 함수에서 설정하면 됩니다^^
 //zzzzz
 
-               Log.d("camera","Reportbutton clicked");
+                Log.d("camera", "Reportbutton clicked");
 
-               Intent intent = null;
-               Log.d("camera","clicked");
-               setCamera(intent);
-           }
-       });
+                Intent intent = null;
+                Log.d("camera", "clicked");
+                setCamera(intent);
+            }
+        });
 
-        binding.layoutToolBar.ivMenu.setOnClickListener(new View.OnClickListener(){
+        binding.layoutToolBar.ivMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {            //menu 클릭 시 open drawer
                 binding.drawerLayout.openDrawer(GravityCompat.START);
@@ -830,9 +935,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-        binding.layoutToolBar.ivFilter.setOnClickListener(new View.OnClickListener(){
+        binding.layoutToolBar.ivFilter.setOnClickListener(new View.OnClickListener() {
             @Override
+
+            //필터
             public void onClick(View view) {
+
                 Intent intent = new Intent(getApplicationContext(), FilterActivity.class);
                 startActivity(intent);
                 isFilter = true;
@@ -840,24 +948,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
 
+        View header = binding.navigationView.getHeaderView(0);
+        ImageView image = header.findViewById(R.id.iv_close);
 
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {        // X 클릭 시 close drawer
+                binding.drawerLayout.closeDrawer(GravityCompat.START);
+            }
+        });
 
-
-       View header = binding.navigationView.getHeaderView(0);
-       ImageView image = header.findViewById(R.id.iv_close);
-
-       image.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View view) {        // X 클릭 시 close drawer
-               binding.drawerLayout.closeDrawer(GravityCompat.START);
-           }
-       });
-
-       binding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-           @Override
-           public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-               if (item.getItemId() == R.id.nav_notification) {
+        binding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                if (item.getItemId() == R.id.nav_notification) {
 //                 binding.drawerLayout.closeDrawer(GravityCompat.START); //열려있는 메뉴판 닫고 화면 전환
+
                    Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
                    startActivity(intent);
                }
@@ -883,6 +989,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                return true;
            }
        });
+                 
+    
+             
 
     }
 
@@ -904,6 +1013,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //    }
 //    }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        System.out.println("온푸즈");
+    }
+
 
     private void removeMarkerAll() {
         for (Marker marker : TotalmarkerList) {
@@ -912,22 +1027,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    //의료기관
+    //의료기관setMarker_facility_delete
     private void setMarker_hos() {
-        for (int i =0 ; i< total_list.size(); i++){
+        for (int i = 0; i < total_list.size(); i++) {
             JsonApi_total.total_item item = total_list.get(i);
-            setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"hos",naverMap);
-           // cluster_item2.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
+            setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "hos", naverMap);
         }
+        //TotalmarkerList.add(setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"hos",naverMap));//클러스터링코드
+        System.out.println("setMarker_hos");
         return;
     }
 
+
     //충전기
     private void setMarker_Charge() {
-        for (int i =0 ; i< charge_list.size(); i++){
+        for (int i = 0; i < charge_list.size(); i++) {
             JsonApi_charge.charge_item item = charge_list.get(i);
-            setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"charge",naverMap);
+            setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "charge", naverMap);
             // cluster_item2.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
+            System.out.println("setMarker_charge");
         }
         return;
     }
@@ -935,40 +1053,74 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //자전거 사고 다발지역 만들기
     private void drawMarker_bike() {
-        for (int i =0 ; i< bike_list.size(); i++){
+        for (int i = 0; i < bike_list.size(); i++) {
             JsonApi_bike.bike_item item = bike_list.get(i);
-            AccidentCircle((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()));
+            AccidentCircle((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()),"자전거 사고다발 지역");
             //cluster_item.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
         }
         return;
     }
 
 
-    //자전거 사고 다발지역 마커
-    private void AccidentCircle(double x, double y){
+
+    //자전거 사고 다발지역 만들기
+    private void drawMarker_slope() {
+        for (int i =0 ; i< slope_list.size(); i++){
+            JsonApi_slope.slope_item item = slope_list.get(i);
+            AccidentCircle_slope((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()),"급경사 지역");
+                     //cluster_item.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
+        }
+        return;
+    }
+
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+    }
+
+
+
+    private void AccidentCircle(double x, double y, String z){
         CircleOverlay circle = new CircleOverlay();
         circle.setCenter(new LatLng(x, y));
         circle.setRadius(30);
         circle.setColor(Color.parseColor("#30FF7B00"));
         circle.setOutlineColor(Color.parseColor("#30FF7B00"));
+        circle.setMinZoom(12);//줌 설정
         circle.setMap(naverMap);
 
         InfoWindow infoWindow = new InfoWindow();
         Marker marker = new Marker();
+
         marker.setPosition(new LatLng(x,y));
-        marker.setMinZoom(9);//줌 설정
+        marker.setMinZoom(12);//줌 설정
+
         marker.setIcon(OverlayImage.fromResource(R.drawable.danger_location_yellow));
         marker.setWidth(80);
         marker.setHeight(80);
         marker.setMap(naverMap);
 
-        marker.setTag("자전거 사고다발 지역");
+        marker.setTag(z);
         infoWindow.setAdapter(new InfoWindow.DefaultTextAdapter(this) {
             @NonNull
             @Override
             public CharSequence getText(@NonNull InfoWindow infoWindow) {
                 // 정보 창이 열린 마커의 tag를 텍스트로 노출하도록 반환
-                return (CharSequence)infoWindow.getMarker().getTag();
+                return (CharSequence) infoWindow.getMarker().getTag();
             }
         });
         infoWindow.setAlpha(0.8f);
@@ -980,13 +1132,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 // 현재 마커에 정보 창이 열려있지 않을 경우 엶
                 infoWindow.open(marker);
                 Handler handler = new Handler();
-                if(marker.getInfoWindow() != null){
+                if (marker.getInfoWindow() != null) {
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
                             infoWindow.close();
                         }
-                    },3000);	//3초 동안 딜레이
+                    }, 3000);    //3초 동안 딜레이
                 }
             } else {
                 // 이미 현재 마커에 정보 창이 열려있을 경우 닫음
@@ -1000,5 +1152,52 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
+             //자전거 사고 다발지역 마커
+             private void AccidentCircle_slope(double x, double y, String z){
+                 InfoWindow infoWindow = new InfoWindow();
+                 Marker marker = new Marker();
+                 marker.setPosition(new LatLng(x,y));
+                 marker.setMinZoom(12);//줌 설정
+                 marker.setIcon(OverlayImage.fromResource(R.drawable.danger_location_yellow));
+                 marker.setWidth(80);
+                 marker.setHeight(80);
+                 marker.setMap(naverMap);
+
+                 marker.setTag(z);
+                 infoWindow.setAdapter(new InfoWindow.DefaultTextAdapter(this) {
+                     @NonNull
+                     @Override
+                     public CharSequence getText(@NonNull InfoWindow infoWindow) {
+                         // 정보 창이 열린 마커의 tag를 텍스트로 노출하도록 반환
+                         return (CharSequence)infoWindow.getMarker().getTag();
+                     }
+                 });
+                 infoWindow.setAlpha(0.8f);
+                 Overlay.OnClickListener listener = overlay -> {
+                     naverMap.setOnMapClickListener((coord, point) -> {
+                         infoWindow.close();
+                     });
+                     if (marker.getInfoWindow() == null) {
+                         // 현재 마커에 정보 창이 열려있지 않을 경우 엶
+                         infoWindow.open(marker);
+                         Handler handler = new Handler();
+                         if(marker.getInfoWindow() != null){
+                             handler.postDelayed(new Runnable() {
+                                 @Override
+                                 public void run() {
+                                     infoWindow.close();
+                                 }
+                             },3000);	//3초 동안 딜레이
+                         }
+                     } else {
+                         // 이미 현재 마커에 정보 창이 열려있을 경우 닫음
+                         infoWindow.close();
+                     }
+
+                     return true;
+                 };
+                 marker.setOnClickListener(listener);
+
+             }
 
 }

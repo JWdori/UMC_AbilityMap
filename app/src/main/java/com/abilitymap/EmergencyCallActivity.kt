@@ -202,8 +202,8 @@ class EmergencyCallActivity : AppCompatActivity() {
             binding.rvEmergencyCall.viewTreeObserver.addOnGlobalLayoutListener(object : ViewTreeObserver.OnGlobalLayoutListener{
                 override fun onGlobalLayout() {
                     val holder : RecyclerView.ViewHolder = binding.rvEmergencyCall.findViewHolderForAdapterPosition(pos)!!
-
-                    holder.itemView.findViewById<ConstraintLayout>(R.id.layout_emergency_call).setBackgroundDrawable(resources.getDrawable(R.drawable.rectangle_clicked))
+                    
+                    <ConstraintLayout>(R.id.layout_emergency_call).setBackgroundDrawable(resources.getDrawable(R.drawable.rectangle_clicked))
                     holder.itemView.findViewById<TextView>(R.id.tv_name_emergency_call).setTextColor(Color.parseColor("#ffffff"))
                     holder.itemView.findViewById<TextView>(R.id.tv_phoneNumber_emergency_call).setTextColor(Color.parseColor("#ffffff"))
                     holder.itemView.findViewById<ImageView>(R.id.iv_delete_emergency_call).visibility = View.INVISIBLE
