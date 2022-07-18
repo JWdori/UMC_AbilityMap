@@ -675,7 +675,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     //메시지 보내기 함수
     private void sendSms(){
         SmsManager manager = SmsManager.getDefault();
-        manager.sendTextMessage("01031142949", null, "꼭 치킨 사줄게요", null, null);
+
+        SharedPreferences spfPersonInfo = getSharedPreferences("personInfo", MODE_PRIVATE);
+        int personId = spfPersonInfo.getInt("position", -1);
+        Log.d("DB POSITION", String.valueOf(personId));
+
+        PersonInfoDatabase personInfoDatabase = PersonInfoDatabase.Companion.getInstance(this);
+        List<PersonInfo> pL = personInfoDatabase.personInfoDao().getPersonList();
+        Log.d("데이타 베이스 확인 ! ! !", personInfoDatabase.personInfoDao().getPersonList().toString());
+        Log.d("데이타 베이스 번호", pL.get(personId).getPhoneNumber());
+        Log.d("데이타 베이스 텍스트", pL.get(personId).getText());
+
+
+        if (personId != -1){
+
+            manager.sendTextMessage(pL.get(personId).getPhoneNumber(), null, pL.get(personId).getText(), null, null);
+        }
+
     }
 
 
@@ -726,6 +742,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     SharedPreferences spfPersonInfo = getSharedPreferences("personInfo", MODE_PRIVATE);
                     String name = spfPersonInfo.getString("name", "");
                     String phoneNumber = spfPersonInfo.getString("phoneNumber", "");
+                    int personId = spfPersonInfo.getInt("position", -1);
 
                     Log.d("이름",  name);
                     Log.d("번호",  phoneNumber);
