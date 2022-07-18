@@ -680,15 +680,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         int personId = spfPersonInfo.getInt("position", -1);
         Log.d("DB POSITION", String.valueOf(personId));
 
-        PersonInfoDatabase personInfoDatabase = PersonInfoDatabase.Companion.getInstance(this);
-        List<PersonInfo> pL = personInfoDatabase.personInfoDao().getPersonList();
-        Log.d("데이타 베이스 확인 ! ! !", personInfoDatabase.personInfoDao().getPersonList().toString());
-        Log.d("데이타 베이스 번호", pL.get(personId).getPhoneNumber());
-        Log.d("데이타 베이스 텍스트", pL.get(personId).getText());
-
-
-        if (!(pL.get(personId).getText().equals(""))){  //텍스트 입력한 기록이 있는 연락처에 한정
-            manager.sendTextMessage(pL.get(personId).getPhoneNumber(), null, pL.get(personId).getText(), null, null);
+        if (personId != -1){    //선택된 연락처가 있을 때만
+            PersonInfoDatabase personInfoDatabase = PersonInfoDatabase.Companion.getInstance(this);
+            List<PersonInfo> pL = personInfoDatabase.personInfoDao().getPersonList();
+            Log.d("데이타 베이스 확인 ! ! !", personInfoDatabase.personInfoDao().getPersonList().toString());
+            Log.d("데이타 베이스 번호", pL.get(personId).getPhoneNumber());
+            Log.d("데이타 베이스 텍스트", pL.get(personId).getText());
+            
+            if (!(pL.get(personId).getText().equals(""))){  //텍스트 입력한 기록이 있는 연락처에 한정
+                manager.sendTextMessage(pL.get(personId).getPhoneNumber(), null, pL.get(personId).getText(), null, null);
+            }
         }
 
     }

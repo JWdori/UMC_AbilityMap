@@ -29,7 +29,7 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
     interface MyItemClickListener{
         fun onResetViewHolder(holder: ViewHolder, position: Int)
         fun onRemovePerson(PersonId : Int)
-        fun onItemClicked(personInfo: PersonInfo, position: Int, name: String, phoneNumber: String, binding: ItemEmergencyCallBinding)
+        fun onItemClicked(personInfo: PersonInfo, position: Int, name: String, phoneNumber: String, binding: ItemEmergencyCallBinding, isLayout: Boolean)
 //        fun onUpdatePerson(PersonId : Int)
     }
 
@@ -49,12 +49,12 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
         holder.bind(personInfo[position], position)
 
         holder.binding.layoutEmergencyCall.setOnClickListener {
-            mItemClickListener.onItemClicked(personInfo[position], position, personInfo[position].name!!, personInfo[position].phoneNumber!!, holder.binding)
+            mItemClickListener.onItemClicked(personInfo[position], position, personInfo[position].name!!, personInfo[position].phoneNumber!!, holder.binding, true)
 
         }
 
         holder.binding.ivDeleteEmergencyCall.setOnClickListener {
-            mItemClickListener.onItemClicked(personInfo[position], position, personInfo[position].name!!, personInfo[position].phoneNumber!!, holder.binding)
+            mItemClickListener.onItemClicked(personInfo[position], position, personInfo[position].name!!, personInfo[position].phoneNumber!!, holder.binding, false)
             showDialog(holder, position)
         }
 

@@ -85,7 +85,7 @@ class EmergencyCallActivity : AppCompatActivity() {
                 checkNumberOfItems()
                 binding.tvNumOfInfoEmergencyCall.setText(personInfoDB.personInfoDao().getPersonList().size.toString()+"/5")
             }
-            override fun onItemClicked(personInfo: PersonInfo, position : Int, name : String, phoneNumber : String, bindingE: ItemEmergencyCallBinding) {
+            override fun onItemClicked(personInfo: PersonInfo, position : Int, name : String, phoneNumber : String, bindingE: ItemEmergencyCallBinding, isLayout: Boolean) {
 
                 if(bindingE.flag.text.toString().equals("true")){  //클릭된 layout이 직전 클릭된 layout과 동일할 시
                     resetViewHolder(binding.rvEmergencyCall.findViewHolderForAdapterPosition(position)!!)
@@ -93,13 +93,16 @@ class EmergencyCallActivity : AppCompatActivity() {
                     putSPF("", "", -1)
                 }
                 else{
-                    //클릭된 layout 배경 변경
-                    bindingE.layoutEmergencyCall.setBackgroundDrawable(resources.getDrawable(R.drawable.rectangle_clicked))
-                    bindingE.tvNameEmergencyCall.setTextColor(Color.parseColor("#ffffff"))
-                    bindingE.tvPhoneNumberEmergencyCall.setTextColor(Color.parseColor("#ffffff"))
-                    bindingE.ivDeleteEmergencyCall.visibility = View.INVISIBLE
-                    bindingE.ivDeleteEmergencyCallWhite.visibility = View.VISIBLE
-                    bindingE.flag.setText("true")
+
+                    if (isLayout){
+                        //클릭된 layout 배경 변경 (delete icon이 아닌 layout째로 눌렸을 때만
+                        bindingE.layoutEmergencyCall.setBackgroundDrawable(resources.getDrawable(R.drawable.rectangle_clicked))
+                        bindingE.tvNameEmergencyCall.setTextColor(Color.parseColor("#ffffff"))
+                        bindingE.tvPhoneNumberEmergencyCall.setTextColor(Color.parseColor("#ffffff"))
+                        bindingE.ivDeleteEmergencyCall.visibility = View.INVISIBLE
+                        bindingE.ivDeleteEmergencyCallWhite.visibility = View.VISIBLE
+                        bindingE.flag.setText("true")
+                    }
 
                     //직전 클릭이 rv의 layout일 시 직전 layout 배경 reset
 
