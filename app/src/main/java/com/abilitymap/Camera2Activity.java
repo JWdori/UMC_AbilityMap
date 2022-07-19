@@ -552,14 +552,13 @@ public class Camera2Activity extends AppCompatActivity {
                             @Override
                             public void run() {
                                 onPause();
+/*
                                 Intent intent = new Intent(getApplicationContext(), Report_detail.class);
                                 startActivity(intent);
                                 finish();
+*/
                             }
                         });
-
-
-
 
 
                         Log.d("saving pic","2_done");

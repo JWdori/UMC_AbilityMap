@@ -8,7 +8,7 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/detail_layout"
         android:layout_width="match_parent"
-        android:layout_height="320dp"
+        android:layout_height="wrap_content"
         android:layout_gravity="top"
         android:background="#ffffff"
         android:clickable="true"
@@ -78,7 +78,7 @@
                 android:id="@+id/location_icon_imageView"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/facility_office" />
+                android:src="@drawable/icon_24_location" />
 
             <TextView
                 android:id="@+id/location_detail_textView"
@@ -111,7 +111,7 @@
                 android:id="@+id/hour_icon_imageView"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/danger" />
+                android:src="@drawable/icon_24_time" />
 
             <LinearLayout
                 android:layout_width="match_parent"
