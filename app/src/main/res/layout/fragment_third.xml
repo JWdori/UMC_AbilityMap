@@ -14,6 +14,7 @@
         android:src="@drawable/report_button"/>
 
     <TextView
+        android:id="@+id/tv_fragment_third"
         android:text="번호를 등록해 응급상황 발생 즉시 문자를 보내세요"
         android:layout_width="match_parent"
         android:layout_height="0dp"

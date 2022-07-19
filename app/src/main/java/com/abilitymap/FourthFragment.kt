@@ -1,6 +1,10 @@
 package com.abilitymap
 
+import android.graphics.Typeface
 import android.os.Bundle
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -18,7 +22,18 @@ class FourthFragment : Fragment() {
     ): View? {
         binding = FragmentFourthBinding.inflate(inflater, container, false)
 
+        init()
+
         return binding.root
+    }
+
+    private fun init(){
+        val title : String = binding.tvFragmentFourth.text.toString()
+
+        var builder = SpannableStringBuilder(title)
+        val boldSpan = StyleSpan(Typeface.BOLD)
+        builder.setSpan(boldSpan, 19, 21, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        binding.tvFragmentFourth.text = builder
     }
 
 }

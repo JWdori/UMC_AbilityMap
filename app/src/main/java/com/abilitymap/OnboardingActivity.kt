@@ -42,12 +42,13 @@ class OnboardingActivity : FragmentActivity() {
                     binding.vpViewpagerOnboarding.setCurrentItem(position)
                 }
             }
-
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
                 binding.indicatorOnboarding.animatePageSelected(position%4)
             }
         })
+
+
 
     }
 
