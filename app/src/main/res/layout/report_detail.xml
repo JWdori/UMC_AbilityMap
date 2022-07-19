@@ -9,12 +9,11 @@
         android:id="@+id/report_pic_iv"
         android:layout_width="89dp"
         android:layout_height="135dp"
-
         android:layout_marginLeft="24dp"
         android:layout_marginTop="21dp"
-        android:src="@drawable/danger"
+        android:src="@drawable/dochi"
+        android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
-
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
@@ -31,15 +30,15 @@
         android:textSize="14sp"
         android:textStyle="normal"
         app:layout_constraintStart_toEndOf="@id/report_pic_iv"
-
-        app:layout_constraintTop_toTopOf="@id/report_pic_iv" />
+        app:layout_constraintTop_toTopOf="@id/report_pic_iv"
+        app:layout_constraintBottom_toTopOf="@id/report_location_tv"/>
 
     <TextView
         android:id="@+id/report_date_tv"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginLeft="12dp"
-        android:layout_marginTop="6dp"
+
         android:fontFamily="sans-serif"
         android:lineSpacingExtra="4sp"
         android:text="신고일자 : 2022/06/26 15:20"
@@ -48,32 +47,42 @@
         android:textSize="14sp"
         android:textStyle="normal"
         app:layout_constraintStart_toEndOf="@id/report_pic_iv"
+        app:layout_constraintTop_toBottomOf="@id/report_location_tv"
+        app:layout_constraintBottom_toBottomOf="@id/report_pic_iv"
+        />
 
-        app:layout_constraintTop_toBottomOf="@id/report_location_tv" />
-
-    <View
+    <ImageView
         android:id="@+id/report_content_view"
         android:layout_width="match_parent"
         android:layout_height="104dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="180dp"
         android:layout_marginRight="24dp"
-        android:background="@drawable/field_border"
+        android:background="@drawable/input_box"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
 
-    <TextView
-        android:layout_width="280dp"
+    <EditText
+        android:id="@+id/report_content_ev"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
         android:lineSpacingExtra="2sp"
-        android:text="불법주정차로 인도가 막혀 있으니 조심하세요 :)"
         android:textColor="#000000"
+        android:textColorHint="#707070"
         android:textSize="16sp"
         android:textStyle="normal"
+        android:background="@android:color/transparent"
+        android:ems="15"
+        android:hint="무엇을 신고하시겠습니까?"
+        android:inputType="textMultiLine"
+        android:maxLength="30"
+        android:textCursorDrawable="@null"
+
         app:layout_constraintTop_toTopOf="@id/report_content_view"
         app:layout_constraintStart_toStartOf="@id/report_content_view"
+
         android:layout_margin="16dp"
         />
 
@@ -101,7 +110,7 @@
         android:fontFamily="sans-serif"
         android:gravity="end"
         android:lineSpacingExtra="2.8sp"
-        android:text="21/30 자"
+        android:text="0/30 자"
         android:textColor="#707070"
         android:textSize="14sp"
         android:textStyle="normal"
@@ -109,29 +118,40 @@
         app:layout_constraintEnd_toEndOf="@id/report_content_view"
         app:layout_constraintTop_toTopOf="@id/report_mandatory_tv" />
 
-    <View
+    <ImageView
         android:id="@+id/report_nickname_view"
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="24dp"
         android:layout_marginTop="325dp"
         android:layout_marginRight="24dp"
-        android:background="@drawable/field_border"
+        android:background="@drawable/input_box"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
 
-    <TextView
-        android:layout_width="280dp"
+    <EditText
+        android:id="@+id/report_nickname_ev"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
         android:lineSpacingExtra="2sp"
-        android:text="닉네임"
-        android:textColor="#707070"
+        android:background="@android:color/transparent"
+        android:ems="15"
+        android:textColor="#000000"
+        android:textColorHint="#707070"
         android:textSize="16sp"
         android:textStyle="normal"
+
+        android:hint="닉네임"
+        android:inputType="text"
+        android:maxLength="6"
+        android:textCursorDrawable="@null"
+
         app:layout_constraintTop_toTopOf="@id/report_nickname_view"
         app:layout_constraintStart_toStartOf="@id/report_nickname_view"
+        app:layout_constraintBottom_toBottomOf="@id/report_nickname_view"
         android:layout_margin="16dp"
+
         />
 
     <TextView
@@ -171,7 +191,7 @@
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:background="@drawable/rounded_btn"
-        app:layout_constraintTop_toTopOf="@id/send_button_background"
+        app:layout_constraintTop_toTopOf="@id/submit_button_background"
         app:layout_constraintStart_toStartOf="@id/report_content_view"
         android:backgroundTint="#c8c8c8"
         ></View>
@@ -200,7 +220,7 @@
         />
 
     <View
-        android:id="@+id/send_button_background"
+        android:id="@+id/submit_button_background"
         android:layout_width="168dp"
         android:layout_height="60dp"
         android:background="@drawable/rounded_corner_send_btn"
@@ -210,7 +230,7 @@
     </View>
 
     <TextView
-        android:id="@+id/send_button"
+        android:id="@+id/submit_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
@@ -227,20 +247,20 @@
 
         android:text="전송하기"
 
-        app:layout_constraintTop_toTopOf="@id/send_button_background"
-        app:layout_constraintStart_toStartOf="@id/send_button_background"
+        app:layout_constraintTop_toTopOf="@id/submit_button_background"
+        app:layout_constraintStart_toStartOf="@id/submit_button_background"
 
         android:layout_marginTop="15dp"
         android:layout_marginLeft="24dp"
         />
 
     <ImageView
-        android:id="@+id/send_button_arrow"
+        android:id="@+id/submit_button_arrow"
         android:layout_width="48dp"
         android:layout_height="48dp"
         android:src="@drawable/arrow_forward"
-        app:layout_constraintStart_toStartOf="@id/send_button_background"
-        app:layout_constraintTop_toTopOf="@id/send_button_background"
+        app:layout_constraintStart_toStartOf="@id/submit_button_background"
+        app:layout_constraintTop_toTopOf="@id/submit_button_background"
 
         android:layout_marginTop="6dp"
         android:layout_marginLeft="109dp"/>
