@@ -9,18 +9,70 @@
         <entry key="..\:/Users/Jaewan01/UMC_AbilityMap/app/src/main/res/layout/tool_bar.xml" value="0.1" />
         <entry key="..\:/Users/Jaewan01/UMC_AbilityMap/app/src/main/res/layout/translate_up.xml" value="0.1" />
         <entry key="..\:/Users/Jaewan01/UMC_AbilityMap/app/src/main/res/menu/navigation_menu.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable-hdpi/confirm_btn.xml" value="0.110546875" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable-hdpi/report_button_clickevent.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/cencel_btn.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/cencel_rounded_btn.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/cencel_rounded_btn_click.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/danger_back.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/danger_fix_dialog_clicked.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/danger_fix_dialog_clicked_event.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/indicator.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/indicator_clicked.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/input_box.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/no_dialog.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/no_dialog_clicked.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/no_dialog_clicked_event.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/rectangle.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/rectangle_clicked_notification.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/rectangle_menu_unclicked.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/report_button.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/report_button_clickevent.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/round_bg.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/rounded_btn.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/rounded_corner_send_btn.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/save_button.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/save_button_clicked.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/save_button_effect.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/save_button_text_color.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/save_button_unclicked.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/save_button_uncliked_effect.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/save_dialog.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/save_dialog_clicked.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/save_dialog_clicked_event.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/square_clicked.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/submit_dialog.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/submit_dialog_clicked.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/submit_dialog_clicked_event.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/view_line.xml" value="0.14739583333333334" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/yes_dialog.xml" value="0.1796875" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/yes_dialog_2.xml" value="0.1796875" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/yes_dialog_clicked.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/drawable/yes_dialog_clicked_event.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/layout/activity_add_phone_book.xml" value="0.17916666666666667" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/layout/activity_camera2.xml" value="0.17916666666666667" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/layout/activity_choose_option.xml" value="0.10666666666666667" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/layout/activity_custom_dialog.xml" value="0.17916666666666667" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/layout/activity_emergency_call.xml" value="0.16354166666666667" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/layout/activity_filter.xml" value="0.22" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/layout/activity_main.xml" value="0.21894005212858383" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/layout/activity_notification.xml" value="0.13125" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/layout/activity_oss.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/layout/danger_detail.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/layout/dialog.xml" value="0.22" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/layout/filter_popup.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/layout/first_popup.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/layout/fragment_navigation_header.xml" value="0.13125" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/layout/location_detail.xml" value="0.1" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/layout/report_detail.xml" value="0.22" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/layout/tool_bar.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/menu/navigation_menu.xml" value="0.14666666666666667" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1875" />
-        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/choose_option.xml" value="0.1965" />
-        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/choose_option_clicked.xml" value="0.1965" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/dialog.xml" value="0.2135" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1875" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/ic_logo.xml" value="0.1875" />
-        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/indicator.xml" value="0.1965" />
-        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/indicator_clicked.xml" value="0.1965" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/input_box.xml" value="0.1875" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/no_dialog.xml" value="0.2135" />
-        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/no_dialog_clicked.xml" value="0.1965" />
-        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/no_dialog_clicked_event.xml" value="0.1965" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/rectangle.xml" value="0.104" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/rectangle_119.xml" value="0.1965" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/rectangle_clicked.xml" value="0.1875" />
@@ -46,35 +98,20 @@
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/view_line.xml" value="0.1875" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/view_uncliked.xml" value="0.1965" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/yes_dialog.xml" value="0.2135" />
-        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/yes_dialog_clicked.xml" value="0.1965" />
-        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/yes_dialog_clicked_event.xml" value="0.1965" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_add_phone_book.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_camera2.xml" value="0.3619791666666667" />
-        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_choose_option.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_custom_dialog.xml" value="0.5" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_emergency_call.xml" value="0.33" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_notification.xml" value="0.34739583333333335" />
-        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_onboarding.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_oss.xml" value="0.3619791666666667" />
-        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/choose_option.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/dialog.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/first_popup.xml" value="0.3619791666666667" />
-        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragmenet_1.xml" value="0.3619791666666667" />
-        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment2.xml" value="0.3619791666666667" />
-        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment3.xml" value="0.3619791666666667" />
-        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_4.xml" value="0.3619791666666667" />
-        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_first.xml" value="0.3619791666666667" />
-        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_fourth.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_home.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_navigation_header.xml" value="0.34739583333333335" />
-        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_second.xml" value="0.3619791666666667" />
-        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_third.xml" value="0.3619791666666667" />
-        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/indicator.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/item_emergency_call.xml" value="0.33" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/item_notification.xml" value="0.33" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/location_detail.xml" value="0.33" />
-        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/mesaage_dialog.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/report_detail.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/square_clicked.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/tool_bar.xml" value="0.33" />
@@ -82,9 +119,10 @@
         <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/drawable-mdpi/field_border.xml" value="0.1" />
         <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/drawable/rectangle_clicked.xml" value="0.1" />
         <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/drawable/rounded_corner_send_btn.xml" value="0.1" />
+        <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/layout/activity_add_phone_book.xml" value="0.1" />
         <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/layout/activity_camera2.xml" value="0.2526041666666667" />
         <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/layout/location_detail.xml" value="0.15307971014492755" />
-        <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/layout/report_detail.xml" value="0.264" />
+        <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/layout/report_detail.xml" value="0.1" />
         <entry key="..\:/Users/tms/Desktop/UMC_Hackathon/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1275" />
         <entry key="..\:/Users/tms/Desktop/UMC_Hackathon/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1275" />
         <entry key="..\:/Users/tms/Desktop/UMC_Hackathon/app/src/main/res/drawable/ic_logo.xml" value="0.1615" />

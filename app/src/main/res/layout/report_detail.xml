@@ -187,21 +187,11 @@
         app:layout_constraintEnd_toEndOf="@id/report_nickname_view"
         app:layout_constraintTop_toTopOf="@id/report_option_tv" />
 
-    <View
+    <TextView
         android:id="@+id/report_cancel_btn"
         android:layout_width="60dp"
         android:layout_height="60dp"
-        android:background="@drawable/rounded_btn"
-        app:layout_constraintTop_toTopOf="@id/submit_button_background"
-        app:layout_constraintStart_toStartOf="@id/report_content_view"
-        android:backgroundTint="#c8c8c8"
-        ></View>
-
-    <TextView
-        android:id="@+id/report_button_text"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
+        android:gravity="center"
         android:fontFamily="sans-serif"
         android:letterSpacing="0.01"
         android:lineSpacingExtra="3.6sp"
@@ -213,56 +203,46 @@
         android:textColor="#000000"
         android:textSize="18sp"
         android:textStyle="bold"
+        android:background="@drawable/cencel_btn_event"
+        app:layout_constraintTop_toTopOf="@id/submit_button_background"
+        app:layout_constraintStart_toStartOf="@id/report_content_view"
+        ></TextView>
 
-        app:layout_constraintStart_toStartOf="@id/report_cancel_btn"
-        app:layout_constraintTop_toTopOf="@id/report_cancel_btn"
-        app:layout_constraintBottom_toBottomOf="@id/report_cancel_btn"
-        app:layout_constraintEnd_toEndOf="@id/report_cancel_btn"
-        />
 
-    <View
+    <TextView
         android:id="@+id/submit_button_background"
         android:layout_width="168dp"
         android:layout_height="60dp"
-        android:background="@drawable/rounded_corner_send_btn"
+        android:background="@drawable/submit_dialog_clicked_event"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="@id/report_content_view"
-        android:layout_marginBottom="24dp">
-    </View>
-
-    <TextView
-        android:id="@+id/submit_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-
+        android:layout_marginBottom="24dp"
+        android:fontFamily="sans-serif"
+        android:textStyle="bold"
+        android:textSize="24sp"
+        android:textColor="@drawable/save_button_text_color"
+        android:paddingLeft="24dp"
+        android:gravity="center_vertical"
+        android:letterSpacing="0.01"
+        android:lineSpacingExtra="4.8sp"
+        android:text="전송하기"
         android:shadowColor="#11000000"
         android:shadowDx="0"
         android:shadowDy="4"
         android:shadowRadius="4"
-        android:fontFamily="sans-serif"
-        android:textStyle="bold"
-        android:textSize="24sp"
-        android:textColor="#ffffff"
-        android:letterSpacing="0.01"
-        android:lineSpacingExtra="4.8sp"
+        android:elevation="10dp"
+        >
+    </TextView>
 
-        android:text="전송하기"
-
-        app:layout_constraintTop_toTopOf="@id/submit_button_background"
-        app:layout_constraintStart_toStartOf="@id/submit_button_background"
-
-        android:layout_marginTop="15dp"
-        android:layout_marginLeft="24dp"
-        />
 
     <ImageView
         android:id="@+id/submit_button_arrow"
         android:layout_width="48dp"
         android:layout_height="48dp"
+        android:elevation="10dp"
         android:src="@drawable/arrow_forward"
         app:layout_constraintStart_toStartOf="@id/submit_button_background"
         app:layout_constraintTop_toTopOf="@id/submit_button_background"
-
         android:layout_marginTop="6dp"
         android:layout_marginLeft="109dp"/>
 
