@@ -17,32 +17,53 @@
         android:layout_marginRight="24dp"
         android:layout_marginTop="24dp"/>
 
-
-    <FrameLayout
-        android:layout_width="400dp"
-        android:layout_height="400dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/fl_onboarding"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="62dp"
+        android:layout_marginBottom="20dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_select_button_onboarding">
 
         <androidx.viewpager2.widget.ViewPager2
-            android:id="@+id/viewpager"
+            android:id="@+id/vp_viewpager_onboarding"
+            android:orientation="horizontal"
             android:layout_gravity="center"
             android:clipToPadding="false"
             android:clipChildren="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:scaleType="fitXY"
             android:layout_marginBottom="10dp"/>
 
         <me.relex.circleindicator.CircleIndicator3
-            android:id="@+id/indicator"
+            android:id="@+id/indicator_onboarding"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginBottom="10dp"
-            android:layout_gravity="bottom"/>
+            android:layout_gravity="bottom"
+            app:layout_constraintBottom_toBottomOf="@id/fl_onboarding"/>
 
-    </FrameLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/tv_select_button_onboarding"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="72dp"
+        android:background="@drawable/save_button_effect"
+        android:elevation="10dp"
+        android:gravity="center"
+        android:text="다음"
+        android:textColor="@drawable/save_button_text_color"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

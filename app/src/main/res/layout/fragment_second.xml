@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_fragment_second"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="3"
+        android:src="@drawable/report_button"/>
+
+    <TextView
+        android:text="교통약자를 위한 유용한 정보를 확인하세요"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="24sp"
+        android:textColor="#000000"
+        android:letterSpacing="0.01"
+        android:lineSpacingExtra="4.8sp"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:layout_marginBottom="80dp"
+        android:layout_marginLeft="39dp"
+        android:layout_marginRight="39dp"/>
+
+</LinearLayout>

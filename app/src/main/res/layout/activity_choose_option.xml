@@ -48,7 +48,7 @@
         android:layout_marginTop="52dp"/>
 
     <TextView
-        android:id="@+id/tv_save_button_add_phone_book"
+        android:id="@+id/tv_select_button_choose_option"
         android:layout_width="match_parent"
         android:layout_height="60dp"
         android:textSize="24sp"

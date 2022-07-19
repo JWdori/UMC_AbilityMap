@@ -37,7 +37,7 @@ class ChooseOptionActivity :AppCompatActivity() {
         binding.tvYesChooseOption.text = builder
 
         builder = SpannableStringBuilder(noOption)
-        builder.setSpan(boldSpan, 9, 12, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        builder.setSpan(boldSpan, 9, 13, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         binding.tvNoChooseOption.text = builder
     }
 
