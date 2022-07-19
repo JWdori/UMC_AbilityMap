@@ -69,6 +69,9 @@ dependencies {
     implementation 'androidx.room:room-runtime:2.4.1'
     kapt 'androidx.room:room-compiler:2.4.1'
 
+    //Viewpager2
+    implementation 'androidx.viewpager2:viewpager2:1.0.0'
+    implementation 'me.relex:circleindicator:2.1.4'
 
     //토글버튼 오픈소스
     implementation 'com.github.angads25:toggle:1.1.0'

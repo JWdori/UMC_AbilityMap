@@ -13,6 +13,7 @@
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
         <item name ="windowNoTitle">true</item>
+
     </style>
 
     <!--splash-->
@@ -33,13 +34,6 @@
     <style name="NavigationItemNoRipple">
         <item name="android:colorControlHighlight">@android:color/transparent</item>
     </style>
-<!--    <style name="SelectableItemTheme">-->
-<!--        <item name="colorControlHighlight">#005fbf</item>-->
-<!--    </style>-->
-<!--    <style name="SelectableItemBackGround">-->
-<!--        <item name="android:theme">@style/SelectableItemTheme</item>-->
-<!--        <item name="android:background">?attr/selectableItemBackground</item>-->
-<!--    </style>-->
 
 
 </resources>
