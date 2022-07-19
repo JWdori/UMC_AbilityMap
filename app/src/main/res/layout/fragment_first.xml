@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
-        android:src="@drawable/report_button"/>
+        android:paddingHorizontal="100dp"
+        android:src="@drawable/rogo_blue"/>
 
     <TextView
         android:id="@+id/tv_fragment_first"

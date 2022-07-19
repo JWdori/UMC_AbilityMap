@@ -10,8 +10,9 @@
         android:id="@+id/iv_fragment_second"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"
-        android:src="@drawable/report_button"/>
+        android:layout_weight="5"
+        android:paddingHorizontal="100dp"
+        android:src="@drawable/rogo_blue"/>
 
     <TextView
         android:id="@+id/tv_fragment_second"

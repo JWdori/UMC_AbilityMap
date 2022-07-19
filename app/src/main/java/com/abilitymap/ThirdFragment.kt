@@ -32,7 +32,7 @@ class ThirdFragment : Fragment(){
 
         var builder = SpannableStringBuilder(title)
         val boldSpan = StyleSpan(Typeface.BOLD)
-        builder.setSpan(boldSpan, 6, 13, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        builder.setSpan(boldSpan, 19, 21, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         binding.tvFragmentThird.text = builder
     }
 

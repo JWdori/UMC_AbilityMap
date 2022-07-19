@@ -36,10 +36,13 @@
             android:clipChildren="false"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="10dp"/>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/indicator_onboarding"/>
 
         <me.relex.circleindicator.CircleIndicator3
             android:id="@+id/indicator_onboarding"
+            app:ci_drawable="@drawable/indicator_clicked"
+            app:ci_drawable_unselected="@drawable/indicator"
             android:layout_width="match_parent"
             android:layout_height="48dp"
             android:layout_marginBottom="10dp"
