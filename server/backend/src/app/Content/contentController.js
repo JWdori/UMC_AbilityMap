@@ -109,3 +109,33 @@ exports.getCharger = async function (req, res) {
 
     return res.send(response(baseResponse.SUCCESS, getChargerResult));
 }
+
+/**
+ * API No. 2.3
+ * API Name : 급경사지 위치 받아오기
+ */
+ exports.getRamp = async function (req, res) {
+    const getRampResult = await contentProvider.getRampLocation();
+
+    return res.send(response(baseResponse.SUCCESS, getRampResult));
+}
+
+/**
+ * API No. 2,4
+ * API Name : 학교 휠체어 경사로 위치 받아오기
+ */
+exports.getSchool = async function (req, res) {
+    const getSchool = await contentProvider.getSchool();
+
+    return res.send(response(baseResponse.SUCCESS, getSchool));
+}
+
+/**
+ * API No. 2.5
+ * API Name : 지하철 엘리베이터 위치 받아오기
+ */
+exports.getElevator = async function (req, res) {
+    const getElevator = await contentProvider.getElevator();
+
+    return res.send(response(baseResponse.SUCCESS, getElevator));
+}

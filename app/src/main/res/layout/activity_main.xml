@@ -13,24 +13,23 @@
 
         <FrameLayout
             android:id="@+id/map"
+            android:name="com.naver.maps.map.MapFragment"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            app:layout_constraintTop_toBottomOf="@id/layout_tool_bar"
-            android:name="com.naver.maps.map.MapFragment" />
+            app:layout_constraintTop_toBottomOf="@id/layout_tool_bar" />
 
 
         <ImageButton
             android:id="@+id/repot_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/report_button"
-            android:visibility="visible"
-            android:background="#00ffffff"
-            android:layout_alignRight="@+id/map"
             android:layout_above="@+id/message_button"
+            android:layout_alignRight="@+id/map"
             android:layout_marginRight="16dp"
             android:layout_marginBottom="8dp"
-            />
+            android:src="@drawable/report_button_clickevent"
+            android:background="@drawable/import_button_gray"
+            android:visibility="visible" />
 
         <ImageButton
             android:id="@+id/message_button"
