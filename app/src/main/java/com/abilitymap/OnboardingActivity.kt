@@ -31,9 +31,15 @@ class OnboardingActivity : FragmentActivity() {
 
     private fun initViewPager(){
         val onBoardingAdapter = OnboardingVPAdapter(this)
+
         binding.vpViewpagerOnboarding.adapter = onBoardingAdapter
         binding.indicatorOnboarding.setViewPager(binding.vpViewpagerOnboarding)
         binding.indicatorOnboarding.createIndicators(4,0)
+        binding.vpViewpagerOnboarding.setCurrentItem(1000)
+
+        binding.tvSelectButtonOnboarding.setOnClickListener {
+            binding.vpViewpagerOnboarding.setCurrentItem(binding.vpViewpagerOnboarding.currentItem+1)
+        }
 
         binding.vpViewpagerOnboarding.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
@@ -44,7 +50,7 @@ class OnboardingActivity : FragmentActivity() {
             }
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                binding.indicatorOnboarding.animatePageSelected(position%4)
+                binding.indicatorOnboarding.animatePageSelected(position % 4)
             }
         })
 
