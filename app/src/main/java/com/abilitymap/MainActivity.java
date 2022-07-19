@@ -345,17 +345,43 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //            Toast.makeText(this.getApplicationContext(),"위험지역입니다",Toast.LENGTH_LONG).show();
             Object object = overlay.getTag();
             String tag = String.valueOf(object);
+            LocationDetailFragment infoFragment = null;
+
             //charge_list.get()
-            JsonApi_charge.charge_item selectedItem = findThisMarkerItem(((Marker) overlay).getPosition(), charge_list);
 
-            String location = selectedItem.getLocation();
-            String week = selectedItem.getWeek();
-            String weekend = selectedItem.getWeekend();
-            String holiday = selectedItem.getHoliday();
+            JsonApi_charge.charge_item selectedChargeItem = findThisChargerMarkerItem(((Marker) overlay).getPosition(), charge_list);
+            //클릭이벤트가 일어난 마커가 어느 타입인지 search
+            if(selectedChargeItem!=null){
+                String location = selectedChargeItem.getLocation();
+                String week = selectedChargeItem.getWeek();
+                String weekend = selectedChargeItem.getWeekend();
+                String holiday = selectedChargeItem.getHoliday();
 
-            System.out.println("리스트 검색 결과 : "+ location + "," + week +"," + weekend +","+holiday);
+                System.out.println("리스트 검색 결과 : "+ location + "," + week +"," + weekend +","+holiday);
+                infoFragment = new LocationDetailFragment(tag,location,week,weekend,holiday);
+            }
+            else{
+                JsonApi_total.total_item selectedTotalItem = findThisTotalMarkerItem(((Marker) overlay).getPosition(), total_list);
+                if(selectedTotalItem!=null){
+                    String name = selectedTotalItem.getName();
+                    String location = selectedTotalItem.getLocation();
+                    String week = selectedTotalItem.getWeek();
+                    String weekend = selectedTotalItem.getWeekend();
+                    String holiday = selectedTotalItem.getHoliday();
+                    String phone = selectedTotalItem.getPhone();
 
-            LocationDetailFragment infoFragment = new LocationDetailFragment(tag,location,week,weekend,holiday);
+                    System.out.println("리스트 검색 결과 : "+ location + "," + week +"," + weekend +","+holiday);
+                    infoFragment = new LocationDetailFragment(tag,name,location,week,weekend,holiday,phone);
+
+
+
+                }
+            }
+
+
+
+
+
 
 
             //LocationDetailFragment infoFragment = new LocationDetailFragment(tag);
@@ -372,10 +398,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             naverMap.moveCamera(cameraUpdate);
 
 
+            LocationDetailFragment finalInfoFragment = infoFragment;
             naverMap.setOnMapClickListener(new NaverMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
-                    getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
+                    getSupportFragmentManager().beginTransaction().remove(finalInfoFragment).commit();
                     getSupportFragmentManager().popBackStack();
                     clickable = true;
 
@@ -395,7 +422,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return false;
     }
 
-    JsonApi_charge.charge_item findThisMarkerItem(LatLng location, ArrayList<JsonApi_charge.charge_item> list) {
+    JsonApi_charge.charge_item findThisChargerMarkerItem(LatLng location, ArrayList<JsonApi_charge.charge_item> list) {
         String thisLat = String.valueOf(location.latitude);
         String thisLng = String.valueOf(location.longitude);
         JsonApi_charge.charge_item selectedItem = null;
@@ -408,11 +435,31 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             System.out.println(i+"," + item + ", Lat : "+item.getLat() + "Lng : " + item.getLng());
             if ( thisLat.equals(item.getLat()) && thisLng.equals(item.getLng()) ) {
                 selectedItem = item;
-                System.out.println("item Found!");
+                System.out.println("charge item found!");
             }
         }
         return selectedItem;
     }
+
+    JsonApi_total.total_item findThisTotalMarkerItem(LatLng location, ArrayList<JsonApi_total.total_item> list) {
+        String thisLat = String.valueOf(location.latitude);
+        String thisLng = String.valueOf(location.longitude);
+        JsonApi_total.total_item selectedItem = null;
+
+        System.out.println(thisLat);
+        System.out.println(thisLng);
+
+        for (int i = 0; i < list.size(); i++) {
+            JsonApi_total.total_item item = list.get(i);
+            System.out.println(i+"," + item + ", Lat : "+item.getLat() + "Lng : " + item.getLng());
+            if ( thisLat.equals(item.getLat()) && thisLng.equals(item.getLng()) ) {
+                selectedItem = item;
+                System.out.println("total item found!");
+            }
+        }
+        return selectedItem;
+    }
+
 
 
     @Override
