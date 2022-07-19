@@ -32,6 +32,7 @@ public class LocationDetailFragment extends Fragment {
 
     String categoryKey;
     //String category;
+    String name="default";
     String location="A";
     String week="B";
     String weekend="C";
@@ -51,6 +52,16 @@ public class LocationDetailFragment extends Fragment {
         this.week = week;
         this.weekend = weekend;
         this.holiday = holiday;
+    }
+    public LocationDetailFragment(String tag,String name, String location,
+                                  String week,String weekend,String holiday,String phone){
+        this.categoryKey = tag;
+        this.name = name;
+        this.location = location;
+        this.week = week;
+        this.weekend = weekend;
+        this.holiday = holiday;
+        this.phone = phone;
     }
 
     @Override
@@ -81,7 +92,7 @@ public class LocationDetailFragment extends Fragment {
 
 
         setCategory(categoryKey);
-        setName("전동휠체어 급속 충전기");
+        setName(name);
         setLocationDetail(location);
         setWeek(week);
         setWeekend(weekend);
@@ -102,6 +113,7 @@ public class LocationDetailFragment extends Fragment {
                 break;
             case "charge":
                 category = " ";
+                name = "전동휠체어 급속 충전기";
                 phone = " ";
                 break;
             default:
@@ -109,14 +121,16 @@ public class LocationDetailFragment extends Fragment {
         }
         categoryTextView.setText(category);
     }
+
     public void setName(String name){ locationNameView.setText(name); }
-    public void setLocationDetail(String location) { locationDetailView.setText(location); }
+    public void setLocationDetail(String location) {
+        locationDetailView.setText(location);
+    }
     public void setWeek(String week){ weekTextView.setText("월~금 " + week); }
     public void setWeekend(String weekend){ weekendTextView.setText(weekend); }
     public void setPhone(String phone){
         phoneTextView.setText(phone);
         if(categoryKey.equals("charge")){
-
         }
         else{
             phoneImageView.setImageResource(R.drawable.icon_24_call);
