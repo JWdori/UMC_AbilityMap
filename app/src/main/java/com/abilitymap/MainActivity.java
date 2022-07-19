@@ -87,6 +87,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static ArrayList<JsonApi_charge.charge_item> charge_list = new ArrayList();
     public static ArrayList<JsonApi_slope.slope_item> slope_list = new ArrayList();
     public static ArrayList<JsonApi_danger.danger_item> danger_list = new ArrayList();
+    public static ArrayList<JsonApi_ele.ele_item> ele_list = new ArrayList();
 
 
     LabeledSwitch labeledSwitch_total1;
@@ -244,11 +245,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         JsonApi_slope slope_api  = new JsonApi_slope();
         JsonApi_charge charge_api  = new JsonApi_charge();
         JsonApi_danger danger_api  = new JsonApi_danger();
+        JsonApi_ele ele_api  = new JsonApi_ele();
         total_api.execute(lat,lon,"");
         bike_api.execute(lat,lon,"");
         charge_api.execute(lat,lon,"");
         slope_api.execute(lat,lon,"");
         danger_api.execute(lat, lon, "");
+        ele_api.execute(lat, lon, "");
 
 //        new Thread(() -> {
 //            setUpMap(); // network 동작, 인터넷에서 xml을 받아오는 코드
@@ -641,6 +644,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             setMarker_Charge();
             drawMarker_slope();
             setMarker_danger();
+            drawMarker_ele();
         }else{
             if (hos2.getBoolean("total", true)) {
                 setMarker_hos(); //병원이랑 시설
@@ -655,7 +659,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             }
             if (ele6.getBoolean("total", true)) {
-
+                drawMarker_ele();
             }
             if (bike7.getBoolean("total", true)) {
                 drawMarker_bike();
@@ -1255,9 +1259,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return;
     }
 
+    //승강기
+    private void drawMarker_ele() {
+        for (int i = 0; i < ele_list.size(); i++) {
+            JsonApi_ele.ele_item item = ele_list.get(i);
+            setMarker_wheel((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()),"ele",naverMap,"외부 승강기");
+            //cluster_item.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
+        }
+        return;
+    }
 
 
-    //자전거 사고 다발지역 만들기
+
+
+    //급경사로 지역 만들기
     private void drawMarker_slope() {
         for (int i =0 ; i< slope_list.size(); i++){
             JsonApi_slope.slope_item item = slope_list.get(i);
