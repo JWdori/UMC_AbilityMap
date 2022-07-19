@@ -90,29 +90,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static ArrayList<JsonApi_ele.ele_item> ele_list = new ArrayList();
 
 
-    LabeledSwitch labeledSwitch_total1;
-    LabeledSwitch labeledSwitch_hos2;
-    LabeledSwitch labeledSwitch_fac3;
-    LabeledSwitch labeledSwitch_charge4;
-    LabeledSwitch labeledSwitch_wheel5;
-    LabeledSwitch labeledSwitch_ele6;
-    LabeledSwitch labeledSwitch_bike7;
-    LabeledSwitch labeledSwitch_slope8;
-    LabeledSwitch labeledSwitch_danger9;
-    Button filter_button;
-
-
-    Map<String, ?> total1_;
-    Map<String, ?> hos2_;
-    Map<String, ?> fac3_;
-    Map<String, ?> charge4_;
-    Map<String, ?> wheel5_;
-    Map<String, ?> ele6_;
-    Map<String, ?> bike7_;
-    Map<String, ?> slope8_;
-    Map<String, ?> danger9_;
-
-
 
     private FusedLocationSource locationSource;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
@@ -683,6 +660,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         SharedPreferences bike7 = getSharedPreferences("bike7", Activity.MODE_PRIVATE);
         SharedPreferences slope8 = getSharedPreferences("slope8", Activity.MODE_PRIVATE);
         SharedPreferences danger9 = getSharedPreferences("danger9", Activity.MODE_PRIVATE);
+        SharedPreferences lift10 = getSharedPreferences("lift10", Activity.MODE_PRIVATE);
 
 
         if(total1.getBoolean("total",true)){
@@ -715,6 +693,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 drawMarker_slope();
             }
             if (danger9.getBoolean("total", true)) {
+                setMarker_danger();
+            }
+            if (lift10.getBoolean("total", true)) {
                 setMarker_danger();
             }
 
@@ -1115,117 +1096,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                return true;
            }
        });
-    }
-
-
-
-    //필터 닫기~~
-    private void Filter_close() {
-        SharedPreferences total1 = getSharedPreferences("total", Activity.MODE_PRIVATE);
-        SharedPreferences hos2 = getSharedPreferences("hos2", Activity.MODE_PRIVATE);
-        SharedPreferences fac3 = getSharedPreferences("fac3", Activity.MODE_PRIVATE);
-        SharedPreferences charge4 = getSharedPreferences("charge4", Activity.MODE_PRIVATE);
-        SharedPreferences wheel5 = getSharedPreferences("wheel5", Activity.MODE_PRIVATE);
-        SharedPreferences ele6 = getSharedPreferences("ele6", Activity.MODE_PRIVATE);
-        SharedPreferences bike7 = getSharedPreferences("bike7", Activity.MODE_PRIVATE);
-        SharedPreferences slope8 = getSharedPreferences("slope8", Activity.MODE_PRIVATE);
-        SharedPreferences danger9 = getSharedPreferences("danger9", Activity.MODE_PRIVATE);
-
-        ImageButton filterclose = findViewById(R.id.filter_close);
-        filterclose.setOnClickListener(new View.OnClickListener() {
-            @Override
-
-            public void onClick(View view) {
-                finish();
-                if(total1_.get("total")==null){
-                    SharedPreferences.Editor editor = total1.edit();
-                    editor.putBoolean("total",true);
-                    editor.commit();
-                }else if(total1.getAll().equals(total1_)==false){
-                    SharedPreferences.Editor editor = total1.edit();
-                    editor.putBoolean("total",(boolean)total1_.get("total"));
-                    editor.commit();
-                }if(hos2_.get("total")==null){
-                    SharedPreferences.Editor editor = hos2.edit();
-                    editor.putBoolean("total",true);
-                    editor.commit();
-                }else if(hos2.getAll().equals(hos2_)==false){
-                    SharedPreferences.Editor editor = hos2.edit();
-                    editor.putBoolean("total",(boolean)hos2_.get("total"));
-                    editor.commit();
-                }
-
-                if(fac3_.get("total")==null) {
-                    SharedPreferences.Editor editor = fac3.edit();
-                    editor.putBoolean("total", true);
-                    editor.commit();
-                }else if(fac3.getAll().equals(fac3_)==false){
-                    SharedPreferences.Editor editor = fac3.edit();
-                    editor.putBoolean("total",(boolean)fac3_.get("total"));
-                    editor.commit();
-                }
-
-
-                if(charge4_.get("total")==null){
-                    SharedPreferences.Editor editor = charge4.edit();
-                    editor.putBoolean("total",true);
-                    editor.commit();
-                }else if(charge4.getAll().equals(charge4_)==false){
-                    SharedPreferences.Editor editor = charge4.edit();
-                    editor.putBoolean("total",(boolean)charge4_.get("total"));
-                    editor.commit();
-                }
-                if(wheel5_.get("total")==null){
-                    SharedPreferences.Editor editor = wheel5.edit();
-                    editor.putBoolean("total",true);
-                    editor.commit();
-                }else if(wheel5.getAll().equals(wheel5_)==false){
-                    SharedPreferences.Editor editor = wheel5.edit();
-                    editor.putBoolean("total",(boolean)wheel5_.get("total"));
-                    editor.commit();
-                }
-                if(ele6_.get("total")==null){
-                    SharedPreferences.Editor editor = ele6.edit();
-                    editor.putBoolean("total",true);
-                    editor.commit();
-                }else if(ele6.getAll().equals(ele6_)==false){
-                    SharedPreferences.Editor editor = ele6.edit();
-                    editor.putBoolean("total",(boolean)ele6_.get("total"));
-                    editor.commit();
-                }
-                if(bike7_.get("total")==null){
-                    SharedPreferences.Editor editor = bike7.edit();
-                    editor.putBoolean("total",true);
-                    editor.commit();
-                }else if(bike7.getAll().equals(bike7_)==false){
-                    SharedPreferences.Editor editor = bike7.edit();
-                    editor.putBoolean("total",(boolean)bike7_.get("total"));
-                    editor.commit();
-                }
-
-                if(slope8_.get("total")==null){
-                    SharedPreferences.Editor editor = slope8.edit();
-                    editor.putBoolean("total",true);
-                    editor.commit();
-                }else if(slope8.getAll().equals(slope8_)==false){
-                    SharedPreferences.Editor editor = slope8.edit();
-                    editor.putBoolean("total",(boolean)slope8_.get("total"));
-                    editor.commit();
-                }
-                if(danger9_.get("total")==null){
-                    SharedPreferences.Editor editor = danger9.edit();
-                    editor.putBoolean("total",true);
-                    editor.commit();
-                }else if(danger9.getAll().equals(danger9_)==false){
-                    SharedPreferences.Editor editor = danger9.edit();
-                    editor.putBoolean("total",(boolean)danger9_.get("total"));
-                    editor.commit();
-                }
-
-
-
-            }
-        });
     }
 
     // xml 가져오는 코드

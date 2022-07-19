@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
@@ -38,13 +39,17 @@ public class Report_detail extends AppCompatActivity {
     Double latitude;
     Double longitude;
 
+    Bitmap bitmap;
+    ImageView imageView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
 //        overridePendingTransition(R.anim.horizon_enter, R.anim.none)
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.report_detail);
 
+
+        setContentView(R.layout.report_detail);
         View report_cancel_btn = findViewById(R.id.report_cancel_btn);
         View report_submit_btn = findViewById(R.id.submit_button_background);
         reportLocationView = findViewById(R.id.report_location_tv);
@@ -73,6 +78,16 @@ public class Report_detail extends AppCompatActivity {
         ImageView reported = (ImageView)findViewById(R.id.report_pic_iv);
         reported.setImageBitmap(image);
 */
+
+        imageView = (ImageView)findViewById(R.id.report_pic_iv);
+        imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+            }
+        });
+
+
 
 
         report_cancel_btn.setOnClickListener(new View.OnClickListener() {
