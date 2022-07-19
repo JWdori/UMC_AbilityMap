@@ -94,8 +94,6 @@ public class JsonApi_charge extends AsyncTask<String, String, String> {
     }
 
     public class charge_item {
-
-
         private String lat;
         private String lng;
         private String idx;
@@ -103,8 +101,6 @@ public class JsonApi_charge extends AsyncTask<String, String, String> {
         private String week;
         private String weekend;
         private String holiday;
-
-
 
         public charge_item(String lat, String lng, String idx,
                            String location, String week, String weekend, String holiday) {
@@ -137,7 +133,6 @@ public class JsonApi_charge extends AsyncTask<String, String, String> {
         public String getLng(){
             return lng;
         }
-
         public void setlng(String lng) {
             this.lng = lng;
         }

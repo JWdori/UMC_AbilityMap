@@ -32,7 +32,7 @@ class SecondFragment : Fragment(){
 
         var builder = SpannableStringBuilder(title)
         val boldSpan = StyleSpan(Typeface.BOLD)
-        builder.setSpan(boldSpan, 9, 15, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        builder.setSpan(boldSpan, binding.tvFragmentSecond.text.toString().indexOf("유용한"), binding.tvFragmentSecond.text.toString().indexOf("유용한")+4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         binding.tvFragmentSecond.text = builder
     }
 
