@@ -72,6 +72,7 @@ import com.naver.maps.map.widget.LocationButtonView;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -501,6 +502,30 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
     }
 
+    public String getSimpleCurrentAddress(String currAddress){
+        String addrCut[] = currAddress.split(" ");
+        String simpleAdress;
+
+        if (addrCut.length >= 6) {
+            simpleAdress = addrCut[2] + " " + addrCut[3] + " " + addrCut[4] + " " + addrCut[5];
+        } else if (addrCut.length >= 5) {
+            simpleAdress = addrCut[2] + " " + addrCut[3] + " " + addrCut[4];
+        } else if (addrCut.length >= 4) {
+            simpleAdress = addrCut[2] + " " + addrCut[3];
+        } else if (addrCut.length >= 3) {
+            simpleAdress = addrCut[1] + " " + addrCut[2];
+        } else if (addrCut.length >= 2) {
+            simpleAdress = addrCut[0] + " " + addrCut[1];
+        } else if (addrCut.length >= 1) {
+            simpleAdress = addrCut[0];
+        } else {
+            simpleAdress = "위치 정보 없음";
+        }
+
+        return simpleAdress;
+
+    }
+
 
     public String getCurrentAddress(double latitude, double longitude) {
         //지오코더... GPS를 주소로 변환
@@ -589,6 +614,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
                 || locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
     }
+
 
 
     @Override
@@ -699,26 +725,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 double latitude = gpsTracker.getLatitude();
                 double longitude = gpsTracker.getLongitude();
 
-                String address = getCurrentAddress(latitude, longitude);
+                String address = getSimpleCurrentAddress(getCurrentAddress(latitude, longitude));
+                location_text.setText(address);
 
-
-                String addrCut[] = address.split(" ");
-                if (addrCut.length >= 6) {
-                    location_text.setText(addrCut[2] + " " + addrCut[3] + " " + addrCut[4] + " " + addrCut[5]);
-                } else if (addrCut.length >= 5) {
-                    location_text.setText(addrCut[2] + " " + addrCut[3] + " " + addrCut[4]);
-                } else if (addrCut.length >= 4) {
-                    location_text.setText(addrCut[2] + " " + addrCut[3]);
-                } else if (addrCut.length >= 3) {
-                    location_text.setText(addrCut[1] + " " + addrCut[2]);
-                } else if (addrCut.length >= 2) {
-                    location_text.setText(addrCut[0] + " " + addrCut[1]);
-                } else if (addrCut.length >= 1) {
-                    location_text.setText(addrCut[0]);
-                } else {
-                    location_text.setText("위치 정보 없음");
-                }
-
+                //0719
 
                 String lat_str = Double.toString(latitude);
                 String lon_str = Double.toString(longitude);
@@ -944,11 +954,49 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 //버튼 init버튼인가 밑에 함수에서 설정하면 됩니다^^
 //zzzzz
 
+/*
                 Log.d("camera", "Reportbutton clicked");
 
                 Intent intent = null;
                 Log.d("camera", "clicked");
                 setCamera(intent);
+*/
+                //0719
+
+                double latitude = gpsTracker.getLatitude();
+                double longitude = gpsTracker.getLongitude();
+                String address = getSimpleCurrentAddress(getCurrentAddress(latitude, longitude));
+
+                SimpleDateFormat timeForServer = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                String sReportDate = timeForServer.format(new Date());
+
+                SimpleDateFormat timeForClient = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.getDefault());
+                String cReportDate = timeForClient.format(new Date());
+
+                System.out.println("현재 위치 : "+address);
+
+                Intent reportIntent = new Intent(getApplicationContext(), Report_detail.class);
+
+                reportIntent.putExtra("reportLat",currentPosition.latitude);    //서버 위도 경도
+                reportIntent.putExtra("reportLng",currentPosition.longitude);
+                // 이거 값 이상하면 바로 윗줄 latitude,longitude로 주기
+                reportIntent.putExtra("address",address);   //사용자 화면 주소
+                reportIntent.putExtra("sReportDate",sReportDate);
+                reportIntent.putExtra("cReportDate",cReportDate);
+
+
+
+
+
+                startActivity(reportIntent);
+
+
+/*
+                System.out.println("현재 위치 : "+address);
+                reportIntent.putExtra("reportLocation","우리집 내방 이불밖");
+                reportIntent.putExtra("reportTime","2022년 07월 19일");
+*/
+
             }
         });
 
@@ -997,9 +1045,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                    startActivity(intent);
                }
                else if (item.getItemId() == R.id.nav_report) {
+/*
                    Intent intent = null;
                    Log.d("camera","clicked");
                    setCamera(intent);
+*/
                }
                else if (item.getItemId() == R.id.nav_book) {
 
