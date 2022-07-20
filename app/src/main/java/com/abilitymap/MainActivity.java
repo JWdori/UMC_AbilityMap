@@ -129,50 +129,48 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private boolean isFilter = false;
     ProgressDialog dialog; //원형 프로그레스바
 
-//    List<Double> latitudeList = new ArrayList<Double>();
-//    List<Double> longitudeList = new ArrayList<Double>();
-//
-//    double LNG = Double.parseDouble(latitudeList.toString());
-//    double LAT = Double.parseDouble(longitudeList.toString());
-//
-//
-//try {
-//
-//        JSONObject Land = new JSONObject(result);
-//        JSONArray jsonArray = Land.getJSONArray("Response");
-//        for(int i = 0 ; i<jsonArray.length(); i++){
-//            JSONObject subJsonObject = jsonArray.getJSONObject(i);
-//
-//            Double sLAT = subJsonObject.getDouble("latitude"); //String sLAT = subJsonObject.getString("latitude");
-//            Double sLNG = subJsonObject.getDouble("longitude"); //String sLNG = subJsonObject.getString("longitude");
-//
-//            latitudeList.add(sLAT);
-//            longitudeList.add(sLNG);
-//        }
-//    } catch (
-//    JSONException e) {
-//        e.printStackTrace();
-//    }
-
-
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState){ //화면 생성과 함께 현재 위치 받아옴.
-        dialog = new ProgressDialog(MainActivity.this); //프로그레스 대화상자 객체 생성
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); //프로그레스 대화상자 스타일 원형으로 설정
-        dialog.setCancelable(false);
-        dialog.setMessage("잠시만 기다려주세요."); //프로그레스 대화상자 메시지 설정
-        dialog.show(); //프로그레스 대화상자 띄우기
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable(){
-            @Override
-            public void run() {
-                dialog.dismiss(); // 3초 시간지연 후 프로그레스 대화상자 닫기
-            }
-        }, 2000);
+        SharedPreferences first_open = getSharedPreferences("first_open", MODE_PRIVATE);
+        Boolean isFirst = first_open.getBoolean("first_open", true);
+        if(isFirst){
+            dialog = new ProgressDialog(MainActivity.this); //프로그레스 대화상자 객체 생성
+            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); //프로그레스 대화상자 스타일 원형으로 설정
+            dialog.setCancelable(false);
+            dialog.setMessage("실행 준비중입니다.\n잠시만 기다려주세요."); //프로그레스 대화상자 메시지 설정
+            dialog.show(); //프로그레스 대화상자 띄우기
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable(){
+                @Override
+                public void run() {
+                    dialog.dismiss(); // 3초 시간지연 후 프로그레스 대화상자 닫기
+                }
+            }, 3500); //최초 실행에서는 길게...
+            SharedPreferences.Editor editor = first_open.edit();
+            editor.putBoolean("first_open", false);
+            editor.commit();
+        }else{
+            dialog = new ProgressDialog(MainActivity.this); //프로그레스 대화상자 객체 생성
+            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); //프로그레스 대화상자 스타일 원형으로 설정
+            dialog.setCancelable(false);
+            dialog.setMessage("잠시만 기다려주세요."); //프로그레스 대화상자 메시지 설정
+            dialog.show(); //프로그레스 대화상자 띄우기
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable(){
+                @Override
+                public void run() {
+                    dialog.dismiss(); // 2초 시간지연 후 프로그레스 대화상자 닫기
+                }
+            }, 2000);
+
+        }
+
+
+
         //로딩
 
         firstActivity = MainActivity.this;
@@ -184,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initClickListener();
-        initLauncher();
         FragmentManager fm = getSupportFragmentManager();
         MapFragment mapFragment = (MapFragment) fm.findFragmentById(R.id.map);
 
@@ -781,29 +778,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void initLauncher() {
-        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            if (result.getResultCode() == 3000) {
-                Intent cameraIntent = result.getData();
-                String cameraFlag = cameraIntent.getStringExtra(Camera2Activity.picSaved);
-                //Toast.makeText(MainActivity.this,cameraFlag, Toast.LENGTH_SHORT).show();
-                Log.d("lancher", "launch ok");
-            }
-
-        });
-    }
 
 
-    private void setCamera(Intent cameraIntent) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            cameraIntent = new Intent(getApplicationContext(), Camera2Activity.class);
-            //activityResultLauncher.launch(cameraIntent);
-        }
 
-        //activityResultLauncher.launch(cameraIntent);
-        startActivity(cameraIntent);
-    }
+
 
     //메시지 보내기 함수
     private void sendSms() {
