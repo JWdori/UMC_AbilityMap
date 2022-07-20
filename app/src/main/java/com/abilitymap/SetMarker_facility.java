@@ -21,14 +21,14 @@ public interface SetMarker_facility extends Overlay.OnClickListener {
             case "office": marker.setIcon(OverlayImage.fromResource(R.drawable.facility_office)); break;
             case "hos": marker.setIcon(OverlayImage.fromResource(R.drawable.hos_icon)); break;
             case "charge": marker.setIcon(OverlayImage.fromResource(R.drawable.charge_icon)); break;
+            case "danger": marker.setIcon(OverlayImage.fromResource(R.drawable.dnager_red)); break;
         }
         marker.setMap(naverMap);
-
+        marker.setTag(markerType);
         marker.setOnClickListener(this);
     }
 
     @Override
     boolean onClick(@NonNull Overlay overlay);
-
 
 }

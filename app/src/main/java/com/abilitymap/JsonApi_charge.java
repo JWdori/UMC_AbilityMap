@@ -72,7 +72,12 @@ public class JsonApi_charge extends AsyncTask<String, String, String> {
                 charge_item charge_item = new charge_item(
                         item.getString("lat"),
                         item.getString("lon"),
-                        item.getString("idx")
+                        item.getString("idx"),
+                        item.getString("location"),
+                        item.getString("week"),
+                        item.getString("weekend"),
+                        item.getString("holiday")
+
                 );
 
                 MainActivity.charge_list.add(charge_item);
@@ -89,8 +94,6 @@ public class JsonApi_charge extends AsyncTask<String, String, String> {
     }
 
     public class charge_item {
-
-
         private String lat;
         private String lng;
         private String idx;
@@ -99,12 +102,15 @@ public class JsonApi_charge extends AsyncTask<String, String, String> {
         private String weekend;
         private String holiday;
 
-
-
-        public charge_item(String lat, String lng, String idx) {
+        public charge_item(String lat, String lng, String idx,
+                           String location, String week, String weekend, String holiday) {
             this.lat = lat;
             this.lng = lng;
             this.idx = idx;
+            this.location = location;
+            this.week = week;
+            this.weekend = weekend;
+            this.holiday = holiday;
 
         }
 
@@ -127,10 +133,14 @@ public class JsonApi_charge extends AsyncTask<String, String, String> {
         public String getLng(){
             return lng;
         }
-
         public void setlng(String lng) {
             this.lng = lng;
         }
+
+        public String getLocation() { return location; }
+        public String getWeek() { return week; }
+        public String getWeekend() { return weekend; }
+        public String getHoliday() { return holiday; }
 
 
 
