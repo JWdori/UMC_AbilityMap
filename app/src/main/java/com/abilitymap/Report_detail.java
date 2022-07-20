@@ -35,6 +35,7 @@ import com.naver.maps.map.overlay.Overlay;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -121,12 +122,12 @@ public class Report_detail extends AppCompatActivity {
 
                 if(nicknameView.getText().toString().length()==0){
                     //닉네임 값 저장 변수 = "익명의 제보자";
-                    String nick = "익명의 제보자";
+                    nick = "익명의 제보자";
                     System.out.println(nick);
                 }
                 else{
                     //닉네임 값 저장 변수 = String.valueOf(nicknameView.getText());
-                    String nick = String.valueOf(nicknameView.getText());
+                    nick = String.valueOf(nicknameView.getText());
                     System.out.println("nick : "+nick);
                 }
 
@@ -138,6 +139,7 @@ public class Report_detail extends AppCompatActivity {
 
 
                     Map<String, Object> result = new HashMap<String, Object>();
+                    result.put("resultIdx",111);
                     result.put("reportLocation", reportLocation);
                     result.put("reportDate", sReportDate);
                     result.put("reportContent", contentView.getText().toString());
@@ -149,8 +151,22 @@ public class Report_detail extends AppCompatActivity {
                     String resultString = getJsonStringFromMap(result);
                     System.out.println("resultString : "+resultString);
 
-                    Intent intent
+/*
+                    try {
+                        setResult(RESULT_OK, Intent.getIntent(resultString));
+                    } catch (URISyntaxException e) {
+                        e.printStackTrace();
+                    }
+*/
 
+                    new Thread(()-> {
+                        String response = JsonApi_danger.postRequest(resultString);
+                        System.out.println("danger Api response : " + response);
+                    }).start();
+
+
+                    //서버로 전송이 잘 안되면 예외처리를 해줘야하지않나
+                    finish();
 
                     // 서버로 토스
                 }

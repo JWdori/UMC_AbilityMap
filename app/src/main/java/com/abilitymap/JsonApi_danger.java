@@ -91,13 +91,14 @@ public class JsonApi_danger extends AsyncTask<String, String, String> {
 
         return data;
     }
-    public static String postRequest(String targetUrl, String reportDetail) {
+    public static String postRequest(String reportDetail) {
 
         String response = "";
 
         try {
 
-            URL url = new URL(targetUrl);
+            String myUrl3 = "http://3.35.237.29/report";
+            URL url = new URL(myUrl3);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST"); // 전송 방식
             conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
