@@ -5,7 +5,6 @@ import android.content.SharedPreferences
 import android.graphics.Color
 import android.graphics.Typeface
 import android.os.Bundle
-import android.text.Spannable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.ForegroundColorSpan
@@ -59,8 +58,19 @@ class ChooseOptionActivity :AppCompatActivity() {
             if (isYes == false && isNo == false){
                 Toast.makeText(this,"하나의 선택지를 선택해 주세요", Toast.LENGTH_SHORT).show()
             }
-            else{
-                checkClick()
+            else{                       //선택지 하나가 선택되었을 시 onboarding화면 더 이상 안나오도록 하고
+                checkClick()            // 이전 activity 종료 후 main activity로 이동
+
+                val spfOnBoarding = getSharedPreferences("onBoarding", MODE_PRIVATE)
+                val editor: SharedPreferences.Editor = spfOnBoarding.edit()
+                editor.putBoolean("isFirst", false)
+                editor.apply()
+                editor.commit() //이후 실행부터는 else문으로 가도록 isFirst == false로 지정
+
+                finishAffinity()
+
+                //메인 액티비티로 이동하기 까지 공백 시간 splash ??
+
                 startActivity(Intent(this, MainActivity::class.java))
             }
         }
