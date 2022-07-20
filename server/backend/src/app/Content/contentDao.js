@@ -93,6 +93,28 @@ async function getElevator(connection) {
   return getElevator;
 }
 
+// 병원 위치 받아오기
+async function getMedical(connection) {
+  const getMedicalQuery = `
+              SELECT *
+              FROM Medical;
+              `;
+  const [getMedical] = await connection.query(getMedicalQuery);
+
+  return getMedical;
+}
+
+// 복지센터 위치 받아오기
+async function getWelfare(connection) {
+  const getWelfareQuery = `
+              SELECT *
+              FROM Welfare;
+              `;
+  const [getWelfare] = await connection.query(getWelfareQuery);
+
+  return getWelfare;
+}
+
 module.exports = {
   getAllList,
   updateBike,
@@ -101,5 +123,8 @@ module.exports = {
   getChargerLocation,
   getRampLocation,
   getSchool,
-  getElevator
+  getElevator,
+  getMedical,
+  getWelfare
 };
+

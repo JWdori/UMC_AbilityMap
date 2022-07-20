@@ -139,3 +139,26 @@ exports.getElevator = async function (req, res) {
 
     return res.send(response(baseResponse.SUCCESS, getElevator));
 }
+
+/*
+    API No. 2.6
+    API Name : 병원 데이터 받아오기
+*/
+
+ exports.getMedical = async function (req, res) {
+    const getMedical = await contentProvider.getMedical();
+
+    return res.send(response(baseResponse.SUCCESS, getMedical));
+}
+
+/*
+    API No. 2.7
+    API Name : 복지센터 데이터 받아오기
+*/
+
+exports.getWelfare = async function (req, res) {
+    console.log("contentController-getWelfare");
+    const getWelfare = await contentProvider.getWelfare();
+    
+    return res.send(response(baseResponse.SUCCESS, getWelfare));
+}
