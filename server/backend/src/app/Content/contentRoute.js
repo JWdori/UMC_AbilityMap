@@ -22,6 +22,13 @@ module.exports = function(app){
 
     // 2.5 지하철 역 엘리베이터 위치 받아오기
     app.get("/get/elevator", content.getElevator);
+    
+    // 2.6 병원 데이터 받아오기
+    app.get("/get/medical", content.getMedical);
+
+    // 2.7 복지센터 데이터 받아오기
+    console.log("route.js");
+    app.get("/get/welfare", content.getWelfare);
 
     // 3.0 공공 데이터 자전거 사고 다발지역 정보 업데이트 -> 클라이언트 측 사용 X, 관리자가 데이터 업데이트 할 때 사용 예정
     app.get('/update/bike', content.updateBike);
