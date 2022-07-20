@@ -42,3 +42,24 @@ exports.getReport = async function(req, res){
 
     return res.send(response(baseResponse.SUCCESS,reportInfo));
 }
+
+
+/*
+    API No. 4.2
+    API NAme: 제보 수정 요청 API
+    [PATCH] /report
+*/
+
+exports.patchReport = async function(req, res){
+    //validation 처리
+    console.log("reportController, patchReport");
+    
+    const reportIdx = req.params.reportIdx;
+  
+    const {wrong} = req.body;
+    
+    const editReportResponse = await reportService.editWrongReport(reportIdx, wrong);
+
+    return res.send(response(editReportResponse));
+
+}
