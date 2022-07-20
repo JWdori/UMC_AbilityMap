@@ -1020,6 +1020,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 Intent reportIntent = new Intent(getApplicationContext(), Report_detail.class);
 
+
+
+
                 reportIntent.putExtra("reportLat",currentPosition.latitude);    //서버 위도 경도
                 reportIntent.putExtra("reportLng",currentPosition.longitude);
                 // 이거 값 이상하면 바로 윗줄 latitude,longitude로 주기
