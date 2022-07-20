@@ -7,5 +7,9 @@ module.exports = function(app) {
     
      //4.1 제보 조회 API
     app.get('/report', report.getReport);
+    
+    //4.2 제보 수정 요청 API
+    app.patch('/report/:reportIdx',report.patchReport);
+
 
 };
