@@ -67,11 +67,10 @@ class ChooseOptionActivity :AppCompatActivity() {
                 editor.apply()
                 editor.commit() //이후 실행부터는 else문으로 가도록 isFirst == false로 지정
 
-                finishAffinity()
-
-                //메인 액티비티로 이동하기 까지 공백 시간 splash ??
 
                 startActivity(Intent(this, MainActivity::class.java))
+                //메인 액티비티로 이동하기 까지 공백 시간 splash ??
+                finish()
             }
         }
         binding.tvYesChooseOption.setOnClickListener {      //교통약자 선택 시

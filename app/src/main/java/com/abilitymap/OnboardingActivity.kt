@@ -24,8 +24,8 @@ class OnboardingActivity : FragmentActivity() {
     private fun initClickListener(){
         binding.tvSkipOnboarding.paintFlags = Paint.UNDERLINE_TEXT_FLAG
         binding.tvSkipOnboarding.setOnClickListener {
-            val intent : Intent = Intent(this, ChooseOptionActivity::class.java)
-            startActivity(intent)
+            startActivity(Intent(this, ChooseOptionActivity::class.java))
+            finish()
         }
     }
 
@@ -35,10 +35,15 @@ class OnboardingActivity : FragmentActivity() {
         binding.vpViewpagerOnboarding.adapter = onBoardingAdapter
         binding.indicatorOnboarding.setViewPager(binding.vpViewpagerOnboarding)
         binding.indicatorOnboarding.createIndicators(4,0)
-        binding.vpViewpagerOnboarding.setCurrentItem(1000)
+        binding.vpViewpagerOnboarding.setCurrentItem(0)
 
         binding.tvSelectButtonOnboarding.setOnClickListener {
-            binding.vpViewpagerOnboarding.setCurrentItem(binding.vpViewpagerOnboarding.currentItem+1)
+            if (binding.vpViewpagerOnboarding.currentItem==3){
+                startActivity(Intent(this, ChooseOptionActivity::class.java))
+                finish()
+            }else{
+                binding.vpViewpagerOnboarding.setCurrentItem(binding.vpViewpagerOnboarding.currentItem+1)
+            }
         }
 
         binding.vpViewpagerOnboarding.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
@@ -47,10 +52,11 @@ class OnboardingActivity : FragmentActivity() {
                 if (positionOffsetPixels == 0){
                     binding.vpViewpagerOnboarding.setCurrentItem(position)
                 }
+
             }
             override fun onPageSelected(position: Int) {
                 super.onPageSelected(position)
-                binding.indicatorOnboarding.animatePageSelected(position % 4)
+                binding.indicatorOnboarding.animatePageSelected(position)
             }
         })
 

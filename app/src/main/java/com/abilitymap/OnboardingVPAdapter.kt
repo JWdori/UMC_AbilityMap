@@ -6,13 +6,13 @@ import androidx.viewpager2.adapter.FragmentStateAdapter
 import com.abilitymap.databinding.*
 
 class OnboardingVPAdapter(fragmentActivity: FragmentActivity): FragmentStateAdapter(fragmentActivity) {
-    override fun getItemCount(): Int = 2000
+    override fun getItemCount(): Int = 4
 
     override fun createFragment(position: Int): Fragment {
 
-        val idx : Int = getPos(position)
+//        val idx : Int = getPos(position)
 
-        return when(idx){
+        return when(position){
             0 -> FirstFragment()
             1 -> SecondFragment()
             2 -> ThirdFragment()
@@ -20,8 +20,8 @@ class OnboardingVPAdapter(fragmentActivity: FragmentActivity): FragmentStateAdap
         }
     }
 
-    private fun getPos(position: Int) : Int{
-        return position % 4
-    }
+//    private fun getPos(position: Int) : Int{
+//        return position % 4
+//    }
 
 }
