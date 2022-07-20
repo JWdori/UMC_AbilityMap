@@ -25,7 +25,21 @@ async function getReport(connection){
     return reportInfoRow;
 }
 
+async function updateWrongReport(connection, editWrongReportParams){
+
+    const updateWrongReportQuery = `
+        UPDATE Report
+        SET wrong = ?
+        WHERE reportIdx = ?;
+    `;
+
+    const updateWrongReportRow = await connection.query(updateWrongReportQuery, editWrongReportParams);
+
+    return updateWrongReportRow;
+}
+
 module.exports = {
     insertReport,
-    getReport
+    getReport,
+    updateWrongReport
 };
