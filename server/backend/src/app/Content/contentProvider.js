@@ -31,3 +31,30 @@ exports.getChargerLocation = async function () {
 
   return getChargerLocationResult;
 }
+
+// 급경사지 위치 받아오기
+exports.getRampLocation = async function () {
+  const connection = await pool.getConnection(async (conn) => conn);
+  const getRampLocationResult = await contentDao.getRampLocation(connection);
+  connection.release();
+
+  return getRampLocationResult;
+}
+
+// 학교 휠체어 경사로 받아오기
+exports.getSchool = async function () {
+  const connection = await pool.getConnection(async (conn) => conn);
+  const getSchoolResult = await contentDao.getSchool(connection);
+  connection.release();
+
+  return getSchoolResult;
+}
+
+// 지하철 엘리베이터 위치 받아오기
+exports.getElevator = async function() {
+  const connection = await pool.getConnection(async (conn) => conn);
+  const getElevatorResult = await contentDao.getElevator(connection);
+  connection.release();
+
+  return getElevatorResult;
+}

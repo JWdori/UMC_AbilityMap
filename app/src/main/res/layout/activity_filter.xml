@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+
     android:layout_height="match_parent"
     android:clickable="false"
     android:transitionName="imgTransition">
@@ -23,10 +24,11 @@
             android:layout_marginLeft="15dp"
             android:text="표시 범례"
             android:textColor="@color/black"
-            android:textSize="18sp"
-            android:textStyle="normal"
+            android:textSize="24dp"
+            android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
 
@@ -75,6 +77,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentLeft="true"
+                android:textStyle="bold"
+                android:textColor="@color/black"
                 android:layout_centerVertical="true"
                 android:text="전체 선택"></TextView>
 
@@ -126,13 +130,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:id="@+id/hos_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/hos_icon"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
             <TextView
                 android:id="@+id/hos_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
                 android:layout_centerVertical="true"
+                android:textColor="#525252"
+                android:layout_toRightOf="@id/hos_icon"
                 android:text="보건의료기관"></TextView>
+
 
             <com.github.angads25.toggle.widget.LabeledSwitch
                 android:id="@+id/hos_toggle"
@@ -143,8 +158,8 @@
                 android:layout_marginBottom="8dp"
                 android:textSize="14sp"
                 app:colorBorder="#007fff"
-                app:on="true"
-                app:colorOn="#007fff"/>
+                app:colorOn="#007fff"
+                app:on="true" />
 
             <View
                 android:id="@+id/hos_view"
@@ -178,11 +193,21 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
+            <ImageView
+                android:id="@+id/fac_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                app:layout_constraintStart_toStartOf="parent"
+                android:src="@drawable/facility_office"
+                />
+
+
             <TextView
                 android:id="@+id/facility_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:layout_toRightOf="@id/fac_icon"
                 android:layout_centerVertical="true"
                 android:text="관공서"></TextView>
 
@@ -318,11 +343,6 @@
 
 
 
-
-
-
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout6"
         android:layout_width="match_parent"
@@ -374,13 +394,61 @@
 
 
 
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/layout6">
+
+        <RelativeLayout
+            android:id="@+id/constraintLayout10"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:id="@+id/lift_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentLeft="true"
+                android:layout_centerVertical="true"
+                android:text="휠체어 리프트"></TextView>
+
+            <com.github.angads25.toggle.widget.LabeledSwitch
+                android:id="@+id/lift_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                app:on="true"
+                android:textSize="14sp"
+                app:colorBorder="#007fff"
+                app:colorOn="#007fff"/>
+
+            <View
+                android:id="@+id/lift_view"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_below="@id/lift_toggle"
+                android:background="#1e000000" />
+
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout7"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/layout6">
+        app:layout_constraintTop_toBottomOf="@id/layout10">
 
         <RelativeLayout
             android:id="@+id/constraintLayout7"
@@ -551,10 +619,12 @@
             <Button
                 android:id="@+id/button_filter"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:background="@color/black"
+                android:layout_height="52dp"
+                android:background="@drawable/save_dialog_clicked_event"
+                android:textSize="24dp"
+                android:textStyle="bold"
                 android:text="저장하기"
-                android:textColor="@color/black"
+                android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"

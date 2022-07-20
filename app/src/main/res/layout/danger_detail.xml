@@ -1,0 +1,176 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/detail_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
+        android:background="#ffffff"
+        android:clickable="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+
+        >
+
+        <RelativeLayout
+            android:id="@+id/danger_detal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/danger_line_view">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="3dp"
+                android:layout_toLeftOf="@id/location_name_textView"
+                android:src="@drawable/dnager_red"
+
+                />
+
+            <TextView
+                android:id="@+id/location_name_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
+                android:fontFamily="sans-serif"
+                android:letterSpacing="0.01"
+                android:lineSpacingExtra="4sp"
+                android:textColor="#000000"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                tools:text="주의" />
+
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="6dp"
+                android:src="@drawable/close_black"
+
+                ></ImageView>
+        </RelativeLayout>
+
+
+        <View
+            android:id="@+id/danger_line_view"
+            android:layout_width="wrap_content"
+            android:layout_height="1dp"
+            android:background="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/danger_detal" />
+
+
+        <RelativeLayout
+            android:id="@+id/danger_layout2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@id/danger_line_view"
+            android:orientation="horizontal"
+            >
+
+            <ImageView
+                android:id="@+id/danger_image"
+                android:layout_width="122dp"
+                android:layout_height="177dp"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="17dp"
+                android:src="@drawable/dum_image" />
+
+            <TextView
+                android:id="@+id/danger_content"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="normal"
+                android:textSize="16sp"
+                android:textColor="#000000"
+                android:letterSpacing="0.01"
+                android:lineSpacingExtra="3.2sp"
+                android:layout_toRightOf="@+id/danger_image"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="17dp"
+                android:layout_marginRight="24dp"
+                tools:text="불법주정차로 인도가 막혀 있으니 조심하세요 :)"/>
+
+
+            <TextView
+                android:id="@+id/danger_nickname"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:textStyle="normal"
+                android:textSize="12sp"
+                android:textColor="#424242"
+                android:letterSpacing="0.01"
+                android:lineSpacingExtra="2.4sp"
+                tools:text="감사한 분 : 거북이"
+                android:layout_below="@id/danger_content"
+                android:layout_toRightOf="@id/danger_image"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="11dp"
+                />
+
+            <TextView
+                android:id="@+id/danger_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="sans-serif-medium"
+                android:textStyle="normal"
+                android:textSize="12sp"
+                android:textColor="#424242"
+                android:letterSpacing="0.01"
+                android:lineSpacingExtra="2.4sp"
+                android:gravity="end"
+                tools:text="신고일자 : 2022/06/26 15:20"
+                android:layout_below="@id/danger_nickname"
+                android:layout_toRightOf="@id/danger_image"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="6dp"
+                />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="40dp"
+                android:layout_above="@id/danger_line_view2"
+                android:layout_marginLeft="16dp"
+                android:layout_marginTop="49dp"
+                android:layout_marginRight="16dp"
+                android:layout_marginBottom="17dp"
+                android:layout_toRightOf="@id/danger_image"
+                android:background="@drawable/danger_fix_dialog_clicked_event"
+                android:fontFamily="sans-serif"
+                android:letterSpacing="0.01"
+                android:lineSpacingExtra="2.8sp"
+                android:paddingTop="8dp"
+                android:textAlignment="center"
+                android:textColor="#424242"
+                android:textSize="14sp"
+                android:textStyle="normal"
+                tools:text="수정요청"></TextView>
+
+
+            <View
+                android:id="@+id/danger_line_view2"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_below="@id/danger_image"
+                android:background="@color/white" />
+
+    </RelativeLayout>
+
+
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+    <!--
+        </fragment>-->
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -6,85 +6,79 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_gravity="top"
         android:id="@+id/detail_layout"
         android:layout_width="match_parent"
-        android:layout_height="320dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="top"
         android:background="#ffffff"
-        android:padding="24dp"
         android:clickable="true"
-        >
+        android:padding="24dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
         <TextView
             android:id="@+id/location_name_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="서울누리누리누리누리의원"
-
             android:fontFamily="sans-serif"
-            android:textStyle="bold"
-            android:textSize="24sp"
-            android:textColor="#000000"
+
             android:letterSpacing="0.01"
             android:lineSpacingExtra="4.8sp"
+            android:text="서울누리누리누리누리의원"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            android:textStyle="bold"
 
-            app:layout_constraintTop_toTopOf="@id/detail_layout"
-            app:layout_constraintStart_toStartOf="@id/detail_layout"
             app:layout_constraintBottom_toTopOf="@id/horizontal_line_view"
-            />
+            app:layout_constraintStart_toStartOf="@id/detail_layout"
+            app:layout_constraintTop_toTopOf="@id/detail_layout" />
+
         <TextView
             android:id="@+id/detail_category"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
 
+            android:layout_marginStart="4dp"
             android:fontFamily="sans-serif"
-            android:textStyle="normal"
-            android:textSize="14sp"
-            android:textColor="#aaaaaa"
             android:letterSpacing="0.01"
             android:lineSpacingExtra="2.8sp"
             android:text="병원"
+            android:textColor="#aaaaaa"
+            android:textSize="14sp"
 
-            app:layout_constraintStart_toEndOf="@id/location_name_textView"
+            android:textStyle="normal"
             app:layout_constraintBottom_toBottomOf="@id/location_name_textView"
-            android:layout_marginStart="4dp"
-            />
-
-
-
+            app:layout_constraintStart_toEndOf="@id/location_name_textView" />
 
 
         <View
             android:id="@+id/horizontal_line_view"
             android:layout_width="wrap_content"
             android:layout_height="1dp"
-            android:background="@color/black"
-
-            app:layout_constraintTop_toBottomOf="@id/location_name_textView"
             android:layout_marginTop="14.5dp"
-            />
+
+            android:background="@color/black"
+            app:layout_constraintTop_toBottomOf="@id/location_name_textView" />
 
 
         <LinearLayout
             android:id="@+id/location_detail_LL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/horizontal_line_view"
-            app:layout_constraintBottom_toTopOf="@id/hour_detail_LL"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="18.5dp"
+            app:layout_constraintBottom_toTopOf="@id/hour_detail_LL"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/horizontal_line_view"
 
             >
+
             <ImageView
                 android:id="@+id/location_icon_imageView"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/facility_office"
-                />
+                android:src="@drawable/icon_24_location" />
 
             <TextView
                 android:id="@+id/location_detail_textView"
@@ -92,70 +86,67 @@
                 android:layout_height="wrap_content"
 
                 android:layout_marginStart="8dp"
-                android:text="경기 성남시 분당구 정자일로 121 더샵 스타파크 쇼핑몰 2층 H7호 (우)13560"
-
                 android:fontFamily="sans-serif-medium"
-                android:textStyle="normal"
-                android:textSize="16sp"
-                android:textColor="#000000"
+
                 android:letterSpacing="0.01"
                 android:lineSpacingExtra="3.2sp"
-                />
+                android:text="경기 성남시 분당구 정자일로 121 더샵 스타파크 쇼핑몰 2층 H7호 (우)13560"
+                android:textColor="#000000"
+                android:textSize="16sp"
+                android:textStyle="normal" />
         </LinearLayout>
 
         <LinearLayout
             android:id="@+id/hour_detail_LL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/location_detail_LL"
-            app:layout_constraintBottom_toTopOf="@id/phone_detail_LL"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-
             android:layout_marginTop="15dp"
-            >
+            app:layout_constraintBottom_toTopOf="@id/phone_detail_LL"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+
+            app:layout_constraintTop_toBottomOf="@id/location_detail_LL">
+
             <ImageView
                 android:id="@+id/hour_icon_imageView"
                 android:layout_width="24dp"
                 android:layout_height="24dp"
-                android:src="@drawable/danger"
-                />
+                android:src="@drawable/icon_24_time" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
-            <TextView
-                android:id="@+id/week_hour_detail_textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
 
-                android:layout_marginStart="8dp"
-                android:text="진료시간\n월~금 9:00~19:00"
+                <TextView
+                    android:id="@+id/week_hour_detail_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
 
-                android:fontFamily="sans-serif-medium"
-                android:textStyle="normal"
-                android:textSize="16sp"
-                android:textColor="#000000"
-                android:letterSpacing="0.01"
-                android:lineSpacingExtra="3.2sp"
-                />
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="sans-serif-medium"
 
-            <TextView
-                android:id="@+id/weekend_hour_detail_textView"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                    android:letterSpacing="0.01"
+                    android:lineSpacingExtra="3.2sp"
+                    android:text="진료시간\n월~금 9:00~19:00"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
 
-                android:layout_marginStart="8dp"
-                android:text="토 09:00 ~ 21:00"
+                <TextView
+                    android:id="@+id/weekend_hour_detail_textView"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
 
-                android:fontFamily="sans-serif-medium"
-                android:textStyle="normal"
-                android:textSize="16sp"
-                android:textColor="#000000"
-                android:letterSpacing="0.01"
-                android:lineSpacingExtra="3.2sp"
-                />
+                    android:layout_marginStart="8dp"
+                    android:fontFamily="sans-serif-medium"
+
+                    android:letterSpacing="0.01"
+                    android:lineSpacingExtra="3.2sp"
+                    android:text="토 09:00 ~ 21:00"
+                    android:textColor="#000000"
+                    android:textSize="16sp"
+                    android:textStyle="normal" />
             </LinearLayout>
         </LinearLayout>
 
@@ -163,16 +154,15 @@
             android:id="@+id/phone_detail_LL"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/hour_detail_LL"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
             android:layout_marginTop="15dp"
-            >
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/hour_detail_LL">
+
             <ImageView
                 android:id="@+id/phone_icon_imageView"
                 android:layout_width="24dp"
-                android:layout_height="24dp"
-                />
+                android:layout_height="24dp" />
 
             <TextView
                 android:id="@+id/phone_detail_textView"
@@ -181,14 +171,14 @@
 
                 android:layout_marginStart="8dp"
                 android:autoLink="phone"
-                android:textColor="#007fff"
-                android:text="031-604-7575"
                 android:fontFamily="sans-serif-medium"
-                android:textStyle="normal"
-                android:textSize="16sp"
-
                 android:letterSpacing="0.01"
                 android:lineSpacingExtra="3.2sp"
+                android:text="031-604-7575"
+                android:textColor="#007fff"
+
+                android:textSize="16sp"
+                android:textStyle="normal"
 
                 />
         </LinearLayout>

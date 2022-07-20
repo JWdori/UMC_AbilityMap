@@ -2,13 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     package="com.abilitymap">
-    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.SEND_SMS" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="true"/>
     <application
         android:usesCleartextTraffic="true"
         android:allowBackup="true"
@@ -37,14 +39,20 @@
             android:usesCleartextTraffic="true">
         </activity>
 
+        <activity android:name=".OnboardingActivity"
+            android:theme="@style/activityTheme"
+            android:exported="true">
+        </activity>
 
+        <activity android:name=".ChooseOptionActivity"
+            android:theme="@style/activityTheme"
+            android:exported="true">
+        </activity>
 
         <activity
             android:name=".NotificationActivity" android:theme="@style/activityTheme"
             android:exported="true">
         </activity>
-
-
 
         <activity
             android:name=".Report_detail" android:theme="@style/activityTheme"
@@ -57,7 +65,6 @@
             android:exported="true">
         </activity>
 
-
         <activity
             android:name=".EmergencyCallActivity" android:theme="@style/activityTheme"
             android:exported="true">
@@ -68,9 +75,13 @@
             android:exported="true">
         </activity>
 
-
         <activity
             android:name=".AddPhoneBookActivity" android:theme="@style/activityTheme"
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name=".OssActivity" android:theme="@style/activityTheme"
             android:exported="true">
         </activity>
 

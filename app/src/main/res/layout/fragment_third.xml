@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <ImageView
+        android:id="@+id/iv_fragment_third"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="5"
+        android:src="@drawable/onboarding_3"/>
+
+    <TextView
+        android:id="@+id/tv_fragment_third"
+        android:text="번호를 등록해 응급상황\n발생 즉시 문자를 보내세요"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="24sp"
+        android:textColor="#000000"
+        android:letterSpacing="0.01"
+        android:lineSpacingExtra="4.8sp"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:layout_marginBottom="80dp"
+        android:layout_marginLeft="39dp"
+        android:layout_marginRight="39dp"/>
+
+</LinearLayout>
