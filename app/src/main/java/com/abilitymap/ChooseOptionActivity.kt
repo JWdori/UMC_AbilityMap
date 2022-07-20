@@ -18,8 +18,8 @@ import com.abilitymap.databinding.ActivityChooseOptionBinding
 class ChooseOptionActivity :AppCompatActivity() {
 
     private lateinit var binding : ActivityChooseOptionBinding
-    private var isYes : Boolean = false
-    private var isNo : Boolean = false
+    private var isYes : Boolean = false //교통약자 선택했는지
+    private var isNo : Boolean = false  //교통약자가 아닌 선택했는지
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -77,8 +77,8 @@ class ChooseOptionActivity :AppCompatActivity() {
 
                 isNo = false
             }
-
-            binding.tvYesChooseOption.setBackgroundDrawable(resources.getDrawable(R.drawable.choose_option_clicked))
+            binding.ivYesChooseOption.setBackgroundDrawable(resources.getDrawable(R.drawable.choose_option_clicked))
+            binding.ivYesChooseOption.setImageResource(R.drawable.icon_onboarding_5_1)
             changeTextYesOption("#ffffff", "#e2e2e2")
         }
         binding.tvNoChooseOption.setOnClickListener {   //교통약자가 아닌 선택 시
@@ -89,7 +89,8 @@ class ChooseOptionActivity :AppCompatActivity() {
             isNo = true
 
             if (isYes == true){
-                binding.tvYesChooseOption.setBackgroundDrawable(resources.getDrawable(R.drawable.choose_option))
+                binding.ivYesChooseOption.setBackgroundDrawable(resources.getDrawable(R.drawable.choose_option))
+                binding.ivYesChooseOption.setImageResource(R.drawable.icon_onboarding_5)
 
                 changeTextYesOption("#000000", "#707070")
 
