@@ -43,6 +43,13 @@ class ChooseOptionActivity :AppCompatActivity() {
         val spfOnBoarding : SharedPreferences = getSharedPreferences("mode", MODE_PRIVATE);
         val editor : SharedPreferences.Editor = spfOnBoarding.edit();
         editor.putInt("userMode", mode);
+        if (mode == 1){
+            editor.putString("text", "[긴급신고] 안전지도 모아도\n\n\"교통약자\"의 긴급 신고입니다!\n")
+        }
+        else{
+            editor.putString("text","[긴급신고] 안전지도 모아도\n\n긴급 신고입니다!\n")
+        }
+
         editor.apply();
         editor.commit();
     }
@@ -57,7 +64,7 @@ class ChooseOptionActivity :AppCompatActivity() {
                 startActivity(Intent(this, MainActivity::class.java))
             }
         }
-        binding.tvYesChooseOption.setOnClickListener {      //교통약자일 시
+        binding.tvYesChooseOption.setOnClickListener {      //교통약자 선택 시
             if (isYes == false && isNo == false){
                 binding.tvSelectButtonChooseOption.setBackgroundDrawable(resources.getDrawable(R.drawable.save_button_effect))
             }
@@ -72,10 +79,9 @@ class ChooseOptionActivity :AppCompatActivity() {
             }
 
             binding.tvYesChooseOption.setBackgroundDrawable(resources.getDrawable(R.drawable.choose_option_clicked))
-            changeTextYesOption("#ffffff")
-            checkClick()
+            changeTextYesOption("#ffffff", "#e2e2e2")
         }
-        binding.tvNoChooseOption.setOnClickListener {   //교통약자가 아닐 시
+        binding.tvNoChooseOption.setOnClickListener {   //교통약자가 아닌 선택 시
             if (isYes == false && isNo == false){
                 binding.tvSelectButtonChooseOption.setBackgroundDrawable(resources.getDrawable(R.drawable.save_button_effect))
             }
@@ -85,29 +91,30 @@ class ChooseOptionActivity :AppCompatActivity() {
             if (isYes == true){
                 binding.tvYesChooseOption.setBackgroundDrawable(resources.getDrawable(R.drawable.choose_option))
 
-                changeTextYesOption("#000000")
+                changeTextYesOption("#000000", "#707070")
 
                 isYes = false
             }
 
             binding.tvNoChooseOption.setBackgroundDrawable(resources.getDrawable(R.drawable.choose_option_clicked))
             binding.tvNoChooseOption.setTextColor(Color.parseColor("#ffffff"))
-            checkClick()
         }
     }
 
-    private fun changeTextYesOption(color : String){
+    private fun changeTextYesOption(colorTitle : String, colorSubTitle : String){
         val yesOption : String = binding.tvYesChooseOption.text.toString()
 
         val builder = SpannableStringBuilder(yesOption)
-        val colorSpan = ForegroundColorSpan(Color.parseColor(color))
+        val colorSpan = ForegroundColorSpan(Color.parseColor(colorTitle))
+        val colorSpanSub = ForegroundColorSpan(Color.parseColor(colorSubTitle))
         val boldSpan = StyleSpan(Typeface.BOLD)
         val sizeBigSpan = RelativeSizeSpan(0.6f)
 
         builder.setSpan(sizeBigSpan, binding.tvYesChooseOption.text.indexOf("("), binding.tvYesChooseOption.text.toString().length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        builder.setSpan(colorSpan, binding.tvYesChooseOption.text.indexOf("(휠체어"), binding.tvYesChooseOption.text.toString().length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
         builder.setSpan(boldSpan, binding.tvYesChooseOption.text.indexOf("교통약자"), binding.tvYesChooseOption.text.indexOf("교통약자")+4, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        
+        builder.setSpan(colorSpan, binding.tvYesChooseOption.text.indexOf("저는"), binding.tvYesChooseOption.text.indexOf(".")+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+        builder.setSpan(colorSpanSub, binding.tvYesChooseOption.text.indexOf("("), binding.tvYesChooseOption.text.indexOf(")")+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
         binding.tvYesChooseOption.text = builder
     }
 
@@ -126,7 +133,7 @@ class ChooseOptionActivity :AppCompatActivity() {
         binding.tvTitleChooseOption.text = builder
 
 
-        changeTextYesOption("#707070")
+        changeTextYesOption("#000000", "#707070")
 
 
         builder = SpannableStringBuilder(noOption)

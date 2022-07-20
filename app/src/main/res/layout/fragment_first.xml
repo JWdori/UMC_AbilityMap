@@ -16,7 +16,7 @@
 
     <TextView
         android:id="@+id/tv_fragment_first"
-        android:text="교통약자의 이동권과 안전을 위한 베리어프리 앱"
+        android:text="교통약자의 이동권과 안전을\n위한 베리어프리 앱"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fontFamily="sans-serif-medium"

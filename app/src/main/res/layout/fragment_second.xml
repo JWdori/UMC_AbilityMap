@@ -11,12 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
-        android:paddingHorizontal="100dp"
-        android:src="@drawable/rogo_blue"/>
+        android:src="@drawable/onboarding_2"/>
 
     <TextView
         android:id="@+id/tv_fragment_second"
-        android:text="교통약자를 위한 유용한 정보를 확인하세요"
+        android:text="교통약자를 위한\n유용한 정보를 확인하세요"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fontFamily="sans-serif-medium"
