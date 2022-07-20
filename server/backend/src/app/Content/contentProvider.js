@@ -58,3 +58,22 @@ exports.getElevator = async function() {
 
   return getElevatorResult;
 }
+
+// 병원 위치 받아오기
+exports.getMedical = async function() {
+  const connection = await pool.getConnection(async (conn) => conn);
+  const getMedicalResult = await contentDao.getMedical(connection);
+  connection.release();
+
+  return getMedicalResult;
+}
+
+// 복지센터 위치 받아오기
+exports.getWelfare = async function() {
+  const connection = await pool.getConnection(async (conn) => conn);
+  console.log("contentProvider-getWelfare");
+  const getWelfareResult = await contentDao.getWelfare(connection);
+  connection.release();
+
+  return getWelfareResult;
+}
