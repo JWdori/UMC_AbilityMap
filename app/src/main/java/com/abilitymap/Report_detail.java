@@ -140,14 +140,14 @@ public class Report_detail extends AppCompatActivity {
 
 
                     Map<String, Object> result = new HashMap<String, Object>();
-                    result.put("resultIdx",111);
+                    //result.put("resultIdx",111);
                     result.put("reportLocation", reportLocation);
                     result.put("reportDate", sReportDate);
                     result.put("reportContent", contentView.getText().toString());
                     result.put("nickName", nick);
                     result.put("lat",latitude);
                     result.put("lon",longitude);
-                    result.put("wrong",3);
+                    //result.put("wrong",3);
 
                     String resultString = getJsonStringFromMap(result);
                     System.out.println("resultString : "+resultString);
