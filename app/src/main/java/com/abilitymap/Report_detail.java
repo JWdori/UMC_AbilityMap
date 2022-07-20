@@ -64,7 +64,8 @@ public class Report_detail extends AppCompatActivity {
 //        overridePendingTransition(R.anim.horizon_enter, R.anim.none)
         super.onCreate(savedInstanceState);
 
-
+        Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        activityResultPicture.launch(intent);
         setContentView(R.layout.report_detail);
         View report_cancel_btn = findViewById(R.id.report_cancel_btn);
         View report_submit_btn = findViewById(R.id.report_submit_button);
@@ -97,13 +98,13 @@ public class Report_detail extends AppCompatActivity {
 */
 
         imageView = (ImageView) findViewById(R.id.report_pic_iv);
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                activityResultPicture.launch(intent);
-            }
-        });
+//        imageView.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//                activityResultPicture.launch(intent);
+//            }
+//        });
 
         report_cancel_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -233,6 +234,7 @@ public class Report_detail extends AppCompatActivity {
                         Bundle extras = result.getData().getExtras();
                         bitmap = (Bitmap) extras.get("data");
                         imageView.setImageBitmap(bitmap);
+                        System.out.println(bitmap);
 
                     }
                 }

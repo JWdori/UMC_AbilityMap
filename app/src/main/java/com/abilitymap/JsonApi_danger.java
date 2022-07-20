@@ -144,7 +144,7 @@ public class JsonApi_danger extends AsyncTask<String, String, String> {
 
         private String lat;
         private String lng;
-        private String idx;
+        private String reportIdx;
 //        private String location;
 //        private String week;
 //        private String weekend;
@@ -156,7 +156,7 @@ public class JsonApi_danger extends AsyncTask<String, String, String> {
                            //String location, String week, String weekend, String holiday) {
             this.lat = lat;
             this.lng = lng;
-            this.idx = idx;
+            this.reportIdx = idx;
 //            this.location = location;
 //            this.week = week;
 //            this.weekend = weekend;
@@ -165,11 +165,11 @@ public class JsonApi_danger extends AsyncTask<String, String, String> {
         }
 
         public String getName(){
-            return idx;
+            return reportIdx;
         }
 
         public void setName(String idx) {
-            this.idx = idx;
+            this.reportIdx = idx;
         }
 
 

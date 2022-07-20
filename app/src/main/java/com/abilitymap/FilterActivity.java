@@ -41,7 +41,6 @@ public class FilterActivity extends AppCompatActivity {
     LabeledSwitch labeledSwitch_lift10;
     Button filter_button;
 
-
     Map<String, ?> total1_;
     Map<String, ?> hos2_;
     Map<String, ?> fac3_;

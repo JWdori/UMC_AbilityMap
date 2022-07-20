@@ -21,3 +21,23 @@ exports.createReport = async function(reportLocation, reportDate, reportContent,
         return errResponse(baseResponse.DB_ERROR);
     }
 }
+
+
+exports.editWrongReport = async function (reportIdx, wrong) {
+    const connection = await pool.getConnection(async (conn) => conn);
+
+    //const findReportLocation = await reportDao.findReport(connection);
+    
+    try {
+        const editWrongReportParams = [wrong, reportIdx];
+        const editWrongReportResult = await reportDao.updateWrongReport(connection, editWrongReportParams);
+    
+        return response(baseResponse.SUCCESS);
+    } catch (err) {
+        console.log(`App - editWrongReport Service error\n: ${err.message}`);
+    
+        return errResponse(baseResponse.DB_ERROR);
+    } finally {
+        connection.release();
+    }
+}
