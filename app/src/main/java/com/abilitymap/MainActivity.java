@@ -810,8 +810,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         SmsManager manager = SmsManager.getDefault();
         
         SharedPreferences spfPersonInfo = getSharedPreferences("personInfo", MODE_PRIVATE);
+        SharedPreferences spfMode = getSharedPreferences("mode", MODE_PRIVATE);
+
+        String text = spfMode.getString("text",""); //교통약자인지 판별 후 그에 맞는 기본 메세지 가져오기
+
         int personId = spfPersonInfo.getInt("position", -1);
-        Log.d("DB POSITION", String.valueOf(personId));
 
         if (personId != -1){    //선택된 연락처가 있을 때만
             PersonInfoDatabase personInfoDatabase = PersonInfoDatabase.Companion.getInstance(this);
@@ -819,9 +822,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.d("데이타 베이스 확인 ! ! !", personInfoDatabase.personInfoDao().getPersonList().toString());
             Log.d("데이타 베이스 번호", pL.get(personId).getPhoneNumber());
             Log.d("데이타 베이스 텍스트", pL.get(personId).getText());
+
+//            Toast.makeText(this, text+pL.get(personId).getText(), Toast.LENGTH_SHORT).show();
             
             if (!(pL.get(personId).getText().equals(""))){  //텍스트 입력한 기록이 있는 연락처에 한정
-                manager.sendTextMessage(pL.get(personId).getPhoneNumber(), null, pL.get(personId).getText(), null, null);
+                //선택된 연락처의 번호로 기본 메세지 + 기록된 메세지 전송
+                manager.sendTextMessage(pL.get(personId).getPhoneNumber(), null, text+pL.get(personId).getText(), null, null);
             }
         }
     }

@@ -11,12 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
-        android:paddingHorizontal="100dp"
-        android:src="@drawable/rogo_blue"/>
+        android:src="@drawable/onboarding_4"/>
 
     <TextView
         android:id="@+id/tv_fragment_fourth"
-        android:text="위험한 장소 발견시 제보해주세요"
+        android:text="위험한 장소 발견시\n제보해주세요"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fontFamily="sans-serif-medium"

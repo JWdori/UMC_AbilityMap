@@ -68,6 +68,9 @@
         <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/layout/tool_bar.xml" value="0.16666666666666666" />
         <entry key="..\:/Users/Jaewan01/gitthub/UMC_AbilityMap/app/src/main/res/menu/navigation_menu.xml" value="0.14666666666666667" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.1875" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/choose_option.xml" value="0.1965" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/choose_option_clicked.xml" value="0.1965" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/choose_option_transparent.xml" value="0.1965" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/dialog.xml" value="0.2135" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1875" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/ic_logo.xml" value="0.1875" />
@@ -100,15 +103,21 @@
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/drawable/yes_dialog.xml" value="0.2135" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_add_phone_book.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_camera2.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_choose_option.xml" value="0.33" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_custom_dialog.xml" value="0.5" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_emergency_call.xml" value="0.33" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_main.xml" value="0.33" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_notification.xml" value="0.34739583333333335" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_onboarding.xml" value="0.17603850050658562" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_oss.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/dialog.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/first_popup.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_first.xml" value="0.17603850050658562" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_fourth.xml" value="0.17603850050658562" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_home.xml" value="0.3619791666666667" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_navigation_header.xml" value="0.34739583333333335" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_second.xml" value="0.17603850050658562" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_third.xml" value="0.17603850050658562" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/item_emergency_call.xml" value="0.33" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/item_notification.xml" value="0.33" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/location_detail.xml" value="0.33" />

@@ -11,12 +11,11 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="5"
-        android:paddingHorizontal="100dp"
-        android:src="@drawable/rogo_blue"/>
+        android:src="@drawable/onboarding_3"/>
 
     <TextView
         android:id="@+id/tv_fragment_third"
-        android:text="번호를 등록해 응급상황 발생 즉시 문자를 보내세요"
+        android:text="번호를 등록해 응급상황\n발생 즉시 문자를 보내세요"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:fontFamily="sans-serif-medium"
