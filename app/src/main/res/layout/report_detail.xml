@@ -204,13 +204,13 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:background="@drawable/cencel_btn_event"
-        app:layout_constraintTop_toTopOf="@id/submit_button_background"
+        app:layout_constraintTop_toTopOf="@id/report_submit_button"
         app:layout_constraintStart_toStartOf="@id/report_content_view"
         ></TextView>
 
 
     <TextView
-        android:id="@+id/submit_button_background"
+        android:id="@+id/report_submit_button"
         android:layout_width="168dp"
         android:layout_height="60dp"
         android:background="@drawable/submit_dialog_clicked_event"
@@ -241,8 +241,8 @@
         android:layout_height="48dp"
         android:elevation="10dp"
         android:src="@drawable/arrow_forward"
-        app:layout_constraintStart_toStartOf="@id/submit_button_background"
-        app:layout_constraintTop_toTopOf="@id/submit_button_background"
+        app:layout_constraintStart_toStartOf="@id/report_submit_button"
+        app:layout_constraintTop_toTopOf="@id/report_submit_button"
         android:layout_marginTop="6dp"
         android:layout_marginLeft="109dp"/>
 

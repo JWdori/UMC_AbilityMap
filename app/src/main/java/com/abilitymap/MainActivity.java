@@ -1,5 +1,7 @@
 package com.abilitymap;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -13,6 +15,7 @@ import androidx.fragment.app.FragmentManager;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.Rect;
@@ -129,6 +132,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private boolean isFilter = false;
     ProgressDialog dialog; //원형 프로그레스바
 
+    String reportContent;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
@@ -184,6 +188,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         initClickListener();
         FragmentManager fm = getSupportFragmentManager();
         MapFragment mapFragment = (MapFragment) fm.findFragmentById(R.id.map);
+        String reportContent = null;
 
         if (mapFragment == null) {
             mapFragment = MapFragment.newInstance();
@@ -994,22 +999,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 SimpleDateFormat timeForClient = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.getDefault());
                 String cReportDate = timeForClient.format(new Date());
 
-                System.out.println("현재 위치 : "+address);
+                System.out.println("현재 위치 : " + address);
 
                 Intent reportIntent = new Intent(getApplicationContext(), Report_detail.class);
 
-                reportIntent.putExtra("reportLat",currentPosition.latitude);    //서버 위도 경도
-                reportIntent.putExtra("reportLng",currentPosition.longitude);
+
+                reportIntent.putExtra("reportLat", currentPosition.latitude);    //서버 위도 경도
+                reportIntent.putExtra("reportLng", currentPosition.longitude);
                 // 이거 값 이상하면 바로 윗줄 latitude,longitude로 주기
-                reportIntent.putExtra("address",address);   //사용자 화면 주소
-                reportIntent.putExtra("sReportDate",sReportDate);
-                reportIntent.putExtra("cReportDate",cReportDate);
-
-
+                reportIntent.putExtra("address", address);   //사용자 화면 주소
+                reportIntent.putExtra("sReportDate", sReportDate);
+                reportIntent.putExtra("cReportDate", cReportDate);
 
 
 
                 startActivity(reportIntent);
+
+
+
+
 
 
 /*
@@ -1086,6 +1094,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
            }
        });
     }
+
 
     // xml 가져오는 코드
 //    private void setUpMap(){
@@ -1314,5 +1323,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                  marker.setOnClickListener(listener);
 
              }
+
 
 }
