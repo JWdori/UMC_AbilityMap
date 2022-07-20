@@ -58,7 +58,7 @@
             android:id="@+id/tv_toggle_oss"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="toggle\n( https://github.com/singhangadin/android-toggle )"
+            android:text="toggle\n-  https://github.com/singhangadin/android-toggle"
             android:textColorLink="@color/black"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"

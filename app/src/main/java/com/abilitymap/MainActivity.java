@@ -182,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initClickListener();
-        initLauncher();
         FragmentManager fm = getSupportFragmentManager();
         MapFragment mapFragment = (MapFragment) fm.findFragmentById(R.id.map);
 
@@ -779,29 +778,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void initLauncher() {
-        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            if (result.getResultCode() == 3000) {
-                Intent cameraIntent = result.getData();
-                String cameraFlag = cameraIntent.getStringExtra(Camera2Activity.picSaved);
-                //Toast.makeText(MainActivity.this,cameraFlag, Toast.LENGTH_SHORT).show();
-                Log.d("lancher", "launch ok");
-            }
-
-        });
-    }
 
 
-    private void setCamera(Intent cameraIntent) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            cameraIntent = new Intent(getApplicationContext(), Camera2Activity.class);
-            //activityResultLauncher.launch(cameraIntent);
-        }
 
-        //activityResultLauncher.launch(cameraIntent);
-        startActivity(cameraIntent);
-    }
+
 
     //메시지 보내기 함수
     private void sendSms() {
