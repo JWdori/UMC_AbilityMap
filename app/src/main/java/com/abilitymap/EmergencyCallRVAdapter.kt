@@ -7,6 +7,9 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.graphics.Color
 import android.graphics.Typeface
+import android.text.SpannableStringBuilder
+import android.text.Spanned
+import android.text.style.StyleSpan
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +18,7 @@ import android.widget.Toast
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.abilitymap.databinding.ItemEmergencyCallBinding
+import java.lang.reflect.Type
 
 class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.ViewHolder>() {
 
@@ -126,12 +130,16 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
         dialog.show()
 
         val text = dialog.findViewById<TextView>(R.id.text_dialog)
-        val nameText = TextView(mContext)
-        nameText.setTypeface(null, Typeface.BOLD)
-        nameText.setTextColor(Color.parseColor("#000000"))
-        nameText.setTextSize(24f)
-        nameText.setText(personInfo[position].name!!)
-        text.setText(nameText.text.toString() + text.text.toString())
+
+        //text bold처리
+        val string : String = "\""+personInfo[position].name!!+"\""+text.text.toString()
+        val builder = SpannableStringBuilder(string)
+        val boldSpan = StyleSpan(Typeface.BOLD)
+        //boldSpan, startIndex, endIndex, EXCLUSIVE_EXCLUSIVE
+        builder.setSpan(boldSpan, string.indexOf("\""), string.lastIndexOf("\"")+1, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+
+        text.text = builder
+
 
         val yesButton = dialog.findViewById<TextView>(R.id.tv_yes_dialog)
         val noButton = dialog.findViewById<TextView>(R.id.tv_no_dialog)
