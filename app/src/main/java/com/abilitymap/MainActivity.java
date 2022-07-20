@@ -809,16 +809,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void sendSms() {
         SmsManager manager = SmsManager.getDefault();
         
-        SharedPreferences spfPersonInfo = getSharedPreferences("personInfo", MODE_PRIVATE);
-        SharedPreferences spfMode = getSharedPreferences("mode", MODE_PRIVATE);
+        SharedPreferences spfPersonInfo = getSharedPreferences("personInfo", MODE_PRIVATE); //선택된 연락처 정보 가져오기
+        SharedPreferences spfMode = getSharedPreferences("mode", MODE_PRIVATE);     //선택된 유저 모드 정보 가져오기
 
         String text = spfMode.getString("text",""); //교통약자인지 판별 후 그에 맞는 기본 메세지 가져오기
 
-        int personId = spfPersonInfo.getInt("position", -1);
+        int personId = spfPersonInfo.getInt("position", -1);   //선택된 연락처의 유저 특정하기 위한 id
 
-        if (personId != -1){    //선택된 연락처가 있을 때만
-            PersonInfoDatabase personInfoDatabase = PersonInfoDatabase.Companion.getInstance(this);
-            List<PersonInfo> pL = personInfoDatabase.personInfoDao().getPersonList();
+        PersonInfoDatabase personInfoDatabase = PersonInfoDatabase.Companion.getInstance(this);
+        List<PersonInfo> pL = personInfoDatabase.personInfoDao().getPersonList();
+
+        if (personId != -1){    //선택된 연락처가 있을 때
+
             Log.d("데이타 베이스 확인 ! ! !", personInfoDatabase.personInfoDao().getPersonList().toString());
             Log.d("데이타 베이스 번호", pL.get(personId).getPhoneNumber());
             Log.d("데이타 베이스 텍스트", pL.get(personId).getText());
@@ -828,6 +830,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             if (!(pL.get(personId).getText().equals(""))){  //텍스트 입력한 기록이 있는 연락처에 한정
                 //선택된 연락처의 번호로 기본 메세지 + 기록된 메세지 전송
                 manager.sendTextMessage(pL.get(personId).getPhoneNumber(), null, text+pL.get(personId).getText(), null, null);
+            }
+            else{   //선택된 연락처의 번호로 기본 메세지만 전송
+                manager.sendTextMessage(pL.get(personId).getPhoneNumber(), null, text, null, null);
             }
         }
     }
