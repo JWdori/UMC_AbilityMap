@@ -883,16 +883,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             if (!(pL.get(personId).getText().equals(""))) {  //텍스트 입력한 기록이 있는 연락처에 한정
 
-            if (!(pL.get(personId).getText().equals(""))){  //텍스트 입력한 기록이 있는 연락처에 한정
+                if (!(pL.get(personId).getText().equals(""))) {  //텍스트 입력한 기록이 있는 연락처에 한정
 
-                //선택된 연락처의 번호로 기본 메세지 + 기록된 메세지 전송
-                manager.sendTextMessage(pL.get(personId).getPhoneNumber(), null, text + pL.get(personId).getText(), null, null);
-            } else {   //선택된 연락처의 번호로 기본 메세지만 전송
-                manager.sendTextMessage(pL.get(personId).getPhoneNumber(), null, text, null, null);
+                    //선택된 연락처의 번호로 기본 메세지 + 기록된 메세지 전송
+                    manager.sendTextMessage(pL.get(personId).getPhoneNumber(), null, text + pL.get(personId).getText(), null, null);
+                } else {   //선택된 연락처의 번호로 기본 메세지만 전송
+                    manager.sendTextMessage(pL.get(personId).getPhoneNumber(), null, text, null, null);
+                }
             }
         }
     }
-
 
     @Override
     public boolean dispatchTouchEvent(MotionEvent ev) {
