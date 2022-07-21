@@ -766,6 +766,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             if (ele6.getBoolean("total", true)) {
                 drawMarker_ele();
             }
+            if (lift10.getBoolean("total", true)) {
+
+            }
             if (bike7.getBoolean("total", true)) {
                 drawMarker_bike();
             }
@@ -773,9 +776,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 drawMarker_slope();
             }
             if (danger9.getBoolean("total", true)) {
-                setMarker_danger();
-            }
-            if (lift10.getBoolean("total", true)) {
                 setMarker_danger();
             }
 
