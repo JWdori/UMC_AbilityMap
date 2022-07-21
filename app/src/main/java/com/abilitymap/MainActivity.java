@@ -1120,6 +1120,63 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 isFilter = true;
 
 //                여기다가 수정 요청 팝업 둠
+//                View dialogView = getLayoutInflater().inflate(R.layout.change_submit_dialog, null);
+//                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+//                builder.setView(dialogView);
+//                final AlertDialog alertDialog = builder.create();
+//                ColorDrawable back = new ColorDrawable(Color.TRANSPARENT);
+//                InsetDrawable inset = new InsetDrawable(back, 24);
+//                alertDialog.getWindow().setBackgroundDrawable(inset);
+//                alertDialog.setCanceledOnTouchOutside(true);//없어지지 않도록 설정
+//                alertDialog.show();
+//
+//                TextView contenterrButton = alertDialog.findViewById(R.id.content_error);
+//                contenterrButton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        contenterrButton.setSelected(true);
+//                    }
+//                });
+//                TextView locationerrButton = alertDialog.findViewById(R.id.location_error);
+//                locationerrButton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        locationerrButton.setSelected(true);
+//                    }
+//                });
+//                TextView notdangerButton = alertDialog.findViewById(R.id.notdanger_error);
+//                notdangerButton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        notdangerButton.setSelected(true);
+//                    }
+//                });
+//
+//                TextView otherButton = alertDialog.findViewById(R.id.other_);
+//                otherButton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        otherButton.setSelected(true);
+//                    }
+//                });
+//                TextView noButton = alertDialog.findViewById(R.id.change_no_dialog);
+//                noButton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        alertDialog.dismiss();
+//                    }
+//                });
+//                TextView yesButton = alertDialog.findViewById(R.id.change_yes_dialog);
+//                yesButton.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View view) {
+//                        //api로 전송코드
+//                        alertDialog.dismiss();
+//
+//
+//                    }
+//                });
+//
 /*                View dialogView = getLayoutInflater().inflate(R.layout.change_submit_dialog, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setView(dialogView);
@@ -1177,8 +1234,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
                 });
 */
+
             }
         });
+
 
 
         View header = binding.navigationView.getHeaderView(0);
