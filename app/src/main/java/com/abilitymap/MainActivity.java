@@ -13,6 +13,7 @@ import androidx.core.view.GravityCompat;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -1143,7 +1144,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                }
                else if (item.getItemId() == R.id.nav_review) {      //사용자 리뷰
-                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://m.naver.com")));
+                   popDialog("모아도에 대한 리뷰를 남기시겠습니까?");
                }
                else if (item.getItemId() == R.id.nav_oss) {         //오픈소스 라이선스
                    Intent intent = new Intent(getApplicationContext(), OssActivity.class);
@@ -1152,6 +1153,32 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                return true;
            }
        });
+    }
+
+
+    private void popDialog(String text){
+        Dialog dialog = new InfoDialog(this);
+        dialog.show();
+
+        TextView tv = (TextView) dialog.findViewById(R.id.text_dialog);
+        tv.setText(text);
+
+        TextView noButton = dialog.findViewById(R.id.tv_no_dialog);
+        noButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+
+        TextView yesButton = dialog.findViewById(R.id.tv_yes_dialog);
+        yesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://m.naver.com")));
+                dialog.dismiss();
+            }
+        });
     }
 
 
