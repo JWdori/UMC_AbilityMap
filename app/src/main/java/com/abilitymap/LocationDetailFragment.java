@@ -63,7 +63,6 @@ public class LocationDetailFragment extends Fragment {
         this.holiday = holiday;
         this.phone = phone;
     }
-
     @Override
     public void onAttach(Context context){
         super.onAttach(context);

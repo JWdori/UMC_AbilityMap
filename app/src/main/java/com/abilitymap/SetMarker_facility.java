@@ -25,6 +25,7 @@ public interface SetMarker_facility extends Overlay.OnClickListener {
         }
         marker.setMap(naverMap);
         marker.setTag(markerType);
+        System.out.println("set marker facility setTag : "+markerType +","+marker.getTag());
         marker.setOnClickListener(this);
     }
 
