@@ -207,6 +207,7 @@
                 android:id="@+id/facility_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="#525252"
                 android:layout_toRightOf="@id/fac_icon"
                 android:layout_centerVertical="true"
                 android:text="관공서"></TextView>
@@ -259,11 +260,24 @@
 
             <TextView
                 android:id="@+id/charge_text"
+                android:textColor="#525252"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:layout_toRightOf="@id/charge_icon"
                 android:layout_centerVertical="true"
                 android:text="전동휠체어 급속충전기"></TextView>
+
+
+            <ImageView
+                android:id="@+id/charge_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                app:layout_constraintStart_toStartOf="parent"
+                android:src="@drawable/charge_icon"
+                />
+
+
 
             <com.github.angads25.toggle.widget.LabeledSwitch
                 android:id="@+id/charge_toggle"
@@ -313,9 +327,25 @@
                 android:id="@+id/wheel_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:textColor="#525252"
+                android:layout_toRightOf="@id/wheel_icon"
                 android:layout_centerVertical="true"
                 android:text="경사로"></TextView>
+
+
+            <ImageView
+                android:id="@+id/wheel_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                app:layout_constraintStart_toStartOf="parent"
+                android:src="@drawable/wheel_icon"
+                />
+
+
+
+
+
 
             <com.github.angads25.toggle.widget.LabeledSwitch
                 android:id="@+id/wheel_toggle"
@@ -362,9 +392,22 @@
                 android:id="@+id/ele_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:textColor="#525252"
+                android:layout_toRightOf="@id/ele_icon"
                 android:layout_centerVertical="true"
                 android:text="승강기"></TextView>
+
+
+
+            <ImageView
+                android:id="@+id/ele_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                app:layout_constraintStart_toStartOf="parent"
+                android:src="@drawable/wheel_icon"
+                />
+
 
             <com.github.angads25.toggle.widget.LabeledSwitch
                 android:id="@+id/ele_toggle"
@@ -413,9 +456,26 @@
                 android:id="@+id/lift_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:textColor="#525252"
+                android:layout_toRightOf="@id/lift_icon"
                 android:layout_centerVertical="true"
                 android:text="휠체어 리프트"></TextView>
+
+
+
+            <ImageView
+                android:id="@+id/lift_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                app:layout_constraintStart_toStartOf="parent"
+                android:src="@drawable/wheel_icon"
+                />
+
+
+
+
+
 
             <com.github.angads25.toggle.widget.LabeledSwitch
                 android:id="@+id/lift_toggle"
@@ -463,9 +523,26 @@
                 android:id="@+id/bike_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:textColor="#525252"
+                android:layout_toRightOf="@id/bike_icon"
                 android:layout_centerVertical="true"
                 android:text="자전거 사고다발 지역"></TextView>
+
+
+
+
+            <ImageView
+                android:id="@+id/bike_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                app:layout_constraintStart_toStartOf="parent"
+                android:src="@drawable/danger_location_yellow"
+                />
+
+
+
+
 
             <com.github.angads25.toggle.widget.LabeledSwitch
                 android:id="@+id/bike_toggle"
@@ -518,9 +595,28 @@
                 android:id="@+id/slope_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:textColor="#525252"
                 android:layout_centerVertical="true"
+                android:layout_toRightOf="@+id/slope_icon"
                 android:text="급경사 지역"></TextView>
+
+
+
+
+
+            <ImageView
+                android:id="@+id/slope_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                app:layout_constraintStart_toStartOf="parent"
+                android:src="@drawable/danger_location_yellow"
+                />
+
+
+
+
+
 
             <com.github.angads25.toggle.widget.LabeledSwitch
                 android:id="@+id/slope_toggle"
@@ -569,9 +665,20 @@
                 android:id="@+id/danger_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
+                android:textColor="#525252"
+                android:layout_toRightOf="@id/danger_icon"
                 android:layout_centerVertical="true"
-                android:text="위험 지역"></TextView>
+                android:text="위험 지역(제보)"></TextView>
+
+            <ImageView
+                android:id="@+id/danger_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                app:layout_constraintStart_toStartOf="parent"
+                android:src="@drawable/dnager_red"
+                />
+
 
             <com.github.angads25.toggle.widget.LabeledSwitch
                 android:id="@+id/danger_toggle"
