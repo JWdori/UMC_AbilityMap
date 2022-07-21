@@ -27,6 +27,7 @@ import java.text.SimpleDateFormat;
 import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Handler;
 import android.telephony.SmsManager;
@@ -825,8 +826,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.d("데이타 베이스 번호", pL.get(personId).getPhoneNumber());
             Log.d("데이타 베이스 텍스트", pL.get(personId).getText());
 
-//            Toast.makeText(this, text+pL.get(personId).getText(), Toast.LENGTH_SHORT).show();
-            
             if (!(pL.get(personId).getText().equals(""))){  //텍스트 입력한 기록이 있는 연락처에 한정
                 //선택된 연락처의 번호로 기본 메세지 + 기록된 메세지 전송
                 manager.sendTextMessage(pL.get(personId).getPhoneNumber(), null, text+pL.get(personId).getText(), null, null);
@@ -1077,30 +1076,30 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         binding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                if (item.getItemId() == R.id.nav_notification) {
+                if (item.getItemId() == R.id.nav_notification) {    //알림
 //                 binding.drawerLayout.closeDrawer(GravityCompat.START); //열려있는 메뉴판 닫고 화면 전환
 
                    Intent intent = new Intent(getApplicationContext(), NotificationActivity.class);
                    startActivity(intent);
                }
-               else if (item.getItemId() == R.id.nav_call) {
+               else if (item.getItemId() == R.id.nav_call) {        //긴급연락처
                    Intent intent = new Intent(getApplicationContext(), EmergencyCallActivity.class);
                    startActivity(intent);
                }
-               else if (item.getItemId() == R.id.nav_report) {
+               else if (item.getItemId() == R.id.nav_report) {      //위험 제보하기
 /*
                    Intent intent = null;
                    Log.d("camera","clicked");
                    setCamera(intent);
 */
                }
-               else if (item.getItemId() == R.id.nav_book) {
+               else if (item.getItemId() == R.id.nav_book) {        //이용 설명서
 
                }
-               else if (item.getItemId() == R.id.nav_review) {
-
+               else if (item.getItemId() == R.id.nav_review) {      //사용자 리뷰
+                    startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://m.naver.com")));
                }
-               else if (item.getItemId() == R.id.nav_oss) {
+               else if (item.getItemId() == R.id.nav_oss) {         //오픈소스 라이선스
                    Intent intent = new Intent(getApplicationContext(), OssActivity.class);
                    startActivity(intent);
                }
