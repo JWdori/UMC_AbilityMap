@@ -48,7 +48,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.abilitymap.databinding.ActivityMainBinding;
-import com.github.angads25.toggle.widget.LabeledSwitch;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -58,7 +58,6 @@ import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
-
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -124,9 +123,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Manifest.permission.SEND_SMS,
     };
     private ActivityMainBinding binding;
-
     ActivityResultLauncher<Intent> activityResultLauncher;
-
     List<LatLng> latLngList = new ArrayList<>();
     private boolean clickable = true;
     private boolean clickable2 = true;
@@ -179,7 +176,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         //로딩
-
         firstActivity = MainActivity.this;
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         super.onCreate(savedInstanceState);
@@ -532,7 +528,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        Report_message.setVisibility(View.VISIBLE);
 //        Log.d("clickable?", "backKeyPressed");
 //        Log.d("clickable?", String.valueOf(clickable));
-
 
         if (isDrawerOpen) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
@@ -1090,17 +1085,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-
-
-
 /*
                 System.out.println("현재 위치 : "+address);
                 reportIntent.putExtra("reportLocation","우리집 내방 이불밖");
                 reportIntent.putExtra("reportTime","2022년 07월 19일");
 */
-
             }
         });
+
+
 
         binding.layoutToolBar.ivMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1110,15 +1103,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+
+
         binding.layoutToolBar.ivFilter.setOnClickListener(new View.OnClickListener() {
             @Override
-
-            //필터
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), FilterActivity.class);
                 startActivity(intent);
                 isFilter = true;
-
 //                여기다가 수정 요청 팝업 둠
 //                View dialogView = getLayoutInflater().inflate(R.layout.change_submit_dialog, null);
 //                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
