@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="20dp"
+    android:layout_marginRight="20dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/dialog">
+
+
+<RelativeLayout
+    android:id="@+id/change_submit_layout"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:splitMotionEvents="false"
+    >
+    <TextView
+        android:id="@+id/content_error"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginTop="29dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="12dp"
+        android:textStyle="normal"
+        android:textSize="20sp"
+
+        android:textColor="@drawable/change_submit_text_color"
+        android:letterSpacing="0.01"
+        android:lineSpacingExtra="4sp"
+        android:text="상세 설명이 이상해요"
+        android:gravity="center_vertical"
+        android:paddingLeft="18dp"
+        android:background="@drawable/change_submit_clickevent">
+    </TextView>
+
+    <TextView
+        android:id="@+id/location_error"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="12dp"
+        android:textStyle="normal"
+        android:textSize="20sp"
+        android:textColor="@drawable/change_submit_text_color"
+        android:letterSpacing="0.01"
+        android:lineSpacingExtra="4sp"
+        android:text="위치가 잘못되었어요"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/content_error"
+        android:paddingLeft="18dp"
+        android:background="@drawable/change_submit_clickevent">
+    </TextView>
+
+    <TextView
+        android:id="@+id/notdanger_error"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:layout_marginBottom="12dp"
+        android:textStyle="normal"
+        android:textSize="20sp"
+        android:textColor="@drawable/change_submit_text_color"
+        android:letterSpacing="0.01"
+        android:lineSpacingExtra="4sp"
+        android:text="위험요소가 없어요"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/location_error"
+        android:paddingLeft="18dp"
+        android:background="@drawable/change_submit_clickevent">
+    </TextView>
+
+
+    <TextView
+        android:id="@+id/other_"
+        android:layout_width="match_parent"
+        android:layout_height="48dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginRight="24dp"
+        android:textStyle="normal"
+        android:textSize="20sp"
+        android:textColor="@drawable/change_submit_text_color"
+        android:letterSpacing="0.01"
+        android:lineSpacingExtra="4sp"
+        android:text="기타"
+        android:gravity="center_vertical"
+        android:layout_below="@+id/notdanger_error"
+        android:paddingLeft="18dp"
+        android:background="@drawable/change_submit_clickevent">
+    </TextView>
+
+
+
+
+
+
+
+</RelativeLayout>
+    <LinearLayout
+        android:id="@+id/layout_dialog"
+        android:layout_width="0dp"
+        android:layout_height="60dp"
+        android:orientation="horizontal"
+        android:layout_marginTop="28dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:splitMotionEvents="false"
+        app:layout_constraintTop_toBottomOf="@id/change_submit_layout">
+
+        <TextView
+            android:id="@+id/change_no_dialog"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:textSize="24sp"
+            android:textStyle="normal"
+            android:textColor="#848484"
+            android:fontFamily="sans-serif-medium"
+            android:text="취소"
+            android:gravity="center"
+            android:letterSpacing="0.01"
+            android:lineSpacingExtra="4.8sp"
+            app:layout_constraintEnd_toStartOf="@id/tv_yes_dialog"
+            app:layout_constraintTop_toBottomOf="@id/text_dialog"
+            android:background="@drawable/no_dialog_clicked_event"/>
+
+        <TextView
+            android:id="@+id/change_yes_dialog"
+            android:layout_width="0dp"
+            android:layout_height="60dp"
+            android:layout_weight="1"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:textColor="@drawable/save_button_text_color"
+            android:fontFamily="sans-serif"
+            android:text="보내기"
+            android:gravity="center"
+            android:letterSpacing="0.01"
+            android:lineSpacingExtra="4.8sp"
+            app:layout_constraintStart_toEndOf="@id/tv_no_dialog"
+            app:layout_constraintTop_toBottomOf="@id/text_dialog"
+            android:background="@drawable/yes_dialog_clicked_event"/>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,7 @@
 package com.abilitymap;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
@@ -14,6 +16,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.Rect;
@@ -131,50 +134,49 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private boolean isFilter = false;
     ProgressDialog dialog; //원형 프로그레스바
 
-//    List<Double> latitudeList = new ArrayList<Double>();
-//    List<Double> longitudeList = new ArrayList<Double>();
-//
-//    double LNG = Double.parseDouble(latitudeList.toString());
-//    double LAT = Double.parseDouble(longitudeList.toString());
-//
-//
-//try {
-//
-//        JSONObject Land = new JSONObject(result);
-//        JSONArray jsonArray = Land.getJSONArray("Response");
-//        for(int i = 0 ; i<jsonArray.length(); i++){
-//            JSONObject subJsonObject = jsonArray.getJSONObject(i);
-//
-//            Double sLAT = subJsonObject.getDouble("latitude"); //String sLAT = subJsonObject.getString("latitude");
-//            Double sLNG = subJsonObject.getDouble("longitude"); //String sLNG = subJsonObject.getString("longitude");
-//
-//            latitudeList.add(sLAT);
-//            longitudeList.add(sLNG);
-//        }
-//    } catch (
-//    JSONException e) {
-//        e.printStackTrace();
-//    }
-
-
+    String reportContent;
 
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState){ //화면 생성과 함께 현재 위치 받아옴.
-        dialog = new ProgressDialog(MainActivity.this); //프로그레스 대화상자 객체 생성
-        dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); //프로그레스 대화상자 스타일 원형으로 설정
-        dialog.setCancelable(false);
-        dialog.setMessage("잠시만 기다려주세요."); //프로그레스 대화상자 메시지 설정
-        dialog.show(); //프로그레스 대화상자 띄우기
 
-        Handler handler = new Handler();
-        handler.postDelayed(new Runnable(){
-            @Override
-            public void run() {
-                dialog.dismiss(); // 3초 시간지연 후 프로그레스 대화상자 닫기
-            }
-        }, 2000);
+        SharedPreferences first_open = getSharedPreferences("first_open", MODE_PRIVATE);
+        Boolean isFirst = first_open.getBoolean("first_open", true);
+        if(isFirst){
+            dialog = new ProgressDialog(MainActivity.this); //프로그레스 대화상자 객체 생성
+            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); //프로그레스 대화상자 스타일 원형으로 설정
+            dialog.setCancelable(false);
+            dialog.setMessage("실행 준비중입니다.\n잠시만 기다려주세요."); //프로그레스 대화상자 메시지 설정
+            dialog.show(); //프로그레스 대화상자 띄우기
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable(){
+                @Override
+                public void run() {
+                    dialog.dismiss(); // 3초 시간지연 후 프로그레스 대화상자 닫기
+                }
+            }, 3500); //최초 실행에서는 길게...
+            SharedPreferences.Editor editor = first_open.edit();
+            editor.putBoolean("first_open", false);
+            editor.commit();
+        }else{
+            dialog = new ProgressDialog(MainActivity.this); //프로그레스 대화상자 객체 생성
+            dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); //프로그레스 대화상자 스타일 원형으로 설정
+            dialog.setCancelable(false);
+            dialog.setMessage("잠시만 기다려주세요."); //프로그레스 대화상자 메시지 설정
+            dialog.show(); //프로그레스 대화상자 띄우기
+            Handler handler = new Handler();
+            handler.postDelayed(new Runnable(){
+                @Override
+                public void run() {
+                    dialog.dismiss(); // 2초 시간지연 후 프로그레스 대화상자 닫기
+                }
+            }, 2000);
+
+        }
+
+
+
         //로딩
 
         firstActivity = MainActivity.this;
@@ -186,9 +188,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         initClickListener();
-        initLauncher();
         FragmentManager fm = getSupportFragmentManager();
         MapFragment mapFragment = (MapFragment) fm.findFragmentById(R.id.map);
+        String reportContent = null;
 
         if (mapFragment == null) {
             mapFragment = MapFragment.newInstance();
@@ -783,29 +785,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.LOLLIPOP)
-    private void initLauncher() {
-        activityResultLauncher = registerForActivityResult(new ActivityResultContracts.StartActivityForResult(), result -> {
-            if (result.getResultCode() == 3000) {
-                Intent cameraIntent = result.getData();
-                String cameraFlag = cameraIntent.getStringExtra(Camera2Activity.picSaved);
-                //Toast.makeText(MainActivity.this,cameraFlag, Toast.LENGTH_SHORT).show();
-                Log.d("lancher", "launch ok");
-            }
-
-        });
-    }
 
 
-    private void setCamera(Intent cameraIntent) {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            cameraIntent = new Intent(getApplicationContext(), Camera2Activity.class);
-            //activityResultLauncher.launch(cameraIntent);
-        }
 
-        //activityResultLauncher.launch(cameraIntent);
-        startActivity(cameraIntent);
-    }
+
 
     //메시지 보내기 함수
     private void sendSms() {
@@ -965,7 +948,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                             @Override
                             public void onClick(View view) {
                                 sendSms();
-                                Toast.makeText(getApplicationContext(), "긴급 문자가 전송되었습니다!", Toast.LENGTH_LONG).show();
+                                Toast.makeText(getApplicationContext(), "긴급 문자가 전송되었습니다!", Toast.LENGTH_SHORT).show();
                                 alertDialog.dismiss();
 
                             }
@@ -1016,22 +999,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 SimpleDateFormat timeForClient = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.getDefault());
                 String cReportDate = timeForClient.format(new Date());
 
-                System.out.println("현재 위치 : "+address);
+                System.out.println("현재 위치 : " + address);
 
                 Intent reportIntent = new Intent(getApplicationContext(), Report_detail.class);
 
-                reportIntent.putExtra("reportLat",currentPosition.latitude);    //서버 위도 경도
-                reportIntent.putExtra("reportLng",currentPosition.longitude);
+
+                reportIntent.putExtra("reportLat", currentPosition.latitude);    //서버 위도 경도
+                reportIntent.putExtra("reportLng", currentPosition.longitude);
                 // 이거 값 이상하면 바로 윗줄 latitude,longitude로 주기
-                reportIntent.putExtra("address",address);   //사용자 화면 주소
-                reportIntent.putExtra("sReportDate",sReportDate);
-                reportIntent.putExtra("cReportDate",cReportDate);
-
-
+                reportIntent.putExtra("address", address);   //사용자 화면 주소
+                reportIntent.putExtra("sReportDate", sReportDate);
+                reportIntent.putExtra("cReportDate", cReportDate);
 
 
 
                 startActivity(reportIntent);
+
+
+
+
 
 
 /*
@@ -1056,9 +1042,69 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             //필터
             public void onClick(View view) {
+/*
                 Intent intent = new Intent(getApplicationContext(), FilterActivity.class);
                 startActivity(intent);
                 isFilter = true;
+*/
+
+//                여기다가 수정 요청 팝업 둠
+                View dialogView = getLayoutInflater().inflate(R.layout.change_submit_dialog, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setView(dialogView);
+                final AlertDialog alertDialog = builder.create();
+                ColorDrawable back = new ColorDrawable(Color.TRANSPARENT);
+                InsetDrawable inset = new InsetDrawable(back, 24);
+                alertDialog.getWindow().setBackgroundDrawable(inset);
+                alertDialog.setCanceledOnTouchOutside(true);//없어지지 않도록 설정
+                alertDialog.show();
+
+                TextView contenterrButton = alertDialog.findViewById(R.id.content_error);
+                contenterrButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        contenterrButton.setSelected(true);
+                    }
+                });
+                TextView locationerrButton = alertDialog.findViewById(R.id.location_error);
+                locationerrButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        locationerrButton.setSelected(true);
+                    }
+                });
+                TextView notdangerButton = alertDialog.findViewById(R.id.notdanger_error);
+                notdangerButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        notdangerButton.setSelected(true);
+                    }
+                });
+
+                TextView otherButton = alertDialog.findViewById(R.id.other_);
+                otherButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        otherButton.setSelected(true);
+                    }
+                });
+                TextView noButton = alertDialog.findViewById(R.id.change_no_dialog);
+                noButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.dismiss();
+                    }
+                });
+                TextView yesButton = alertDialog.findViewById(R.id.change_yes_dialog);
+                yesButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //api로 전송코드
+                        alertDialog.dismiss();
+
+
+                    }
+                });
 
             }
         });
@@ -1109,6 +1155,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
        });
     }
 
+
     private void popDialog(String text){
         Dialog dialog = new InfoDialog(this);
         dialog.show();
@@ -1133,6 +1180,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
     }
+
 
     // xml 가져오는 코드
 //    private void setUpMap(){
@@ -1361,5 +1409,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                  marker.setOnClickListener(listener);
 
              }
+
 
 }

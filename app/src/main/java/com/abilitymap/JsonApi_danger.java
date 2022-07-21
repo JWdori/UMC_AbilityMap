@@ -9,10 +9,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.charset.Charset;
+import java.util.Map;
 
 public class JsonApi_danger extends AsyncTask<String, String, String> {
     public static boolean startFlagForCoronaApi;
@@ -71,7 +75,7 @@ public class JsonApi_danger extends AsyncTask<String, String, String> {
                 danger_item danger_item = new danger_item(
                         item.getString("lat"),
                         item.getString("lon"),
-                        item.getString("idx")
+                        item.getString("reportIdx")
 
                 );
 
@@ -87,13 +91,60 @@ public class JsonApi_danger extends AsyncTask<String, String, String> {
 
         return data;
     }
+    public static String postRequest(String reportDetail) {
+
+        String response = "";
+
+        try {
+
+            String myUrl3 = "http://3.35.237.29/report";
+            URL url = new URL(myUrl3);
+            HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+            conn.setRequestMethod("POST"); // 전송 방식
+            conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
+            conn.setConnectTimeout(5000); // 연결 타임아웃 설정(5초)
+            conn.setReadTimeout(5000); // 읽기 타임아웃 설정(5초)
+            conn.setDoOutput(true);	// URL 연결을 출력용으로 사용(true)
+
+            String requestBody = reportDetail;
+            System.out.println("requestBody:" + requestBody);
+
+            BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+            bw.write(requestBody);
+            bw.flush();
+            bw.close();
+
+            System.out.println("getContentType():" + conn.getContentType()); // 응답 콘텐츠 유형 구하기
+            System.out.println("getResponseCode():"    + conn.getResponseCode()); // 응답 코드 구하기
+            System.out.println("getResponseMessage():" + conn.getResponseMessage()); // 응답 메시지 구하기
+
+            Charset charset = Charset.forName("UTF-8");
+            BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream(), charset));
+
+            String inputLine;
+            StringBuffer sb = new StringBuffer();
+            while ((inputLine = br.readLine()) != null) {
+                sb.append(inputLine);
+            }
+            br.close();
+
+            response = sb.toString();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return response;
+    }
+
+
 
     public class danger_item {
 
 
         private String lat;
         private String lng;
-        private String idx;
+        private String reportIdx;
 //        private String location;
 //        private String week;
 //        private String weekend;
@@ -105,7 +156,7 @@ public class JsonApi_danger extends AsyncTask<String, String, String> {
                            //String location, String week, String weekend, String holiday) {
             this.lat = lat;
             this.lng = lng;
-            this.idx = idx;
+            this.reportIdx = idx;
 //            this.location = location;
 //            this.week = week;
 //            this.weekend = weekend;
@@ -114,11 +165,11 @@ public class JsonApi_danger extends AsyncTask<String, String, String> {
         }
 
         public String getName(){
-            return idx;
+            return reportIdx;
         }
 
         public void setName(String idx) {
-            this.idx = idx;
+            this.reportIdx = idx;
         }
 
 

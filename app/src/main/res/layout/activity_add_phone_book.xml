@@ -179,7 +179,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="top"
-            android:hint="신고시 특이사항을 입력해주세요.\n예) 천식이 있습니다."
+            android:hint="신고시 추가 내용을 입력해주세요.\n예) 천식이 있습니다."
             android:inputType="textMultiLine"
             android:layout_marginLeft="16dp"
             android:paddingVertical="15dp"

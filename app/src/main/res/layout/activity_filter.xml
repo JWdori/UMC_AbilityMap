@@ -307,7 +307,6 @@
             android:layout_marginEnd="24dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:on="true"
             app:layout_constraintTop_toTopOf="parent">
 
             <TextView
