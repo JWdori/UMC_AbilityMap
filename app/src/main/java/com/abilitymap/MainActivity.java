@@ -1260,18 +1260,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                    Log.d("camera","clicked");
                    setCamera(intent);
 */
-
-                } else if (item.getItemId() == R.id.nav_book) {       //이용 설명서
-
-                } else if (item.getItemId() == R.id.nav_review) {     //사용자 리뷰
-                    popDialog("모아도에 대한 리뷰를 남기시겠습니까?");
-                } else if (item.getItemId() == R.id.nav_oss) {        //오픈소스 라이선스
-                    Intent intent = new Intent(getApplicationContext(), OssActivity.class);
+               }
+               else if (item.getItemId() == R.id.nav_book) {        //이용 설명서
+                    Intent intent = new Intent(getApplicationContext(), MenuBookActivity.class);
                     startActivity(intent);
-                }
-                return true;
-            }
-        });
+               }
+               else if (item.getItemId() == R.id.nav_review) {      //사용자 리뷰
+                   popDialog("모아도에 대한 리뷰를 남기시겠습니까?");
+               }
+               else if (item.getItemId() == R.id.nav_oss) {         //오픈소스 라이선스
+                   Intent intent = new Intent(getApplicationContext(), OssActivity.class);
+                   startActivity(intent);
+               }
+               return true;
+           }
+       });
     }
 
 
