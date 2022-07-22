@@ -66,6 +66,8 @@ public class Report_detail extends AppCompatActivity {
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         activityResultPicture.launch(intent);
+
+
         setContentView(R.layout.report_detail);
         View report_cancel_btn = findViewById(R.id.report_cancel_btn);
         View report_submit_btn = findViewById(R.id.report_submit_button);

@@ -16,7 +16,6 @@ import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.Charset;
-import java.util.Map;
 
 public class JsonApi_danger extends AsyncTask<String, String, String> {
     public static boolean startFlagForCoronaApi;
@@ -31,6 +30,7 @@ public class JsonApi_danger extends AsyncTask<String, String, String> {
     protected void onPostExecute(String s) {
         super.onPostExecute(s);
     }
+
 
     @Override
     protected String doInBackground(String... strings) {
@@ -75,8 +75,10 @@ public class JsonApi_danger extends AsyncTask<String, String, String> {
                 danger_item danger_item = new danger_item(
                         item.getString("lat"),
                         item.getString("lon"),
-                        item.getString("reportIdx")
-
+                        item.getString("reportIdx"),    //제보수정시 필요한 아이디ㅇㄾ
+                        item.getString("reportDate"),
+                        item.getString("reportContent"),
+                        item.getString("nickName")
                 );
 
                 MainActivity.danger_list.add(danger_item);
@@ -145,55 +147,44 @@ public class JsonApi_danger extends AsyncTask<String, String, String> {
         private String lat;
         private String lng;
         private String reportIdx;
-//        private String location;
-//        private String week;
-//        private String weekend;
-//        private String holiday;
+        private String reportDate;
+        private String reportContent;
+        private String reportLocation;
+        private String nickName;
 
 
-
-        public danger_item(String lat, String lng, String idx){
+        public danger_item(String lat, String lng, String idx, String reportDate,
+                           String reportContent, String nickName){
                            //String location, String week, String weekend, String holiday) {
             this.lat = lat;
             this.lng = lng;
             this.reportIdx = idx;
-//            this.location = location;
-//            this.week = week;
-//            this.weekend = weekend;
-//            this.holiday = holiday;
-
+            this.reportDate = reportDate;
+            this.reportContent = reportContent;
+            this.nickName = nickName;
         }
 
-        public String getName(){
+        public String getIndex(){
             return reportIdx;
         }
-
-        public void setName(String idx) {
+        public void setIndex(String idx) {
             this.reportIdx = idx;
         }
-
-
         public String getLat(){
             return lat;
         }
-//        public void setLat(String lat) {
-//            this.lat = lat;
-//        }
-
         public String getLng(){
             return lng;
         }
-//
-//        public void setlng(String lng) {
-//            this.lng = lng;
-//        }
-//
-//        public String getLocation() { return location; }
-//        public String getWeek() { return week; }
-//        public String getWeekend() { return weekend; }
-//        public String getHoliday() { return holiday; }
-
-
+        public String getNickName(){
+            return nickName;
+        }
+        public String getReportDate(){
+            return reportDate;
+        }
+        public String getReportContent(){
+            return reportContent;
+        }
 
 
     }
