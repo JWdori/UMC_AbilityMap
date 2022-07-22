@@ -232,12 +232,11 @@ public class Report_detail extends AppCompatActivity {
                 public void onActivityResult(ActivityResult result) {
                     //데이터 널 아니면 ㄱㄱ
                     if(result.getResultCode() == RESULT_OK && result.getData() != null){
-
                         Bundle extras = result.getData().getExtras();
                         bitmap = (Bitmap) extras.get("data");
                         imageView.setImageBitmap(bitmap);
-                        System.out.println(bitmap);
-
+                    }else{
+                        finish();
                     }
                 }
             }

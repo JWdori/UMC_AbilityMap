@@ -21,7 +21,7 @@ public interface SetMarker_wheel extends Overlay.OnClickListener {
         marker.setPosition(new LatLng(x,y));
         marker.setWidth(80);
         marker.setHeight(80);
-        marker.setMinZoom(9);//줌 설정
+        marker.setMinZoom(12);//줌 설정
         switch(markerType){
             case "ele": marker.setIcon(OverlayImage.fromResource(R.drawable.wheel_icon)); break;
             case "slope": marker.setIcon(OverlayImage.fromResource(R.drawable.danger_location_yellow)); break;

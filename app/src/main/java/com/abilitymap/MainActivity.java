@@ -48,7 +48,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.abilitymap.databinding.ActivityMainBinding;
-import com.github.angads25.toggle.widget.LabeledSwitch;
+
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -58,7 +58,6 @@ import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
-
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -124,9 +123,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Manifest.permission.SEND_SMS,
     };
     private ActivityMainBinding binding;
-
     ActivityResultLauncher<Intent> activityResultLauncher;
-
     List<LatLng> latLngList = new ArrayList<>();
     private boolean clickable = true;
     private boolean clickable2 = true;
@@ -179,7 +176,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         //로딩
-
         firstActivity = MainActivity.this;
         fusedLocationClient = LocationServices.getFusedLocationProviderClient(this);
         super.onCreate(savedInstanceState);
@@ -533,7 +529,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        Log.d("clickable?", "backKeyPressed");
 //        Log.d("clickable?", String.valueOf(clickable));
 
-
         if (isDrawerOpen) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
             isDrawerOpen = false;
@@ -766,6 +761,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             if (ele6.getBoolean("total", true)) {
                 drawMarker_ele();
             }
+            if (lift10.getBoolean("total", true)) {
+
+            }
             if (bike7.getBoolean("total", true)) {
                 drawMarker_bike();
             }
@@ -773,9 +771,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 drawMarker_slope();
             }
             if (danger9.getBoolean("total", true)) {
-                setMarker_danger();
-            }
-            if (lift10.getBoolean("total", true)) {
                 setMarker_danger();
             }
 
@@ -1090,17 +1085,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-
-
-
 /*
                 System.out.println("현재 위치 : "+address);
                 reportIntent.putExtra("reportLocation","우리집 내방 이불밖");
                 reportIntent.putExtra("reportTime","2022년 07월 19일");
 */
-
             }
         });
+
+
 
         binding.layoutToolBar.ivMenu.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1110,15 +1103,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+
+
         binding.layoutToolBar.ivFilter.setOnClickListener(new View.OnClickListener() {
             @Override
-
-            //필터
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), FilterActivity.class);
                 startActivity(intent);
                 isFilter = true;
-
 //                여기다가 수정 요청 팝업 둠
 //                View dialogView = getLayoutInflater().inflate(R.layout.change_submit_dialog, null);
 //                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
@@ -1347,8 +1339,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             JsonApi_total.total_item item = total_list.get(i);
             setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "hos", naverMap);
         }
-        //TotalmarkerList.add(setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"hos",naverMap));//클러스터링코드
-        System.out.println("setMarker_hos");
         return;
     }
 
@@ -1358,8 +1348,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         for (int i = 0; i < charge_list.size(); i++) {
             JsonApi_charge.charge_item item = charge_list.get(i);
             setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "charge", naverMap);
-            // cluster_item2.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
-            System.out.println("setMarker_charge");
         }
         return;
     }
@@ -1368,9 +1356,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void setMarker_danger() {
         for (int i = 0; i < danger_list.size(); i++) {
             JsonApi_danger.danger_item item = danger_list.get(i);
-            System.out.println("setMarker_danger");
             setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "danger", naverMap);
-            // cluster_item2.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
         }
         return;
     }
@@ -1381,7 +1367,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         for (int i = 0; i < bike_list.size(); i++) {
             JsonApi_bike.bike_item item = bike_list.get(i);
             AccidentCircle_bike((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()), "자전거 사고다발 지역");
-            //cluster_item.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
         }
         return;
     }
