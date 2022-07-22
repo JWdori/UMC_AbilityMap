@@ -66,6 +66,8 @@ public class Report_detail extends AppCompatActivity {
 
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         activityResultPicture.launch(intent);
+
+
         setContentView(R.layout.report_detail);
         View report_cancel_btn = findViewById(R.id.report_cancel_btn);
         View report_submit_btn = findViewById(R.id.report_submit_button);
@@ -230,12 +232,11 @@ public class Report_detail extends AppCompatActivity {
                 public void onActivityResult(ActivityResult result) {
                     //데이터 널 아니면 ㄱㄱ
                     if(result.getResultCode() == RESULT_OK && result.getData() != null){
-
                         Bundle extras = result.getData().getExtras();
                         bitmap = (Bitmap) extras.get("data");
                         imageView.setImageBitmap(bitmap);
-                        System.out.println(bitmap);
-
+                    }else{
+                        finish();
                     }
                 }
             }
