@@ -25,23 +25,23 @@ class MenuBookThirdFragment : Fragment() {
     ): View? {
         binding = FragmentMenuBookThirdBinding.inflate(inflater, container, false)
 
-        init()
+//        init()
 
         return binding.root
     }
 
-    private fun init(){
-        val title : String = binding.tvFragmentMenuBookThird.text.toString()
-
-        var builder = SpannableStringBuilder(title)
-        val boldSpan = StyleSpan(Typeface.BOLD)
-        val sizeSpan = RelativeSizeSpan(0.8f)
-        val colorSpan = ForegroundColorSpan(Color.parseColor("#707070"))
-        builder.setSpan(boldSpan, binding.tvFragmentMenuBookThird.text.indexOf("긴급"), binding.tvFragmentMenuBookThird.text.indexOf("긴급")+6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        builder.setSpan(sizeSpan, binding.tvFragmentMenuBookThird.text.lastIndexOf("긴급"), binding.tvFragmentMenuBookThird.text.toString().length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        builder.setSpan(colorSpan, binding.tvFragmentMenuBookThird.text.lastIndexOf("긴급"), binding.tvFragmentMenuBookThird.text.toString().length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        binding.tvFragmentMenuBookThird.text = builder
-    }
+//    private fun init(){
+//        val title : String = binding.tvFragmentMenuBookThird.text.toString()
+//
+//        var builder = SpannableStringBuilder(title)
+//        val boldSpan = StyleSpan(Typeface.BOLD)
+//        val sizeSpan = RelativeSizeSpan(0.8f)
+//        val colorSpan = ForegroundColorSpan(Color.parseColor("#707070"))
+//        builder.setSpan(boldSpan, binding.tvFragmentMenuBookThird.text.indexOf("긴급"), binding.tvFragmentMenuBookThird.text.indexOf("긴급")+6, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+//        builder.setSpan(sizeSpan, binding.tvFragmentMenuBookThird.text.lastIndexOf("긴급"), binding.tvFragmentMenuBookThird.text.toString().length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+//        builder.setSpan(colorSpan, binding.tvFragmentMenuBookThird.text.lastIndexOf("긴급"), binding.tvFragmentMenuBookThird.text.toString().length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+//        binding.tvFragmentMenuBookThird.text = builder
+//    }
 
 
 }

@@ -25,23 +25,23 @@ class MenuBookFourthFragment : Fragment() {
     ): View? {
         binding = FragmentMenuBookFourthBinding.inflate(inflater, container, false)
 
-        init()
+//        init()
 
         return binding.root
     }
 
-    private fun init(){
-        val title : String = binding.tvFragmentMenuBookFourth.text.toString()
-
-        var builder = SpannableStringBuilder(title)
-        val boldSpan = StyleSpan(Typeface.BOLD)
-        val sizeSpan = RelativeSizeSpan(0.8f)
-        val colorSpan = ForegroundColorSpan(Color.parseColor("#707070"))
-        builder.setSpan(boldSpan, binding.tvFragmentMenuBookFourth.text.indexOf("위험"), binding.tvFragmentMenuBookFourth.text.indexOf("이동권과")+7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        builder.setSpan(sizeSpan, binding.tvFragmentMenuBookFourth.text.indexOf("사진"), binding.tvFragmentMenuBookFourth.text.toString().length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        builder.setSpan(colorSpan, binding.tvFragmentMenuBookFourth.text.lastIndexOf("사진"), binding.tvFragmentMenuBookFourth.text.toString().length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
-        binding.tvFragmentMenuBookFourth.text = builder
-    }
+//    private fun init(){
+//        val title : String = binding.tvFragmentMenuBookFourth.text.toString()
+//
+//        var builder = SpannableStringBuilder(title)
+//        val boldSpan = StyleSpan(Typeface.BOLD)
+//        val sizeSpan = RelativeSizeSpan(0.8f)
+//        val colorSpan = ForegroundColorSpan(Color.parseColor("#707070"))
+//        builder.setSpan(boldSpan, binding.tvFragmentMenuBookFourth.text.indexOf("위험"), binding.tvFragmentMenuBookFourth.text.indexOf("이동권과")+7, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+//        builder.setSpan(sizeSpan, binding.tvFragmentMenuBookFourth.text.indexOf("사진"), binding.tvFragmentMenuBookFourth.text.toString().length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+//        builder.setSpan(colorSpan, binding.tvFragmentMenuBookFourth.text.lastIndexOf("사진"), binding.tvFragmentMenuBookFourth.text.toString().length, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE)
+//        binding.tvFragmentMenuBookFourth.text = builder
+//    }
 
 
 
