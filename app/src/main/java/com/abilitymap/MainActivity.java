@@ -1339,8 +1339,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             JsonApi_total.total_item item = total_list.get(i);
             setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "hos", naverMap);
         }
-        //TotalmarkerList.add(setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()),"hos",naverMap));//클러스터링코드
-        System.out.println("setMarker_hos");
         return;
     }
 
@@ -1350,8 +1348,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         for (int i = 0; i < charge_list.size(); i++) {
             JsonApi_charge.charge_item item = charge_list.get(i);
             setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "charge", naverMap);
-            // cluster_item2.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
-            System.out.println("setMarker_charge");
         }
         return;
     }
@@ -1360,9 +1356,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void setMarker_danger() {
         for (int i = 0; i < danger_list.size(); i++) {
             JsonApi_danger.danger_item item = danger_list.get(i);
-            System.out.println("setMarker_danger");
             setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "danger", naverMap);
-            // cluster_item2.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
         }
         return;
     }
@@ -1373,7 +1367,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         for (int i = 0; i < bike_list.size(); i++) {
             JsonApi_bike.bike_item item = bike_list.get(i);
             AccidentCircle_bike((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()), "자전거 사고다발 지역");
-            //cluster_item.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
         }
         return;
     }
