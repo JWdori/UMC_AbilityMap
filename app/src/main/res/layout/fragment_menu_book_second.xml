@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff">
+
+    <ImageView
+        android:id="@+id/iv_hospital"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:src="@drawable/hos_icon"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="62dp"/>
+
+    <TextView
+        android:id="@+id/tv_hospital"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="보건의료기관"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="@id/iv_hospital"
+        app:layout_constraintBottom_toTopOf="@id/tv_hospital_sub"
+        app:layout_constraintStart_toEndOf="@id/iv_hospital"/>
+
+    <TextView
+        android:id="@+id/tv_hospital_sub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/tv_hospital"
+        app:layout_constraintBottom_toBottomOf="@id/iv_hospital"
+        app:layout_constraintStart_toStartOf="@id/tv_hospital"/>
+
+
+    <ImageView
+        android:id="@+id/iv_welfare"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:src="@drawable/facility_office"
+        app:layout_constraintTop_toBottomOf="@id/iv_hospital"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="62dp"/>
+
+    <TextView
+        android:id="@+id/tv_welfare"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="공공/복지시설"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="@id/iv_welfare"
+        app:layout_constraintBottom_toTopOf="@id/tv_welfare_sub"
+        app:layout_constraintStart_toEndOf="@id/iv_welfare"/>
+
+    <TextView
+        android:id="@+id/tv_welfare_sub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/tv_welfare"
+        app:layout_constraintBottom_toBottomOf="@id/iv_welfare"
+        app:layout_constraintStart_toStartOf="@id/tv_welfare"/>
+
+    <ImageView
+        android:id="@+id/iv_charge"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:src="@drawable/charge_icon"
+        app:layout_constraintTop_toBottomOf="@id/iv_welfare"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="62dp"/>
+
+    <TextView
+        android:id="@+id/tv_charge"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="전동휠체어 급속충전기"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="@id/iv_charge"
+        app:layout_constraintBottom_toTopOf="@id/tv_charge_sub"
+        app:layout_constraintStart_toEndOf="@id/iv_charge"/>
+
+    <TextView
+        android:id="@+id/tv_charge_sub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/tv_charge"
+        app:layout_constraintBottom_toBottomOf="@id/iv_charge"
+        app:layout_constraintStart_toStartOf="@id/tv_charge"/>
+
+    <ImageView
+        android:id="@+id/iv_wheel"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:src="@drawable/wheel_icon"
+        app:layout_constraintTop_toBottomOf="@id/iv_charge"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="62dp" />
+
+    <TextView
+        android:id="@+id/tv_wheel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="휠체어 이용 가능 경로"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="@id/iv_wheel"
+        app:layout_constraintBottom_toTopOf="@id/tv_wheel_sub"
+        app:layout_constraintStart_toEndOf="@id/iv_wheel"/>
+
+    <TextView
+        android:id="@+id/tv_wheel_sub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="경사로 + 승강기 + 휠체어 리프트"
+        app:layout_constraintTop_toBottomOf="@id/tv_wheel"
+        app:layout_constraintBottom_toBottomOf="@id/iv_wheel"
+        app:layout_constraintStart_toStartOf="@id/tv_wheel"/>
+
+    <ImageView
+        android:id="@+id/iv_accident"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:src="@drawable/danger_location_yellow"
+        app:layout_constraintTop_toBottomOf="@id/iv_wheel"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="62dp" />
+
+    <TextView
+        android:id="@+id/tv_accident"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="사고 다발 지역"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="@id/iv_accident"
+        app:layout_constraintBottom_toTopOf="@id/tv_accident_sub"
+        app:layout_constraintStart_toEndOf="@id/iv_accident"/>
+
+    <TextView
+        android:id="@+id/tv_accident_sub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        android:text="자전거 사고 다발 지역 + 급경사 지역"
+        app:layout_constraintTop_toBottomOf="@id/tv_accident"
+        app:layout_constraintBottom_toBottomOf="@id/iv_accident"
+        app:layout_constraintStart_toStartOf="@id/tv_accident"/>
+
+    <ImageView
+        android:id="@+id/iv_report"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:src="@drawable/dnager_red"
+        app:layout_constraintTop_toBottomOf="@id/iv_accident"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="62dp" />
+
+    <TextView
+        android:id="@+id/tv_report"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="위험 지역(제보)"
+        android:textSize="24sp"
+        android:textColor="@color/black"
+        app:layout_constraintTop_toTopOf="@id/iv_report"
+        app:layout_constraintBottom_toTopOf="@id/tv_report_sub"
+        app:layout_constraintStart_toEndOf="@id/iv_report"/>
+
+    <TextView
+        android:id="@+id/tv_report_sub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="18sp"
+        app:layout_constraintTop_toBottomOf="@id/tv_report"
+        app:layout_constraintBottom_toBottomOf="@id/iv_report"
+        app:layout_constraintStart_toStartOf="@id/tv_report"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
