@@ -1,5 +1,6 @@
 package com.abilitymap
 
+import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -28,6 +29,14 @@ class NotificationActivity : AppCompatActivity() {
         notificationRVAdapter = NotificationRVAdapter()
         binding.rvNotification.adapter = notificationRVAdapter
         binding.rvNotification.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
+
+        notificationRVAdapter.setMyItemClickListener(object : NotificationRVAdapter.MyItemClickListener{
+            override fun onClick(position: Int) {
+                if (position == 1){
+                    startActivity(Intent(applicationContext, MenuBookActivity::class.java))
+                }
+            }
+        })
 
         initDB()
 

@@ -16,7 +16,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/tv_fragment_menu_book_third"
-        android:src="@drawable/rogo_blue"/>
+        android:src="@drawable/icon_list_of_call"/>
 
     <TextView
         android:id="@+id/tv_fragment_menu_book_third"
