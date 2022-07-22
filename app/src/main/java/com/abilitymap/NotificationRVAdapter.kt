@@ -10,6 +10,16 @@ class NotificationRVAdapter(): RecyclerView.Adapter<NotificationRVAdapter.ViewHo
 
     private val news = ArrayList<News>()
 
+    interface MyItemClickListener{
+        fun onClick(position: Int)
+    }
+
+    private lateinit var mItemClickListener : MyItemClickListener
+
+    fun setMyItemClickListener(itemClickListener : MyItemClickListener){
+        mItemClickListener = itemClickListener
+    }
+
     override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): NotificationRVAdapter.ViewHolder {
         //item view 객체 재활용 위한 VH 생성
         val binding:ItemNotificationBinding = ItemNotificationBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
@@ -21,6 +31,9 @@ class NotificationRVAdapter(): RecyclerView.Adapter<NotificationRVAdapter.ViewHo
         //view holder로부터 data binding
         holder.bind(news[position])
 
+        holder.binding.layoutItemNotification.setOnClickListener{
+            mItemClickListener.onClick(position)
+        }
     }
 
     override fun getItemCount(): Int = news.size    //data set 크기 알려줌 recyclerview에게 마지막 언제인지 알려줌

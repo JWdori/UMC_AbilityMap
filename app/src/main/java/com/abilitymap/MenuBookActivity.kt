@@ -36,15 +36,18 @@ class MenuBookActivity : FragmentActivity() {
 
         binding.ivArrowLeftMenuBook.setOnClickListener {
             binding.vpViewpagerMenuBook.setCurrentItem(binding.vpViewpagerMenuBook.currentItem-1)
+            checkSidePage()
         }
 
         binding.ivArrowRightMenuBook.setOnClickListener {
             binding.vpViewpagerMenuBook.setCurrentItem(binding.vpViewpagerMenuBook.currentItem+1)
+            checkSidePage()
         }
 
         binding.vpViewpagerMenuBook.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+                checkSidePage()
                 if (positionOffsetPixels == 0){
                     binding.vpViewpagerMenuBook.setCurrentItem(position)
                 }
@@ -56,6 +59,19 @@ class MenuBookActivity : FragmentActivity() {
             }
         })
 
+    }
+
+    private fun checkSidePage(){
+        if (binding.vpViewpagerMenuBook.currentItem==0){
+            binding.ivArrowLeftMenuBook.setImageResource(R.drawable.icon_back_gray)
+        }
+        else if(binding.vpViewpagerMenuBook.currentItem==3){
+            binding.ivArrowRightMenuBook.setImageResource(R.drawable.icon_back_gray)
+        }
+        else{
+            binding.ivArrowLeftMenuBook.setImageResource(R.drawable.icon_back_black)
+            binding.ivArrowRightMenuBook.setImageResource(R.drawable.icon_foward_black)
+        }
     }
 
 }
