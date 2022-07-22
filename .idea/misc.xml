@@ -148,10 +148,19 @@
         <entry key="..\:/Users/tms/Desktop/UMC_Hackathon/app/src/main/res/layout/tool_bar.xml" value="0.25364583333333335" />
         <entry key="..\:/Users/tms/Desktop/UMC_Hackathon/app/src/main/res/menu/navigation_menu.xml" value="0.16875" />
         <entry key="..\:/Users/tms/Desktop/rounded_corner_send_btn.xml" value="0.103" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/activity_add_phone_book.xml" value="0.357421875" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/activity_filter.xml" value="0.5" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/activity_onboarding.xml" value="0.357421875" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/danger_detail.xml" value="0.35546875" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/dialog.xml" value="0.357421875" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/fragment_third.xml" value="0.357421875" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/report_detail.xml" value="0.35546875" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/tool_bar.xml" value="0.67" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/menu/navigation_menu.xml" value="0.3466796875" />
       </map>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_15_PREVIEW" project-jdk-name="11" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">
