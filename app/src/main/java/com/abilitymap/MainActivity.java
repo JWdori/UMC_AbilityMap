@@ -1141,7 +1141,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 */
                }
                else if (item.getItemId() == R.id.nav_book) {        //이용 설명서
-
+                    Intent intent = new Intent(getApplicationContext(), MenuBookActivity.class);
+                    startActivity(intent);
                }
                else if (item.getItemId() == R.id.nav_review) {      //사용자 리뷰
                    popDialog("모아도에 대한 리뷰를 남기시겠습니까?");
