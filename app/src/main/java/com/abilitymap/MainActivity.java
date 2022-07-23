@@ -140,7 +140,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) { //화면 생성과 함께 현재 위치 받아옴.
-
         SharedPreferences first_open = getSharedPreferences("first_open", MODE_PRIVATE);
         Boolean isFirst = first_open.getBoolean("first_open", true);
         if (isFirst) {
@@ -159,6 +158,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             SharedPreferences.Editor editor = first_open.edit();
             editor.putBoolean("first_open", false);
             editor.commit();
+
+
         } else {
             dialog = new ProgressDialog(MainActivity.this); //프로그레스 대화상자 객체 생성
             dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); //프로그레스 대화상자 스타일 원형으로 설정
