@@ -136,7 +136,7 @@ public class Report_detail extends AppCompatActivity {
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
                 byte[] byteArray = byteArrayOutputStream.toByteArray();
                 String encodedImage = Base64.encodeToString(byteArray,Base64.DEFAULT);
-                //System.out.println("encoded image : " +encodedImage);
+                System.out.println("encoded image : " +encodedImage);
                 //인코딩 문자열 확인
 
                 if(nicknameView.getText().toString().length()==0){

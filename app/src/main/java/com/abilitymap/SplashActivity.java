@@ -23,7 +23,6 @@ public class SplashActivity extends AppCompatActivity {
 
                     //onBoarding 화면으로 이동
                     startActivity(new Intent(getApplicationContext(), OnboardingActivity.class));
-
                     finish();
                 }
                 else{
