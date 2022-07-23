@@ -9,20 +9,20 @@
     <ImageView
         android:id="@+id/iv_fragment_menu_book_third"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
-        app:layout_constraintVertical_weight="265"
+        android:layout_height="wrap_content"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="10dp"
         app:layout_constraintBottom_toTopOf="@id/tv_fragment_menu_book_third"
+        android:layout_marginTop="10dp"
+        app:layout_constraintVertical_chainStyle="packed"
         android:src="@drawable/icon_list_of_call"/>
 
     <TextView
         android:id="@+id/tv_fragment_menu_book_third"
         android:text="긴급 연락처"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
         android:textSize="20sp"
         android:textColor="#000000"
@@ -43,7 +43,7 @@
         android:id="@+id/tv_fragment_sub_menu_book_third"
         android:text="긴급 신고를 위해\n전화번호를 저장해두세요."
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"
         android:textSize="16sp"
         android:textColor="#707070"
@@ -55,6 +55,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@id/tv_fragment_menu_book_third"
+        android:layout_marginTop="16dp"
         android:layout_marginBottom="10dp"
         android:layout_marginLeft="39dp"
         android:layout_marginRight="39dp"/>
