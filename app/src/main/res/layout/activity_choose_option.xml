@@ -121,7 +121,7 @@
         android:textColor="@drawable/save_button_text_color"
         android:text="선택"
         android:gravity="center"
-        android:elevation="10dp"
+        android:elevation="4dp"
         app:layout_constraintVertical_weight="50"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
