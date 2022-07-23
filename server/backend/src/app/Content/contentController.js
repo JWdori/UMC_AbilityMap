@@ -29,6 +29,20 @@ exports.getAll = async function (req, res) {
     return res.send(response(baseResponse.SUCCESS, getAllHospital));
 };
 
+
+
+/*
+    API No. 1.7
+    API Name : 휠체어 리프트 데이터 받아오기
+*/
+
+exports.getLift = async function (req, res) {
+    const getLift = await contentProvider.getLift();
+    
+    return res.send(response(baseResponse.SUCCESS, getLift));
+}
+
+
 /**
  * API No. 2
  * API Name : 자전거 사고 다발지역 정보 받아오기

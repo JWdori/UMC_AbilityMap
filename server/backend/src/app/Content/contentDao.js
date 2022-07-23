@@ -11,6 +11,19 @@ async function getAllList(connection) {
   return getAllList;
 }
 
+
+// 휠체어 리프트 
+async function getLift(connection) {
+  const getLiftQuery = `
+              SELECT *
+              FROM Lift;
+              `;
+
+  const [getLift] = await connection.query(getLiftQuery);
+
+  return getLift;
+}
+
 // 자전거 사고다발 지역 데이터 베이스 비우기
 async function dropBike(connection) {
   const dropBikeQuery = `
@@ -117,6 +130,7 @@ async function getWelfare(connection) {
 
 module.exports = {
   getAllList,
+  getLift,
   updateBike,
   dropBike,
   getBikeData,
