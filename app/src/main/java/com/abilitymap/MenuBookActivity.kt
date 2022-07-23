@@ -21,7 +21,7 @@ class MenuBookActivity : FragmentActivity() {
     }
 
     private fun initClickListener(){
-        binding.tvBackArrowMenuBook.setOnClickListener {
+        binding.ivBackArrowMenuBook.setOnClickListener {
             finish()
         }
     }

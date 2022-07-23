@@ -95,6 +95,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static ArrayList<JsonApi_slope.slope_item> slope_list = new ArrayList();
     public static ArrayList<JsonApi_danger.danger_item> danger_list = new ArrayList();
     public static ArrayList<JsonApi_ele.ele_item> ele_list = new ArrayList();
+    public static ArrayList<JsonApi_wheel.wheel_item> wheel_list = new ArrayList();
 
 
     private FusedLocationSource locationSource;
@@ -224,12 +225,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         JsonApi_charge charge_api = new JsonApi_charge();
         JsonApi_danger danger_api = new JsonApi_danger();
         JsonApi_ele ele_api = new JsonApi_ele();
+        JsonApi_wheel wheel_api = new JsonApi_wheel();
+
+
         total_api.execute(lat, lon, "");
         bike_api.execute(lat, lon, "");
         charge_api.execute(lat, lon, "");
         slope_api.execute(lat, lon, "");
         danger_api.execute(lat, lon, "");
         ele_api.execute(lat, lon, "");
+        wheel_api.execute(lat, lon, "");
 
 //        new Thread(() -> {
 //            setUpMap(); // network 동작, 인터넷에서 xml을 받아오는 코드
@@ -745,6 +750,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             drawMarker_slope();
             setMarker_danger();
             drawMarker_ele();
+            drawMarker_wheel();
+            System.out.println(wheel5.getAll()+"왜안뜸2");
         } else {
             if (hos2.getBoolean("total", true)) {
                 setMarker_hos(); //병원이랑 시설
@@ -756,7 +763,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 setMarker_Charge();
             }
             if (wheel5.getBoolean("total", true)) {
-
+                drawMarker_wheel();
             }
             if (ele6.getBoolean("total", true)) {
                 drawMarker_ele();
@@ -1057,31 +1064,56 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 */
                 //0719
 
-                double latitude = gpsTracker.getLatitude();
-                double longitude = gpsTracker.getLongitude();
-                String address = getSimpleCurrentAddress(getCurrentAddress(latitude, longitude));
+                View dialogView = getLayoutInflater().inflate(R.layout.camera_detail, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setView(dialogView);
+                final AlertDialog alertDialog = builder.create();
+                ColorDrawable back = new ColorDrawable(Color.TRANSPARENT);
+                InsetDrawable inset = new InsetDrawable(back, 24);
+                alertDialog.getWindow().setBackgroundDrawable(inset);
+                alertDialog.setCanceledOnTouchOutside(true);//없어지지 않도록 설정
+                alertDialog.show();
+
+                TextView noButton = alertDialog.findViewById(R.id.tv_no_camera);
+                noButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.dismiss();
+                    }
+                });
+                TextView yesButton = alertDialog.findViewById(R.id.tv_yes_camera);
+                yesButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view){
+                        double latitude = gpsTracker.getLatitude();
+                        double longitude = gpsTracker.getLongitude();
+                        String address = getSimpleCurrentAddress(getCurrentAddress(latitude, longitude));
 
 
-                SimpleDateFormat timeForServer = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-                String sReportDate = timeForServer.format(new Date());
+                        SimpleDateFormat timeForServer = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                        String sReportDate = timeForServer.format(new Date());
 
-                SimpleDateFormat timeForClient = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.getDefault());
-                String cReportDate = timeForClient.format(new Date());
+                        SimpleDateFormat timeForClient = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.getDefault());
+                        String cReportDate = timeForClient.format(new Date());
 
-                System.out.println("현재 위치 : " + address);
+                        System.out.println("현재 위치 : " + address);
 
-                Intent reportIntent = new Intent(getApplicationContext(), Report_detail.class);
-
-
-                reportIntent.putExtra("reportLat", latitude);    //서버 위도 경도
-                reportIntent.putExtra("reportLng", longitude);      // 여기부분 gps traker에서 가져오게 해달라고 하셨었나?
-                // 이거 값 이상하면 바로 윗줄 latitude,longitude로 주기
-                reportIntent.putExtra("address", address);   //사용자 화면 주소
-                reportIntent.putExtra("sReportDate", sReportDate);
-                reportIntent.putExtra("cReportDate", cReportDate);
+                        Intent reportIntent = new Intent(getApplicationContext(), Report_detail.class);
 
 
-                startActivity(reportIntent);
+                        reportIntent.putExtra("reportLat", latitude);    //서버 위도 경도
+                        reportIntent.putExtra("reportLng", longitude);      // 여기부분 gps traker에서 가져오게 해달라고 하셨었나?
+                        // 이거 값 이상하면 바로 윗줄 latitude,longitude로 주기
+                        reportIntent.putExtra("address", address);   //사용자 화면 주소
+                        reportIntent.putExtra("sReportDate", sReportDate);
+                        reportIntent.putExtra("cReportDate", cReportDate);
+
+
+                        startActivity(reportIntent);
+                        alertDialog.dismiss();
+                    }
+                });
+
 
 
 
@@ -1304,24 +1336,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-    // xml 가져오는 코드
-//    private void setUpMap(){
-//        XmlApi parser = new XmlApi();
-//        ArrayList<MapPoint> mapPoint = new ArrayList<MapPoint>();
-//    try {
-//
-//        mapPoint = parser.apiParserSearch();
-//    } catch (Exception e) {
-//        System.out.println(3333);
-//        e.printStackTrace();
-//    }
-//    for (int i =0; i<mapPoint.size(); i++){
-//        for (MapPoint entity:mapPoint){
-//            AccidentCircle(mapPoint.get(i).getLatitude(), mapPoint.get(i).getLongitude());
-//        }
-//    }
-//    }
-
     @Override
     public void onPause() {
         super.onPause();
@@ -1378,12 +1392,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void drawMarker_ele() {
         for (int i = 0; i < ele_list.size(); i++) {
             JsonApi_ele.ele_item item = ele_list.get(i);
-            //setMarker_wheel((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()), "ele", naverMap, "외부 승강기");
             AccidentCircle(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "외부 승강기");
-            //cluster_item.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
         }
         return;
     }
+
+    //경사로
+    private void drawMarker_wheel() {
+        for (int i = 0; i < wheel_list.size(); i++) {
+            JsonApi_wheel.wheel_item item = wheel_list.get(i);
+            AccidentCircle(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "경사로");
+        }
+        return;
+    }
+
 
 
     //급경사로 지역 만들기
@@ -1391,7 +1413,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         for (int i = 0; i < slope_list.size(); i++) {
             JsonApi_slope.slope_item item = slope_list.get(i);
             AccidentCircle((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng()), "급경사 지역");
-            //cluster_item.add(new NaverItem((Double.parseDouble(item.getLat())), Double.parseDouble(item.getLng())));//클러스터링코드
         }
         return;
     }
@@ -1526,13 +1547,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private int setMarkerIconResource(String tag) {
         int ResourceId;
         switch (tag) {
-            case "자전거 사고다발 지역":
-                ResourceId = R.drawable.danger_location_yellow;
-                break;
             case "급경사 지역":
                 ResourceId = R.drawable.danger_location_yellow;
                 break;
             case "외부 승강기":
+                ResourceId = R.drawable.wheel_icon;
+                break;
+            case "경사로":
                 ResourceId = R.drawable.wheel_icon;
                 break;
             default:
