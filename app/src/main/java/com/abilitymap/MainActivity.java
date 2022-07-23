@@ -358,7 +358,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Report_button.setVisibility(View.INVISIBLE);
 
                 LatLng selectedPosition = ((Marker) overlay).getPosition();
-                CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.37f)).animate(CameraAnimation.Easing);
+                CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Easing);
                 naverMap.moveCamera(cameraUpdate);
 
 
@@ -468,7 +468,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.d("clickable?", String.valueOf(clickable));
 
             LatLng selectedPosition = ((Marker) overlay).getPosition();
-            CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.37f)).animate(CameraAnimation.Easing);
+            CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Easing);
             naverMap.moveCamera(cameraUpdate);
 
 
@@ -1527,7 +1527,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         CircleOverlay circle = new CircleOverlay();
         circle.setCenter(new LatLng(x, y));
         circle.setRadius(30);
-        circle.setColor(Color.parseColor("#30FF7B00"));
+        circle.setColor(Color.parseColor("#20FF7B00"));
         circle.setOutlineColor(Color.parseColor("#30FF7B00"));
         circle.setMinZoom(12);//줌 설정
         circle.setMap(naverMap);
