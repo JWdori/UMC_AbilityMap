@@ -29,7 +29,7 @@ public class DangerDetailFragment extends Fragment {
     private TextView dangerNicknameView;
     private TextView dangerDateView;
     private ImageView dangerImageView;
-    private ImageView closeImageView;
+//    private ImageView closeImageView;
     private TextView changeRequestView;
 
     String reportContent = "default";
@@ -78,13 +78,14 @@ public class DangerDetailFragment extends Fragment {
         dangerDateView = rootView.findViewById(R.id.danger_date);
 
         dangerImageView = rootView.findViewById(R.id.danger_image);
-        closeImageView = rootView.findViewById(R.id.danger_close);
+//        closeImageView = rootView.findViewById(R.id.danger_close);
         changeRequestView = rootView.findViewById(R.id.danger_change_request);
 
         setDangerContentView(reportContent);
         setDangerDateView(cReportDate);
         setDangerNicknameView(nickName);
         //setDangerImageView(reportImage);
+
 
         changeRequestView.setOnClickListener(new View.OnClickListener() {
             @Override

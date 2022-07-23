@@ -358,7 +358,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.37f)).animate(CameraAnimation.Easing);
                 naverMap.moveCamera(cameraUpdate);
 
-
                 naverMap.setOnMapClickListener(new NaverMap.OnMapClickListener() {
                     @Override
                     public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
@@ -1325,6 +1324,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                return true;
            }
        });
+
     }
 
 
