@@ -6,13 +6,33 @@
     android:orientation="vertical"
     android:background="#ffffff">
 
+    <TextView
+        android:id="@+id/dummy1_menu_book_first"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_weight="39"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@id/iv_fragment_menu_book_first"/>
+
+    <TextView
+        android:id="@+id/dummy2_menu_book_first"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_weight="39"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/iv_fragment_menu_book_first"/>
+
     <ImageView
         android:id="@+id/iv_fragment_menu_book_first"
-        android:layout_width="match_parent"
+        android:layout_width="0dp"
         android:layout_height="0dp"
+        android:scaleType="fitXY"
         app:layout_constraintVertical_weight="265"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_weight="283"
+        app:layout_constraintStart_toEndOf="@id/dummy1_menu_book_first"
+        app:layout_constraintEnd_toStartOf="@id/dummy2_menu_book_first"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="10dp"
         app:layout_constraintBottom_toTopOf="@id/tv_fragment_menu_book_first"
