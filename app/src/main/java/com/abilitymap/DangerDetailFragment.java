@@ -1,7 +1,10 @@
 package com.abilitymap;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,6 +13,8 @@ import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import java.nio.charset.StandardCharsets;
 
 public class DangerDetailFragment extends Fragment {
     MainActivity activity;
@@ -23,6 +28,7 @@ public class DangerDetailFragment extends Fragment {
     String reportContent = "default";
     String cReportDate = "default";     //클라이언트에 띄울 제보시간
     String nickName = "default";
+    String reportImage = "default";
 
     public DangerDetailFragment(){
     }
@@ -32,6 +38,13 @@ public class DangerDetailFragment extends Fragment {
         this.reportContent = reportContent;
         this.cReportDate = cReportDate;
         this.nickName = nickName;
+    }
+    public DangerDetailFragment(String tag, String reportContent,
+                                String cReportDate, String nickName, String reportImage){
+        this.reportContent = reportContent;
+        this.cReportDate = cReportDate;
+        this.nickName = nickName;
+        this.reportImage = reportImage;
     }
 
 
@@ -79,6 +92,13 @@ public class DangerDetailFragment extends Fragment {
     }
     public void setDangerNicknameView(String nickName){
         dangerNicknameView.setText(nickName);
+    }
+    public void setDangerImageView(String reportImage){
+        byte[] decodedString = Base64.decode(reportImage.getBytes(), Base64.DEFAULT);
+        Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+        // \n, \ 제거하는 코드 필요
+        dangerImageView.setImageBitmap(decodedByte);
     }
 
 
