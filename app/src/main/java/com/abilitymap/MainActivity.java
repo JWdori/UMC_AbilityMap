@@ -1085,8 +1085,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 yesButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view){
-                        double latitude = gpsTracker.getLatitude();
-                        double longitude = gpsTracker.getLongitude();
+                        double latitude;
+                        double longitude;
+
+                        try {
+                            latitude = gpsTracker.getLatitude();
+                        } catch (Exception e) {
+                            latitude = 37.5077487342;
+                        }
+                        try {
+                            longitude = gpsTracker.getLongitude();
+                        }catch (Exception e){
+                            longitude = 126.938669678;
+                        }
+
                         String address = getSimpleCurrentAddress(getCurrentAddress(latitude, longitude));
 
 
