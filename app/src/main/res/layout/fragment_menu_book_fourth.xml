@@ -41,7 +41,7 @@
 
     <TextView
         android:id="@+id/tv_fragment_sub_menu_book_fourth"
-        android:text="사진과 상세설명으로 위험을 제보해요\n(닉네임을 선택사항)"
+        android:text="사진과 상세설명으로 위험을 제보해요\n(닉네임은 선택사항)"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-medium"

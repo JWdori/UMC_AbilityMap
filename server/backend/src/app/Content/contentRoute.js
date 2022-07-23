@@ -8,6 +8,9 @@ module.exports = function(app){
     // 1. 병원 정보 받아오기
     app.get('/total', content.getAll);
     
+    // 1.7 휠체어 리프트 데이터 받아오기
+    app.get("/get/lift", content.getLift);
+    
     // 2.1 공공 데이터 자전거 사고 다발지역 정보 받아오기
     app.get("/get/bike", content.getBike);
 

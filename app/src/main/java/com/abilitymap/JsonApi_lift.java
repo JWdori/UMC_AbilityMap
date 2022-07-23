@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class JsonApi_total extends AsyncTask<String, String, String> {
+public class JsonApi_lift extends AsyncTask<String, String, String> {
     public static boolean startFlagForCoronaApi;
 
 
@@ -48,7 +48,7 @@ public class JsonApi_total extends AsyncTask<String, String, String> {
 
 
         String data = "";
-        String myUrl3 = "http://3.35.237.29/total";
+        String myUrl3 = "http://3.35.237.29/get/lift";
         try {
             URL url = new URL(myUrl3);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -72,17 +72,12 @@ public class JsonApi_total extends AsyncTask<String, String, String> {
             JSONArray Api = root.getJSONArray("result");
             for (int i = 0; i < Api.length(); i++) {
                 JSONObject item = Api.getJSONObject(i);
-                total_item total_item = new total_item(
+                lift_item lift_item = new lift_item(
                         item.getString("lat"),
                         item.getString("lon"),
-                        item.getString("name"),
-                        item.getString("location"),
-                        item.getString("week"),
-                        item.getString("weekend"),
-                        item.getString("holiday"),
-                        item.getString("tel")
+                        item.getString("idx")
                 );
-                MainActivity.total_list.add(total_item);
+                MainActivity.lift_list.add(lift_item);
 
             }
             startFlagForCoronaApi = false;
@@ -95,54 +90,46 @@ public class JsonApi_total extends AsyncTask<String, String, String> {
         return data;
     }
 
-    public class total_item {
+    public class lift_item {
 
 
-        private String lat; //위도
-        private String lng; //경도
-        private String name;    //장소 이름
-        private String location;    //상세주소
-        private String week;    //주중 영업시간
-        private String weekend; //주말 영업시간
-        private String holiday; //공휴일 영업시간
-        private String phone;   //전화번호
+        private String lat;
+        private String lng;
+        private String idx;
+        private String remain_stat;
 
 
 
-        public total_item(String lat, String lng, String name, String location,
-                          String week, String weekend, String holiday, String phone) {
+        public lift_item(String lat, String lng, String idx) {
             this.lat = lat;
             this.lng = lng;
-            this.name = name;
-            this.location = location;
-            this.week = week;
-            this.weekend = weekend;
-            this.holiday = holiday;
-            this.phone = phone;
+            this.idx = idx;
+
         }
 
         public String getName(){
-            return name;
+            return idx;
         }
-        public void setName(String name) {
-            this.name = name;
+
+        public void setName(String idx) {
+            this.idx = idx;
         }
+
 
         public String getLat(){
             return lat;
         }
-        public void setLat(String lat) { this.lat = lat; }
+        public void setLat(String lat) {
+            this.lat = lat;
+        }
+
         public String getLng(){
             return lng;
         }
+
         public void setlng(String lng) {
             this.lng = lng;
         }
-        public String getLocation() { return location; }
-        public String getWeek() { return week; }
-        public String getWeekend() { return weekend; }
-        public String getHoliday() { return holiday; }
-        public String getPhone() { return phone; }
 
 
 

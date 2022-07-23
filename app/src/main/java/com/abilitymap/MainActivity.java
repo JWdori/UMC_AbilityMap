@@ -1,9 +1,6 @@
 package com.abilitymap;
 
-import androidx.activity.result.ActivityResult;
-import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +13,6 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.PointF;
 import android.graphics.Rect;
@@ -42,7 +38,6 @@ import androidx.appcompat.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -82,21 +77,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker_facility, SetMarker_wheel {
     private GpsTracker gpsTracker;
     private NaverMap naverMap;
     public static Activity firstActivity;
-    public static ArrayList<JsonApi_total.total_item> total_list = new ArrayList();
+    public static ArrayList<JsonApi_hos.hos_item> hos_list = new ArrayList();
     public static ArrayList<JsonApi_bike.bike_item> bike_list = new ArrayList();
     public static ArrayList<JsonApi_charge.charge_item> charge_list = new ArrayList();
     public static ArrayList<JsonApi_slope.slope_item> slope_list = new ArrayList();
     public static ArrayList<JsonApi_danger.danger_item> danger_list = new ArrayList();
     public static ArrayList<JsonApi_ele.ele_item> ele_list = new ArrayList();
     public static ArrayList<JsonApi_wheel.wheel_item> wheel_list = new ArrayList();
-
+    public static ArrayList<JsonApi_fac.fac_item> fac_list = new ArrayList();
+    public static ArrayList<JsonApi_lift.lift_item> lift_list = new ArrayList();
 
     private FusedLocationSource locationSource;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
@@ -249,22 +244,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String lon = String.valueOf(NaverMap.DEFAULT_CAMERA_POSITION.target.longitude);
 
 
-        JsonApi_total total_api = new JsonApi_total();
+        JsonApi_hos hos_api = new JsonApi_hos();
         JsonApi_bike bike_api = new JsonApi_bike();
         JsonApi_slope slope_api = new JsonApi_slope();
         JsonApi_charge charge_api = new JsonApi_charge();
         JsonApi_danger danger_api = new JsonApi_danger();
         JsonApi_ele ele_api = new JsonApi_ele();
         JsonApi_wheel wheel_api = new JsonApi_wheel();
+        JsonApi_fac fac_api = new JsonApi_fac();
+        JsonApi_lift lift_api = new JsonApi_lift();
 
 
-        total_api.execute(lat, lon, "");
+        hos_api.execute(lat, lon, "");
         bike_api.execute(lat, lon, "");
         charge_api.execute(lat, lon, "");
         slope_api.execute(lat, lon, "");
         danger_api.execute(lat, lon, "");
         ele_api.execute(lat, lon, "");
         wheel_api.execute(lat, lon, "");
+        fac_api.execute(lat, lon, "");
+        lift_api.execute(lat, lon, "");
 
 //        new Thread(() -> {
 //            setUpMap(); // network 동작, 인터넷에서 xml을 받아오는 코드
@@ -415,7 +414,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
                     infoFragment = new LocationDetailFragment(tag, location, week, weekend, holiday);
                 } else if (tag.equals("hos") || tag.equals("office")) {
-                    JsonApi_total.total_item selectedTotalItem = findThisTotalMarkerItem(((Marker) overlay).getPosition(), total_list);
+                    JsonApi_hos.hos_item selectedTotalItem = findThisTotalMarkerItem(((Marker) overlay).getPosition(), hos_list);
                     String name = selectedTotalItem.getName();
                     String location = selectedTotalItem.getLocation();
                     String week = selectedTotalItem.getWeek();
@@ -469,11 +468,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         dangerInfoFragment = null;
                         infoFragment = null;
 
+
                         repot_message.setVisibility(View.VISIBLE);
                         Report_button.setVisibility(View.VISIBLE);
                         Log.d("clickable?", String.valueOf(clickable));
                         Log.d("click event", "onMapClick");
                     }
+
 
                 }
 
@@ -492,7 +493,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         for (int i = 0; i < list.size(); i++) {
             JsonApi_charge.charge_item item = list.get(i);
-            System.out.println(i + "," + item + ", Lat : " + item.getLat() + "Lng : " + item.getLng());
+
             if (thisLat.equals(item.getLat()) && thisLng.equals(item.getLng())) {
                 selectedItem = item;
                 System.out.println("charge item found!");
@@ -501,17 +502,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return selectedItem;
     }
 
-    JsonApi_total.total_item findThisTotalMarkerItem(LatLng location, ArrayList<JsonApi_total.total_item> list) {
+    JsonApi_hos.hos_item findThisTotalMarkerItem(LatLng location, ArrayList<JsonApi_hos.hos_item> list) {
         String thisLat = String.valueOf(location.latitude);
         String thisLng = String.valueOf(location.longitude);
-        JsonApi_total.total_item selectedItem = null;
+        JsonApi_hos.hos_item selectedItem = null;
 
-        System.out.println(thisLat);
-        System.out.println(thisLng);
+//        System.out.println(thisLat);
+//        System.out.println(thisLng);
 
         for (int i = 0; i < list.size(); i++) {
-            JsonApi_total.total_item item = list.get(i);
-            System.out.println(i + "," + item + ", Lat : " + item.getLat() + "Lng : " + item.getLng());
+            JsonApi_hos.hos_item item = list.get(i);
             if (thisLat.equals(item.getLat()) && thisLng.equals(item.getLng())) {
                 selectedItem = item;
                 System.out.println("total item found!");
@@ -525,8 +525,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String thisLng = String.valueOf(location.longitude);
         JsonApi_danger.danger_item selectedItem = null;
 
-        System.out.println(thisLat);
-        System.out.println(thisLng);
+//        System.out.println(thisLat);
+//        System.out.println(thisLng);
 
         for (int i = 0; i < list.size(); i++) {
             JsonApi_danger.danger_item item = list.get(i);
@@ -763,20 +763,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         if (total1.getBoolean("total", true)) {
-            setMarker_hos(); //병원이랑 시설
+            setMarker_hos(); //병원
             drawMarker_bike();
             setMarker_Charge();
             drawMarker_slope();
             setMarker_danger();
             drawMarker_ele();
+            drawMarker_lift();
             drawMarker_wheel();
+            setMarker_fac();
             System.out.println(wheel5.getAll()+"왜안뜸2");
         } else {
             if (hos2.getBoolean("total", true)) {
-                setMarker_hos(); //병원이랑 시설
+                setMarker_hos(); //병원
             }
             if (fac3.getBoolean("total", true)) {
-
+                setMarker_fac();
             }
             if (charge4.getBoolean("total", true)) {
                 setMarker_Charge();
@@ -788,7 +790,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 drawMarker_ele();
             }
             if (lift10.getBoolean("total", true)) {
-
+                drawMarker_lift();
             }
             if (bike7.getBoolean("total", true)) {
                 drawMarker_bike();
@@ -1383,9 +1385,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     //의료기관setMarker_facility_delete
     private void setMarker_hos() {
-        for (int i = 0; i < total_list.size(); i++) {
-            JsonApi_total.total_item item = total_list.get(i);
+        for (int i = 0; i < hos_list.size(); i++) {
+            JsonApi_hos.hos_item item = hos_list.get(i);
             setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "hos", naverMap);
+        }
+        return;
+    }
+
+    //의료기관setMarker_facility_delete
+    private void setMarker_fac() {
+        for (int i = 0; i < fac_list.size(); i++) {
+            JsonApi_fac.fac_item item = fac_list.get(i);
+            setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "office", naverMap);
         }
         return;
     }
@@ -1427,6 +1438,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         return;
     }
+
+    //휠체어 리프트
+    private void drawMarker_lift() {
+        for (int i = 0; i < lift_list.size(); i++) {
+            JsonApi_lift.lift_item item = lift_list.get(i);
+            AccidentCircle(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "외부 승강기");
+        }
+        return;
+    }
+
+
 
     //경사로
     private void drawMarker_wheel() {
