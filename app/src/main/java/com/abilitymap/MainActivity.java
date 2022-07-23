@@ -129,6 +129,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private boolean isFilter = false;
     ProgressDialog dialog; //원형 프로그레스바
 
+
+    DangerDetailFragment dangerInfoFragment = null;
+    LocationDetailFragment infoFragment = null;
+
     String reportContent;
 
 
@@ -319,14 +323,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public boolean onClick(@NonNull Overlay overlay) {
         ImageButton repot_message = (ImageButton) findViewById(R.id.message_button);
         ImageButton Report_button = (ImageButton) findViewById(R.id.repot_button);
-        DangerDetailFragment dangerInfoFragment = null;
-        LocationDetailFragment infoFragment = null;
 
 
         if (overlay instanceof Marker && String.valueOf(overlay.getTag()).equals("danger")) {
-//            Intent dangerIntent = new Intent(getApplicationContext(), DangerDetailActivity.class);
-
-            if (clickable2) {
+            if (clickable) {
                 JsonApi_danger.danger_item selectedDangerItem = findThisDangerMarkerItem(((Marker) overlay).getPosition(), danger_list);
                 String reportContent = selectedDangerItem.getReportContent();
                 String nickName = selectedDangerItem.getNickName();
@@ -340,20 +340,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 OffsetDateTime odtTruncatedToWholeSecond = odt.truncatedTo(ChronoUnit.MINUTES);
                 clientReportDate = odtTruncatedToWholeSecond.format(DateTimeFormatter.ofPattern("yyyy/MM/dd'T'HH:mm")).replace("T", " ");
 
-                // image
-                //
-
-/*
-                dangerIntent.putExtra("reportContent",reportContent);
-                dangerIntent.putExtra("nickName",nickName);
-                dangerIntent.putExtra("reportDate",clientReportDate);
-*/
-
                 String tag = String.valueOf(overlay.getTag());
                 dangerInfoFragment = new DangerDetailFragment(tag, reportContent, clientReportDate, nickName);
                 getSupportFragmentManager().beginTransaction().add(R.id.map, dangerInfoFragment).addToBackStack(null).commit();
 
-                clickable2 = false;
+                clickable = false;
 
                 repot_message.setVisibility(View.INVISIBLE);
                 Report_button.setVisibility(View.INVISIBLE);
@@ -362,62 +353,46 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.37f)).animate(CameraAnimation.Easing);
                 naverMap.moveCamera(cameraUpdate);
 
-                DangerDetailFragment finalDangerInfoFragment = dangerInfoFragment;
+
                 naverMap.setOnMapClickListener(new NaverMap.OnMapClickListener() {
                     @Override
                     public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
-                        getSupportFragmentManager().beginTransaction().remove(finalDangerInfoFragment).commit();
+                        getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
                         getSupportFragmentManager().popBackStack();
-                        clickable2 = true;
+                        dangerInfoFragment = null;
+                        infoFragment = null;
+
+                        clickable = true;
 
                         repot_message.setVisibility(View.VISIBLE);
                         Report_button.setVisibility(View.VISIBLE);
 
                     }
                 });
+                return true;
+            }
+            else if(!clickable){
+                getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
+                getSupportFragmentManager().popBackStack();
+                clickable = true;
+                dangerInfoFragment = null;
+                infoFragment = null;
 
-
-                // image
-                //
-
-                //danger
-
+                repot_message.setVisibility(View.VISIBLE);
+                Report_button.setVisibility(View.VISIBLE);
                 return true;
             }
         }
-        /*Report_button.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //현 위치 location 받아와서 서버로 넘겨줘야함
-                //넘겨줄 것 : 사진, text, 닉네임, 좌표, 신고일자
-
-                //카메라 권한요청, 내 파일 권한 요청 필요
-
-                //카메라 화면이 먼저 나옴
-                //사진 찍고
-                //report detail 화면 띄워서
-                //입력받고 전송하기 버튼 누르면
-
-                //현 위치 : locationSource
-
-                //아니 여기 왜 버튼이 안눌려렬렬려려려려려려려려려렬
-                //버튼 init버튼인가 밑에 함수에서 설정하면 됩니다^^
-//zzzzz
-
-                Toast.makeText(MainActivity.this, "clicked", Toast.LENGTH_SHORT).show();
-                Log.d("camera","Reportbutton clicked");
-
-                Intent intent = null;
-                Log.d("camera","clicked");
-                setCamera(intent);
-            }
-        });*/
         else {
             if (overlay instanceof Marker && clickable) {
-//            Toast.makeText(this.getApplicationContext(),"위험지역입니다",Toast.LENGTH_LONG).show();
                 Object object = overlay.getTag();
                 String tag = String.valueOf(object);
 
+/*
+                if(infoFragment!=null){
+                    getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
+                }
+*/
 
                 //charge_list.get()
 
@@ -449,9 +424,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 }
             }
+            else if (overlay instanceof Marker && !clickable){
+                getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
+                getSupportFragmentManager().popBackStack();
+                clickable = true;
+                dangerInfoFragment = null;
+                infoFragment = null;
+
+                repot_message.setVisibility(View.VISIBLE);
+                Report_button.setVisibility(View.VISIBLE);
+                return true;
+            }
 
 
             //LocationDetailFragment infoFragment = new LocationDetailFragment(tag);
+
+
 
             getSupportFragmentManager().beginTransaction().add(R.id.map, infoFragment).addToBackStack(null).commit();
             clickable = false;
@@ -465,13 +453,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             naverMap.moveCamera(cameraUpdate);
 
 
-            LocationDetailFragment finalInfoFragment = infoFragment;
+            //LocationDetailFragment finalInfoFragment = infoFragment;
             naverMap.setOnMapClickListener(new NaverMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
-                    getSupportFragmentManager().beginTransaction().remove(finalInfoFragment).commit();
+                    getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
                     getSupportFragmentManager().popBackStack();
                     clickable = true;
+                    dangerInfoFragment = null;
+                    infoFragment = null;
 
                     repot_message.setVisibility(View.VISIBLE);
                     Report_button.setVisibility(View.VISIBLE);
