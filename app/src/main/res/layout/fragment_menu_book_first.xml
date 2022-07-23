@@ -36,7 +36,7 @@
         app:layout_constraintTop_toTopOf="parent"
         android:layout_marginTop="10dp"
         app:layout_constraintBottom_toTopOf="@id/tv_fragment_menu_book_first"
-        android:src="@drawable/icon_mainpage"/>
+        android:src="@drawable/icon_main_page"/>
 
     <TextView
         android:id="@+id/tv_fragment_menu_book_first"
