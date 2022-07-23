@@ -3,9 +3,16 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_add_phone_book.xml" value="0.33" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_menu_book.xml" value="0.33" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_notification.xml" value="0.33" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_menu_book_first.xml" value="0.33" />
         <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_menu_book_second.xml" value="0.25" />
+<<<<<<< HEAD
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_menu_book_third.xml" value="0.17603850050658562" />
+=======
 
+>>>>>>> cc785e2beeac8b7d3eacceee99e916bfc8b77b51
       </map>
     </option>
   </component>

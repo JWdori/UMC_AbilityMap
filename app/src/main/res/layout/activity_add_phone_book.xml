@@ -54,148 +54,73 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent">
 
-        <TextView
-            android:id="@+id/dummy1_choose_option"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            app:layout_constraintVertical_weight="36"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/iv_name_add_phone_book"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <TextView
-            android:id="@+id/dummy2_choose_option"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            app:layout_constraintVertical_weight="24"
-            app:layout_constraintTop_toBottomOf="@id/tv_name_must_have_add_phone_book"
-            app:layout_constraintBottom_toTopOf="@id/iv_phoneNumber_add_phone_book"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <TextView
-            android:id="@+id/dummy3_choose_option"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            app:layout_constraintVertical_weight="24"
-            app:layout_constraintBottom_toTopOf="@id/iv_text_add_phone_book"
-            app:layout_constraintTop_toBottomOf="@id/tv_phoneNumber_must_have_add_phone_book"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <TextView
-            android:id="@+id/dummy4_choose_option"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            app:layout_constraintVertical_weight="40"
-            app:layout_constraintTop_toBottomOf="@id/tv_text_must_have_add_phone_book"
-            app:layout_constraintBottom_toTopOf="@id/tv_save_button_add_phone_book"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <TextView
-            android:id="@+id/dummy5_choose_option"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            app:layout_constraintVertical_weight="24"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_save_button_add_phone_book"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <TextView
-            android:id="@+id/dummy6_choose_option"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            app:layout_constraintVertical_weight="8"
-            app:layout_constraintTop_toBottomOf="@id/iv_name_add_phone_book"
-            app:layout_constraintBottom_toTopOf="@id/tv_name_must_have_add_phone_book"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <TextView
-            android:id="@+id/dummy7_choose_option"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            app:layout_constraintVertical_weight="8"
-            app:layout_constraintTop_toBottomOf="@id/iv_phoneNumber_add_phone_book"
-            app:layout_constraintBottom_toTopOf="@id/tv_phoneNumber_must_have_add_phone_book"
-            app:layout_constraintStart_toStartOf="parent"/>
-
-        <TextView
-            android:id="@+id/dummy8_choose_option"
-            android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            app:layout_constraintVertical_weight="8"
-            app:layout_constraintTop_toBottomOf="@id/iv_text_add_phone_book"
-            app:layout_constraintBottom_toTopOf="@id/tv_text_must_have_add_phone_book"
-            app:layout_constraintStart_toStartOf="parent"/>
-
         <ImageView
             android:id="@+id/iv_name_add_phone_book"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="50dp"
             android:src="@drawable/input_box"
-            app:layout_constraintVertical_weight="60"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dummy1_choose_option"
-            app:layout_constraintBottom_toTopOf="@id/dummy6_choose_option"
+            app:layout_constraintTop_toTopOf="parent"
             android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"/>
+            android:layout_marginRight="24dp"
+            android:layout_marginTop="36dp"/>
 
         <EditText
             android:id="@+id/et_name_add_phone_book"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
-            android:layout_marginStart="16dp"
-            android:background="@null"
-            android:ems="15"
+            android:layout_height="wrap_content"
             android:hint="홍길동"
-            android:inputType="textPersonName"
-            android:maxLength="8"
-            android:textColor="@color/black"
+            android:ems="15"
             android:textCursorDrawable="@null"
-            app:layout_constraintBottom_toBottomOf="@id/iv_name_add_phone_book"
+            android:textColor="@color/black"
+            android:inputType="textPersonName"
+            android:layout_marginLeft="16dp"
+            android:background="@null"
+            android:maxLength="8"
             app:layout_constraintStart_toStartOf="@id/iv_name_add_phone_book"
             app:layout_constraintTop_toTopOf="@id/iv_name_add_phone_book"
-            app:layout_constraintVertical_bias="0.0"
-            app:layout_constraintVertical_weight="60" />
+            app:layout_constraintBottom_toBottomOf="@id/iv_name_add_phone_book"/>
+
 
         <TextView
             android:id="@+id/tv_name_must_have_add_phone_book"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:text="* 필수사항"
             android:textSize="14sp"
+            android:layout_marginTop="8dp"
             android:textColor="#707070"
-            app:layout_constraintVertical_weight="17"
             app:layout_constraintStart_toStartOf="@id/iv_name_add_phone_book"
-            app:layout_constraintTop_toBottomOf="@id/dummy6_choose_option"/>
+            app:layout_constraintTop_toBottomOf="@id/iv_name_add_phone_book"/>
 
         <TextView
             android:id="@+id/tv_name_number_add_phone_book"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:text="0/8 자"
             android:textSize="14sp"
+            android:layout_marginTop="8dp"
             android:textColor="#707070"
-            app:layout_constraintVertical_weight="17"
             app:layout_constraintEnd_toEndOf="@id/iv_name_add_phone_book"
-            app:layout_constraintTop_toTopOf="@id/tv_name_must_have_add_phone_book"/>
+            app:layout_constraintTop_toBottomOf="@id/iv_name_add_phone_book"/>
 
         <ImageView
             android:id="@+id/iv_phoneNumber_add_phone_book"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="50dp"
             android:src="@drawable/input_box"
-            app:layout_constraintVertical_weight="60"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dummy2_choose_option"
-            app:layout_constraintBottom_toTopOf="@id/dummy7_choose_option"
+            app:layout_constraintTop_toBottomOf="@id/tv_name_must_have_add_phone_book"
+            android:layout_marginTop="24dp"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp"/>
 
         <EditText
             android:id="@+id/et_phoneNumber_add_phone_book"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:hint="010 1234 1234"
             android:inputType="number"
             android:layout_marginLeft="16dp"
@@ -205,7 +130,6 @@
             android:textColor="@color/black"
             android:background="@null"
             android:textColorHighlight="@color/white"
-            app:layout_constraintVertical_weight="60"
             app:layout_constraintStart_toStartOf="@id/iv_phoneNumber_add_phone_book"
             app:layout_constraintTop_toTopOf="@id/iv_phoneNumber_add_phone_book"
             app:layout_constraintBottom_toBottomOf="@id/iv_phoneNumber_add_phone_book"/>
@@ -214,55 +138,53 @@
         <TextView
             android:id="@+id/tv_phoneNumber_must_have_add_phone_book"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:text="* 필수사항"
             android:textSize="14sp"
+            android:layout_marginTop="8dp"
             android:textColor="#707070"
-            app:layout_constraintVertical_weight="17"
             app:layout_constraintStart_toStartOf="@id/iv_phoneNumber_add_phone_book"
-            app:layout_constraintTop_toBottomOf="@id/dummy7_choose_option"/>
+            app:layout_constraintTop_toBottomOf="@id/iv_phoneNumber_add_phone_book" />
 
         <TextView
             android:id="@+id/tv_save_button_add_phone_book"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="24dp"
-            android:layout_marginRight="24dp"
+            android:layout_height="60dp"
             android:textSize="24sp"
             android:textStyle="bold"
             android:textColor="@drawable/save_button_text_color"
             android:text="저장"
             android:gravity="center"
             android:elevation="10dp"
-            app:layout_constraintVertical_weight="40"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/dummy5_choose_option"
-            app:layout_constraintTop_toBottomOf="@id/dummy4_choose_option"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/tv_text_number_add_phone_book"
             android:background="@drawable/save_button_effect"/>
 
         <ImageView
             android:id="@+id/iv_text_add_phone_book"
             android:layout_width="match_parent"
-            android:layout_height="0dp"
+            android:layout_height="140dp"
             android:src="@drawable/input_box"
-            app:layout_constraintVertical_weight="140"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/dummy3_choose_option"
-            app:layout_constraintBottom_toTopOf="@id/dummy8_choose_option"
+            app:layout_constraintTop_toBottomOf="@id/tv_phoneNumber_must_have_add_phone_book"
+            android:layout_marginTop="24dp"
             android:layout_marginLeft="24dp"
             android:layout_marginRight="24dp" />
 
         <EditText
             android:id="@+id/et_text_add_phone_book"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:gravity="top"
-            android:hint="신고시 추가 내용을 입력해주세요.\n예) 천식이 있습니다."
+            android:hint="신고시 특이사항을 입력해주세요.\n예) 천식이 있습니다."
             android:inputType="textMultiLine"
             android:layout_marginLeft="16dp"
-            android:layout_marginTop="15dp"
+            android:paddingVertical="15dp"
             android:ems="15"
             android:scrollHorizontally="false"
             android:maxLines="5"
@@ -272,32 +194,31 @@
             android:textColor="@color/black"
             android:background="@null"
             android:textColorHighlight="@color/white"
-            app:layout_constraintVertical_weight="140"
             app:layout_constraintStart_toStartOf="@id/iv_text_add_phone_book"
             app:layout_constraintTop_toTopOf="@id/iv_text_add_phone_book"/>
 
         <TextView
             android:id="@+id/tv_text_must_have_add_phone_book"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:text="선택사항"
             android:textSize="14sp"
+            android:layout_marginTop="8dp"
             android:textColor="#707070"
-            app:layout_constraintVertical_weight="17"
             app:layout_constraintStart_toStartOf="@id/iv_text_add_phone_book"
-            app:layout_constraintTop_toBottomOf="@id/dummy8_choose_option"/>
+            app:layout_constraintTop_toBottomOf="@id/iv_text_add_phone_book" />
 
 
         <TextView
             android:id="@+id/tv_text_number_add_phone_book"
             android:layout_width="wrap_content"
-            android:layout_height="0dp"
+            android:layout_height="wrap_content"
             android:text="0/30 자"
             android:textSize="14sp"
+            android:layout_marginTop="8dp"
             android:textColor="#707070"
-            app:layout_constraintVertical_weight="36"
             app:layout_constraintEnd_toEndOf="@id/iv_text_add_phone_book"
-            app:layout_constraintTop_toTopOf="@id/tv_text_must_have_add_phone_book"/>
+            app:layout_constraintTop_toBottomOf="@id/iv_text_add_phone_book"/>
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
