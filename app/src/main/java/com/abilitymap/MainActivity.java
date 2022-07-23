@@ -1508,6 +1508,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Overlay.OnClickListener listener = overlay -> {
             naverMap.setOnMapClickListener((coord, point) -> {
                 infoWindow.close();
+                if(infoFragment!=null) {
+                    getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
+                }
+                if(dangerInfoFragment!=null){
+                    getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
+                }
+
+                getSupportFragmentManager().popBackStack();
+                dangerInfoFragment = null;
+                infoFragment = null;
+
+                clickable = true;
+
+                ImageButton repot_message = (ImageButton) findViewById(R.id.message_button);
+                ImageButton Report_button = (ImageButton) findViewById(R.id.repot_button);
+
+                repot_message.setVisibility(View.VISIBLE);
+                Report_button.setVisibility(View.VISIBLE);
             });
             if (marker.getInfoWindow() == null) {
                 // 현재 마커에 정보 창이 열려있지 않을 경우 엶
