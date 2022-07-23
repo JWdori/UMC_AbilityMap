@@ -359,16 +359,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 naverMap.setOnMapClickListener(new NaverMap.OnMapClickListener() {
                     @Override
                     public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
-                        getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
-                        getSupportFragmentManager().popBackStack();
-                        dangerInfoFragment = null;
-                        infoFragment = null;
+                        if(dangerInfoFragment!=null) {
+                            getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
+                            getSupportFragmentManager().popBackStack();
+                            dangerInfoFragment = null;
+                            infoFragment = null;
 
-                        clickable = true;
+                            clickable = true;
 
-                        repot_message.setVisibility(View.VISIBLE);
-                        Report_button.setVisibility(View.VISIBLE);
-
+                            repot_message.setVisibility(View.VISIBLE);
+                            Report_button.setVisibility(View.VISIBLE);
+                        }
                     }
                 });
                 return true;
@@ -459,16 +460,20 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             naverMap.setOnMapClickListener(new NaverMap.OnMapClickListener() {
                 @Override
                 public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
-                    getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
-                    getSupportFragmentManager().popBackStack();
-                    clickable = true;
-                    dangerInfoFragment = null;
-                    infoFragment = null;
+                    if(infoFragment!=null) {
+                        getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
+                        getSupportFragmentManager().popBackStack();
+                        clickable = true;
+                        dangerInfoFragment = null;
+                        infoFragment = null;
 
-                    repot_message.setVisibility(View.VISIBLE);
-                    Report_button.setVisibility(View.VISIBLE);
-                    Log.d("clickable?", String.valueOf(clickable));
-                    Log.d("click event", "onMapClick");
+
+                        repot_message.setVisibility(View.VISIBLE);
+                        Report_button.setVisibility(View.VISIBLE);
+                        Log.d("clickable?", String.valueOf(clickable));
+                        Log.d("click event", "onMapClick");
+                    }
+
 
                 }
 

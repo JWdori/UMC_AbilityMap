@@ -14,6 +14,16 @@ exports.getAll = async function () {
   return getAllListResult;
 };
 
+
+// 휠체어 리프트 위치 받아오기
+exports.getLift = async function() {
+  const connection = await pool.getConnection(async (conn) => conn);
+  const getLiftResult = await contentDao.getLift(connection);
+  connection.release();
+
+  return getLiftResult;
+}
+
 // 자전거 사고 다발 지역 받아오기
 exports.getBikeData = async function () {
   const connection = await pool.getConnection(async (conn) => conn);
