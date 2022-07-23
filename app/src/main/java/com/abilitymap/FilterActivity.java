@@ -3,6 +3,7 @@ package com.abilitymap;
 import android.Manifest;
 import android.app.Activity;
 import android.app.ActivityOptions;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -40,7 +41,7 @@ public class FilterActivity extends AppCompatActivity {
     LabeledSwitch labeledSwitch_danger9;
     LabeledSwitch labeledSwitch_lift10;
     Button filter_button;
-
+    ProgressDialog dialog; //원형 프로그레스바
     Map<String, ?> total1_;
     Map<String, ?> hos2_;
     Map<String, ?> fac3_;
@@ -122,12 +123,13 @@ public class FilterActivity extends AppCompatActivity {
 //            labeledSwitch_danger9.setOn(false);
 //        }
 
-
         if (total1.getBoolean("total",true)) {
             labeledSwitch_total1.setOn(true);
+            System.out.println(total1.getAll()+"첫번째");
         }else{
             labeledSwitch_total1.setOn(false);
         }
+        System.out.println(total1.getAll()+"두번째");
 
         if (hos2.getBoolean("total",true)) {
             labeledSwitch_hos2.setOn(true);
@@ -805,8 +807,8 @@ public class FilterActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                 firstActivity.finish(); //Code to close the previous page main activity
-                startActivity(intent); //Go to Main Activity
-                finish();//Current activity closed
+                startActivity(intent);
+                finish();
             }
 
         });
