@@ -14,7 +14,6 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/tv_fragment_menu_book_third"
-        android:layout_marginTop="10dp"
         app:layout_constraintVertical_chainStyle="packed"
         android:src="@drawable/icon_list_of_call"/>
 
@@ -30,7 +29,7 @@
         android:lineSpacingExtra="4.8sp"
         android:gravity="center_horizontal"
         android:textStyle="bold"
-        android:layout_marginTop="26dp"
+        android:layout_marginTop="55dp"
         app:layout_constraintVertical_weight="24"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
