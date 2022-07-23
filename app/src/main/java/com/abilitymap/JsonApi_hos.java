@@ -15,7 +15,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class JsonApi_total extends AsyncTask<String, String, String> {
+public class JsonApi_hos extends AsyncTask<String, String, String> {
     public static boolean startFlagForCoronaApi;
 
 
@@ -48,12 +48,12 @@ public class JsonApi_total extends AsyncTask<String, String, String> {
 
 
         String data = "";
-        String myUrl3 = "http://3.35.237.29/total";
+        String myUrl3 = "http://3.35.237.29/get/medical";
         try {
             URL url = new URL(myUrl3);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(10000);
-            conn.setConnectTimeout(15000);
+            conn.setReadTimeout(0);
+            conn.setConnectTimeout(0);
             conn.setRequestMethod("GET");
             conn.setDoInput(true);
             conn.connect();
@@ -72,17 +72,17 @@ public class JsonApi_total extends AsyncTask<String, String, String> {
             JSONArray Api = root.getJSONArray("result");
             for (int i = 0; i < Api.length(); i++) {
                 JSONObject item = Api.getJSONObject(i);
-                total_item total_item = new total_item(
+                hos_item hos_item = new hos_item(
                         item.getString("lat"),
                         item.getString("lon"),
                         item.getString("name"),
-                        item.getString("location"),
-                        item.getString("week"),
-                        item.getString("weekend"),
-                        item.getString("holiday"),
-                        item.getString("tel")
+                        item.getString("address")
+//                        item.getString("week"),
+//                        item.getString("weekend"),
+//                        item.getString("holiday"),
+//                        item.getString("tel")
                 );
-                MainActivity.total_list.add(total_item);
+                MainActivity.hos_list.add(hos_item);
 
             }
             startFlagForCoronaApi = false;
@@ -95,7 +95,7 @@ public class JsonApi_total extends AsyncTask<String, String, String> {
         return data;
     }
 
-    public class total_item {
+    public class hos_item {
 
 
         private String lat; //위도
@@ -109,8 +109,7 @@ public class JsonApi_total extends AsyncTask<String, String, String> {
 
 
 
-        public total_item(String lat, String lng, String name, String location,
-                          String week, String weekend, String holiday, String phone) {
+        public hos_item(String lat, String lng, String name, String location) {
             this.lat = lat;
             this.lng = lng;
             this.name = name;

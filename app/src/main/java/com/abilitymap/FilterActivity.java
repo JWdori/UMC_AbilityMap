@@ -122,12 +122,13 @@ public class FilterActivity extends AppCompatActivity {
 //            labeledSwitch_danger9.setOn(false);
 //        }
 
-
         if (total1.getBoolean("total",true)) {
             labeledSwitch_total1.setOn(true);
+            System.out.println(total1.getAll()+"첫번째");
         }else{
             labeledSwitch_total1.setOn(false);
         }
+        System.out.println(total1.getAll()+"두번째");
 
         if (hos2.getBoolean("total",true)) {
             labeledSwitch_hos2.setOn(true);
