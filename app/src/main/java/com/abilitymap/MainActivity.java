@@ -423,7 +423,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     String holiday = selectedChargeItem.getHoliday();
 
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
-                    infoFragment = new LocationDetailFragment(tag, location, week, weekend, holiday);
+                    infoFragment = new LocationDetailFragment(tag, location, week, holiday);
                 } else if (tag.equals("hos")) {
                     JsonApi_hos.hos_item selectedTotalItem = findThisTotalMarkerItem(((Marker) overlay).getPosition(), hos_list);
                     String name = selectedTotalItem.getName();
@@ -434,7 +434,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     String phone = selectedTotalItem.getPhone();
 
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
-                    infoFragment = new LocationDetailFragment(tag, name, location, week, weekend, holiday, phone);
+                    infoFragment = new LocationDetailFragment(tag, name, location, week, holiday, phone);
                 } else if(tag.equals("office")){
                     JsonApi_fac.fac_item selectedFacilityItem = findThisFacilityMarkerItem(((Marker) overlay).getPosition(),fac_list);
                     String name = selectedFacilityItem.getName();
@@ -445,7 +445,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     String phone = selectedFacilityItem.getPhone();
 
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
-                    infoFragment = new LocationDetailFragment(tag, name, location, week, weekend, holiday, phone);
+                    infoFragment = new LocationDetailFragment(tag, name, location, week, holiday, phone);
                 }
 
             }
