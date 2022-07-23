@@ -4,41 +4,60 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:background="#ffffff"
-    android:layout_gravity="center">
-
-    <TextView
-        android:id="@+id/dummy1_menu_book_third"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintHorizontal_weight="28"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toStartOf="@id/iv_mainpage_menu_book_second"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
-
-    <TextView
-        android:id="@+id/dummy2_menu_book_third"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintHorizontal_weight="28"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@id/iv_mainpage_menu_book_second"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+    android:background="#ffffff">
 
     <ImageView
-        android:id="@+id/iv_mainpage_menu_book_second"
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:src="@drawable/icon_mainpage"
-        app:layout_constraintHorizontal_weight="304"
-        app:layout_constraintStart_toEndOf="@id/dummy1_menu_book_third"
-        app:layout_constraintEnd_toStartOf="@id/dummy2_menu_book_third"
+        android:id="@+id/iv_fragment_menu_book_first"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="265"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"/>
+        android:layout_marginTop="10dp"
+        app:layout_constraintBottom_toTopOf="@id/tv_fragment_menu_book_first"
+        android:src="@drawable/icon_mainpage"/>
 
+    <TextView
+        android:id="@+id/tv_fragment_menu_book_first"
+        android:text="주요 기능"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:letterSpacing="0.01"
+        android:lineSpacingExtra="4.8sp"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        android:layout_marginTop="25dp"
+        app:layout_constraintVertical_weight="24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_fragment_sub_menu_book_first"
+        app:layout_constraintTop_toBottomOf="@id/iv_fragment_menu_book_first"
+        android:layout_marginLeft="39dp"
+        android:layout_marginRight="39dp"/>
 
+    <TextView
+        android:id="@+id/tv_fragment_sub_menu_book_first"
+        android:text="가장 중요한 기능을\n첫 화면에서 만날 수 있습니다"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="16sp"
+        android:textColor="#707070"
+        android:letterSpacing="0.01"
+        android:lineSpacingExtra="4.8sp"
+        android:gravity="center_horizontal"
+        app:layout_constraintVertical_weight="39"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_fragment_menu_book_first"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="39dp"
+        android:layout_marginRight="39dp"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 
