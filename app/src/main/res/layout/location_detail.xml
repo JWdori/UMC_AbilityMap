@@ -119,7 +119,7 @@
                 android:orientation="vertical">
 
                 <TextView
-                    android:id="@+id/week_hour_detail_textView"
+                    android:id="@+id/hour_textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
@@ -128,13 +128,13 @@
 
                     android:letterSpacing="0.01"
                     android:lineSpacingExtra="3.2sp"
-                    android:text="진료시간\n월~금 9:00~19:00"
+                    android:text="진료시간"
                     android:textColor="#000000"
                     android:textSize="16sp"
                     android:textStyle="normal" />
 
                 <TextView
-                    android:id="@+id/weekend_hour_detail_textView"
+                    android:id="@+id/hour_detail_textView"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
 
@@ -143,7 +143,7 @@
 
                     android:letterSpacing="0.01"
                     android:lineSpacingExtra="3.2sp"
-                    android:text="토 09:00 ~ 21:00"
+                    android:text="월~금 9:00~19:00\n토 09:00 ~ 21:00"
                     android:textColor="#000000"
                     android:textSize="16sp"
                     android:textStyle="normal" />
