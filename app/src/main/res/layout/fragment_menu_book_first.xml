@@ -14,11 +14,8 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@id/tv_fragment_menu_book_first"
-<<<<<<< HEAD
         app:layout_constraintVertical_chainStyle="packed"
         android:layout_marginTop="10dp"
-=======
->>>>>>> 24d85bf610ce3e4e05e2486baee02816da13d0f8
         android:src="@drawable/icon_main_page"/>
 
     <TextView
