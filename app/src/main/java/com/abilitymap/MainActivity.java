@@ -244,7 +244,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String lon = String.valueOf(NaverMap.DEFAULT_CAMERA_POSITION.target.longitude);
 
 
-        JsonApi_hos hos_api = new JsonApi_hos();
+//        JsonApi_hos hos_api = new JsonApi_hos();
         JsonApi_bike bike_api = new JsonApi_bike();
         JsonApi_slope slope_api = new JsonApi_slope();
         JsonApi_charge charge_api = new JsonApi_charge();
@@ -255,7 +255,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         JsonApi_lift lift_api = new JsonApi_lift();
 
 
-        hos_api.execute(lat, lon, "");
+//        hos_api.execute(lat, lon, "");
         bike_api.execute(lat, lon, "");
         charge_api.execute(lat, lon, "");
         slope_api.execute(lat, lon, "");
