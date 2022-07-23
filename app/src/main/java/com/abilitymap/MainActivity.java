@@ -91,7 +91,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static ArrayList<JsonApi_ele.ele_item> ele_list = new ArrayList();
     public static ArrayList<JsonApi_wheel.wheel_item> wheel_list = new ArrayList();
     public static ArrayList<JsonApi_fac.fac_item> fac_list = new ArrayList();
-
+    public static ArrayList<JsonApi_lift.lift_item> lift_list = new ArrayList();
 
     private FusedLocationSource locationSource;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
@@ -196,7 +196,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 public void run() {
                     dialog.dismiss(); // 2초 시간지연 후 프로그레스 대화상자 닫기
                 }
-            }, 2500);
+            }, 2000);
 
         }
 
@@ -252,6 +252,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         JsonApi_ele ele_api = new JsonApi_ele();
         JsonApi_wheel wheel_api = new JsonApi_wheel();
         JsonApi_fac fac_api = new JsonApi_fac();
+        JsonApi_lift lift_api = new JsonApi_lift();
 
 
         hos_api.execute(lat, lon, "");
@@ -262,6 +263,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         ele_api.execute(lat, lon, "");
         wheel_api.execute(lat, lon, "");
         fac_api.execute(lat, lon, "");
+        lift_api.execute(lat, lon, "");
 
 //        new Thread(() -> {
 //            setUpMap(); // network 동작, 인터넷에서 xml을 받아오는 코드
@@ -485,7 +487,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         for (int i = 0; i < list.size(); i++) {
             JsonApi_charge.charge_item item = list.get(i);
-            System.out.println(i + "," + item + ", Lat : " + item.getLat() + "Lng : " + item.getLng());
+
             if (thisLat.equals(item.getLat()) && thisLng.equals(item.getLng())) {
                 selectedItem = item;
                 System.out.println("charge item found!");
@@ -499,12 +501,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String thisLng = String.valueOf(location.longitude);
         JsonApi_hos.hos_item selectedItem = null;
 
-        System.out.println(thisLat);
-        System.out.println(thisLng);
+//        System.out.println(thisLat);
+//        System.out.println(thisLng);
 
         for (int i = 0; i < list.size(); i++) {
             JsonApi_hos.hos_item item = list.get(i);
-            System.out.println(i + "," + item + ", Lat : " + item.getLat() + "Lng : " + item.getLng());
             if (thisLat.equals(item.getLat()) && thisLng.equals(item.getLng())) {
                 selectedItem = item;
                 System.out.println("total item found!");
@@ -518,8 +519,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String thisLng = String.valueOf(location.longitude);
         JsonApi_danger.danger_item selectedItem = null;
 
-        System.out.println(thisLat);
-        System.out.println(thisLng);
+//        System.out.println(thisLat);
+//        System.out.println(thisLng);
 
         for (int i = 0; i < list.size(); i++) {
             JsonApi_danger.danger_item item = list.get(i);
@@ -762,6 +763,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             drawMarker_slope();
             setMarker_danger();
             drawMarker_ele();
+            drawMarker_lift();
             drawMarker_wheel();
             setMarker_fac();
             System.out.println(wheel5.getAll()+"왜안뜸2");
@@ -782,7 +784,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 drawMarker_ele();
             }
             if (lift10.getBoolean("total", true)) {
-
+                drawMarker_lift();
             }
             if (bike7.getBoolean("total", true)) {
                 drawMarker_bike();
@@ -1430,6 +1432,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         return;
     }
+
+    //휠체어 리프트
+    private void drawMarker_lift() {
+        for (int i = 0; i < lift_list.size(); i++) {
+            JsonApi_lift.lift_item item = lift_list.get(i);
+            AccidentCircle(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "외부 승강기");
+        }
+        return;
+    }
+
+
 
     //경사로
     private void drawMarker_wheel() {
