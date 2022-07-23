@@ -148,7 +148,7 @@
 
         <TextView
             android:id="@+id/tv_save_button_add_phone_book"
-            android:layout_width="312dp"
+            android:layout_width="match_parent"
             android:layout_height="60dp"
             android:textSize="24sp"
             android:textStyle="bold"
@@ -156,6 +156,8 @@
             android:text="저장"
             android:gravity="center"
             android:elevation="10dp"
+            android:layout_marginLeft="24dp"
+            android:layout_marginRight="24dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -179,7 +181,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="top"
-            android:hint="신고시 추가 내용을 입력해주세요.\n예) 천식이 있습니다."
+            android:hint="신고시 특이사항을 입력해주세요.\n예) 천식이 있습니다."
             android:inputType="textMultiLine"
             android:layout_marginLeft="16dp"
             android:paddingVertical="15dp"

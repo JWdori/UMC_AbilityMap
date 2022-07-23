@@ -9,6 +9,7 @@ import android.view.View
 import android.view.ViewTreeObserver
 import android.widget.ImageView
 import android.widget.TextView
+import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -148,7 +149,11 @@ class EmergencyCallActivity : AppCompatActivity() {
     }
 
     private fun initPersonInfoDB(){     //DB 내의 데이터로 연락처 동기화
-        emergencyCallRVAdapter.addPersonInfo(personInfoDB.personInfoDao().getPersonList() as ArrayList<PersonInfo>)
+        try{
+            emergencyCallRVAdapter.addPersonInfo(personInfoDB.personInfoDao().getPersonList() as ArrayList<PersonInfo>)
+        }catch(e : Exception){
+            Toast.makeText(this,"재실행 시도 후 오류 재발생 시 앱 데이터를 삭제해 주세요", Toast.LENGTH_SHORT).show()
+        }
         Log.d("DB", personInfoDB.personInfoDao().getPersonList().toString())
     }
 

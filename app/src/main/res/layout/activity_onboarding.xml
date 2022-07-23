@@ -7,7 +7,7 @@
     android:background="#ffffff">
 
     <TextView
-        android:id="@+id/dummy1_choose_option"
+        android:id="@+id/dummy1_onboarding"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         app:layout_constraintVertical_weight="24"
@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
-        android:id="@+id/dummy2_choose_option"
+        android:id="@+id/dummy2_onboarding"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         app:layout_constraintVertical_weight="24"
@@ -25,7 +25,7 @@
         app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
-        android:id="@+id/dummy3_choose_option"
+        android:id="@+id/dummy3_onboarding"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         app:layout_constraintVertical_weight="10"
@@ -34,7 +34,7 @@
         app:layout_constraintStart_toStartOf="parent"/>
 
     <TextView
-        android:id="@+id/dummy4_choose_option"
+        android:id="@+id/dummy4_onboarding"
         android:layout_width="wrap_content"
         android:layout_height="0dp"
         app:layout_constraintVertical_weight="24"
@@ -51,8 +51,8 @@
         android:textSize="20sp"
         app:layout_constraintVertical_weight="18"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dummy1_choose_option"
-        app:layout_constraintBottom_toTopOf="@id/dummy2_choose_option"
+        app:layout_constraintTop_toBottomOf="@id/dummy1_onboarding"
+        app:layout_constraintBottom_toTopOf="@id/dummy2_onboarding"
         android:layout_marginRight="24dp"/>
 
 
@@ -67,7 +67,7 @@
         app:layout_constraintVertical_weight="326"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/dummy2_choose_option"
+        app:layout_constraintTop_toBottomOf="@id/dummy2_onboarding"
         app:layout_constraintBottom_toTopOf="@id/indicator_onboarding"/>
 
     <me.relex.circleindicator.CircleIndicator3
@@ -83,7 +83,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/vp_viewpager_onboarding"
-        app:layout_constraintBottom_toTopOf="@id/dummy3_choose_option"/>
+        app:layout_constraintBottom_toTopOf="@id/dummy3_onboarding"/>
 
     <TextView
         android:id="@+id/tv_select_button_onboarding"
@@ -99,8 +99,8 @@
         android:textSize="24sp"
         android:textStyle="bold"
         app:layout_constraintVertical_weight="50"
-        app:layout_constraintTop_toBottomOf="@id/dummy3_choose_option"
-        app:layout_constraintBottom_toTopOf="@id/dummy4_choose_option"
+        app:layout_constraintTop_toBottomOf="@id/dummy3_onboarding"
+        app:layout_constraintBottom_toTopOf="@id/dummy4_onboarding"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
 

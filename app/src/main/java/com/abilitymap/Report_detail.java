@@ -13,6 +13,7 @@ import android.os.Handler;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Base64;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -35,6 +36,11 @@ import com.naver.maps.map.overlay.Overlay;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
@@ -91,7 +97,10 @@ public class Report_detail extends AppCompatActivity {
         reportLocationView.setText("위치 : " + reportLocation);
         reportDateView.setText("신고일자 : " + cReportDate);
 
-/*
+
+
+
+        /*
         Intent intent = getIntent();
         byte[] arr = getIntent().getByteArrayExtra("image");
         Bitmap image = BitmapFactory.decodeByteArray(arr, 0,arr.length);
@@ -123,6 +132,13 @@ public class Report_detail extends AppCompatActivity {
                 System.out.println("닉네임 내용 :"+nicknameView.getText());
 
 
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                byte[] byteArray = byteArrayOutputStream.toByteArray();
+                String encodedImage = Base64.encodeToString(byteArray,Base64.DEFAULT);
+                //System.out.println("encoded image : " +encodedImage);
+                //인코딩 문자열 확인
+
                 if(nicknameView.getText().toString().length()==0){
                     //닉네임 값 저장 변수 = "익명의 제보자";
                     nick = "익명의 제보자";
@@ -149,6 +165,7 @@ public class Report_detail extends AppCompatActivity {
                     result.put("nickName", nick);
                     result.put("lat",latitude);
                     result.put("lon",longitude);
+                    result.put("image",byteArray);
                     //result.put("wrong",3);
 
                     String resultString = getJsonStringFromMap(result);
