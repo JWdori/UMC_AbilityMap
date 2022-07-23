@@ -377,17 +377,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 });
                 return true;
             }
-            else if(!clickable){
-                getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
+            if (!clickable){
+                if(infoFragment!=null) {
+                    getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
+                }
+                if(dangerInfoFragment!=null){
+                    getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
+                }
+
                 getSupportFragmentManager().popBackStack();
-                clickable = true;
                 dangerInfoFragment = null;
                 infoFragment = null;
 
+                clickable = true;
+
                 repot_message.setVisibility(View.VISIBLE);
                 Report_button.setVisibility(View.VISIBLE);
-                return true;
             }
+
         }
         else {
             if (overlay instanceof Marker && clickable) {
@@ -441,7 +448,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             }
             else if (overlay instanceof Marker && !clickable){
-                getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
+                if(dangerInfoFragment!=null){
+                    getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
+                }
+                if(infoFragment!=null){
+                    getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
+                }
                 getSupportFragmentManager().popBackStack();
                 clickable = true;
                 dangerInfoFragment = null;
@@ -1264,63 +1276,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //                    }
 //                });
 //
-/*                View dialogView = getLayoutInflater().inflate(R.layout.change_submit_dialog, null);
-                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                builder.setView(dialogView);
-                final AlertDialog alertDialog = builder.create();
-                ColorDrawable back = new ColorDrawable(Color.TRANSPARENT);
-                InsetDrawable inset = new InsetDrawable(back, 24);
-                alertDialog.getWindow().setBackgroundDrawable(inset);
-                alertDialog.setCanceledOnTouchOutside(true);//없어지지 않도록 설정
-                alertDialog.show();
-
-                TextView contenterrButton = alertDialog.findViewById(R.id.content_error);
-                contenterrButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        contenterrButton.setSelected(true);
-                    }
-                });
-                TextView locationerrButton = alertDialog.findViewById(R.id.location_error);
-                locationerrButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        locationerrButton.setSelected(true);
-                    }
-                });
-                TextView notdangerButton = alertDialog.findViewById(R.id.notdanger_error);
-                notdangerButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        notdangerButton.setSelected(true);
-                    }
-                });
-
-                TextView otherButton = alertDialog.findViewById(R.id.other_);
-                otherButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        otherButton.setSelected(true);
-                    }
-                });
-                TextView noButton = alertDialog.findViewById(R.id.change_no_dialog);
-                noButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        alertDialog.dismiss();
-                    }
-                });
-                TextView yesButton = alertDialog.findViewById(R.id.change_yes_dialog);
-                yesButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        //api로 전송코드
-                        alertDialog.dismiss();
-
-
-                    }
-                });
-*/
 
             }
         });
