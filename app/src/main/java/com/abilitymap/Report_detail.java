@@ -165,7 +165,7 @@ public class Report_detail extends AppCompatActivity {
                     result.put("nickName", nick);
                     result.put("lat",latitude);
                     result.put("lon",longitude);
-                    result.put("image",encodedImage);  // 테스트하려면 encodedImage로 바꿔서 테스트
+                    result.put("reportImage",encodedImage);  // 테스트하려면 encodedImage로 바꿔서 테스트
                     //result.put("wrong",3);
 
                     String resultString = getJsonStringFromMap(result);
