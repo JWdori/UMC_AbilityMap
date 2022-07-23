@@ -25,7 +25,6 @@ public class LocationDetailFragment extends Fragment {
     private TextView categoryTextView;
     private TextView locationNameView;
     private TextView locationDetailView;
-    private TextView weekendTextView;
     private TextView weekTextView;
     private TextView phoneTextView;
     private ImageView phoneImageView;
@@ -33,11 +32,11 @@ public class LocationDetailFragment extends Fragment {
     String categoryKey;
     //String category;
     String name="default";
-    String location="A";
-    String week="B";
-    String weekend="C";
-    String holiday="D";
-    String phone="01000000000";
+    String location="default";
+    String week="default";
+    String holiday="default";
+    String phone=" ";
+    String finalPhone;
 
 
     public LocationDetailFragment(){
@@ -46,20 +45,18 @@ public class LocationDetailFragment extends Fragment {
         categoryKey = tag;
     }
 
-    public LocationDetailFragment(String tag,String location,String week,String weekend,String holiday){
+    public LocationDetailFragment(String tag,String location,String week,String holiday){
         this.categoryKey = tag;
         this.location = location;
         this.week = week;
-        this.weekend = weekend;
         this.holiday = holiday;
     }
     public LocationDetailFragment(String tag,String name, String location,
-                                  String week,String weekend,String holiday,String phone){
+                                  String week,String holiday,String phone){
         this.categoryKey = tag;
         this.name = name;
         this.location = location;
         this.week = week;
-        this.weekend = weekend;
         this.holiday = holiday;
         this.phone = phone;
     }
@@ -83,19 +80,23 @@ public class LocationDetailFragment extends Fragment {
         categoryTextView = (TextView) rootView.findViewById(R.id.detail_category);
         locationNameView = (TextView) rootView.findViewById(R.id.location_name_textView);
         locationDetailView = (TextView) rootView.findViewById(R.id.location_detail_textView);
-        weekTextView = (TextView) rootView.findViewById(R.id.week_hour_detail_textView);
-        weekendTextView = (TextView) rootView.findViewById(R.id.weekend_hour_detail_textView);
+        weekTextView = (TextView) rootView.findViewById(R.id.hour_detail_textView);
         phoneTextView = (TextView) rootView.findViewById(R.id.phone_detail_textView);
         phoneImageView = (ImageView) rootView.findViewById(R.id.phone_icon_imageView);
 
 
 
         setCategory(categoryKey);
-        setName(name);
-        setLocationDetail(location);
-        setWeek(week);
-        setWeekend(weekend);
-        setPhone(phone);
+
+        String finalName = setDefault(name);
+        String finalLocation = setDefault(location);
+        String finalWeek = setDefault(week);
+        finalPhone = setDefault(phone);
+
+        setName(finalName);
+        setLocationDetail(finalLocation);
+        setWeek(finalWeek);
+        setPhone(finalPhone);
 
 
         return rootView;
@@ -108,12 +109,12 @@ public class LocationDetailFragment extends Fragment {
                 category = "보건의료시설";
                 break;
             case "office":
-                category = "관공서";
+                category = "공공/복지시설";
                 break;
             case "charge":
                 category = " ";
                 name = "전동휠체어 급속 충전기";
-                phone = " ";
+                finalPhone = " ";
                 break;
             default:
                 throw new IllegalStateException("Unexpected value: " + key);
@@ -121,12 +122,13 @@ public class LocationDetailFragment extends Fragment {
         categoryTextView.setText(category);
     }
 
-    public void setName(String name){ locationNameView.setText(name); }
+    public void setName(String name){
+
+        locationNameView.setText(name); }
     public void setLocationDetail(String location) {
         locationDetailView.setText(location);
     }
-    public void setWeek(String week){ weekTextView.setText("월~금 " + week); }
-    public void setWeekend(String weekend){ weekendTextView.setText(weekend); }
+    public void setWeek(String week){ weekTextView.setText(week); }
     public void setPhone(String phone){
         phoneTextView.setText(phone);
         if(categoryKey.equals("charge")){
@@ -135,7 +137,12 @@ public class LocationDetailFragment extends Fragment {
             phoneImageView.setImageResource(R.drawable.icon_24_call);
         }
     }
-
+    public String setDefault(String input){
+        if(input==null){
+            return "정보 없음";
+        }
+        else return input;
+    }
 
 
 }
