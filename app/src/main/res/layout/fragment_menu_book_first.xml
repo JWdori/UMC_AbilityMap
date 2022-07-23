@@ -29,7 +29,7 @@
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="fitXY"
-        app:layout_constraintVertical_weight="265"
+        app:layout_constraintVertical_weight="272"
         app:layout_constraintHorizontal_weight="283"
         app:layout_constraintStart_toEndOf="@id/dummy1_menu_book_first"
         app:layout_constraintEnd_toStartOf="@id/dummy2_menu_book_first"
