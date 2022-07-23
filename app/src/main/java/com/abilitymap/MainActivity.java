@@ -337,6 +337,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 System.out.println("리스트 검색 결과 : " + reportContent + "," + nickName + "," + serverReportDate);
 
 
+
                 String clientReportDate;
                 //서버에서 보내준 시간 String을 클라이언트 형식에 맞게 파싱
                 OffsetDateTime odt = OffsetDateTime.parse(serverReportDate);
