@@ -78,7 +78,8 @@ public class JsonApi_danger extends AsyncTask<String, String, String> {
                         item.getString("reportIdx"),    //제보수정시 필요한 아이디ㅇㄾ
                         item.getString("reportDate"),
                         item.getString("reportContent"),
-                        item.getString("nickName")
+                        item.getString("nickName"),
+                        item.getString("reportImage")
                 );
 
                 MainActivity.danger_list.add(danger_item);
@@ -151,10 +152,11 @@ public class JsonApi_danger extends AsyncTask<String, String, String> {
         private String reportContent;
         private String reportLocation;
         private String nickName;
+        private String reportImage;
 
 
         public danger_item(String lat, String lng, String idx, String reportDate,
-                           String reportContent, String nickName){
+                           String reportContent, String nickName, String reportImage){
                            //String location, String week, String weekend, String holiday) {
             this.lat = lat;
             this.lng = lng;
@@ -162,6 +164,8 @@ public class JsonApi_danger extends AsyncTask<String, String, String> {
             this.reportDate = reportDate;
             this.reportContent = reportContent;
             this.nickName = nickName;
+            this.reportImage = reportImage;
+
         }
 
         public String getIndex(){
@@ -185,6 +189,7 @@ public class JsonApi_danger extends AsyncTask<String, String, String> {
         public String getReportContent(){
             return reportContent;
         }
+        public String getReportImage() { return reportImage; }
 
 
     }

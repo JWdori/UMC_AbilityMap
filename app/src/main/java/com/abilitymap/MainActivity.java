@@ -244,7 +244,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String lon = String.valueOf(NaverMap.DEFAULT_CAMERA_POSITION.target.longitude);
 
 
+
 //        JsonApi_hos hos_api = new JsonApi_hos();
+
         JsonApi_bike bike_api = new JsonApi_bike();
         JsonApi_slope slope_api = new JsonApi_slope();
         JsonApi_charge charge_api = new JsonApi_charge();
@@ -256,6 +258,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 //        hos_api.execute(lat, lon, "");
+
         bike_api.execute(lat, lon, "");
         charge_api.execute(lat, lon, "");
         slope_api.execute(lat, lon, "");
@@ -333,7 +336,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 String reportContent = selectedDangerItem.getReportContent();
                 String nickName = selectedDangerItem.getNickName();
                 String serverReportDate = selectedDangerItem.getReportDate();
+                String reportImage = selectedDangerItem.getReportImage();
                 System.out.println("리스트 검색 결과 : " + reportContent + "," + nickName + "," + serverReportDate);
+                System.out.println("제보 이미지 : " + reportImage);
+
 
 
                 String clientReportDate;
@@ -343,7 +349,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 clientReportDate = odtTruncatedToWholeSecond.format(DateTimeFormatter.ofPattern("yyyy/MM/dd'T'HH:mm")).replace("T", " ");
 
                 String tag = String.valueOf(overlay.getTag());
-                dangerInfoFragment = new DangerDetailFragment(tag, reportContent, clientReportDate, nickName);
+                dangerInfoFragment = new DangerDetailFragment(tag, reportContent, clientReportDate, nickName, reportImage);
                 getSupportFragmentManager().beginTransaction().add(R.id.map, dangerInfoFragment).addToBackStack(null).commit();
 
                 clickable = false;
@@ -412,7 +418,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
                     infoFragment = new LocationDetailFragment(tag, location, week, weekend, holiday);
-                } else if (tag.equals("hos") || tag.equals("office")) {
+                } else if (tag.equals("hos")) {
                     JsonApi_hos.hos_item selectedTotalItem = findThisTotalMarkerItem(((Marker) overlay).getPosition(), hos_list);
                     String name = selectedTotalItem.getName();
                     String location = selectedTotalItem.getLocation();
@@ -423,9 +429,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
                     infoFragment = new LocationDetailFragment(tag, name, location, week, weekend, holiday, phone);
+                } else if(tag.equals("office")){
+                    JsonApi_fac.fac_item selectedFacilityItem = findThisFacilityMarkerItem(((Marker) overlay).getPosition(),fac_list);
+                    String name = selectedFacilityItem.getName();
+                    String location = selectedFacilityItem.getLocation();
+                    String week = selectedFacilityItem.getWeek();
+                    String weekend = selectedFacilityItem.getWeekend();
+                    String holiday = selectedFacilityItem.getHoliday();
+                    String phone = selectedFacilityItem.getPhone();
 
-
+                    System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
+                    infoFragment = new LocationDetailFragment(tag, name, location, week, weekend, holiday, phone);
                 }
+
             }
             else if (overlay instanceof Marker && !clickable){
                 getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
@@ -518,6 +534,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         return selectedItem;
     }   // 이 부분 중복 제거 할 수 있나? - 기염동
+
+    JsonApi_fac.fac_item findThisFacilityMarkerItem(LatLng location, ArrayList<JsonApi_fac.fac_item> list) {
+        String thisLat = String.valueOf(location.latitude);
+        String thisLng = String.valueOf(location.longitude);
+        JsonApi_fac.fac_item selectedItem = null;
+
+//        System.out.println(thisLat);
+//        System.out.println(thisLng);
+
+        for (int i = 0; i < list.size(); i++) {
+            JsonApi_fac.fac_item item = list.get(i);
+            if (thisLat.equals(item.getLat()) && thisLng.equals(item.getLng())) {
+                selectedItem = item;
+                System.out.println("facility item found!");
+            }
+        }
+        return selectedItem;
+    }
 
     JsonApi_danger.danger_item findThisDangerMarkerItem(LatLng location, ArrayList<JsonApi_danger.danger_item> list) {
         String thisLat = String.valueOf(location.latitude);
@@ -1111,12 +1145,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         try {
                             latitude = gpsTracker.getLatitude();
                         } catch (Exception e) {
-                            latitude = 37.5077487342;
+                            latitude = 37.496787860046965;
                         }
                         try {
                             longitude = gpsTracker.getLongitude();
                         }catch (Exception e){
-                            longitude = 126.938669678;
+                            longitude = 126.94575323439247;
                         }
 
                         String address = getSimpleCurrentAddress(getCurrentAddress(latitude, longitude));
@@ -1442,7 +1476,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private void drawMarker_lift() {
         for (int i = 0; i < lift_list.size(); i++) {
             JsonApi_lift.lift_item item = lift_list.get(i);
-            AccidentCircle(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "외부 승강기");
+            AccidentCircle(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "휠체어 리프트");
         }
         return;
     }
@@ -1606,6 +1640,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 ResourceId = R.drawable.wheel_icon;
                 break;
             case "경사로":
+                ResourceId = R.drawable.wheel_icon;
+                break;
+            case "휠체어 리프트":
                 ResourceId = R.drawable.wheel_icon;
                 break;
             default:
