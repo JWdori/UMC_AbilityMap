@@ -159,7 +159,32 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             editor.putBoolean("first_open", false);
             editor.commit();
 
+            View dialogView = getLayoutInflater().inflate(R.layout.user_first_dialog, null);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setView(dialogView);
+            final AlertDialog alertDialog = builder.create();
+            ColorDrawable back = new ColorDrawable(Color.TRANSPARENT);
+            InsetDrawable inset = new InsetDrawable(back, 24);
+            alertDialog.getWindow().setBackgroundDrawable(inset);
+            alertDialog.setCanceledOnTouchOutside(true);//없어지지 않도록 설정
+            alertDialog.show();
 
+            TextView noButton = alertDialog.findViewById(R.id.tv_no_dialog_user);
+            noButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    alertDialog.dismiss();
+                }
+            });
+            TextView yesButton = alertDialog.findViewById(R.id.tv_yes_dialog_user);
+            yesButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(getApplicationContext(), MenuBookActivity.class);
+                    startActivity(intent);
+                    alertDialog.dismiss();
+                }
+            });
         } else {
             dialog = new ProgressDialog(MainActivity.this); //프로그레스 대화상자 객체 생성
             dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); //프로그레스 대화상자 스타일 원형으로 설정
