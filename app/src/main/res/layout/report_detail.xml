@@ -206,6 +206,7 @@
         android:background="@drawable/cencel_btn_event"
         app:layout_constraintTop_toTopOf="@id/report_submit_button"
         app:layout_constraintStart_toStartOf="@id/report_content_view"
+        android:elevation="4dp"
         ></TextView>
 
 
@@ -230,7 +231,7 @@
         android:shadowDx="0"
         android:shadowDy="4"
         android:shadowRadius="4"
-        android:elevation="10dp"
+        android:elevation="4dp"
         >
     </TextView>
 

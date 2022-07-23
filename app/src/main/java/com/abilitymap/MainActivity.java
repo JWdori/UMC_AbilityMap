@@ -586,6 +586,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
             // 3.  위치 값을 가져올 수 있음
+
+
         } else {  //2. 퍼미션 요청을 허용한 적이 없다면 퍼미션 요청이 필요합니다. 2가지 경우(3-1, 4-1)가 있습니다.
 
             // 3-1. 사용자가 퍼미션 거부를 한 적이 있는 경우에는
@@ -1062,31 +1064,56 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 */
                 //0719
 
-                double latitude = gpsTracker.getLatitude();
-                double longitude = gpsTracker.getLongitude();
-                String address = getSimpleCurrentAddress(getCurrentAddress(latitude, longitude));
+                View dialogView = getLayoutInflater().inflate(R.layout.camera_detail, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setView(dialogView);
+                final AlertDialog alertDialog = builder.create();
+                ColorDrawable back = new ColorDrawable(Color.TRANSPARENT);
+                InsetDrawable inset = new InsetDrawable(back, 24);
+                alertDialog.getWindow().setBackgroundDrawable(inset);
+                alertDialog.setCanceledOnTouchOutside(true);//없어지지 않도록 설정
+                alertDialog.show();
+
+                TextView noButton = alertDialog.findViewById(R.id.tv_no_camera);
+                noButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.dismiss();
+                    }
+                });
+                TextView yesButton = alertDialog.findViewById(R.id.tv_yes_camera);
+                yesButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view){
+                        double latitude = gpsTracker.getLatitude();
+                        double longitude = gpsTracker.getLongitude();
+                        String address = getSimpleCurrentAddress(getCurrentAddress(latitude, longitude));
 
 
-                SimpleDateFormat timeForServer = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-                String sReportDate = timeForServer.format(new Date());
+                        SimpleDateFormat timeForServer = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                        String sReportDate = timeForServer.format(new Date());
 
-                SimpleDateFormat timeForClient = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.getDefault());
-                String cReportDate = timeForClient.format(new Date());
+                        SimpleDateFormat timeForClient = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.getDefault());
+                        String cReportDate = timeForClient.format(new Date());
 
-                System.out.println("현재 위치 : " + address);
+                        System.out.println("현재 위치 : " + address);
 
-                Intent reportIntent = new Intent(getApplicationContext(), Report_detail.class);
-
-
-                reportIntent.putExtra("reportLat", latitude);    //서버 위도 경도
-                reportIntent.putExtra("reportLng", longitude);      // 여기부분 gps traker에서 가져오게 해달라고 하셨었나?
-                // 이거 값 이상하면 바로 윗줄 latitude,longitude로 주기
-                reportIntent.putExtra("address", address);   //사용자 화면 주소
-                reportIntent.putExtra("sReportDate", sReportDate);
-                reportIntent.putExtra("cReportDate", cReportDate);
+                        Intent reportIntent = new Intent(getApplicationContext(), Report_detail.class);
 
 
-                startActivity(reportIntent);
+                        reportIntent.putExtra("reportLat", latitude);    //서버 위도 경도
+                        reportIntent.putExtra("reportLng", longitude);      // 여기부분 gps traker에서 가져오게 해달라고 하셨었나?
+                        // 이거 값 이상하면 바로 윗줄 latitude,longitude로 주기
+                        reportIntent.putExtra("address", address);   //사용자 화면 주소
+                        reportIntent.putExtra("sReportDate", sReportDate);
+                        reportIntent.putExtra("cReportDate", cReportDate);
+
+
+                        startActivity(reportIntent);
+                        alertDialog.dismiss();
+                    }
+                });
+
 
 
 
