@@ -1,5 +1,5 @@
-## 2022 피우다 프로젝트 | 모아도
-진행 기가 : 7/1 ~ 7/24 
+## 2022 UMC PROJECT | 모아도
+진행 기간 : 7/1 ~ 7/24 
 
 ### [TEAM INFO]
 #### Name
@@ -60,6 +60,24 @@
        ├─ 위험지역 정보 받아오기
        └─ 위험지역 정보 수정하기
 ```
+
+------------
+### [어플 화면] 
+!<img src="https://user-images.githubusercontent.com/55147540/180637177-34474f19-54c2-49dc-a32c-27e8dc15e7a3.png" width=20%>
+<img src ="https://user-images.githubusercontent.com/55147540/180637187-0ecf4bac-b0b2-43e6-bff1-af5b9bb5d432.png" width=20%>
+<img src="https://user-images.githubusercontent.com/55147540/180637204-170b682f-8d9d-438a-b2f2-c977ae0a4627.png" width=20%>
+<img src="https://user-images.githubusercontent.com/55147540/180637207-66933abb-1395-46a6-a69e-ee401013b015.png" width=20%>
+
+!<img src="https://user-images.githubusercontent.com/55147540/180637541-1b14ded5-47c2-433d-89e5-76ccf4a90788.png" width=20%>
+<img src="https://user-images.githubusercontent.com/55147540/180637544-92a1a49b-c111-42a2-83b2-ea6207de3257.png" width=20%>
+<img src="https://user-images.githubusercontent.com/55147540/180637546-706bc013-f8ef-46cc-b95a-98c87c444ef7.png" width=20%>
+<img src="https://user-images.githubusercontent.com/55147540/180637548-9db7ae76-2d8d-449f-9bb3-b76611058533.png" width=20%>
+
+#### 이용 설명서
+!<img src="https://user-images.githubusercontent.com/55147540/180637616-14fb27f7-6276-449a-9077-8d2b5dfefc93.png" width=20%>
+<img src="https://user-images.githubusercontent.com/55147540/180637617-a3b56b0f-4958-441c-a83d-321efb8e36d2.png" width=20%>
+<img src="https://user-images.githubusercontent.com/55147540/180637622-1900ece5-7889-4ae0-ae21-6914d03b7241.png" width=20%>
+<img src="https://user-images.githubusercontent.com/55147540/180637624-5a63dacc-9e4f-4132-9b3c-3a172628a9b7.png" width=20%>
 
 -------------
 ### [공공데이터 및 오픈소스 활용]  
