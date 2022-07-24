@@ -113,6 +113,8 @@ class EmergencyCallActivity : AppCompatActivity() {
                     bindingE.tvPhoneNumberEmergencyCall.setTextColor(Color.parseColor("#ffffff"))
                     bindingE.ivDeleteEmergencyCall.visibility = View.INVISIBLE
                     bindingE.ivDeleteEmergencyCallWhite.visibility = View.VISIBLE
+                    bindingE.ivUpdateEmergencyCall.visibility = View.INVISIBLE
+                    bindingE.ivUpdateEmergencyCallWhite.visibility = View.VISIBLE
                     bindingE.flag.setText("true")
                     putSPF(name, phoneNumber, position)
 
@@ -135,12 +137,12 @@ class EmergencyCallActivity : AppCompatActivity() {
                 AddPhoneBookActivity::class.java)     //edit text에 적힌 data 보내기
                 intent.putExtra("name", personInfo.name)
                 intent.putExtra("phoneNumber", personInfo.phoneNumber)
+                intent.putExtra("text",personInfo.text)
                 intent.putExtra("personId", personId)
                 intent.putExtra("position", position)
-                intent.putExtra("text",personInfo.text)
                 startActivityForResult(intent, 1000)
 
-                Log.d("PERSONID", personId.toString())
+                Log.d("@@@@@@ PERSONID @@@@@@", personId.toString())
 //                emergencyCallRVAdapter.setModifiedData(name, phoneNumber, position)
 //                personInfoDB.personInfoDao().updatePerson(name, phoneNumber, PersonId)
             }
@@ -182,15 +184,13 @@ class EmergencyCallActivity : AppCompatActivity() {
             Log.d("변경 후 phoneNumber",phoneNumber!!)
             Log.d("변경 후 text",text!!)
 
-            personInfoDB.personInfoDao().updatePerson(name, phoneNumber, text, personId)
+            personInfoDB.personInfoDao().updatePerson(name, phoneNumber, text, personId)    //DB 데이터 수정
+
+            emergencyCallRVAdapter.updatePerson(name, phoneNumber, text, position)      //recyclerview의 viewholder 정보 갱신
+
+            emergencyCallRVAdapter.addPersonInfo(personInfoDB.personInfoDao().getPersonList() as ArrayList<PersonInfo>)     //recyclerview의 데이터 수정
+
             Log.d("DB 수정 후1", personInfoDB.personInfoDao().getPersonList().toString())
-
-            emergencyCallRVAdapter.updatePerson(name, phoneNumber, text, position)
-            Log.d("DB 수정 후2", personInfoDB.personInfoDao().getPersonList().toString())
-
-            emergencyCallRVAdapter.addPersonInfo(personInfoDB.personInfoDao().getPersonList() as ArrayList<PersonInfo>)
-            Log.d("DB 수정 후3", personInfoDB.personInfoDao().getPersonList().toString())
-
         }
     }
 
@@ -217,6 +217,8 @@ class EmergencyCallActivity : AppCompatActivity() {
         holder.itemView.findViewById<TextView>(R.id.tv_phoneNumber_emergency_call).setTextColor(Color.parseColor("#000000"))
         holder.itemView.findViewById<ImageView>(R.id.iv_delete_emergency_call).visibility = View.VISIBLE
         holder.itemView.findViewById<ImageView>(R.id.iv_delete_emergency_call_white).visibility = View.INVISIBLE
+        holder.itemView.findViewById<ImageView>(R.id.iv_update_emergency_call).visibility = View.VISIBLE
+        holder.itemView.findViewById<ImageView>(R.id.iv_update_emergency_call_white).visibility = View.INVISIBLE
         holder.itemView.findViewById<TextView>(R.id.flag).setText("false")
     }
 
@@ -234,6 +236,8 @@ class EmergencyCallActivity : AppCompatActivity() {
                     holder.itemView.findViewById<TextView>(R.id.tv_phoneNumber_emergency_call).setTextColor(Color.parseColor("#ffffff"))
                     holder.itemView.findViewById<ImageView>(R.id.iv_delete_emergency_call).visibility = View.INVISIBLE
                     holder.itemView.findViewById<ImageView>(R.id.iv_delete_emergency_call_white).visibility = View.VISIBLE
+                    holder.itemView.findViewById<ImageView>(R.id.iv_update_emergency_call).visibility = View.INVISIBLE
+                    holder.itemView.findViewById<ImageView>(R.id.iv_update_emergency_call_white).visibility = View.VISIBLE
                     holder.itemView.findViewById<TextView>(R.id.flag).setText("true")
 
                     binding.rvEmergencyCall.viewTreeObserver.removeOnGlobalLayoutListener(this)
