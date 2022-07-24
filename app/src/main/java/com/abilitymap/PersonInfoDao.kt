@@ -20,8 +20,8 @@ interface PersonInfoDao {
     @Query("Delete From PersonInfoTable Where personId =:personId")
     fun deletePerson(personId : Int)
 
-    @Query("Update PersonInfoTable Set name =:name, phoneNumber =:phoneNumber Where personId =:personId")
-    fun updatePerson(name : String, phoneNumber : String, personId : Int)
+    @Query("Update PersonInfoTable Set name =:name, phoneNumber =:phoneNumber, text =:text Where personId =:personId")
+    fun updatePerson(name : String, phoneNumber : String, text : String, personId : Int)
 
 //    @Query("Select phoneNumber From PersonInfoTable Where personId =:personId")
 //    fun getPhoneNumber(personId : Int) : String
