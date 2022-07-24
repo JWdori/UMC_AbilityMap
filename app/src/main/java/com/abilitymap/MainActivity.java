@@ -244,7 +244,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String lon = String.valueOf(NaverMap.DEFAULT_CAMERA_POSITION.target.longitude);
 
 
-        //JsonApi_hos hos_api = new JsonApi_hos();
+
+        JsonApi_hos hos_api = new JsonApi_hos();
+
         JsonApi_bike bike_api = new JsonApi_bike();
         JsonApi_slope slope_api = new JsonApi_slope();
         JsonApi_charge charge_api = new JsonApi_charge();
@@ -255,7 +257,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         JsonApi_lift lift_api = new JsonApi_lift();
 
 
-        //hos_api.execute(lat, lon, "");
+        hos_api.execute(lat, lon, "");
+
         bike_api.execute(lat, lon, "");
         charge_api.execute(lat, lon, "");
         slope_api.execute(lat, lon, "");
@@ -355,7 +358,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Report_button.setVisibility(View.INVISIBLE);
 
                 LatLng selectedPosition = ((Marker) overlay).getPosition();
-                CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.37f)).animate(CameraAnimation.Easing);
+                CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Easing);
                 naverMap.moveCamera(cameraUpdate);
 
                 naverMap.setOnMapClickListener(new NaverMap.OnMapClickListener() {
@@ -440,7 +443,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     String weekend = selectedFacilityItem.getWeekend();
                     String holiday = selectedFacilityItem.getHoliday();
                     String phone = selectedFacilityItem.getPhone();
-
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
                     infoFragment = new LocationDetailFragment(tag, name, location, week, holiday, phone);
                 }
@@ -476,7 +478,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.d("clickable?", String.valueOf(clickable));
 
             LatLng selectedPosition = ((Marker) overlay).getPosition();
-            CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.37f)).animate(CameraAnimation.Easing);
+            CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.35f)).animate(CameraAnimation.Easing);
             naverMap.moveCamera(cameraUpdate);
 
 
@@ -1303,12 +1305,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     Intent intent = new Intent(getApplicationContext(), EmergencyCallActivity.class);
                     startActivity(intent);
                 } else if (item.getItemId() == R.id.nav_report) {   //위험 제보하기
-
-/*
-                   Intent intent = null;
-                   Log.d("camera","clicked");
-                   setCamera(intent);
-*/
+                    cameraDialog();
                }
                else if (item.getItemId() == R.id.nav_book) {        //이용 설명서
                     Intent intent = new Intent(getApplicationContext(), MenuBookActivity.class);
@@ -1326,6 +1323,78 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
        });
 
     }
+
+
+
+
+private void cameraDialog(){
+    View dialogView = getLayoutInflater().inflate(R.layout.camera_detail, null);
+    AlertDialog.Builder builder = new AlertDialog.Builder(this);
+    builder.setView(dialogView);
+    final AlertDialog alertDialog = builder.create();
+    ColorDrawable back = new ColorDrawable(Color.TRANSPARENT);
+    InsetDrawable inset = new InsetDrawable(back, 24);
+    alertDialog.getWindow().setBackgroundDrawable(inset);
+    alertDialog.setCanceledOnTouchOutside(true);//없어지지 않도록 설정
+    alertDialog.show();
+
+    TextView noButton = alertDialog.findViewById(R.id.tv_no_camera);
+    noButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            alertDialog.dismiss();
+        }
+    });
+    TextView yesButton = alertDialog.findViewById(R.id.tv_yes_camera);
+    yesButton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view){
+            double latitude;
+            double longitude;
+
+            try {
+                latitude = gpsTracker.getLatitude();
+            } catch (Exception e) {
+                latitude = 37.496787860046965;
+            }
+            try {
+                longitude = gpsTracker.getLongitude();
+            }catch (Exception e){
+                longitude = 126.94575323439247;
+            }
+
+            String address = getSimpleCurrentAddress(getCurrentAddress(latitude, longitude));
+
+
+            SimpleDateFormat timeForServer = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+            String sReportDate = timeForServer.format(new Date());
+
+            SimpleDateFormat timeForClient = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.getDefault());
+            String cReportDate = timeForClient.format(new Date());
+
+            System.out.println("현재 위치 : " + address);
+
+            Intent reportIntent = new Intent(getApplicationContext(), Report_detail.class);
+
+
+            reportIntent.putExtra("reportLat", latitude);    //서버 위도 경도
+            reportIntent.putExtra("reportLng", longitude);      // 여기부분 gps traker에서 가져오게 해달라고 하셨었나?
+            // 이거 값 이상하면 바로 윗줄 latitude,longitude로 주기
+            reportIntent.putExtra("address", address);   //사용자 화면 주소
+            reportIntent.putExtra("sReportDate", sReportDate);
+            reportIntent.putExtra("cReportDate", cReportDate);
+
+
+            startActivity(reportIntent);
+            alertDialog.dismiss();
+        }
+    });
+
+
+
+}
+
+
 
 
     private void popDialog(String text){
@@ -1479,16 +1548,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         CircleOverlay circle = new CircleOverlay();
         circle.setCenter(new LatLng(x, y));
         circle.setRadius(30);
-        circle.setColor(Color.parseColor("#30FF7B00"));
+        circle.setColor(Color.parseColor("#20FF7B00"));
         circle.setOutlineColor(Color.parseColor("#30FF7B00"));
-        circle.setMinZoom(12);//줌 설정
+        circle.setMinZoom(13);//줌 설정
         circle.setMap(naverMap);
 
         InfoWindow infoWindow = new InfoWindow();
         Marker marker = new Marker();
 
         marker.setPosition(new LatLng(x, y));
-        marker.setMinZoom(12);//줌 설정
+        marker.setMinZoom(13);//줌 설정
 
         marker.setIcon(OverlayImage.fromResource(R.drawable.danger_location_yellow));
         marker.setWidth(80);
@@ -1556,7 +1625,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         InfoWindow infoWindow = new InfoWindow();
         Marker marker = new Marker();
         marker.setPosition(new LatLng(x, y));
-        marker.setMinZoom(12);//줌 설정
+        marker.setMinZoom(13);//줌 설정
         int resourceId = setMarkerIconResource(z);
         marker.setIcon(OverlayImage.fromResource(resourceId));
         marker.setWidth(80);

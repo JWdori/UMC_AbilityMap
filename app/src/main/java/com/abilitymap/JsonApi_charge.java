@@ -108,7 +108,7 @@ public class JsonApi_charge extends AsyncTask<String, String, String> {
             this.lng = lng;
             this.idx = idx;
             this.location = location;
-            this.week = week;
+            this.week = "평일 "+ week +"\n" + "주말 " + weekend + "\n" + "공휴일 " + holiday ;
             this.weekend = weekend;
             this.holiday = holiday;
 

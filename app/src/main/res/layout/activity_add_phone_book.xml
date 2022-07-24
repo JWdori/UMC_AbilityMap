@@ -161,6 +161,7 @@
             android:textStyle="bold"
             android:textColor="@drawable/save_button_text_color"
             android:text="저장"
+            android:layout_marginBottom="24dp"
             android:gravity="center"
             android:elevation="4dp"
             android:layout_marginLeft="24dp"
@@ -168,7 +169,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/tv_text_number_add_phone_book"
+
             android:background="@drawable/save_button_effect"/>
 
         <ImageView
