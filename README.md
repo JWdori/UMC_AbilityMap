@@ -7,7 +7,8 @@
    
 >Member
 - 임재완 [@jaewan0114](https://github.com/jaewan0114)
-- 윤진난 [@Jinnan-Yun](https://github.com/Jinnan-Yun)   
+- 윤진난 [@Jinnan-Yun](https://github.com/Jinnan-Yun)
+- 서위영 [@HBSPS](https://github.com/HBSPS)
 > Designer 
 - 정민희 [Linkedin](https://www.linkedin.com/in/%EB%AF%BC%ED%9D%AC-%EC%A0%95-b96197204/)
 
@@ -26,6 +27,41 @@
 <img src="./img/FlowChart.png"> 
 
 ------------- 
+### [백엔드]
+
+#### 1. 개발자
+- 서위영 [@HBSPS](https://github.com/HBSPS)
+- 윤진난 [@Jinnan-Yun](https://github.com/Jinnan-Yun)
+- 곽정아 [@Jungahgo](https://github.com/Jungahgo)
+
+#### 2. 개발 환경
+- <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=Node.js&logoColor=white">
+- <img src="https://img.shields.io/badge/MySQL-4479A1?style=for-the-badge&logo=MySQL&logoColor=white">
+- <img src="https://img.shields.io/badge/Amazon AWS-232F3E?style=for-the-badge&logo=Amazon AWS&logoColor=white">
+
+#### 3. 사용 언어
+- 데이터 크롤링 : Python
+- 서버 구성 : JavaScript, SQL
+
+#### 4. API 구성
+```bash
+├─ Content
+│      ├─ 자전거 사고 다발지역 받아오기
+│      ├─ 휠체어 급속 충전기 정보 받아오기
+│      ├─ 급경사지 위치 받아오기
+│      ├─ 학교 휠체어 경사로 위치 받아오기
+│      ├─ 지하철 역 엘리베이터 위치 받아오기
+│      ├─ 의료기관 정보 받아오기
+│      ├─ 복지센터 정보 받아오기
+│      └─ 휠체어 리프트 위치 받아오기
+│
+└─ Report
+       ├─ 위험지역 제보하기
+       ├─ 위험지역 정보 받아오기
+       └─ 위험지역 정보 수정하기
+```
+
+-------------
 ### [공공데이터 및 오픈소스 활용]  
 #### 1. 공공데이터
 - 자전거 사고다발 지역  
