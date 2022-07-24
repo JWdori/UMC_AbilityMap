@@ -133,7 +133,7 @@ public class Report_detail extends AppCompatActivity {
 
 
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                bitmap.compress(Bitmap.CompressFormat.JPEG, 100, byteArrayOutputStream);
+                bitmap.compress(Bitmap.CompressFormat.JPEG, 60, byteArrayOutputStream);
                 byte[] byteArray = byteArrayOutputStream.toByteArray();
                 String encodedImage = Base64.encodeToString(byteArray,Base64.DEFAULT);
                 System.out.println("encoded image : " +encodedImage);
@@ -165,7 +165,7 @@ public class Report_detail extends AppCompatActivity {
                     result.put("nickName", nick);
                     result.put("lat",latitude);
                     result.put("lon",longitude);
-                    result.put("image",byteArray);  // 테스트하려면 encodedImage로 바꿔서 테스트
+                    result.put("reportImage",encodedImage);  // 테스트하려면 encodedImage로 바꿔서 테스트
                     //result.put("wrong",3);
 
                     String resultString = getJsonStringFromMap(result);

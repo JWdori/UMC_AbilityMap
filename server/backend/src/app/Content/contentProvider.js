@@ -5,15 +5,6 @@ const contentDao = require("./contentDao");
 
 // Provider: Read 비즈니스 로직 처리
 
-// 모든 정보 받아오기
-exports.getAll = async function () {
-  const connection = await pool.getConnection(async (conn) => conn);
-  const getAllListResult = await contentDao.getAllList(connection);
-  connection.release();
-
-  return getAllListResult;
-};
-
 // 자전거 사고 다발 지역 받아오기
 exports.getBikeData = async function () {
   const connection = await pool.getConnection(async (conn) => conn);
@@ -59,7 +50,7 @@ exports.getElevator = async function() {
   return getElevatorResult;
 }
 
-// 병원 위치 받아오기
+// 약국 + 병원 + 의원 + 보건소 데이터 받아오기
 exports.getMedical = async function() {
   const connection = await pool.getConnection(async (conn) => conn);
   const getMedicalResult = await contentDao.getMedical(connection);
@@ -76,4 +67,13 @@ exports.getWelfare = async function() {
   connection.release();
 
   return getWelfareResult;
+}
+
+// 휠체어 리프트 위치 받아오기
+exports.getLift = async function() {
+  const connection = await pool.getConnection(async (conn) => conn);
+  const getLiftResult = await contentDao.getLift(connection);
+  connection.release();
+
+  return getLiftResult;
 }

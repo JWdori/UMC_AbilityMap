@@ -14,25 +14,27 @@
     android:layout_height="wrap_content"
     android:splitMotionEvents="false"
     >
+
     <TextView
         android:id="@+id/content_error"
         android:layout_width="match_parent"
         android:layout_height="48dp"
-        android:layout_marginTop="29dp"
         android:layout_marginLeft="24dp"
+        android:layout_marginTop="29dp"
         android:layout_marginRight="24dp"
         android:layout_marginBottom="12dp"
-        android:textStyle="normal"
-        android:textSize="20sp"
+        android:background="@drawable/change_submit_clickevent"
+        android:gravity="center_vertical"
 
-        android:textColor="@drawable/change_submit_text_color"
         android:letterSpacing="0.01"
         android:lineSpacingExtra="4sp"
-        android:text="상세 설명이 이상해요"
-        android:gravity="center_vertical"
         android:paddingLeft="18dp"
-        android:background="@drawable/change_submit_clickevent">
-    </TextView>
+        android:text="상세 설명이 이상해요"
+        android:textColor="@drawable/change_submit_text_color"
+        android:textSize="20sp"
+        android:textStyle="normal"
+        android:focusable="true"
+        ></TextView>
 
     <TextView
         android:id="@+id/location_error"
@@ -50,7 +52,9 @@
         android:gravity="center_vertical"
         android:layout_below="@+id/content_error"
         android:paddingLeft="18dp"
-        android:background="@drawable/change_submit_clickevent">
+        android:background="@drawable/change_submit_clickevent"
+        android:focusable="true"
+        >
     </TextView>
 
     <TextView
@@ -69,7 +73,9 @@
         android:gravity="center_vertical"
         android:layout_below="@+id/location_error"
         android:paddingLeft="18dp"
-        android:background="@drawable/change_submit_clickevent">
+        android:background="@drawable/change_submit_clickevent"
+        android:focusable="true"
+        >
     </TextView>
 
 
@@ -88,7 +94,9 @@
         android:gravity="center_vertical"
         android:layout_below="@+id/notdanger_error"
         android:paddingLeft="18dp"
-        android:background="@drawable/change_submit_clickevent">
+        android:background="@drawable/change_submit_clickevent"
+        android:focusable="true"
+        >
     </TextView>
 
 
