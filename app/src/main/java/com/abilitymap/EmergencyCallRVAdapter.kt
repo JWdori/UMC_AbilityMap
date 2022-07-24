@@ -65,6 +65,10 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
             showDialog(holder, position)
         }
 
+        holder.binding.ivUpdateEmergencyCallWhite.setOnClickListener {
+            mItemClickListener.onUpdatePerson(personInfo[position].personId, personInfo[position], position)
+        }
+
         holder.binding.ivUpdateEmergencyCall.setOnClickListener {
             mItemClickListener.onUpdatePerson(personInfo[position].personId, personInfo[position], position)
         }
