@@ -245,7 +245,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-//        JsonApi_hos hos_api = new JsonApi_hos();
+        JsonApi_hos hos_api = new JsonApi_hos();
 
         JsonApi_bike bike_api = new JsonApi_bike();
         JsonApi_slope slope_api = new JsonApi_slope();
@@ -257,7 +257,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         JsonApi_lift lift_api = new JsonApi_lift();
 
 
-//        hos_api.execute(lat, lon, "");
+        hos_api.execute(lat, lon, "");
 
         bike_api.execute(lat, lon, "");
         charge_api.execute(lat, lon, "");
@@ -443,7 +443,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     String weekend = selectedFacilityItem.getWeekend();
                     String holiday = selectedFacilityItem.getHoliday();
                     String phone = selectedFacilityItem.getPhone();
-
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
                     infoFragment = new LocationDetailFragment(tag, name, location, week, holiday, phone);
                 }
@@ -479,7 +478,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.d("clickable?", String.valueOf(clickable));
 
             LatLng selectedPosition = ((Marker) overlay).getPosition();
-            CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Easing);
+            CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.35f)).animate(CameraAnimation.Easing);
             naverMap.moveCamera(cameraUpdate);
 
 
@@ -1484,14 +1483,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         circle.setRadius(30);
         circle.setColor(Color.parseColor("#20FF7B00"));
         circle.setOutlineColor(Color.parseColor("#30FF7B00"));
-        circle.setMinZoom(12);//줌 설정
+        circle.setMinZoom(13);//줌 설정
         circle.setMap(naverMap);
 
         InfoWindow infoWindow = new InfoWindow();
         Marker marker = new Marker();
 
         marker.setPosition(new LatLng(x, y));
-        marker.setMinZoom(12);//줌 설정
+        marker.setMinZoom(13);//줌 설정
 
         marker.setIcon(OverlayImage.fromResource(R.drawable.danger_location_yellow));
         marker.setWidth(80);
@@ -1559,7 +1558,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         InfoWindow infoWindow = new InfoWindow();
         Marker marker = new Marker();
         marker.setPosition(new LatLng(x, y));
-        marker.setMinZoom(12);//줌 설정
+        marker.setMinZoom(13);//줌 설정
         int resourceId = setMarkerIconResource(z);
         marker.setIcon(OverlayImage.fromResource(resourceId));
         marker.setWidth(80);

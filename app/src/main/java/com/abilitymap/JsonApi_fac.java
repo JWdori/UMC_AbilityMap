@@ -76,11 +76,11 @@ public class JsonApi_fac extends AsyncTask<String, String, String> {
                         item.getString("lat"),
                         item.getString("lon"),
                         item.getString("name"),
-                        item.getString("address")
-//                        item.getString("week"),
+                        item.getString("address"),
+                        item.getString("time"),
 //                        item.getString("weekend"),
 //                        item.getString("holiday"),
-//                        item.getString("tel")
+                        item.getString("tel")
                 );
                 MainActivity.fac_list.add(fac_item);
 
@@ -109,7 +109,7 @@ public class JsonApi_fac extends AsyncTask<String, String, String> {
 
 
 
-        public fac_item(String lat, String lng, String name, String location) {
+        public fac_item(String lat, String lng, String name, String location, String week,String phone) {
             this.lat = lat;
             this.lng = lng;
             this.name = name;

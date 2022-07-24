@@ -7,6 +7,7 @@ import androidx.room.PrimaryKey
 data class News(
     var title : String? = "",
     var date : String? = ""
+
 ){
     @PrimaryKey(autoGenerate = true) var id :Int = 0
 }
