@@ -947,7 +947,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.d("데이타 베이스 번호", pL.get(personId).getPhoneNumber());
             Log.d("데이타 베이스 텍스트", pL.get(personId).getText());
 
-            if (!(pL.get(personId).getText().equals(""))) {  //텍스트 입력한 기록이 있는 연락처에 한정
 
                 if (!(pL.get(personId).getText().equals(""))) {  //텍스트 입력한 기록이 있는 연락처에 한정
 
@@ -956,7 +955,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 } else {   //선택된 연락처의 번호로 기본 메세지만 전송
                     manager.sendTextMessage(pL.get(personId).getPhoneNumber(), null, text, null, null);
                 }
-            }
+
         }
     }
 
