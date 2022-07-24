@@ -145,23 +145,23 @@ class AddPhoneBookActivity : AppCompatActivity() {
 //                Log.d("DB 수정 전", personInfoDatabase.personInfoDao().getPersonList().toString())
 //                personInfoDatabase.personInfoDao().updatePerson(binding.etNameAddPhoneBook.text.toString(), binding.etPhoneNumberAddPhoneBook.text.toString(), intent.getIntExtra("position", 0))
 //                Log.d("DB 수정 후", personInfoDatabase.personInfoDao().getPersonList().toString())
-//
-//                intent.putExtra("name", binding.etNameAddPhoneBook.text.toString())
-//                intent.putExtra("phoneNumber", binding.etPhoneNumberAddPhoneBook.text.toString())
-//                intent.putExtra("position",intent.getIntExtra("position",0))
-//                setResult(RESULT_OK, intent)
-//
-//                Toast.makeText(this,"연락처를 수정하였습니다", Toast.LENGTH_SHORT).show()
-//                finish()
+
+                intent.putExtra("name", binding.etNameAddPhoneBook.text.toString())
+                intent.putExtra("phoneNumber", binding.etPhoneNumberAddPhoneBook.text.toString())
+                intent.putExtra("text", binding.etTextAddPhoneBook.text.toString())
+                intent.putExtra("personId",intent.getIntExtra("personId",0))
+                intent.putExtra("position",intent.getIntExtra("position",0))
+                setResult(RESULT_OK, intent)
+
+                Toast.makeText(this,"연락처를 수정하였습니다", Toast.LENGTH_SHORT).show()
+                finish()
             }
         }
     }
 
     private fun addPerson(name : String, phoneNumber : String, text : String){
         personInfoDatabase.personInfoDao().insertPerson(
-            PersonInfo(
-                name, phoneNumber, text
-            )
+            PersonInfo(name, phoneNumber, text)
         )
         Log.d("PersonInfoDataBase", personInfoDatabase.personInfoDao().getPersonList().toString())
     }
@@ -176,10 +176,13 @@ class AddPhoneBookActivity : AppCompatActivity() {
 
         val name = intent.getStringExtra("name")
         val phoneNumber = intent.getStringExtra("phoneNumber")
+        val text = intent.getStringExtra("text")
 
         binding.etNameAddPhoneBook.setText(name)
         binding.etPhoneNumberAddPhoneBook.setText(phoneNumber)
-        binding.tvNameNumberAddPhoneBook.setText(name?.length.toString() + "/8 자")
+        binding.tvNameNumberAddPhoneBook.setText(name!!.length.toString() + "/8 자")
+        binding.etTextAddPhoneBook.setText(text)
+        binding.tvTextNumberAddPhoneBook.setText(text!!.length.toString() + "/30 자")
     }
 
     private fun checkButtonEffect(){
