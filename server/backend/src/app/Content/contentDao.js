@@ -1,29 +1,5 @@
 const { getAll } = require("./contentProvider");
 
-// 병원 가져오기
-async function getAllList(connection) {
-  const getAllListQuery = `
-                SELECT test.name, test.lat, test.lon, test.tel, test.location, Time.week, Time.weekend, Time.holiday, Time.var
-                FROM test
-                INNER JOIN Time ON test.idx=Time.idx;
-                `;
-  const [getAllList] = await connection.query(getAllListQuery);
-  return getAllList;
-}
-
-
-// 휠체어 리프트 
-async function getLift(connection) {
-  const getLiftQuery = `
-              SELECT *
-              FROM Lift;
-              `;
-
-  const [getLift] = await connection.query(getLiftQuery);
-
-  return getLift;
-}
-
 // 자전거 사고다발 지역 데이터 베이스 비우기
 async function dropBike(connection) {
   const dropBikeQuery = `
@@ -51,7 +27,7 @@ async function updateBike(connection, total_array) {
   return;
 }
 
-// 공공데이터 자전거 사고다발 지역 받아오기
+// 자전거 사고다발 지역 받아오기
 async function getBikeData(connection) {
   const getBikeDataQuery = `
                 SELECT *
@@ -95,7 +71,7 @@ async function getSchool(connection) {
   return getSchool;
 }
 
-// 지하철역 엘리베이터 위치 받아오기
+// 엘리베이터 위치 받아오기
 async function getElevator(connection) {
   const getElevatorQuery = `
               SELECT *
@@ -106,11 +82,11 @@ async function getElevator(connection) {
   return getElevator;
 }
 
-// 병원 위치 받아오기
+// 의료기관 위치 받아오기
 async function getMedical(connection) {
   const getMedicalQuery = `
               SELECT *
-              FROM Medical;
+              FROM medical;
               `;
   const [getMedical] = await connection.query(getMedicalQuery);
 
@@ -128,9 +104,153 @@ async function getWelfare(connection) {
   return getWelfare;
 }
 
+// 휠체어 리프트 위치 받아오기
+async function getLift(connection) {
+  const getLiftQuery = `
+              SELECT *
+              FROM Lift;
+              `;
+
+  const [getLift] = await connection.query(getLiftQuery);
+
+  return getLift;
+}
+
+// 의료기관 테이블 비우기
+async function dropMedical(connection) {
+  const dropMedicalQuery = `
+              TRUNCATE TABLE medical;
+              `;
+  
+  const dropMedical = await connection.query(dropMedicalQuery);
+
+  return;
+}
+
+// 의료기관 정보 저장
+async function updateMedical(connection, result_array) {
+  const length = result_array.length;
+
+  for (let i = 0; i < length; i++) {
+
+    console.clear()
+    console.log(i + " / " + length + " (" + (i/length*100).toFixed(2) + "%)")
+
+    let array = []
+    if (result_array[i].dutyDiv == "B" || result_array[i].dutyDiv == "A" || result_array[i].dutyDiv == "R" || result_array[i].dutyDiv == "C" || result_array[i].dutyDiv === undefined) {
+    
+      if (result_array[i].dutyAddr.indexOf("서울특별시") !== -1) {
+        array[0] = result_array[i].dutyAddr
+      } else {
+        continue
+      }
+
+      array[1] = result_array[i].dutyName
+      if (array[1] === "중복") {
+        continue;
+      }
+      array[2] = result_array[i].dutyTel1
+      if (result_array[i].dutyTime1c !== undefined) {
+        array[3] = result_array[i].dutyTime1c
+      } else {
+        array[3] = "(정보없음)"
+      }
+      if (result_array[i].dutyTime1s !== undefined) {
+        array[4] = result_array[i].dutyTime1s
+      } else {
+        array[4] = "(정보없음)"
+      }
+      if (result_array[i].dutyTime2c !== undefined) {
+        array[5] = result_array[i].dutyTime2c
+      } else {
+        array[5] = "(정보없음)"
+      }
+      if (result_array[i].dutyTime2s !== undefined) {
+        array[6] = result_array[i].dutyTime2s
+      } else {
+        array[6] = "(정보없음)"
+      }
+      if (result_array[i].dutyTime3c !== undefined) {
+        array[7] = result_array[i].dutyTime3c
+      } else {
+        array[7] = "(정보없음)"
+      }
+      if (result_array[i].dutyTime3s !== undefined) {
+        array[8] = result_array[i].dutyTime3s
+      } else {
+        array[8] = "(정보없음)"
+      }
+      if (result_array[i].dutyTime4c !== undefined) {
+        array[9] = result_array[i].dutyTime4c
+      } else {
+        array[9] = "(정보없음)"
+      }
+      if (result_array[i].dutyTime4s !== undefined) {
+        array[10] = result_array[i].dutyTime4s
+      } else {
+        array[10] = "(정보없음)"
+      }
+      if (result_array[i].dutyTime5c !== undefined) {
+        array[11] = result_array[i].dutyTime5c
+      } else {
+        array[11] = "(정보없음)"
+      }
+      if (result_array[i].dutyTime5s !== undefined) {
+        array[12] = result_array[i].dutyTime5s
+      } else {
+        array[12] = "(정보없음)"
+      }
+      if (result_array[i].dutyTime6c !== undefined) {
+        array[13] = result_array[i].dutyTime6c
+      } else {
+        array[13] = "(정보없음)"
+      }
+      if (result_array[i].dutyTime6s !== undefined) {
+        array[14] = result_array[i].dutyTime6s
+      } else {
+        array[14] = "(정보없음)"
+      }
+      if (result_array[i].dutyTime7c !== undefined) {
+        array[15] = result_array[i].dutyTime7c
+      } else {
+        array[15] = "(정보없음)"
+      }
+      if (result_array[i].dutyTime7s !== undefined) {
+        array[16] = result_array[i].dutyTime7s
+      } else {
+        array[16] = "(정보없음)"
+      }
+      if (result_array[i].dutyTime8c !== undefined) {
+        array[17] = result_array[i].dutyTime8c
+      } else {
+        array[17] = "(정보없음)"
+      }
+      if (result_array[i].dutyTime8s !== undefined) {
+        array[18] = result_array[i].dutyTime8s
+      } else {
+        array[18] = "(정보없음)"
+      }
+      if (result_array[i].wgs84Lat !== undefined || result_array[i].wgs84Lon !== undefined) {
+        array[19] = result_array[i].wgs84Lat
+        array[20] = result_array[i].wgs84Lon
+      } else {
+        continue;
+      }
+    } else {
+      continue;
+    };
+      
+    const updateMedicalQuery = `
+                INSERT INTO medical (address, name, tel, monc, mono, tuec, tueo, wedc, wedo, thuc, thuo, fric, frio, satc, sato, sunc, suno, holc, holo, lat, lon)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+                `;
+    const updateMedical = await connection.query(updateMedicalQuery, array);
+  };
+
+  return;
+}
+
 module.exports = {
-  getAllList,
-  getLift,
   updateBike,
   dropBike,
   getBikeData,
@@ -139,6 +259,9 @@ module.exports = {
   getSchool,
   getElevator,
   getMedical,
-  getWelfare
+  getWelfare,
+  getLift,
+  dropMedical,
+  updateMedical
 };
 
