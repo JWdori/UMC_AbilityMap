@@ -7,11 +7,11 @@ const { logger } = require("../../../config/winston");
 
 exports.createReport = async function(reportLocation, reportDate, reportContent, nickName, lat, lon, reportImage){
 
-    console.log("reportService.js");
+    // console.log("reportService.js");
     try {
         const connection = await pool.getConnection(async (conn) => conn);
         
-        const insertReportParams = [reportLocation, reportDate, reportContent, nickName, lat, lon, reportImage]
+        const insertReportParams = [reportLocation, reportDate, reportContent, nickName, lat, lon, reportImage];
         const reportResult = await reportDao.insertReport(connection, insertReportParams);
         connection.release();
 
