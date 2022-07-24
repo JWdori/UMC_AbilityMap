@@ -142,7 +142,6 @@ class EmergencyCallActivity : AppCompatActivity() {
                 intent.putExtra("position", position)
                 startActivityForResult(intent, 1000)
 
-                Log.d("@@@@@@ PERSONID @@@@@@", personId.toString())
 //                emergencyCallRVAdapter.setModifiedData(name, phoneNumber, position)
 //                personInfoDB.personInfoDao().updatePerson(name, phoneNumber, PersonId)
             }
@@ -189,6 +188,12 @@ class EmergencyCallActivity : AppCompatActivity() {
             emergencyCallRVAdapter.updatePerson(name, phoneNumber, text, position)      //recyclerview의 viewholder 정보 갱신
 
             emergencyCallRVAdapter.addPersonInfo(personInfoDB.personInfoDao().getPersonList() as ArrayList<PersonInfo>)     //recyclerview의 데이터 수정
+
+            val spfPersonInfo = getSharedPreferences("personInfo", MODE_PRIVATE)
+            val spfPosition : Int = spfPersonInfo.getInt("position", -1)
+            if(spfPosition == position){    //선택되었던 연락처일 시 곧바로 업데이트 data로 동기화
+                putSPF(name, phoneNumber, position)
+            }
 
             Log.d("DB 수정 후1", personInfoDB.personInfoDao().getPersonList().toString())
         }
