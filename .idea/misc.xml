@@ -3,41 +3,44 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
-        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/camera_dialog_clicked_event.xml" value="0.178" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/cencel_btn_event.xml" value="0.178" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/cencel_rounded_btn.xml" value="0.178" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/change_submit_back.xml" value="0.178" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/change_submit_clicked.xml" value="0.178" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/change_submit_clickevent.xml" value="0.178" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/change_submit_text_color.xml" value="0.178" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/save_button.xml" value="0.178" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/save_button_effect.xml" value="0.178" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/submit_dialog_clicked_event.xml" value="0.178" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/activity_add_phone_book.xml" value="0.5083333333333333" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/activity_camera2.xml" value="0.357421875" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/activity_choose_option.xml" value="0.357421875" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/activity_custom_dialog.xml" value="0.357421875" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/activity_emergency_call.xml" value="0.357421875" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/activity_filter.xml" value="0.357421875" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/activity_main.xml" value="0.357421875" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/activity_menu_book.xml" value="0.357421875" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/camera_detail.xml" value="0.5" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/change_submit_dialog.xml" value="0.3525390625" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/danger_detail.xml" value="0.5" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/dialog.xml" value="0.3525390625" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/filter_popup.xml" value="0.3525390625" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/first_popup.xml" value="0.3525390625" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/fragment_first.xml" value="0.3525390625" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/fragment_menu_book_first.xml" value="0.35546875" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/fragment_menu_book_fourth.xml" value="0.35546875" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/item_emergency_call.xml" value="0.19" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/location_detail.xml" value="0.5" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/mesaage_dialog.xml" value="0.3466796875" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/report_detail.xml" value="0.5" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/splash_logo.xml" value="0.3525390625" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/tool_bar.xml" value="0.357421875" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/user_first_dialog.xml" value="0.33" />
-        <entry key="..\:/github/Abilitymap/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml" value="0.1305" />
+
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_add_phone_book.xml" value="0.33" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_choose_option.xml" value="0.25" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_custom_dialog.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_emergency_call.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_main.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_menu_book.xml" value="0.33" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_notification.xml" value="0.33" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_onboarding.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/activity_oss.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/camera_detail.xml" value="0.245018115942029" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/change_submit_dialog.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/danger_detail.xml" value="0.17603850050658562" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/dialog.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/filter_popup.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_first.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_menu_book_first.xml" value="0.33" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_menu_book_fourth.xml" value="0.25" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_menu_book_second.xml" value="0.33" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_menu_book_third.xml" value="0.25" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_navigation_header.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_second.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/fragment_third.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/item_emergency_call.xml" value="0.25" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/item_notification.xml" value="0.17603850050658562" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/location_detail.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/mesaage_dialog.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/chali/AndroidStudioProjects/UMC_AbilityMap/app/src/main/res/layout/report_detail.xml" value="0.3619791666666667" />
+        <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/drawable/change_submit_clicked.xml" value="0.1" />
+        <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/drawable/change_submit_clickevent.xml" value="0.1" />
+        <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/drawable/change_submit_text_color.xml" value="0.1215" />
+        <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/layout/change_submit_dialog.xml" value="0.12135416666666667" />
+        <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/layout/danger_detail.xml" value="0.1" />
+        <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/layout/dialog.xml" value="0.12135416666666667" />
+        <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/layout/filter_popup.xml" value="0.12135416666666667" />
+        <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/layout/location_detail.xml" value="0.264" />
+        <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/layout/mesaage_dialog.xml" value="0.12135416666666667" />
+        <entry key="..\:/Users/tms/Desktop/UMC_AbilityMap/app/src/main/res/layout/user_first_dialog.xml" value="0.12135416666666667" />
       </map>
     </option>
   </component>

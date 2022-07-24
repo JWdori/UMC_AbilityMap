@@ -27,14 +27,13 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
     lateinit var mContext: Context
     lateinit var name : String
     lateinit var phoneNumber: String
-    var position : Int = -1
 
 
     interface MyItemClickListener{
         fun onResetViewHolder(holder: ViewHolder, position: Int, size : Int)
         fun onRemovePerson(PersonId : Int)
         fun onItemClicked(personInfo: PersonInfo, position: Int, name: String, phoneNumber: String, binding: ItemEmergencyCallBinding)
-//        fun onUpdatePerson(PersonId : Int)
+        fun onUpdatePerson(personId : Int, personInfo : PersonInfo, position : Int)
     }
 
     private lateinit var mItemClickListener : MyItemClickListener
@@ -66,36 +65,13 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
             showDialog(holder, position)
         }
 
-//        holder.binding.ivModifyEmergencyCall.setOnClickListener {
-//            mItemClickListener.onItemClicked(personInfo[position], position)
-//        }
-
-
-//        mContext.setMyItemClickListener(object : AddPhoneBookActivity.MyItemClickListener{
-//            override fun onClick() {
-//                mItemClickListener.onUpdatePerson(personInfo[position].personId)
-//                updatePerson(name, phoneNumber, position)
-//                setModifiedData("", "", -1)
-//            }
-//
-//        })
-//        Log.d("2", "error")
-
-//        AddPhoneBookActivity.instance.binding.tvSaveButtonAddPhoneBook.setOnClickListener {
-//            mItemClickListener.onUpdatePerson(personInfo[position].personId)
-//            updatePerson(this.name, this.phoneNumber, this.position)
-//            setModifiedData("", "", -1)
-//        }
+        holder.binding.ivUpdateEmergencyCall.setOnClickListener {
+            mItemClickListener.onUpdatePerson(personInfo[position].personId, personInfo[position], position)
+        }
 
     }
 
     override fun getItemCount(): Int = personInfo.size
-
-    fun setModifiedData(name: String, phoneNumber: String, position: Int){
-        this.name = name
-        this.phoneNumber = phoneNumber
-        this.position = position
-    }
 
     @SuppressLint("NotifyDataSetChanged")
     fun addPersonInfo(personInfo: ArrayList<PersonInfo>){
@@ -111,9 +87,10 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
     }
 
     @SuppressLint("NotifyDataSetChanged")
-    fun updatePerson(name: String, phoneNumber: String, position : Int){
-        this.personInfo.removeAt(position)
-        this.personInfo.add(position, PersonInfo(name, phoneNumber))
+    fun updatePerson(name: String, phoneNumber: String, text : String, position : Int){
+        this.personInfo[position].name = name
+        this.personInfo[position].phoneNumber = phoneNumber
+        this.personInfo[position].text = text
         notifyDataSetChanged()
     }
 
