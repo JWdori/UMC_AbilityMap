@@ -76,11 +76,28 @@ public class JsonApi_hos extends AsyncTask<String, String, String> {
                         item.getString("lat"),
                         item.getString("lon"),
                         item.getString("name"),
-                        item.getString("address")
+                        item.getString("address"),
+                        item.getString("tel"),
 //                        item.getString("week"),
 //                        item.getString("weekend"),
 //                        item.getString("holiday"),
-//                        item.getString("tel")
+                        item.getString("mono"),
+                        item.getString("monc"),
+                        item.getString("tueo"),
+                        item.getString("tuec"),
+                        item.getString("wedo"),
+                        item.getString("wedc"),
+                        item.getString("thuo"),
+                        item.getString("thuc"),
+                        item.getString("frio"),
+                        item.getString("fric"),
+                        item.getString("sato"),
+                        item.getString("satc"),
+                        item.getString("suno"),
+                        item.getString("sunc"),
+                        item.getString("holo"),
+                        item.getString("holc")
+
                 );
                 MainActivity.hos_list.add(hos_item);
 
@@ -109,15 +126,18 @@ public class JsonApi_hos extends AsyncTask<String, String, String> {
 
 
 
-        public hos_item(String lat, String lng, String name, String location) {
+        public hos_item(String lat, String lng, String name, String location, String phone, String mono, String monc, String tueo, String tuec, String wedo, String wedc, String thuo, String thuc, String frio, String fric, String sato, String satc, String suno, String sunc, String holo, String holc) {
             this.lat = lat;
             this.lng = lng;
             this.name = name;
             this.location = location;
-            this.week = week;
+            this.week = "월 "+mono + " ~ " + monc + "\n" + "화 "+ tueo + " ~ " + tuec + "\n"+"수 "+ wedo + " ~ " + wedc + "\n"
+                    + "목 "+ thuo + " ~ " + thuc + "\n" + "금 "+ frio + " ~ " + fric + "\n"
+                    + "토 "+ sato + " ~ " + satc+"\n"+"일 "+ suno + " ~ " + sunc +"\n" + "공휴일 "+holo + " ~ " + holc;
             this.weekend = weekend;
             this.holiday = holiday;
             this.phone = phone;
+
         }
 
         public String getName(){

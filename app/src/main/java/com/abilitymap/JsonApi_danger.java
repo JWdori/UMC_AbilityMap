@@ -83,6 +83,7 @@ public class JsonApi_danger extends AsyncTask<String, String, String> {
                 );
 
                 MainActivity.danger_list.add(danger_item);
+                System.out.println(danger_item.reportImage+"ㅎㅇ");
 
             }
             startFlagForCoronaApi = false;

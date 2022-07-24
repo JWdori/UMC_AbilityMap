@@ -84,7 +84,7 @@ public class DangerDetailFragment extends Fragment {
         setDangerContentView(reportContent);
         setDangerDateView(cReportDate);
         setDangerNicknameView(nickName);
-        //setDangerImageView(reportImage);
+        setDangerImageView(reportImage);
 
 
         changeRequestView.setOnClickListener(new View.OnClickListener() {
@@ -209,7 +209,6 @@ public class DangerDetailFragment extends Fragment {
     public void setDangerImageView(String reportImage){
         byte[] decodedString = Base64.decode(reportImage.getBytes(), Base64.DEFAULT);
         Bitmap decodedByte = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
-
         // \n, \ 제거하는 코드 필요
         dangerImageView.setImageBitmap(decodedByte);
     }

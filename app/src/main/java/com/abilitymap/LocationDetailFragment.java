@@ -90,8 +90,8 @@ public class LocationDetailFragment extends Fragment {
 
         String finalName = setDefault(name);
         String finalLocation = setDefault(location);
-        String finalWeek = setDefault(week);
-        finalPhone = setDefault(phone);
+        String finalWeek = setDefault_blank(week);
+        finalPhone = setDefault_blank(phone);
 
         setName(finalName);
         setLocationDetail(finalLocation);
@@ -139,11 +139,17 @@ public class LocationDetailFragment extends Fragment {
     }
     public String setDefault(String input){
         if(input==null){
-            return "정보 없음";
+            return "(정보없음)";
         }
         else return input;
     }
 
+    public String setDefault_blank(String input){
+        if(input=="" || input==null){
+            return "(정보없음)";
+        }
+        else return input;
+    }
 
 }
 
