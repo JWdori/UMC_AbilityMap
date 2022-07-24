@@ -52,16 +52,6 @@
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
-
-            <ImageView
-                android:id="@+id/danger_close"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_marginRight="6dp"
-                android:src="@drawable/close_black"
-
-                ></ImageView>
         </RelativeLayout>
 
 
@@ -70,6 +60,8 @@
             android:layout_width="wrap_content"
             android:layout_height="1dp"
             android:background="@color/white"
+            android:layout_marginRight="24dp"
+            android:layout_marginLeft="24dp"
             app:layout_constraintTop_toBottomOf="@id/danger_detail"
             tools:ignore="MissingConstraints" />
 
