@@ -129,7 +129,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private boolean isFilter = false;
     ProgressDialog dialog; //원형 프로그레스바
 
-
     DangerDetailFragment dangerInfoFragment = null;
     LocationDetailFragment infoFragment = null;
 
@@ -936,24 +935,23 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         String text = spfMode.getString("text", ""); //교통약자인지 판별 후 그에 맞는 기본 메세지 가져오기
 
-        int personId = spfPersonInfo.getInt("position", -1);   //선택된 연락처의 유저 특정하기 위한 id
+        int personId = spfPersonInfo.getInt("personId", -1);   //선택된 연락처의 유저 특정하기 위한 id
 
         PersonInfoDatabase personInfoDatabase = PersonInfoDatabase.Companion.getInstance(this);
-        List<PersonInfo> pL = personInfoDatabase.personInfoDao().getPersonList();
 
         if (personId != -1) {    //선택된 연락처가 있을 때
 
             Log.d("데이타 베이스 확인 ! ! !", personInfoDatabase.personInfoDao().getPersonList().toString());
-            Log.d("데이타 베이스 번호", pL.get(personId).getPhoneNumber());
-            Log.d("데이타 베이스 텍스트", pL.get(personId).getText());
+            Log.d("데이타 베이스 번호", personInfoDatabase.personInfoDao().getPhoneNumber(personId));
+            Log.d("데이타 베이스 텍스트", personInfoDatabase.personInfoDao().getText(personId));
 
 
-                if (!(pL.get(personId).getText().equals(""))) {  //텍스트 입력한 기록이 있는 연락처에 한정
+                if (!(personInfoDatabase.personInfoDao().getText(personId).equals(""))) {  //텍스트 입력한 기록이 있는 연락처에 한정
 
                     //선택된 연락처의 번호로 기본 메세지 + 기록된 메세지 전송
-                    manager.sendTextMessage(pL.get(personId).getPhoneNumber(), null, text + pL.get(personId).getText(), null, null);
+                    manager.sendTextMessage(personInfoDatabase.personInfoDao().getPhoneNumber(personId), null, text + personInfoDatabase.personInfoDao().getText(personId), null, null);
                 } else {   //선택된 연락처의 번호로 기본 메세지만 전송
-                    manager.sendTextMessage(pL.get(personId).getPhoneNumber(), null, text, null, null);
+                    manager.sendTextMessage(personInfoDatabase.personInfoDao().getPhoneNumber(personId), null, text, null, null);
                 }
 
         }
@@ -1005,12 +1003,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     System.out.println("허용");
                     //이전 선택된 연락처 기록 가져오기
                     SharedPreferences spfPersonInfo = getSharedPreferences("personInfo", MODE_PRIVATE);
-                    String name = spfPersonInfo.getString("name", "");
-                    String phoneNumber = spfPersonInfo.getString("phoneNumber", "");
-                    int personId = spfPersonInfo.getInt("position", -1);
+                    int personId = spfPersonInfo.getInt("personId", -1);
 
-                    Log.d("이름", name);
-                    Log.d("번호", phoneNumber);
+                    PersonInfoDatabase personInfoDatabase = PersonInfoDatabase.Companion.getInstance(getApplicationContext());
+                    String name = personInfoDatabase.personInfoDao().getName(personId);
+                    String phoneNumber = personInfoDatabase.personInfoDao().getPhoneNumber(personId);
 
 //                    if(name.equals("") && phoneNumber.equals("")){    //연락처 선택한 기록이 없을 시 연락처 추가하기로 이동 (저장된 연락처 확인하고 이것도 없으면 추가하기로 이동하는게 낫지 않을까요?)
 //                        Intent intent = new Intent(getApplicationContext(), AddPhoneBookActivity.class);
@@ -1018,7 +1015,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //                    }
 
 
-                    if (name.equals("") || phoneNumber.equals("")) {
+                    if (personId == -1) {
                         //앱 최초 실행시 하고 싶은 작업
                         View dialogView = getLayoutInflater().inflate(R.layout.first_popup, null);
                         AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
