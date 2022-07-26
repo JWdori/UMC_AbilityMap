@@ -13,6 +13,7 @@ import android.graphics.drawable.Drawable
 import android.text.SpannableStringBuilder
 import android.text.Spanned
 import android.text.style.StyleSpan
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -70,9 +71,12 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
 
                 mItemClickListener.onItemClicked(personInfo[position].personId, position)
 
-                for (i : Int in 0 until itemCount-1){    //직전 클릭된 layout 배경 reset
+                Log.d("POSITION OF RV : ", position.toString())
+
+                for (i : Int in 0 until itemCount){    //직전 클릭된 layout 배경 reset
 
                     try{
+                        Log.d("POSITION Test : ", i.toString())
                         val tHolder : EmergencyCallRVAdapter.ViewHolder = (recyclerView.findViewHolderForAdapterPosition(i) as ViewHolder?)!!
                         if (i != position && tHolder.binding.flag.text.toString().equals("true")){         //클릭 된 것을 제외한 view들 원 상태로 복귀
                             resetViewHolder(tHolder.binding, mContext.getDrawable(R.drawable.rectangle)!!, "#000000", "#000000", true, i)
