@@ -27,7 +27,7 @@ class FourthFragment : Fragment() {
         return binding.root
     }
 
-    private fun init(){
+    private fun init(){  //text 동적으로 부분 bold, color, size 등 처리
         val title : String = binding.tvFragmentFourth.text.toString()
 
         var builder = SpannableStringBuilder(title)

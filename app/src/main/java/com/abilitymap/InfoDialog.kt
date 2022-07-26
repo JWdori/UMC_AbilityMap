@@ -7,7 +7,7 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import com.abilitymap.databinding.DialogBinding
 
-class InfoDialog(context: Context) : Dialog(context){
+class InfoDialog(context: Context) : Dialog(context){   //유저의 선택을 재차 묻기 위한 Dialog
     // 뷰를 띄워야하므로 Dialog 클래스는 context를 인자로 받는다.
 
     private lateinit var binding : DialogBinding

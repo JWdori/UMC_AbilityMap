@@ -39,6 +39,8 @@ class ChooseOptionActivity :AppCompatActivity() {
     }
 
     private fun putSPF(mode : Int){
+        //교통약자 혹은 일반인 두 mode 중 어떤 것이 선택 됐는지 구분하기 위함
+        //위 구분으로 신고 기능 구현 시 대응하는 text를 나눔
         val spfOnBoarding : SharedPreferences = getSharedPreferences("mode", MODE_PRIVATE);
         val editor : SharedPreferences.Editor = spfOnBoarding.edit();
         editor.putInt("userMode", mode);
@@ -58,7 +60,7 @@ class ChooseOptionActivity :AppCompatActivity() {
             if (isYes == false && isNo == false){
                 Toast.makeText(this,"하나의 선택지를 선택해 주세요", Toast.LENGTH_SHORT).show()
             }
-            else{                       //선택지 하나가 선택되었을 시 onboarding화면 더 이상 안나오도록 하고
+            else{                       //선택지 하나가 선택된 이후부터 onboarding화면 더 이상 안나오도록 하고
                 checkClick()            // 이전 activity 종료 후 main activity로 이동
 
                 val spfOnBoarding = getSharedPreferences("onBoarding", MODE_PRIVATE)
@@ -73,7 +75,7 @@ class ChooseOptionActivity :AppCompatActivity() {
                 finish()
             }
         }
-        binding.tvYesChooseOption.setOnClickListener {      //교통약자 선택 시
+        binding.tvYesChooseOption.setOnClickListener {      //교통약자 선택 시 그에 맞게 시각적으로 버튼 배경 변환
             if (isYes == false && isNo == false){
                 binding.tvSelectButtonChooseOption.setBackgroundDrawable(resources.getDrawable(R.drawable.save_button_effect))
             }
@@ -90,7 +92,7 @@ class ChooseOptionActivity :AppCompatActivity() {
             binding.ivYesChooseOption.setImageResource(R.drawable.icon_onboarding_5_1)
             changeTextYesOption("#ffffff", "#e2e2e2")
         }
-        binding.tvNoChooseOption.setOnClickListener {   //교통약자가 아닌 선택 시
+        binding.tvNoChooseOption.setOnClickListener {   //교통약자가 아닌 선택 시 그에 맞게 시각적으로 버튼 배경 변환
             if (isYes == false && isNo == false){
                 binding.tvSelectButtonChooseOption.setBackgroundDrawable(resources.getDrawable(R.drawable.save_button_effect))
             }
@@ -111,7 +113,7 @@ class ChooseOptionActivity :AppCompatActivity() {
         }
     }
 
-    private fun changeTextYesOption(colorTitle : String, colorSubTitle : String){
+    private fun changeTextYesOption(colorTitle : String, colorSubTitle : String){ //text 동적으로 부분 bold, color, size 등 처리
         val yesOption : String = binding.tvYesChooseOption.text.toString()
 
         val builder = SpannableStringBuilder(yesOption)
@@ -128,7 +130,7 @@ class ChooseOptionActivity :AppCompatActivity() {
         binding.tvYesChooseOption.text = builder
     }
 
-    private fun changeText(){   //text 부분 bold 처리
+    private fun changeText(){   //text 동적으로 부분 bold, color, size 등 처리
         val title : String = binding.tvTitleChooseOption.text.toString()
         val noOption : String = binding.tvNoChooseOption.text.toString()
 

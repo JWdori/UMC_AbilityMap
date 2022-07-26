@@ -4,7 +4,7 @@ import androidx.room.Entity
 import androidx.room.PrimaryKey
 
 @Entity(tableName = "tableNews")
-data class News(
+data class News(    //알림 페이지의 item들을 나타낼 data class
     var title : String? = "",
     var date : String? = ""
 
