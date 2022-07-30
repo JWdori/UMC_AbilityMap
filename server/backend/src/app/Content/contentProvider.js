@@ -77,3 +77,12 @@ exports.getLift = async function() {
 
   return getLiftResult;
 }
+
+// 약국 정보 받아오기
+exports.getPharmacy = async function () {
+  const connection = await pool.getConnection(async (conn) => conn);
+  const getPharmacyResult = await contentDao.getPharmacy(connection);
+  connection.release();
+
+  return getPharmacyResult;
+}

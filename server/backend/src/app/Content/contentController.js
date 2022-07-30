@@ -112,6 +112,17 @@ exports.getLift = async function (req, res) {
 }
 
 /**
+ * API No. 1.8
+ * API Name : 약국 정보 받아오기
+ * [GET] /get/pharmacy
+ */
+exports.getPharmacy = async function (req, res) {
+    const getPharmacy = await contentProvider.getPharmacy();
+
+    return res.send(response(baseResponse.SUCCESS, getPharmacy));
+}
+
+/**
  * API No. 2.0
  * API Name : 자전거 사고 다발지역 정보 업데이트
  * [GET] /app/getData
@@ -174,10 +185,10 @@ exports.getLift = async function (req, res) {
 
 /**
  * API No. 2.1
- * API Name : 의료기관 정보 업데이트
+ * API Name : 의료기관 정보 업데이트 (약국 + 의료기관)
  */
 exports.updateMedical = async function (req, res) {
-    const getResult1 = async function () {
+    const getResult1 = async function () { // 약국 정보 업데이트
         await axios.get('http://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyFullDown', {
             params: {
                 serviceKey: process.env.PARMACY_KEY1,
@@ -188,17 +199,18 @@ exports.updateMedical = async function (req, res) {
             .then(function (response) {
                 const result_array1 = response.data.response.body.items.item;
                 // console.log(result_array1)
-                const updateMedical = contentService.updateMedical(result_array1);
+                const updatePharmacy = contentService.updatePharmacy(result_array1);
                 
                 // console.log(result_array1)
             });
     }
-
-    const drop = contentService.dropMedical();
+    
+    const drop1 = contentService.dropPharmacy();
+    const drop2 = contentService.dropMedical();
 
     // const a = getResult1();
 
-    const getResult2 = async function () {
+    const getResult2 = async function () { // 의료기관 정보 업데이트
         await axios.get('http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncFullDown', {
             params: {
                 serviceKey: process.env.FULL_KEY1,
@@ -214,8 +226,8 @@ exports.updateMedical = async function (req, res) {
     };
 
     // setTimeout(getResult2, 150000);
-    getResult1().then(getResult2())
+    getResult1().then(getResult2()).then(() => {return res.send(response(baseResponse.SUCCESS));})
     // const b = getResult2();
 
-    return res.send(response(baseResponse.SUCCESS));
+    // return res.send(response(baseResponse.SUCCESS));
 };
