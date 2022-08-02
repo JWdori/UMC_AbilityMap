@@ -1,5 +1,6 @@
 ## 2022 UMC PROJECT | 모아도
-진행 기간 : 7/1 ~ 
+### 관리자 앱: https://github.com/JWdori/UMC_Moado_AdminApp
+진행 기간 : 6/22 ~ 
 
 ### [TEAM INFO]
 #### Name
