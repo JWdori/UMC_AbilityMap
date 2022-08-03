@@ -1280,9 +1280,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         View header = binding.navigationView.getHeaderView(0);
-        ImageView image = header.findViewById(R.id.iv_close);
+        ImageView closeImage = header.findViewById(R.id.iv_close);
 
-        image.setOnClickListener(new View.OnClickListener() {
+        closeImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {        // X 클릭 시 close drawer
                 binding.drawerLayout.closeDrawer(GravityCompat.START);
@@ -1290,6 +1290,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
         binding.navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            //메뉴판 클릭 시
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 if (item.getItemId() == R.id.nav_notification) {    //알림
@@ -1412,7 +1413,7 @@ private void cameraDialog(){
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://m.naver.com")));
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("https://m.naver.com")));    //출시 전에 이동 주소 구글 마켓으로 바꾸기
                 dialog.dismiss();
             }
         });
