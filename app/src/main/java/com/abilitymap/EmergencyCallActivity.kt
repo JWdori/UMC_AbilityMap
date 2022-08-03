@@ -131,7 +131,7 @@ class EmergencyCallActivity : AppCompatActivity() {
                 personInfoDB.personInfoDao().deletePerson(PersonId)
                 Log.d("DB", personInfoDB.personInfoDao().getPersonList().toString())
                 checkNumberOfItems()
-                binding.tvNumOfInfoEmergencyCall.setText(personInfoDB.personInfoDao().getPersonList().size.toString()+"/10")
+                binding.tvNumOfInfoEmergencyCall.setText(personInfoDB.personInfoDao().getPersonList().size.toString()+"/5")
             }
             override fun onItemClicked(personId : Int, position : Int) {
                 //연락처 layout이 클릭될 시 sharedPreference에 해당 연락처 정보 삽입
@@ -172,7 +172,7 @@ class EmergencyCallActivity : AppCompatActivity() {
         super.onResume()
         initPersonInfoDB()
         checkNumberOfItems()
-        binding.tvNumOfInfoEmergencyCall.setText(personInfoDB.personInfoDao().getPersonList().size.toString()+"/10")
+        binding.tvNumOfInfoEmergencyCall.setText(personInfoDB.personInfoDao().getPersonList().size.toString()+"/5")
         checkSelectedPersonInfo()
     }
 
@@ -213,8 +213,8 @@ class EmergencyCallActivity : AppCompatActivity() {
         }
     }
 
-    private fun checkNumberOfItems(){   //연락처 개수 10개로 한정하기 위해 10개 충족 시 추가 버튼 안보이게끔
-        if (personInfoDB.personInfoDao().getPersonList().size>=10)
+    private fun checkNumberOfItems(){   //연락처 개수 5개로 한정하기 위해 5개 충족 시 추가 버튼 안보이게끔
+        if (personInfoDB.personInfoDao().getPersonList().size>=5)
             binding.clAddEmergencyCall.visibility = View.GONE
         else
             binding.clAddEmergencyCall.visibility = View.VISIBLE
