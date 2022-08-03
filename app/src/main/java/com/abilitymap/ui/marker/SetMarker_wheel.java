@@ -1,10 +1,11 @@
-package com.abilitymap;
+package com.abilitymap.ui.marker;
 
 import android.content.Context;
 import android.os.Handler;
 
 import androidx.annotation.NonNull;
 
+import com.abilitymap.R;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.overlay.InfoWindow;

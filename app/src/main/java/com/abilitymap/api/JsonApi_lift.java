@@ -1,4 +1,4 @@
-package com.abilitymap;
+package com.abilitymap.api;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class JsonApi_bike extends AsyncTask<String, String, String> {
+public class JsonApi_lift extends AsyncTask<String, String, String> {
     public static boolean startFlagForCoronaApi;
 
 
@@ -49,7 +49,7 @@ public class JsonApi_bike extends AsyncTask<String, String, String> {
 
 
         String data = "";
-        String myUrl3 = "http://3.35.237.29/get/bike";
+        String myUrl3 = "http://3.35.237.29/get/lift";
         try {
             URL url = new URL(myUrl3);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -73,12 +73,12 @@ public class JsonApi_bike extends AsyncTask<String, String, String> {
             JSONArray Api = root.getJSONArray("result");
             for (int i = 0; i < Api.length(); i++) {
                 JSONObject item = Api.getJSONObject(i);
-                bike_item bike_item = new bike_item(
+                lift_item lift_item = new lift_item(
                         item.getString("lat"),
                         item.getString("lon"),
                         item.getString("idx")
                 );
-                MainActivity.bike_list.add(bike_item);
+                MainActivity.lift_list.add(lift_item);
 
             }
             startFlagForCoronaApi = false;
@@ -91,7 +91,7 @@ public class JsonApi_bike extends AsyncTask<String, String, String> {
         return data;
     }
 
-    public class bike_item {
+    public class lift_item {
 
 
         private String lat;
@@ -101,7 +101,7 @@ public class JsonApi_bike extends AsyncTask<String, String, String> {
 
 
 
-        public bike_item(String lat, String lng, String idx) {
+        public lift_item(String lat, String lng, String idx) {
             this.lat = lat;
             this.lng = lng;
             this.idx = idx;

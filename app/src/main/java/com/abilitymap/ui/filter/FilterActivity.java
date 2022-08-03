@@ -1,4 +1,4 @@
-package com.abilitymap;
+package com.abilitymap.ui.filter;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -11,6 +11,7 @@ import android.widget.ImageButton;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.abilitymap.R;
 import com.abilitymap.ui.main.MainActivity;
 import com.github.angads25.toggle.interfaces.OnToggledListener;
 import com.github.angads25.toggle.model.ToggleableView;

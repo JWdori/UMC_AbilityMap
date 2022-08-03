@@ -1,4 +1,4 @@
-package com.abilitymap;
+package com.abilitymap.ui.marker;
 
 
 import android.app.AlertDialog;
@@ -19,6 +19,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.abilitymap.R;
 import com.abilitymap.ui.main.MainActivity;
 
 public class DangerDetailFragment extends Fragment {

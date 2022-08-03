@@ -1,4 +1,4 @@
-package com.abilitymap;
+package com.abilitymap.ui.main;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.abilitymap.R;
 import com.abilitymap.ui.main.MainActivity;
 import com.abilitymap.ui.onBoarding.OnboardingActivity;
 

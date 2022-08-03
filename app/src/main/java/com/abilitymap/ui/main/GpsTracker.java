@@ -1,27 +1,20 @@
-package com.abilitymap;
+package com.abilitymap.ui.main;
 
 import android.Manifest;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.location.Address;
-import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.util.Log;
-import android.widget.TextView;
-import android.widget.Toast;
 
-import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
-import java.io.IOException;
 import java.text.SimpleDateFormat;
-import java.util.Locale;
 
 public class GpsTracker extends Service implements LocationListener {
     private final Context mContext;
