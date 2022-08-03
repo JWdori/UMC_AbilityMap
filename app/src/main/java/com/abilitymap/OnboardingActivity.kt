@@ -30,6 +30,7 @@ class OnboardingActivity : FragmentActivity() {
     }
 
     private fun initViewPager(){
+        //뷰페이저 초기화 및 어뎁터 연결
         val onBoardingAdapter = OnboardingVPAdapter(this)
 
         binding.vpViewpagerOnboarding.adapter = onBoardingAdapter
@@ -38,6 +39,7 @@ class OnboardingActivity : FragmentActivity() {
         binding.vpViewpagerOnboarding.setCurrentItem(0)
 
         binding.tvSelectButtonOnboarding.setOnClickListener {
+            //마지막 페이지에서 다음 버튼 클릭 시 화면 전환, 이전 페이지일 시 다음 페이지로 이동
             if (binding.vpViewpagerOnboarding.currentItem==3){
                 startActivity(Intent(this, ChooseOptionActivity::class.java))
                 finish()
@@ -46,6 +48,7 @@ class OnboardingActivity : FragmentActivity() {
             }
         }
 
+        //뷰페이저 스크롤 기능 구현 및 indicator와 페이지 동기화
         binding.vpViewpagerOnboarding.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)

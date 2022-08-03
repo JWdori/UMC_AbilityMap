@@ -12,7 +12,7 @@ class OnboardingVPAdapter(fragmentActivity: FragmentActivity): FragmentStateAdap
 
 //        val idx : Int = getPos(position)
 
-        return when(position){
+        return when(position){  //페이지에 맞는 화면으로의 이동
             0 -> FirstFragment()
             1 -> SecondFragment()
             2 -> ThirdFragment()

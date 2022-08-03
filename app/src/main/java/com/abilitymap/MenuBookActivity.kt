@@ -27,6 +27,8 @@ class MenuBookActivity : FragmentActivity() {
     }
 
     private fun initViewPager(){
+        //뷰페이저 초기화 및 연결
+
         val menuBookVPAdapter = MenuBookVPAdapter(this)
 
         binding.vpViewpagerMenuBook.adapter = menuBookVPAdapter
@@ -34,16 +36,19 @@ class MenuBookActivity : FragmentActivity() {
         binding.indicatorMenuBook.createIndicators(4,0)
         binding.vpViewpagerMenuBook.setCurrentItem(0)
 
+        //좌, 우 방향 클릭 시 화면 넘김 이루어 지도록 설정
+        //가장자리에 위치한 페이지일 시 상황에 맞게 좌 우 방향 이미지 회색으로 변경하여
+        //클릭 불가능함을 시각적으로 연출
         binding.ivArrowLeftMenuBook.setOnClickListener {
             binding.vpViewpagerMenuBook.setCurrentItem(binding.vpViewpagerMenuBook.currentItem-1)
             checkSidePage()
         }
-
         binding.ivArrowRightMenuBook.setOnClickListener {
             binding.vpViewpagerMenuBook.setCurrentItem(binding.vpViewpagerMenuBook.currentItem+1)
             checkSidePage()
         }
 
+        //뷰페이저 스크롤 기능 구현 및 indicator와 동기화
         binding.vpViewpagerMenuBook.registerOnPageChangeCallback(object : ViewPager2.OnPageChangeCallback(){
             override fun onPageScrolled(position: Int, positionOffset: Float, positionOffsetPixels: Int) {
                 super.onPageScrolled(position, positionOffset, positionOffsetPixels)

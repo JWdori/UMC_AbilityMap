@@ -6,7 +6,7 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 
 @Database(entities = [PersonInfo::class], version = 1)
-abstract class PersonInfoDatabase : RoomDatabase(){
+abstract class PersonInfoDatabase : RoomDatabase(){     //데이터 베이스 객체
     abstract fun personInfoDao(): PersonInfoDao
 
     companion object{

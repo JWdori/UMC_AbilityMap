@@ -10,7 +10,7 @@ class MenuBookVPAdapter(fragmentActivity: FragmentActivity): FragmentStateAdapte
 
     override fun createFragment(position: Int): Fragment {
 
-        return when(position){
+        return when(position){  //페이지에 맞는 화면 보여줌
             0 -> MenuBookFirstFragment()
             1 -> MenuBookSecondFragment()
             2 -> MenuBookThirdFragment()

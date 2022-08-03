@@ -17,27 +17,6 @@ class AddPhoneBookActivity : AppCompatActivity() {
     lateinit var context : Context
     private lateinit var personInfoDatabase: PersonInfoDatabase
 
-//    init{
-//        instance = this
-//    }
-//    companion object {
-//        lateinit var instance: AddPhoneBookActivity
-//        fun applicationContext() : Context {
-//            return instance.applicationContext
-//        }
-//    }
-//
-//    interface MyItemClickListener{
-//        fun onClick()
-//    }
-//
-//    private lateinit var mItemClickListener : MyItemClickListener
-//
-//    fun setMyItemClickListener(itemClickListener : MyItemClickListener){
-//        mItemClickListener = itemClickListener
-//    }
-
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityAddPhoneBookBinding.inflate(layoutInflater)
@@ -53,8 +32,8 @@ class AddPhoneBookActivity : AppCompatActivity() {
     }
 
     private fun initClickListener(){
-        binding.ivArrowBackAddPhoneBook.setOnClickListener { finish() }
-        binding.tvSaveButtonAddPhoneBook.setOnClickListener {
+        binding.ivArrowBackAddPhoneBook.setOnClickListener { finish() } //뒤로가기 버튼 시 종료
+        binding.tvSaveButtonAddPhoneBook.setOnClickListener {   //저장 버튼 눌릴 시 관련 연산 처리
             addValidInfoToDB()
         }
         binding.etNameAddPhoneBook.addTextChangedListener(object : TextWatcher{
@@ -105,7 +84,7 @@ class AddPhoneBookActivity : AppCompatActivity() {
         })
     }
 
-    private fun addValidInfoToDB(){
+    private fun addValidInfoToDB(){ //정보 입력 시 필수사항 누락 경우 알림 
         if (binding.etNameAddPhoneBook.text.toString().isEmpty() || binding.etPhoneNumberAddPhoneBook.text.toString().isEmpty()){
             if (binding.etNameAddPhoneBook.text.toString().isEmpty() && binding.etPhoneNumberAddPhoneBook.text.toString().isEmpty()){
                 Toast.makeText(this,"저장할 정보를 모두 입력해 주세요", Toast.LENGTH_SHORT).show()
@@ -122,7 +101,9 @@ class AddPhoneBookActivity : AppCompatActivity() {
             }
         }
         else{       //정보가 모두 기입 됐을 시
-            if (intent.getStringExtra("name") == null){     //데이터 추가
+            if (intent.getStringExtra("name") == null){   //순수 연락처 추가인지 연락처 수정을 위한 경우인지 판별하기 위함
+
+                // '+'버튼을 눌러서 본 Activity로 전환해온 경우로 판별 -> 연락처 추가 DB에 새로운 데이터 추가
                 if (binding.etTextAddPhoneBook.text.toString().equals("")){
                     addPerson(binding.etNameAddPhoneBook.text.toString(), binding.etPhoneNumberAddPhoneBook.text.toString(), "")
                 }
@@ -133,18 +114,7 @@ class AddPhoneBookActivity : AppCompatActivity() {
                 Log.d("데이타 베이스 확인 ! ! !", personInfoDatabase.personInfoDao().getPersonList().toString())
                 finish()
             }
-            else{       //데이터 수정
-//                Log.d("Item ID", intent.getIntExtra("position", 0).toString())
-//                Log.d("수정된 Name", binding.etNameAddPhoneBook.text.toString())
-//                Log.d("수정된 PhoneNumber",binding.etPhoneNumberAddPhoneBook.text.toString())
-////                personInfoDatabase.personInfoDao().updatePerson(binding.etNameAddPhoneBook.text.toString(), binding.etPhoneNumberAddPhoneBook.text.toString(), intent.getIntExtra("position", 0))
-////                Log.d("DB 수정 후", personInfoDatabase.personInfoDao().getPersonList().toString())
-////                finish()
-////                mItemClickListener.onClick()
-//
-//                Log.d("DB 수정 전", personInfoDatabase.personInfoDao().getPersonList().toString())
-//                personInfoDatabase.personInfoDao().updatePerson(binding.etNameAddPhoneBook.text.toString(), binding.etPhoneNumberAddPhoneBook.text.toString(), intent.getIntExtra("position", 0))
-//                Log.d("DB 수정 후", personInfoDatabase.personInfoDao().getPersonList().toString())
+            else{       //수정 icon 눌러서 본 Activity로 전환해온 경우로 판별 -> 수정된 내용을 EmergencyCallActivity로 보냄
 
                 intent.putExtra("name", binding.etNameAddPhoneBook.text.toString())
                 intent.putExtra("phoneNumber", binding.etPhoneNumberAddPhoneBook.text.toString())
@@ -167,6 +137,7 @@ class AddPhoneBookActivity : AppCompatActivity() {
     }
 
     private fun initData(){
+        //ViewHolder의 수정 icon을 눌러서 본 Activity로 왔을 경우 해당 ViewHolder의 연락처 정보로 EditText들 setUp
 
         if (intent.getStringExtra("name") == null){
             Log.d("!!!", "추가할 데이터")
@@ -186,6 +157,7 @@ class AddPhoneBookActivity : AppCompatActivity() {
     }
 
     private fun checkButtonEffect(){
+        //추가할 연락처 정보가 모두 정상적으로 기입 됐는지 시각적으로 알려주기 위해 저장 버튼을 상황별로 바꿈
         if (binding.etNameAddPhoneBook.text.toString().equals("") || binding.etPhoneNumberAddPhoneBook.text.toString().equals("")){
             binding.tvSaveButtonAddPhoneBook.setBackgroundDrawable(resources.getDrawable(R.drawable.save_button_uncliked_effect))
         }

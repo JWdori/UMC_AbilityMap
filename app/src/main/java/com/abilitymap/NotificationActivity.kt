@@ -32,7 +32,7 @@ class NotificationActivity : AppCompatActivity() {
 
         notificationRVAdapter.setMyItemClickListener(object : NotificationRVAdapter.MyItemClickListener{
             override fun onClick(position: Int) {
-                if (position == 1){
+                if (position == 1){     //이용 설명서 클릭 시 해당 화면으로 전환
                     startActivity(Intent(applicationContext, MenuBookActivity::class.java))
                 }
             }
