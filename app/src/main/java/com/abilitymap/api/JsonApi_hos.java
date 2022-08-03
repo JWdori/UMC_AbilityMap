@@ -1,4 +1,4 @@
-package com.abilitymap;
+package com.abilitymap.api;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class JsonApi_fac extends AsyncTask<String, String, String> {
+public class JsonApi_hos extends AsyncTask<String, String, String> {
     public static boolean startFlagForCoronaApi;
 
 
@@ -49,7 +49,7 @@ public class JsonApi_fac extends AsyncTask<String, String, String> {
 
 
         String data = "";
-        String myUrl3 = "http://3.35.237.29/get/welfare";
+        String myUrl3 = "http://3.35.237.29/get/medical";
         try {
             URL url = new URL(myUrl3);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -73,17 +73,34 @@ public class JsonApi_fac extends AsyncTask<String, String, String> {
             JSONArray Api = root.getJSONArray("result");
             for (int i = 0; i < Api.length(); i++) {
                 JSONObject item = Api.getJSONObject(i);
-                fac_item fac_item = new fac_item(
+                hos_item hos_item = new hos_item(
                         item.getString("lat"),
                         item.getString("lon"),
                         item.getString("name"),
                         item.getString("address"),
-                        item.getString("time"),
+                        item.getString("tel"),
+//                        item.getString("week"),
 //                        item.getString("weekend"),
 //                        item.getString("holiday"),
-                        item.getString("tel")
+                        item.getString("mono"),
+                        item.getString("monc"),
+                        item.getString("tueo"),
+                        item.getString("tuec"),
+                        item.getString("wedo"),
+                        item.getString("wedc"),
+                        item.getString("thuo"),
+                        item.getString("thuc"),
+                        item.getString("frio"),
+                        item.getString("fric"),
+                        item.getString("sato"),
+                        item.getString("satc"),
+                        item.getString("suno"),
+                        item.getString("sunc"),
+                        item.getString("holo"),
+                        item.getString("holc")
+
                 );
-                MainActivity.fac_list.add(fac_item);
+                MainActivity.hos_list.add(hos_item);
 
             }
             startFlagForCoronaApi = false;
@@ -96,7 +113,7 @@ public class JsonApi_fac extends AsyncTask<String, String, String> {
         return data;
     }
 
-    public class fac_item {
+    public class hos_item {
 
 
         private String lat; //위도
@@ -110,15 +127,18 @@ public class JsonApi_fac extends AsyncTask<String, String, String> {
 
 
 
-        public fac_item(String lat, String lng, String name, String location, String week,String phone) {
+        public hos_item(String lat, String lng, String name, String location, String phone, String mono, String monc, String tueo, String tuec, String wedo, String wedc, String thuo, String thuc, String frio, String fric, String sato, String satc, String suno, String sunc, String holo, String holc) {
             this.lat = lat;
             this.lng = lng;
             this.name = name;
             this.location = location;
-            this.week = week;
+            this.week = "월 "+mono + " ~ " + monc + "\n" + "화 "+ tueo + " ~ " + tuec + "\n"+"수 "+ wedo + " ~ " + wedc + "\n"
+                    + "목 "+ thuo + " ~ " + thuc + "\n" + "금 "+ frio + " ~ " + fric + "\n"
+                    + "토 "+ sato + " ~ " + satc+"\n"+"일 "+ suno + " ~ " + sunc +"\n" + "공휴일 "+holo + " ~ " + holc;
             this.weekend = weekend;
             this.holiday = holiday;
             this.phone = phone;
+
         }
 
         public String getName(){

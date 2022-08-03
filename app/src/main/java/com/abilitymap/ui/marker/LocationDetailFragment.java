@@ -1,4 +1,4 @@
-package com.abilitymap;
+package com.abilitymap.ui.marker;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.abilitymap.R;
 import com.abilitymap.ui.main.MainActivity;
 
 public class LocationDetailFragment extends Fragment {

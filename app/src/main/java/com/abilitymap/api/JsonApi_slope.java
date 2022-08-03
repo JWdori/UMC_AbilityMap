@@ -1,4 +1,4 @@
-package com.abilitymap;
+package com.abilitymap.api;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class JsonApi_ele extends AsyncTask<String, String, String> {
+public class JsonApi_slope extends AsyncTask<String, String, String> {
     public static boolean startFlagForCoronaApi;
 
 
@@ -49,7 +49,7 @@ public class JsonApi_ele extends AsyncTask<String, String, String> {
 
 
         String data = "";
-        String myUrl3 = "http://3.35.237.29/get/elevator";
+        String myUrl3 = "http://3.35.237.29/get/ramp";
         try {
             URL url = new URL(myUrl3);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
@@ -73,12 +73,12 @@ public class JsonApi_ele extends AsyncTask<String, String, String> {
             JSONArray Api = root.getJSONArray("result");
             for (int i = 0; i < Api.length(); i++) {
                 JSONObject item = Api.getJSONObject(i);
-                ele_item ele_item = new ele_item(
+                slope_item slope_item = new slope_item(
                         item.getString("lat"),
                         item.getString("lon"),
                         item.getString("idx")
                 );
-                MainActivity.ele_list.add(ele_item);
+                MainActivity.slope_list.add(slope_item);
 
             }
             startFlagForCoronaApi = false;
@@ -91,7 +91,7 @@ public class JsonApi_ele extends AsyncTask<String, String, String> {
         return data;
     }
 
-    public class ele_item {
+    public class slope_item {
 
 
         private String lat;
@@ -101,7 +101,7 @@ public class JsonApi_ele extends AsyncTask<String, String, String> {
 
 
 
-        public ele_item(String lat, String lng, String idx) {
+        public slope_item(String lat, String lng, String idx) {
             this.lat = lat;
             this.lng = lng;
             this.idx = idx;

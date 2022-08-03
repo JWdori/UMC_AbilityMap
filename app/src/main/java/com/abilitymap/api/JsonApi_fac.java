@@ -1,4 +1,4 @@
-package com.abilitymap;
+package com.abilitymap.api;
 
 import android.os.AsyncTask;
 import android.util.Log;
@@ -16,7 +16,7 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-public class JsonApi_slope extends AsyncTask<String, String, String> {
+public class JsonApi_fac extends AsyncTask<String, String, String> {
     public static boolean startFlagForCoronaApi;
 
 
@@ -49,12 +49,12 @@ public class JsonApi_slope extends AsyncTask<String, String, String> {
 
 
         String data = "";
-        String myUrl3 = "http://3.35.237.29/get/ramp";
+        String myUrl3 = "http://3.35.237.29/get/welfare";
         try {
             URL url = new URL(myUrl3);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setReadTimeout(10000);
-            conn.setConnectTimeout(15000);
+            conn.setReadTimeout(0);
+            conn.setConnectTimeout(0);
             conn.setRequestMethod("GET");
             conn.setDoInput(true);
             conn.connect();
@@ -73,12 +73,17 @@ public class JsonApi_slope extends AsyncTask<String, String, String> {
             JSONArray Api = root.getJSONArray("result");
             for (int i = 0; i < Api.length(); i++) {
                 JSONObject item = Api.getJSONObject(i);
-                slope_item slope_item = new slope_item(
+                fac_item fac_item = new fac_item(
                         item.getString("lat"),
                         item.getString("lon"),
-                        item.getString("idx")
+                        item.getString("name"),
+                        item.getString("address"),
+                        item.getString("time"),
+//                        item.getString("weekend"),
+//                        item.getString("holiday"),
+                        item.getString("tel")
                 );
-                MainActivity.slope_list.add(slope_item);
+                MainActivity.fac_list.add(fac_item);
 
             }
             startFlagForCoronaApi = false;
@@ -91,46 +96,53 @@ public class JsonApi_slope extends AsyncTask<String, String, String> {
         return data;
     }
 
-    public class slope_item {
+    public class fac_item {
 
 
-        private String lat;
-        private String lng;
-        private String idx;
-        private String remain_stat;
+        private String lat; //위도
+        private String lng; //경도
+        private String name;    //장소 이름
+        private String location;    //상세주소
+        private String week;    //주중 영업시간
+        private String weekend; //주말 영업시간
+        private String holiday; //공휴일 영업시간
+        private String phone;   //전화번호
 
 
 
-        public slope_item(String lat, String lng, String idx) {
+        public fac_item(String lat, String lng, String name, String location, String week,String phone) {
             this.lat = lat;
             this.lng = lng;
-            this.idx = idx;
-
+            this.name = name;
+            this.location = location;
+            this.week = week;
+            this.weekend = weekend;
+            this.holiday = holiday;
+            this.phone = phone;
         }
 
         public String getName(){
-            return idx;
+            return name;
         }
-
-        public void setName(String idx) {
-            this.idx = idx;
+        public void setName(String name) {
+            this.name = name;
         }
-
 
         public String getLat(){
             return lat;
         }
-        public void setLat(String lat) {
-            this.lat = lat;
-        }
-
+        public void setLat(String lat) { this.lat = lat; }
         public String getLng(){
             return lng;
         }
-
         public void setlng(String lng) {
             this.lng = lng;
         }
+        public String getLocation() { return location; }
+        public String getWeek() { return week; }
+        public String getWeekend() { return weekend; }
+        public String getHoliday() { return holiday; }
+        public String getPhone() { return phone; }
 
 
 
