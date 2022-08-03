@@ -21,7 +21,7 @@ module.exports = function(app){
     // 1.4 지하철 역 엘리베이터 위치 받아오기
     app.get("/get/elevator", content.getElevator);
     
-    // 1.5 약국 + 병원 + 의원 + 보건소 데이터 받아오기
+    // 1.5 병원 + 의원 + 보건소 데이터 받아오기
     app.get("/get/medical", content.getMedical);
 
     // 1.6 복지센터 데이터 받아오기
@@ -29,6 +29,9 @@ module.exports = function(app){
 
     // 1.7 휠체어 리프트 데이터 받아오기
     app.get("/get/lift", content.getLift);
+
+    // 1.8 약국 데이터 받아오기
+    app.get("/get/pharmacy", content.getPharmacy);
     
 
     // 2.0 공공 데이터 자전거 사고 다발지역 정보 업데이트 -> 클라이언트 측 사용 X, 관리자가 데이터 업데이트 할 때 사용 예정

@@ -1,14 +1,22 @@
 ## 2022 UMC PROJECT | 모아도
-진행 기간 : 7/1 ~ 7/24 
+### 관리자 앱: https://github.com/JWdori/UMC_Moado_AdminApp
+진행 기간 : 6/22 ~ 
 
 ### [TEAM INFO]
 #### Name
 - 지라이프랩
    
 >Member
-- 임재완 [@jaewan0114](https://github.com/jaewan0114)
-- 윤진난 [@Jinnan-Yun](https://github.com/Jinnan-Yun)
-- 서위영 [@HBSPS](https://github.com/HBSPS)
+#### Member
+> App (Android)
+- 임재완(PM)  [@jaewan0114](https://github.com/jaewan0114)
+- 오상희 [@sh-532](https://github.com/sh-532)     
+- 정현규 [@hkjeong2](https://github.com/hkjeong2)   
+
+> Server (Node.js)
+- 서위영 [@HBSPS](https://github.com/HBSPS)   
+- 윤진난 [@Jinnan-Yun](https://github.com/Jinnan-Yun)   
+- 곽정아 [@JungAh](https://github.com/Jungahgo)   
 > Designer 
 - 정민희 [Linkedin](https://www.linkedin.com/in/%EB%AF%BC%ED%9D%AC-%EC%A0%95-b96197204/)
 
