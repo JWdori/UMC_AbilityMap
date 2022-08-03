@@ -1,4 +1,4 @@
-package com.abilitymap
+package com.abilitymap.ui.menuBook
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity

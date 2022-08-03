@@ -1,12 +1,8 @@
-package com.abilitymap
+package com.abilitymap.ui.emergencyCall
 
 import android.annotation.SuppressLint
-import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
-import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
-import android.content.res.Resources
 import android.graphics.Color
 import android.graphics.Typeface
 import android.graphics.drawable.Drawable
@@ -17,14 +13,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
-import androidx.constraintlayout.widget.ConstraintLayout
-import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.abilitymap.data.personInfo.PersonInfo
+import com.abilitymap.R
 import com.abilitymap.databinding.ItemEmergencyCallBinding
-import java.lang.reflect.Type
 
 class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.ViewHolder>() {
 
@@ -53,14 +47,14 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
         mItemClickListener = itemClickListener  //EmergencyCallActivity와 연결
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): EmergencyCallRVAdapter.ViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         //데이터를 담을 ViewHolder 생성
         binding = ItemEmergencyCallBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
 
         return ViewHolder(binding)
     }
 
-    override fun onBindViewHolder(holder: EmergencyCallRVAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.bind(personInfo[position], position) //ViewHoldr binding
 
         holder.binding.layoutEmergencyCall.setOnClickListener {
@@ -82,7 +76,7 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
 
                     try{
                         Log.d("POSITION Test : ", i.toString())
-                        val tHolder : EmergencyCallRVAdapter.ViewHolder = (recyclerView.findViewHolderForAdapterPosition(i) as ViewHolder?)!!
+                        val tHolder : ViewHolder = (recyclerView.findViewHolderForAdapterPosition(i) as ViewHolder?)!!
                         if (i != position && tHolder.binding.flag.text.toString().equals("true")){         //클릭 된 것을 제외한 view들 원 상태로 복귀
                             resetViewHolder(tHolder.binding, mContext.getDrawable(R.drawable.rectangle)!!, "#000000", "#000000", true, i)
                             break
@@ -148,7 +142,7 @@ class EmergencyCallRVAdapter(): RecyclerView.Adapter<EmergencyCallRVAdapter.View
         }
     }
 
-    fun showDialog(holder: EmergencyCallRVAdapter.ViewHolder, position : Int){
+    fun showDialog(holder: ViewHolder, position : Int){
         //삭제 확인을 재차 묻기 위한 Dialog
 
         val dialog : Dialog = InfoDialog(mContext)

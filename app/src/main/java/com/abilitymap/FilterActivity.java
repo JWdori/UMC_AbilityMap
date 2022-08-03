@@ -1,31 +1,20 @@
 package com.abilitymap;
 
-import android.Manifest;
 import android.app.Activity;
-import android.app.ActivityOptions;
 import android.app.ProgressDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.Toast;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.app.ActivityCompat;
 
-import com.abilitymap.databinding.FirstPopupBinding;
+import com.abilitymap.ui.main.MainActivity;
 import com.github.angads25.toggle.interfaces.OnToggledListener;
 import com.github.angads25.toggle.model.ToggleableView;
 import com.github.angads25.toggle.widget.LabeledSwitch;
-import com.naver.maps.map.overlay.Overlay;
 
 import java.util.Map;
 

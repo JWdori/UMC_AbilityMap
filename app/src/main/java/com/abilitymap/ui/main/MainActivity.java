@@ -1,4 +1,4 @@
-package com.abilitymap;
+package com.abilitymap.ui.main;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.annotation.NonNull;
@@ -42,8 +42,31 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.abilitymap.databinding.ActivityMainBinding;
+import com.abilitymap.DangerDetailFragment;
+import com.abilitymap.FilterActivity;
+import com.abilitymap.GpsTracker;
+import com.abilitymap.ui.emergencyCall.InfoDialog;
+import com.abilitymap.JsonApi_bike;
+import com.abilitymap.JsonApi_charge;
+import com.abilitymap.JsonApi_danger;
+import com.abilitymap.JsonApi_ele;
+import com.abilitymap.JsonApi_fac;
+import com.abilitymap.JsonApi_hos;
+import com.abilitymap.JsonApi_lift;
+import com.abilitymap.JsonApi_slope;
+import com.abilitymap.JsonApi_wheel;
+import com.abilitymap.LocationDetailFragment;
+import com.abilitymap.data.personInfo.PersonInfoDatabase;
+import com.abilitymap.R;
+import com.abilitymap.Report_detail;
+import com.abilitymap.SetMarker_facility;
+import com.abilitymap.SetMarker_wheel;
 
+import com.abilitymap.databinding.ActivityMainBinding;
+import com.abilitymap.ui.emergencyCall.EmergencyCallActivity;
+import com.abilitymap.ui.menuBook.MenuBookActivity;
+import com.abilitymap.ui.notification.NotificationActivity;
+import com.abilitymap.ui.oss.OssActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;

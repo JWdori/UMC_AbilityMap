@@ -1,8 +1,8 @@
 package com.abilitymap;
 
 import android.os.AsyncTask;
-import android.util.Log;
 
+import com.abilitymap.ui.main.MainActivity;
 import com.google.gson.JsonSyntaxException;
 
 import org.json.JSONArray;

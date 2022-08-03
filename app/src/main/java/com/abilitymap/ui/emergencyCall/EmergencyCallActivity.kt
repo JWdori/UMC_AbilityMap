@@ -1,4 +1,4 @@
-package com.abilitymap
+package com.abilitymap.ui.emergencyCall
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -15,6 +15,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import com.abilitymap.data.personInfo.PersonInfo
+import com.abilitymap.data.personInfo.PersonInfoDatabase
+import com.abilitymap.R
 import com.abilitymap.databinding.ActivityEmergencyCallBinding
 
 class EmergencyCallActivity : AppCompatActivity() {
@@ -93,7 +96,8 @@ class EmergencyCallActivity : AppCompatActivity() {
 
         setUpRecyclerView()
 
-        emergencyCallRVAdapter.setMyItemClickListener(object: EmergencyCallRVAdapter.MyItemClickListener{
+        emergencyCallRVAdapter.setMyItemClickListener(object:
+            EmergencyCallRVAdapter.MyItemClickListener {
             //RVAdapter 쪽에서의 클릭 리스너 관련 데이터 처리하기 위한 call back interface
             //Caller로서 Callee인 RVAdapter가 동작 도중 event가 발생하면 해당 interface를 통해 Caller를 호출하여 이로하여금 업무 처리
             //필요한 연산 수행을 위한 listener 등록

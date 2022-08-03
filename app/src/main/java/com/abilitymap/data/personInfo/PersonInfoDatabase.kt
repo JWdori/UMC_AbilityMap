@@ -1,4 +1,4 @@
-package com.abilitymap
+package com.abilitymap.data.personInfo
 
 import android.content.Context
 import androidx.room.Database
@@ -13,8 +13,8 @@ abstract class PersonInfoDatabase : RoomDatabase(){     //데이터 베이스 �
         private var instance : PersonInfoDatabase? = null
 
         @Synchronized
-        fun getInstance(context: Context):PersonInfoDatabase?{
-            if(instance==null){
+        fun getInstance(context: Context): PersonInfoDatabase?{
+            if(instance ==null){
                 synchronized(PersonInfoDatabase::class){
                     instance = Room.databaseBuilder(
                         context.applicationContext,

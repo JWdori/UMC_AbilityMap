@@ -1,10 +1,12 @@
-package com.abilitymap
+package com.abilitymap.ui.notification
 
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.abilitymap.data.news.News
 import com.abilitymap.databinding.ActivityNotificationBinding
+import com.abilitymap.ui.menuBook.MenuBookActivity
 
 class NotificationActivity : AppCompatActivity() {
 
@@ -30,7 +32,8 @@ class NotificationActivity : AppCompatActivity() {
         binding.rvNotification.adapter = notificationRVAdapter
         binding.rvNotification.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false)
 
-        notificationRVAdapter.setMyItemClickListener(object : NotificationRVAdapter.MyItemClickListener{
+        notificationRVAdapter.setMyItemClickListener(object :
+            NotificationRVAdapter.MyItemClickListener {
             override fun onClick(position: Int) {
                 if (position == 1){     //이용 설명서 클릭 시 해당 화면으로 전환
                     startActivity(Intent(applicationContext, MenuBookActivity::class.java))

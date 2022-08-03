@@ -1,9 +1,8 @@
-package com.abilitymap
+package com.abilitymap.ui.onBoarding
 
 import android.content.Intent
 import android.graphics.Paint
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.widget.ViewPager2
 import com.abilitymap.databinding.ActivityOnboardingBinding

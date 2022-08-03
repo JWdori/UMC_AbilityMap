@@ -7,6 +7,9 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.Handler;
 
+import com.abilitymap.ui.main.MainActivity;
+import com.abilitymap.ui.onBoarding.OnboardingActivity;
+
 public class SplashActivity extends AppCompatActivity {
 
     @Override
