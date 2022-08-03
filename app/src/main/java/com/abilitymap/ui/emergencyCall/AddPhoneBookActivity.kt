@@ -1,4 +1,4 @@
-package com.abilitymap
+package com.abilitymap.ui.emergencyCall
 
 import android.content.Context
 import android.graphics.Color
@@ -8,8 +8,10 @@ import android.text.TextWatcher
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.abilitymap.data.personInfo.PersonInfo
+import com.abilitymap.data.personInfo.PersonInfoDatabase
+import com.abilitymap.R
 import com.abilitymap.databinding.ActivityAddPhoneBookBinding
-import okhttp3.internal.Internal.instance
 
 class AddPhoneBookActivity : AppCompatActivity() {
 

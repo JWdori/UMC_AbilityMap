@@ -1,22 +1,22 @@
-package com.abilitymap
+package com.abilitymap.ui.menuBook
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.abilitymap.databinding.FragmentMenuBookSecondBinding
+import com.abilitymap.databinding.FragmentMenuBookFirstBinding
 
-class MenuBookSecondFragment : Fragment() {
+class MenuBookFirstFragment : Fragment() {
 
-    lateinit var binding : FragmentMenuBookSecondBinding
+    lateinit var binding : FragmentMenuBookFirstBinding
 
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        binding = FragmentMenuBookSecondBinding.inflate(inflater, container, false)
+        binding = FragmentMenuBookFirstBinding.inflate(inflater, container, false)
 
         return binding.root
     }

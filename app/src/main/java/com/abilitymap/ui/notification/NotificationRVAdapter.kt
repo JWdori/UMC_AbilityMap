@@ -1,9 +1,10 @@
-package com.abilitymap
+package com.abilitymap.ui.notification
 
 import android.annotation.SuppressLint
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.abilitymap.data.news.News
 import com.abilitymap.databinding.ItemNotificationBinding
 
 class NotificationRVAdapter(): RecyclerView.Adapter<NotificationRVAdapter.ViewHolder>() {
@@ -20,14 +21,14 @@ class NotificationRVAdapter(): RecyclerView.Adapter<NotificationRVAdapter.ViewHo
         mItemClickListener = itemClickListener
     }
 
-    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): NotificationRVAdapter.ViewHolder {
+    override fun onCreateViewHolder(viewGroup: ViewGroup, viewType: Int): ViewHolder {
         //item view 객체 재활용 위한 VH 생성
         val binding:ItemNotificationBinding = ItemNotificationBinding.inflate(LayoutInflater.from(viewGroup.context), viewGroup, false)
 
         return ViewHolder(binding) //item view 객체 message passing
     }
 
-    override fun onBindViewHolder(holder: NotificationRVAdapter.ViewHolder, position: Int) {
+    override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         //view holder로부터 data binding
         holder.bind(news[position])
 

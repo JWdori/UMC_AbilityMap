@@ -2,23 +2,16 @@ package com.abilitymap;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.text.style.ClickableSpan;
-import android.util.Log;
-import android.view.DragEvent;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
-import android.view.View.OnTouchListener;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.DrawableRes;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
-import com.abilitymap.MainActivity;
+import com.abilitymap.ui.main.MainActivity;
 
 public class LocationDetailFragment extends Fragment {
     MainActivity activity;

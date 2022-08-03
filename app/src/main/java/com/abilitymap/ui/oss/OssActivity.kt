@@ -1,7 +1,6 @@
-package com.abilitymap
+package com.abilitymap.ui.oss
 
 import android.os.Bundle
-import android.view.LayoutInflater
 import androidx.appcompat.app.AppCompatActivity
 import com.abilitymap.databinding.ActivityOssBinding
 

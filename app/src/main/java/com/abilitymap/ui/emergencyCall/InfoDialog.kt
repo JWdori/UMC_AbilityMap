@@ -1,4 +1,4 @@
-package com.abilitymap
+package com.abilitymap.ui.emergencyCall
 
 import android.app.Dialog
 import android.content.Context

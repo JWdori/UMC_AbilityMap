@@ -1,4 +1,4 @@
-package com.abilitymap
+package com.abilitymap.ui.main
 
 import android.os.Bundle
 import android.view.LayoutInflater

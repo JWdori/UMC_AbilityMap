@@ -1,4 +1,4 @@
-package com.abilitymap
+package com.abilitymap.ui.onBoarding
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -12,6 +12,8 @@ import android.text.style.RelativeSizeSpan
 import android.text.style.StyleSpan
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.abilitymap.ui.main.MainActivity
+import com.abilitymap.R
 import com.abilitymap.databinding.ActivityChooseOptionBinding
 
 class ChooseOptionActivity :AppCompatActivity() {

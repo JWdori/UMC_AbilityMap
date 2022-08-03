@@ -1,4 +1,4 @@
-package com.abilitymap
+package com.abilitymap.data.personInfo
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey

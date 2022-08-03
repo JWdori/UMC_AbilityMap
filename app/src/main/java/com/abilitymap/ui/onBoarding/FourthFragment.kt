@@ -1,4 +1,4 @@
-package com.abilitymap
+package com.abilitymap.ui.onBoarding
 
 import android.graphics.Typeface
 import android.os.Bundle
