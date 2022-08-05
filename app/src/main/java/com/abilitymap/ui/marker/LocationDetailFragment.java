@@ -29,7 +29,7 @@ public class LocationDetailFragment extends Fragment {
     String location="default";
     String week="default";
     String holiday="default";
-    String phone=" ";
+    String phone="";
     String finalPhone;
 
 
