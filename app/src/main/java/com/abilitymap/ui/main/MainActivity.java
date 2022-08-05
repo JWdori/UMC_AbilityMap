@@ -954,7 +954,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         SharedPreferences spfPersonInfo = getSharedPreferences("personInfo", MODE_PRIVATE); //선택된 연락처 정보 가져오기
         SharedPreferences spfMode = getSharedPreferences("mode", MODE_PRIVATE);     //선택된 유저 모드 정보 가져오기
-
+        SharedPreferences spfAddress = getSharedPreferences("location", MODE_PRIVATE);     //위치 정보 보내기
+        
         String text = spfMode.getString("text", ""); //교통약자인지 판별 후 그에 맞는 기본 메세지 가져오기
 
         int personId = spfPersonInfo.getInt("personId", -1);   //선택된 연락처의 유저 특정하기 위한 id
@@ -977,6 +978,27 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
 
         }
+
+        double latitude;
+        double longitude;
+
+        try {
+            latitude = gpsTracker.getLatitude();
+        } catch (Exception e) {
+            latitude = 37.496787860046965;
+        }
+        try {
+            longitude = gpsTracker.getLongitude();
+        }catch (Exception e){
+            longitude = 126.94575323439247;
+        }
+
+        String address = getSimpleCurrentAddress(getCurrentAddress(latitude, longitude));
+
+        SharedPreferences.Editor editor = spfAddress.edit();
+        editor.putString("address", address);
+        editor.commit();
+
     }
 
     @Override
