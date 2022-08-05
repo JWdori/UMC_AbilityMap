@@ -955,30 +955,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         SharedPreferences spfPersonInfo = getSharedPreferences("personInfo", MODE_PRIVATE); //선택된 연락처 정보 가져오기
         SharedPreferences spfMode = getSharedPreferences("mode", MODE_PRIVATE);     //선택된 유저 모드 정보 가져오기
         SharedPreferences spfAddress = getSharedPreferences("location", MODE_PRIVATE);     //위치 정보 보내기
-        
         String text = spfMode.getString("text", ""); //교통약자인지 판별 후 그에 맞는 기본 메세지 가져오기
 
         int personId = spfPersonInfo.getInt("personId", -1);   //선택된 연락처의 유저 특정하기 위한 id
 
         PersonInfoDatabase personInfoDatabase = PersonInfoDatabase.Companion.getInstance(this);
-
-        if (personId != -1) {    //선택된 연락처가 있을 때
-
-            Log.d("데이타 베이스 확인 ! ! !", personInfoDatabase.personInfoDao().getPersonList().toString());
-            Log.d("데이타 베이스 번호", personInfoDatabase.personInfoDao().getPhoneNumber(personId));
-            Log.d("데이타 베이스 텍스트", personInfoDatabase.personInfoDao().getText(personId));
-
-
-                if (!(personInfoDatabase.personInfoDao().getText(personId).equals(""))) {  //텍스트 입력한 기록이 있는 연락처에 한정
-
-                    //선택된 연락처의 번호로 기본 메세지 + 기록된 메세지 전송
-                    manager.sendTextMessage(personInfoDatabase.personInfoDao().getPhoneNumber(personId), null, text + personInfoDatabase.personInfoDao().getText(personId), null, null);
-                } else {   //선택된 연락처의 번호로 기본 메세지만 전송
-                    manager.sendTextMessage(personInfoDatabase.personInfoDao().getPhoneNumber(personId), null, text, null, null);
-                }
-
-        }
-
         double latitude;
         double longitude;
 
@@ -994,10 +975,25 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         String address = getSimpleCurrentAddress(getCurrentAddress(latitude, longitude));
+        if (personId != -1) {    //선택된 연락처가 있을 때
 
-        SharedPreferences.Editor editor = spfAddress.edit();
-        editor.putString("address", address);
-        editor.commit();
+            Log.d("데이타 베이스 확인 ! ! !", personInfoDatabase.personInfoDao().getPersonList().toString());
+            Log.d("데이타 베이스 번호", personInfoDatabase.personInfoDao().getPhoneNumber(personId));
+            Log.d("데이타 베이스 텍스트", personInfoDatabase.personInfoDao().getText(personId));
+
+
+                if (!(personInfoDatabase.personInfoDao().getText(personId).equals(""))) {  //텍스트 입력한 기록이 있는 연락처에 한정
+
+                    //선택된 연락처의 번호로 기본 메세지 + 기록된 메세지 전송
+                    manager.sendTextMessage(personInfoDatabase.personInfoDao().getPhoneNumber(personId), null, text+"\n"+address + personInfoDatabase.personInfoDao().getText(personId), null, null);
+                } else {   //선택된 연락처의 번호로 기본 메세지만 전송
+                    manager.sendTextMessage(personInfoDatabase.personInfoDao().getPhoneNumber(personId), null, text+"\n"+address , null, null);
+                }
+
+        }
+
+
+
 
     }
 
