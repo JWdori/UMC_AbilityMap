@@ -12,3 +12,12 @@ exports.getReportInfo = async function(){
 
     return reportResult;
 }
+
+exports.getWrongReportInfo = async function(){
+    const connection = await pool.getConnection(async (conn) => conn);
+    const reportResult = await reportDao.getWrongReport(connection);
+
+    connection.release();
+
+    return reportResult;
+}
