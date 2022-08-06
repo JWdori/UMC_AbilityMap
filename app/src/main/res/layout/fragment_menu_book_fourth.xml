@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff">
+
+    <ImageView
+        android:id="@+id/iv_fragment_menu_book_fourth"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_fragment_menu_book_fourth"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:src="@drawable/icon_reporting"/>
+
+    <TextView
+        android:id="@+id/tv_fragment_menu_book_fourth"
+        android:text="위험 제보하기"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:letterSpacing="0.01"
+        android:lineSpacingExtra="4.8sp"
+        android:textStyle="bold"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="55dp"
+        app:layout_constraintVertical_weight="24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_fragment_sub_menu_book_fourth"
+        app:layout_constraintTop_toBottomOf="@id/iv_fragment_menu_book_fourth"
+        android:layout_marginLeft="39dp"
+        android:layout_marginRight="39dp"/>
+
+    <TextView
+        android:id="@+id/tv_fragment_sub_menu_book_fourth"
+        android:text="사진과 상세설명으로 위험을 제보해요\n(닉네임은 선택사항)"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="16sp"
+        android:textColor="#707070"
+        android:letterSpacing="0.01"
+        android:lineSpacingExtra="4.8sp"
+        android:gravity="center_horizontal"
+        app:layout_constraintVertical_weight="39"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_fragment_menu_book_fourth"
+        android:layout_marginTop="16dp"
+        android:layout_marginLeft="39dp"
+        android:layout_marginRight="39dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+

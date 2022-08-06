@@ -2,12 +2,14 @@ const jwtMiddleware = require("../../../config/jwtMiddleware");
 const contentProvider = require("./contentProvider");
 const contentService = require("./contentService");
 const baseResponse = require("../../../config/baseResponseStatus");
-const {response, errResponse} = require("../../../config/response");
+const { response, errResponse } = require("../../../config/response");
+const converter = require("xml-js")
 
 const axios = require('axios');
 
 const regexEmail = require("regex-email");
 const {emit} = require("nodemon");
+const { SUCCESS } = require("../../../config/baseResponseStatus");
 
 /**
  * API No. 0
@@ -19,33 +21,110 @@ exports.getTest = async function (req, res) {
 };
 
 /**
- * API No. 1
- * API Name: 모든 위치 받아오기
- * [GET] /total
+ * API No. 1.0
+ * API Name : 자전거 사고 다발지역 정보 받아오기
+ * [GET] /get/bike
  */
-exports.getAll = async function (req, res) {
-    const getAllHospital = await contentProvider.getAll();
+exports.getBike = async function (req, res) {
+    const getBikeResult = await contentProvider.getBikeData();
 
-    return res.send(response(baseResponse.SUCCESS, getAllHospital));
+    return res.send(response(baseResponse.SUCCESS,getBikeResult));
 };
 
+/**
+ * API No. 1.1
+ * API Name : 휠체어 급속 충전기 위치 받아오기
+ * [GET] /get/charger
+ */
+exports.getCharger = async function (req, res) {
+    const getChargerResult = await contentProvider.getChargerLocation();
 
+    return res.send(response(baseResponse.SUCCESS, getChargerResult));
+}
+
+/**
+ * API No. 1.2
+ * API Name : 급경사지 위치 받아오기
+ * [GET] /get/ramp
+ */
+ exports.getRamp = async function (req, res) {
+    const getRampResult = await contentProvider.getRampLocation();
+
+    return res.send(response(baseResponse.SUCCESS, getRampResult));
+}
+
+/**
+ * API No. 1.3
+ * API Name : 학교 휠체어 경사로 위치 받아오기
+ * [GET] /get/school
+ */
+exports.getSchool = async function (req, res) {
+    const getSchool = await contentProvider.getSchool();
+
+    return res.send(response(baseResponse.SUCCESS, getSchool));
+}
+
+/**
+ * API No. 1.4
+ * API Name : 지하철 엘리베이터 위치 받아오기
+ * [GET] /get/elevator
+ */
+exports.getElevator = async function (req, res) {
+    const getElevator = await contentProvider.getElevator();
+
+    return res.send(response(baseResponse.SUCCESS, getElevator));
+}
 
 /*
-    API No. 1.7
-    API Name : 휠체어 리프트 데이터 받아오기
-*/
+ * API No. 1.5
+ * API Name : 약국 + 병원 + 의원 + 보건소 데이터 받아오기
+ * [GET] /get/medical
+ */
 
+ exports.getMedical = async function (req, res) {
+    const getMedical = await contentProvider.getMedical();
+
+    return res.send(response(baseResponse.SUCCESS, getMedical));
+}
+
+/**
+ * API No. 1.6
+ * API Name : 복지센터 위치 받아오기
+ * [GET] /get/welfare
+ */
+
+exports.getWelfare = async function (req, res) {
+    console.log("contentController-getWelfare");
+    const getWelfare = await contentProvider.getWelfare();
+    
+    return res.send(response(baseResponse.SUCCESS, getWelfare));
+}
+
+/*
+ * API No. 1.7
+ * API Name : 휠체어 리프트 데이터 받아오기
+ * [GET] /get/lift
+*/
 exports.getLift = async function (req, res) {
     const getLift = await contentProvider.getLift();
     
     return res.send(response(baseResponse.SUCCESS, getLift));
 }
 
+/**
+ * API No. 1.8
+ * API Name : 약국 정보 받아오기
+ * [GET] /get/pharmacy
+ */
+exports.getPharmacy = async function (req, res) {
+    const getPharmacy = await contentProvider.getPharmacy();
+
+    return res.send(response(baseResponse.SUCCESS, getPharmacy));
+}
 
 /**
- * API No. 2
- * API Name : 자전거 사고 다발지역 정보 받아오기
+ * API No. 2.0
+ * API Name : 자전거 사고 다발지역 정보 업데이트
  * [GET] /app/getData
  */
  exports.updateBike = async function (req, res) {
@@ -106,73 +185,49 @@ exports.getLift = async function (req, res) {
 
 /**
  * API No. 2.1
- * API Name : 공공 데이터 자전거 사고 다발지역 정보 받아오기
+ * API Name : 의료기관 정보 업데이트 (약국 + 의료기관)
  */
-exports.getBike = async function (req, res) {
-    const getBikeResult = await contentProvider.getBikeData();
-
-    return res.send(response(baseResponse.SUCCESS,getBikeResult));
-};
-
-/**
- * API No. 2.2
- * API Name : 휠체어 급속 충전기 위치 받아오기
- */
-exports.getCharger = async function (req, res) {
-    const getChargerResult = await contentProvider.getChargerLocation();
-
-    return res.send(response(baseResponse.SUCCESS, getChargerResult));
-}
-
-/**
- * API No. 2.3
- * API Name : 급경사지 위치 받아오기
- */
- exports.getRamp = async function (req, res) {
-    const getRampResult = await contentProvider.getRampLocation();
-
-    return res.send(response(baseResponse.SUCCESS, getRampResult));
-}
-
-/**
- * API No. 2,4
- * API Name : 학교 휠체어 경사로 위치 받아오기
- */
-exports.getSchool = async function (req, res) {
-    const getSchool = await contentProvider.getSchool();
-
-    return res.send(response(baseResponse.SUCCESS, getSchool));
-}
-
-/**
- * API No. 2.5
- * API Name : 지하철 엘리베이터 위치 받아오기
- */
-exports.getElevator = async function (req, res) {
-    const getElevator = await contentProvider.getElevator();
-
-    return res.send(response(baseResponse.SUCCESS, getElevator));
-}
-
-/*
-    API No. 2.6
-    API Name : 병원 데이터 받아오기
-*/
-
- exports.getMedical = async function (req, res) {
-    const getMedical = await contentProvider.getMedical();
-
-    return res.send(response(baseResponse.SUCCESS, getMedical));
-}
-
-/*
-    API No. 2.7
-    API Name : 복지센터 데이터 받아오기
-*/
-
-exports.getWelfare = async function (req, res) {
-    console.log("contentController-getWelfare");
-    const getWelfare = await contentProvider.getWelfare();
+exports.updateMedical = async function (req, res) {
+    const getResult1 = async function () { // 약국 정보 업데이트
+        await axios.get('http://apis.data.go.kr/B552657/ErmctInsttInfoInqireService/getParmacyFullDown', {
+            params: {
+                serviceKey: process.env.PARMACY_KEY1,
+                pageNo: "1",
+                numOfRows: "1000000"
+            }
+        })
+            .then(function (response) {
+                const result_array1 = response.data.response.body.items.item;
+                // console.log(result_array1)
+                const updatePharmacy = contentService.updatePharmacy(result_array1);
+                
+                // console.log(result_array1)
+            });
+    }
     
-    return res.send(response(baseResponse.SUCCESS, getWelfare));
-}
+    const drop1 = contentService.dropPharmacy();
+    const drop2 = contentService.dropMedical();
+
+    // const a = getResult1();
+
+    const getResult2 = async function () { // 의료기관 정보 업데이트
+        await axios.get('http://apis.data.go.kr/B552657/HsptlAsembySearchService/getHsptlMdcncFullDown', {
+            params: {
+                serviceKey: process.env.FULL_KEY1,
+                pageNo: "1",
+                numOfRows: "100000"
+            }
+        })
+            .then(function (response) {
+                const result_array2 = response.data.response.body.items.item;
+
+                const updataMedical2 = contentService.updateMedical(result_array2);
+            });
+    };
+
+    // setTimeout(getResult2, 150000);
+    getResult1().then(getResult2()).then(() => {return res.send(response(baseResponse.SUCCESS));})
+    // const b = getResult2();
+
+    // return res.send(response(baseResponse.SUCCESS));
+};

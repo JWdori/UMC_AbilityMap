@@ -14,9 +14,9 @@
     <application
         android:usesCleartextTraffic="true"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:icon="@mipmap/ic_launcher_main"
+        android:label="모아도"
+        android:roundIcon="@mipmap/ic_launcher_main_round"
         android:supportsRtl="true"
         android:requestLegacyExternalStorage="true"
         android:theme="@style/Theme.UMC_Abilitiymap"
@@ -24,7 +24,7 @@
         >
 
 
-        <activity android:name=".SplashActivity" android:theme="@style/SplashTheme"
+        <activity android:name=".ui.main.SplashActivity" android:theme="@style/SplashTheme"
             android:exported="true"
             >
             <intent-filter>
@@ -34,54 +34,55 @@
         </activity>
 
 
-        <activity android:name="com.abilitymap.MainActivity" android:theme="@style/activityTheme"
+        <activity android:name="com.abilitymap.ui.main.MainActivity" android:theme="@style/activityTheme"
             android:exported="true"
             android:usesCleartextTraffic="true">
         </activity>
 
-        <activity android:name=".OnboardingActivity"
+        <activity android:name="com.abilitymap.ui.onBoarding.OnboardingActivity"
             android:theme="@style/activityTheme"
             android:exported="true">
         </activity>
 
-        <activity android:name=".ChooseOptionActivity"
+        <activity android:name="com.abilitymap.ui.onBoarding.ChooseOptionActivity"
             android:theme="@style/activityTheme"
             android:exported="true">
         </activity>
 
         <activity
-            android:name=".NotificationActivity" android:theme="@style/activityTheme"
+            android:name="com.abilitymap.ui.notification.NotificationActivity" android:theme="@style/activityTheme"
             android:exported="true">
         </activity>
 
         <activity
-            android:name=".Report_detail" android:theme="@style/activityTheme"
+            android:name=".ui.report.Report_detail" android:theme="@style/activityTheme"
             android:exported="true">
         </activity>
 
 
         <activity
-            android:name=".FilterActivity" android:theme="@style/activityTheme"
+            android:name=".ui.filter.FilterActivity" android:theme="@style/activityTheme"
             android:exported="true">
         </activity>
 
         <activity
-            android:name=".EmergencyCallActivity" android:theme="@style/activityTheme"
+            android:name="com.abilitymap.ui.emergencyCall.EmergencyCallActivity" android:theme="@style/activityTheme"
+            android:exported="true">
+        </activity>
+
+
+        <activity
+            android:name="com.abilitymap.ui.emergencyCall.AddPhoneBookActivity" android:theme="@style/activityTheme"
             android:exported="true">
         </activity>
 
         <activity
-            android:name=".Camera2Activity" android:theme="@style/activityTheme"
+            android:name="com.abilitymap.ui.menuBook.MenuBookActivity" android:theme="@style/activityTheme"
             android:exported="true">
         </activity>
 
         <activity
-            android:name=".AddPhoneBookActivity" android:theme="@style/activityTheme"
-            android:exported="true">
-        </activity>
-
-        <activity
-            android:name=".OssActivity" android:theme="@style/activityTheme"
+            android:name="com.abilitymap.ui.oss.OssActivity" android:theme="@style/activityTheme"
             android:exported="true">
         </activity>
 

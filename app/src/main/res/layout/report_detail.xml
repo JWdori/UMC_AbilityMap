@@ -10,7 +10,7 @@
         android:layout_width="89dp"
         android:layout_height="135dp"
         android:layout_marginLeft="24dp"
-        android:layout_marginTop="21dp"
+        android:layout_marginTop="32dp"
         android:src="@drawable/dochi"
         android:scaleType="centerCrop"
         app:layout_constraintStart_toStartOf="parent"
@@ -56,7 +56,7 @@
         android:layout_width="match_parent"
         android:layout_height="104dp"
         android:layout_marginLeft="24dp"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="191dp"
         android:layout_marginRight="24dp"
         android:background="@drawable/input_box"
         app:layout_constraintStart_toStartOf="parent"
@@ -124,7 +124,7 @@
         android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_marginLeft="24dp"
-        android:layout_marginTop="325dp"
+        android:layout_marginTop="336dp"
         android:layout_marginRight="24dp"
         android:background="@drawable/input_box"
         app:layout_constraintStart_toStartOf="parent"
@@ -204,13 +204,14 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:background="@drawable/cencel_btn_event"
-        app:layout_constraintTop_toTopOf="@id/submit_button_background"
+        app:layout_constraintTop_toTopOf="@id/report_submit_button"
         app:layout_constraintStart_toStartOf="@id/report_content_view"
+        android:elevation="4dp"
         ></TextView>
 
 
     <TextView
-        android:id="@+id/submit_button_background"
+        android:id="@+id/report_submit_button"
         android:layout_width="168dp"
         android:layout_height="60dp"
         android:background="@drawable/submit_dialog_clicked_event"
@@ -230,7 +231,7 @@
         android:shadowDx="0"
         android:shadowDy="4"
         android:shadowRadius="4"
-        android:elevation="10dp"
+        android:elevation="4dp"
         >
     </TextView>
 
@@ -241,8 +242,8 @@
         android:layout_height="48dp"
         android:elevation="10dp"
         android:src="@drawable/arrow_forward"
-        app:layout_constraintStart_toStartOf="@id/submit_button_background"
-        app:layout_constraintTop_toTopOf="@id/submit_button_background"
+        app:layout_constraintStart_toStartOf="@id/report_submit_button"
+        app:layout_constraintTop_toTopOf="@id/report_submit_button"
         android:layout_marginTop="6dp"
         android:layout_marginLeft="109dp"/>
 

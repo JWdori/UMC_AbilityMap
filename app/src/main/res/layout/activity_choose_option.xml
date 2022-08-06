@@ -5,36 +5,84 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <TextView
+        android:id="@+id/dummy1_choose_option"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="52"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_title_choose_option"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/dummy2_choose_option"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="28"
+        app:layout_constraintTop_toBottomOf="@id/tv_title_choose_option"
+        app:layout_constraintBottom_toTopOf="@id/iv_yes_choose_option"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/dummy3_choose_option"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="36"
+        app:layout_constraintBottom_toTopOf="@id/tv_no_choose_option"
+        app:layout_constraintTop_toBottomOf="@id/iv_yes_choose_option"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/dummy4_choose_option"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="61"
+        app:layout_constraintTop_toBottomOf="@id/tv_no_choose_option"
+        app:layout_constraintBottom_toTopOf="@id/tv_select_button_choose_option"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
+        android:id="@+id/dummy5_choose_option"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        app:layout_constraintVertical_weight="24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_select_button_choose_option"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <TextView
         android:id="@+id/tv_title_choose_option"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
         android:text="Q. 당신은 교통약자 입니까?\n※ 신고시 전송되는 문자의 내용이 달라집니다."
-        android:gravity="center"
+        android:gravity="start"
         android:textColor="@color/black"
         android:textSize="24sp"
+        app:layout_constraintVertical_weight="53"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="76dp"/>
+        app:layout_constraintTop_toBottomOf="@id/dummy1_choose_option"
+        app:layout_constraintBottom_toTopOf="@id/dummy2_choose_option"
+        android:layout_marginLeft="24dp"/>
 
     <ImageView
         android:id="@+id/iv_yes_choose_option"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="0dp"
         android:layout_marginStart="24dp"
         android:layout_marginEnd="24dp"
-        android:layout_marginTop="40dp"
         android:clickable="false"
         android:paddingRight="100dp"
         android:src="@drawable/icon_onboarding_5"
         android:background="@drawable/choose_option"
+        app:layout_constraintVertical_weight="127"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_title_choose_option" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/dummy3_choose_option"
+        app:layout_constraintTop_toBottomOf="@id/dummy2_choose_option" />
 
     <TextView
         android:id="@+id/tv_yes_choose_option"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="0dp"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         android:text="저는 교통약자 입니다.\n(휠체어 이용자, 임산부, 고령자 등)"
@@ -50,7 +98,7 @@
     <TextView
         android:id="@+id/tv_no_choose_option"
         android:layout_width="match_parent"
-        android:layout_height="140dp"
+        android:layout_height="0dp"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         android:text="저는 교통약자가 아닙니다."
@@ -58,24 +106,27 @@
         android:textSize="24sp"
         android:textColor="@color/black"
         android:background="@drawable/choose_option"
+        app:layout_constraintVertical_weight="127"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/iv_yes_choose_option"
-        android:layout_marginTop="40dp"/>
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/dummy3_choose_option"
+        app:layout_constraintBottom_toTopOf="@id/dummy4_choose_option"/>
 
     <TextView
         android:id="@+id/tv_select_button_choose_option"
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="0dp"
         android:textSize="24sp"
         android:textStyle="bold"
         android:textColor="@drawable/save_button_text_color"
         android:text="선택"
         android:gravity="center"
-        android:elevation="10dp"
+        android:elevation="4dp"
+        app:layout_constraintVertical_weight="50"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/tv_no_choose_option"
+        app:layout_constraintBottom_toTopOf="@id/dummy5_choose_option"
+        app:layout_constraintTop_toBottomOf="@id/dummy4_choose_option"
         android:layout_marginLeft="24dp"
         android:layout_marginRight="24dp"
         android:background="@drawable/save_button_uncliked_effect"/>

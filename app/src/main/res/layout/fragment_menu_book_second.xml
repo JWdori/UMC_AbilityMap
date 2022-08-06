@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="#ffffff">
+
+<!--    <TextView-->
+<!--        android:id="@+id/dummy1_menu_book_second"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintHorizontal_weight="87"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="parent"-->
+<!--        app:layout_constraintEnd_toStartOf="@id/iv_fragment_menu_book_second"/>-->
+
+<!--    <TextView-->
+<!--        android:id="@+id/dummy2_menu_book_second"-->
+<!--        android:layout_width="0dp"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        app:layout_constraintHorizontal_weight="87"-->
+<!--        app:layout_constraintTop_toTopOf="parent"-->
+<!--        app:layout_constraintEnd_toEndOf="parent"-->
+<!--        app:layout_constraintStart_toEndOf="@id/iv_fragment_menu_book_second"/>-->
+
+    <ImageView
+        android:id="@+id/iv_fragment_menu_book_second"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintVertical_chainStyle="packed"
+        app:layout_constraintVertical_weight="265"
+        app:layout_constraintHorizontal_weight="184"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_fragment_menu_book_second"
+        android:src="@drawable/icon_marker"/>
+
+    <TextView
+        android:id="@+id/tv_fragment_menu_book_second"
+        android:text="다양한 정보 제공"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:letterSpacing="0.01"
+        android:lineSpacingExtra="4.8sp"
+        android:gravity="center_horizontal"
+        android:textStyle="bold"
+        android:layout_marginTop="55dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/tv_fragment_sub_menu_book_second"
+        app:layout_constraintTop_toBottomOf="@id/iv_fragment_menu_book_second"
+        android:layout_marginLeft="39dp"
+        android:layout_marginRight="39dp"/>
+
+    <TextView
+        android:id="@+id/tv_fragment_sub_menu_book_second"
+        android:text="필요한 정보를 제공합니다.\n(필터링을 통해 필요한 정보만 선택 가능)"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-medium"
+        android:textSize="16sp"
+        android:textColor="#707070"
+        android:letterSpacing="0.01"
+        android:lineSpacingExtra="4.8sp"
+        android:gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_fragment_menu_book_second"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="39dp"
+        android:layout_marginRight="39dp"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
