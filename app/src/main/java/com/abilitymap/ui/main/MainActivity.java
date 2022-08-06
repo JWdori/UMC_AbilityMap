@@ -7,12 +7,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
-import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PointF;
@@ -36,16 +36,16 @@ import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
 
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.abilitymap.ui.marker.DangerDetailSheet;
+import com.abilitymap.ui.filter.filter_bottom_sheet;
+import com.abilitymap.ui.marker.DangerDetailFragment;
 import com.abilitymap.ui.filter.FilterActivity;
 import com.abilitymap.ui.emergencyCall.InfoDialog;
 import com.abilitymap.api.JsonApi_bike;
@@ -57,8 +57,7 @@ import com.abilitymap.api.JsonApi_hos;
 import com.abilitymap.api.JsonApi_lift;
 import com.abilitymap.api.JsonApi_slope;
 import com.abilitymap.api.JsonApi_wheel;
-import com.abilitymap.ui.marker.DangerDetailSheet;
-import com.abilitymap.ui.marker.LocationBottomSheet;
+import com.abilitymap.ui.marker.LocationDetailFragment;
 import com.abilitymap.data.personInfo.PersonInfoDatabase;
 import com.abilitymap.R;
 import com.abilitymap.ui.report.Report_detail;
@@ -73,6 +72,8 @@ import com.abilitymap.ui.oss.OssActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationView;
 import com.naver.maps.map.CameraAnimation;
 import com.naver.maps.map.CameraUpdate;
@@ -118,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static ArrayList<JsonApi_wheel.wheel_item> wheel_list = new ArrayList();
     public static ArrayList<JsonApi_fac.fac_item> fac_list = new ArrayList();
     public static ArrayList<JsonApi_lift.lift_item> lift_list = new ArrayList();
-
+    BottomSheetBehavior<View> bottomSheetBehavior;
     private FusedLocationSource locationSource;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int CAMERA_PICTURE_SAVED_CODE = 3001;
@@ -155,8 +156,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private boolean isFilter = false;
     ProgressDialog dialog; //원형 프로그레스바
 
-    DangerDetailSheet dangerInfoFragment = null;
-    LocationBottomSheet infoFragment = null;
+    DangerDetailFragment dangerInfoFragment = null;
+    LocationDetailFragment infoFragment = null;
 
     String reportContent;
 
@@ -232,14 +233,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ImageButton Report_message = (ImageButton) findViewById(R.id.message_button);
-        System.out.println("oncreate");
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        initClickListener();
         FragmentManager fm = getSupportFragmentManager();
         MapFragment mapFragment = (MapFragment) fm.findFragmentById(R.id.map);
         String reportContent = null;
-
         if (mapFragment == null) {
             mapFragment = MapFragment.newInstance();
             fm.beginTransaction().add(R.id.map, mapFragment).commit();
@@ -251,6 +249,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             checkRunTimePermission();
         }
+        initClickListener();
         locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
@@ -271,7 +270,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         JsonApi_hos hos_api = new JsonApi_hos();
-
         JsonApi_bike bike_api = new JsonApi_bike();
         JsonApi_slope slope_api = new JsonApi_slope();
         JsonApi_charge charge_api = new JsonApi_charge();
@@ -374,9 +372,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 clientReportDate = odtTruncatedToWholeSecond.format(DateTimeFormatter.ofPattern("yyyy/MM/dd'T'HH:mm")).replace("T", " ");
 
                 String tag = String.valueOf(overlay.getTag());
-                dangerInfoFragment = new DangerDetailSheet(tag, reportContent, clientReportDate, nickName, reportImage);
-                dangerInfoFragment.show(getSupportFragmentManager(),"dangerInfoFragment");
-
+                dangerInfoFragment = new DangerDetailFragment(tag, reportContent, clientReportDate, nickName, reportImage);
+                getSupportFragmentManager().beginTransaction().add(R.id.map, dangerInfoFragment).addToBackStack(null).commit();
 
                 clickable = false;
 
@@ -391,7 +388,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     @Override
                     public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
                         if(dangerInfoFragment!=null) {
-                            dangerInfoFragment.dismiss();
+                            getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
+                            getSupportFragmentManager().popBackStack();
                             dangerInfoFragment = null;
                             infoFragment = null;
 
@@ -406,14 +404,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
             if (!clickable){
                 if(infoFragment!=null) {
-                    infoFragment.dismiss();
+                    getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
                 }
                 if(dangerInfoFragment!=null){
-                    dangerInfoFragment.dismiss();
-                    //getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
+                    getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
                 }
 
-                //getSupportFragmentManager().popBackStack();
+                getSupportFragmentManager().popBackStack();
                 dangerInfoFragment = null;
                 infoFragment = null;
 
@@ -449,8 +446,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     String holiday = selectedChargeItem.getHoliday();
 
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
-                    infoFragment = new LocationBottomSheet(tag, location, week, holiday);
-                    infoFragment.getActivity().getWindow().setDimAmount(0.0F);
+                    infoFragment = new LocationDetailFragment(tag, location, week, holiday);
                 } else if (tag.equals("hos")) {
                     JsonApi_hos.hos_item selectedTotalItem = findThisTotalMarkerItem(((Marker) overlay).getPosition(), hos_list);
                     String name = selectedTotalItem.getName();
@@ -461,8 +457,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     String phone = selectedTotalItem.getPhone();
 
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
-                    infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone);
-                    infoFragment.setStyle(DialogFragment.STYLE_NO_TITLE,R.style.CustomBottomSheetDialogTheme);
+                    infoFragment = new LocationDetailFragment(tag, name, location, week, holiday, phone);
                 } else if(tag.equals("office")){
                     JsonApi_fac.fac_item selectedFacilityItem = findThisFacilityMarkerItem(((Marker) overlay).getPosition(),fac_list);
                     String name = selectedFacilityItem.getName();
@@ -472,19 +467,18 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     String holiday = selectedFacilityItem.getHoliday();
                     String phone = selectedFacilityItem.getPhone();
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
-                    infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone);
-                    infoFragment.setStyle(DialogFragment.STYLE_NO_TITLE,R.style.CustomBottomSheetDialogTheme);
+                    infoFragment = new LocationDetailFragment(tag, name, location, week, holiday, phone);
                 }
 
             }
             else if (overlay instanceof Marker && !clickable){
                 if(dangerInfoFragment!=null){
-                    //getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
-                    dangerInfoFragment.dismiss();
+                    getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
                 }
                 if(infoFragment!=null){
-                    infoFragment.dismiss();
+                    getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
                 }
+                getSupportFragmentManager().popBackStack();
                 clickable = true;
                 dangerInfoFragment = null;
                 infoFragment = null;
@@ -499,9 +493,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-            //getSupportFragmentManager().beginTransaction().add(R.id.map, infoFragment).addToBackStack(null).commit();
-            infoFragment.show(getSupportFragmentManager(),"infoFragment");
-
+            getSupportFragmentManager().beginTransaction().add(R.id.map, infoFragment).addToBackStack(null).commit();
             clickable = false;
             repot_message.setVisibility(View.INVISIBLE);
             Report_button.setVisibility(View.INVISIBLE);
@@ -518,10 +510,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 @Override
                 public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
                     if(infoFragment!=null) {
-                        //getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
-                        //getSupportFragmentManager().popBackStack();
-                        infoFragment.dismiss();
-
+                        getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
+                        getSupportFragmentManager().popBackStack();
                         clickable = true;
                         dangerInfoFragment = null;
                         infoFragment = null;
@@ -709,9 +699,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String addrCut[] = currAddress.split(" ");
         String simpleAdress;
 
-        if (addrCut.length >= 6) {
-            simpleAdress = addrCut[2] + " " + addrCut[3] + " " + addrCut[4] + " " + addrCut[5];
-        } else if (addrCut.length >= 5) {
+        if (addrCut.length >= 5) {
             simpleAdress = addrCut[2] + " " + addrCut[3] + " " + addrCut[4];
         } else if (addrCut.length >= 4) {
             simpleAdress = addrCut[2] + " " + addrCut[3];
@@ -1020,6 +1008,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void initClickListener() {
 
         //긴급신고 메세지지
@@ -1151,31 +1140,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Report_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //현 위치 location 받아와서 서버로 넘겨줘야함
-                //넘겨줄 것 : 사진, text, 닉네임, 좌표, 신고일자
-
-                //카메라 권한요청, 내 파일 권한 요청 필요
-
-                //카메라 화면이 먼저 나옴
-                //사진 찍고
-                //report detail 화면 띄워서
-                //입력받고 전송하기 버튼 누르면
-
-                //현 위치 : locationSource
-
-                //아니 여기 왜 버튼이 안눌려렬렬려려려려려려려려려렬
-                //버튼 init버튼인가 밑에 함수에서 설정하면 됩니다^^
-//zzzzz
-
-/*
-                Log.d("camera", "Reportbutton clicked");
-
-                Intent intent = null;
-                Log.d("camera", "clicked");
-                setCamera(intent);
-*/
-                //0719
-
                 View dialogView = getLayoutInflater().inflate(R.layout.camera_detail, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setView(dialogView);
@@ -1264,67 +1228,67 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         binding.layoutToolBar.ivFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), FilterActivity.class);
-                startActivity(intent);
-                isFilter = true;
-//                여기다가 수정 요청 팝업 둠
-//                View dialogView = getLayoutInflater().inflate(R.layout.change_submit_dialog, null);
-//                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-//                builder.setView(dialogView);
-//                final AlertDialog alertDialog = builder.create();
-//                ColorDrawable back = new ColorDrawable(Color.TRANSPARENT);
-//                InsetDrawable inset = new InsetDrawable(back, 24);
-//                alertDialog.getWindow().setBackgroundDrawable(inset);
-//                alertDialog.setCanceledOnTouchOutside(true);//없어지지 않도록 설정
-//                alertDialog.show();
-//
-//                TextView contenterrButton = alertDialog.findViewById(R.id.content_error);
-//                contenterrButton.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        contenterrButton.setSelected(true);
-//                    }
-//                });
-//                TextView locationerrButton = alertDialog.findViewById(R.id.location_error);
-//                locationerrButton.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        locationerrButton.setSelected(true);
-//                    }
-//                });
-//                TextView notdangerButton = alertDialog.findViewById(R.id.notdanger_error);
-//                notdangerButton.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        notdangerButton.setSelected(true);
-//                    }
-//                });
-//
-//                TextView otherButton = alertDialog.findViewById(R.id.other_);
-//                otherButton.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        otherButton.setSelected(true);
-//                    }
-//                });
-//                TextView noButton = alertDialog.findViewById(R.id.change_no_dialog);
-//                noButton.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        alertDialog.dismiss();
-//                    }
-//                });
-//                TextView yesButton = alertDialog.findViewById(R.id.change_yes_dialog);
-//                yesButton.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View view) {
-//                        //api로 전송코드
-//                        alertDialog.dismiss();
-//
-//
-//                    }
-//                });
-//
+                //바텀 시트로 구현. 룸디비 사용시에 이걸로 변경
+//                filter_bottom_sheet bottomSheetFragment = new filter_bottom_sheet();
+//                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
+
+                View dialogView = getLayoutInflater().inflate(R.layout.change_submit_dialog, null);
+                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
+                builder.setView(dialogView);
+                final AlertDialog alertDialog = builder.create();
+                ColorDrawable back = new ColorDrawable(Color.TRANSPARENT);
+                InsetDrawable inset = new InsetDrawable(back, 24);
+                alertDialog.getWindow().setBackgroundDrawable(inset);
+                alertDialog.setCanceledOnTouchOutside(true);//없어지지 않도록 설정
+                alertDialog.show();
+
+                TextView contenterrButton = alertDialog.findViewById(R.id.content_error);
+                contenterrButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        contenterrButton.setSelected(true);
+                    }
+                });
+                TextView locationerrButton = alertDialog.findViewById(R.id.location_error);
+                locationerrButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        locationerrButton.setSelected(true);
+                    }
+                });
+                TextView notdangerButton = alertDialog.findViewById(R.id.notdanger_error);
+                notdangerButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        notdangerButton.setSelected(true);
+                    }
+                });
+
+                TextView otherButton = alertDialog.findViewById(R.id.other_);
+                otherButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        otherButton.setSelected(true);
+                    }
+                });
+                TextView noButton = alertDialog.findViewById(R.id.change_no_dialog);
+                noButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        alertDialog.dismiss();
+                    }
+                });
+                TextView yesButton = alertDialog.findViewById(R.id.change_yes_dialog);
+                yesButton.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        //api로 전송코드
+                        alertDialog.dismiss();
+
+
+                    }
+                });
+
 
             }
         });
@@ -1627,15 +1591,13 @@ private void cameraDialog(){
             naverMap.setOnMapClickListener((coord, point) -> {
                 infoWindow.close();
                 if(infoFragment!=null) {
-                    //getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
-                    infoFragment.dismiss();
+                    getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
                 }
                 if(dangerInfoFragment!=null){
-                    //getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
-                    dangerInfoFragment.dismiss();
+                    getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
                 }
 
-                //getSupportFragmentManager().popBackStack();
+                getSupportFragmentManager().popBackStack();
                 dangerInfoFragment = null;
                 infoFragment = null;
 
@@ -1697,14 +1659,13 @@ private void cameraDialog(){
             naverMap.setOnMapClickListener((coord, point) -> {
                 infoWindow.close();
                 if(infoFragment!=null) {
-                    infoFragment.dismiss();
+                    getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
                 }
                 if(dangerInfoFragment!=null){
-                    //getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
-                    dangerInfoFragment.dismiss();
+                    getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
                 }
 
-                //getSupportFragmentManager().popBackStack();
+                getSupportFragmentManager().popBackStack();
                 dangerInfoFragment = null;
                 infoFragment = null;
 
@@ -1759,6 +1720,4 @@ private void cameraDialog(){
         }
         return ResourceId;
     }
-
-
 }

@@ -1,12 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.coordinatorlayout.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/bottomSheetLayout"
+    app:layout_behavior="uk.ac.qub.quibe.misc.ExpandedBottomSheetBehavior"
+    >
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent"
-    android:clickable="false"
-    android:transitionName="imgTransition">
+    android:transitionName="imgTransition"
+
+    >
+
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -15,7 +25,9 @@
         android:layout_height="64dp"
         android:orientation="horizontal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+
+        >
 
         <TextView
             android:id="@+id/filter_name"
@@ -710,15 +722,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutbutton"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="@id/layout2"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/layout9"
+        android:layout_marginTop="40dp"
         >
 
         <RelativeLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:id="@+id/constraintLayoutbutton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
             android:gravity="bottom"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -727,19 +743,17 @@
                 android:id="@+id/button_filter"
                 android:layout_width="match_parent"
                 android:layout_height="52dp"
+                android:layout_marginLeft="24dp"
+                android:layout_marginRight="24dp"
+                android:layout_marginBottom="24dp"
                 android:background="@drawable/save_button_effect"
                 android:text="저장하기"
                 android:textColor="@color/white"
                 android:textSize="24dp"
                 android:textStyle="bold"
-                android:layout_marginBottom="24dp"
-                android:layout_marginLeft="24dp"
-                android:layout_marginRight="24dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                ></Button>
-
+                app:layout_constraintTop_toTopOf="parent"></Button>
 
         </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
@@ -748,3 +762,4 @@
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.coordinatorlayout.widget.CoordinatorLayout>

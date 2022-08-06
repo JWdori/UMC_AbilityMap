@@ -10,5 +10,7 @@ module.exports = function(app) {
     //3.2 제보 수정 요청 API
     app.patch('/report/:reportIdx',report.patchReport);
 
+    //3.3 제보 신고 조회 API
+    app.get('/report/wrong', report.getWrongReport);
 
 };

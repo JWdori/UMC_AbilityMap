@@ -17,6 +17,7 @@ async function getReport(connection){
     const getReportQuery = `
         SELECT *
         FROM Report
+        WHERE wrong = -1
 
     `;
 
@@ -38,8 +39,21 @@ async function updateWrongReport(connection, editWrongReportParams){
     return updateWrongReportRow;
 }
 
+async function getWrongReport(connection){
+    const getWrongReportQuery = `
+        SELECT * 
+        FROM Report
+        WHERE wrong > -1
+    `;
+
+    const [wrongReportInfoRow] = await connection.query(getWrongReportQuery);
+    console.log(wrongReportInfoRow);
+    return wrongReportInfoRow;
+}
+
 module.exports = {
     insertReport,
     getReport,
-    updateWrongReport
+    updateWrongReport,
+    getWrongReport
 };
