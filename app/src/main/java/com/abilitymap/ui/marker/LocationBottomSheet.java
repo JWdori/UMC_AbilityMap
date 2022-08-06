@@ -1,21 +1,21 @@
 package com.abilitymap.ui.marker;
 
-import android.content.Context;
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import com.abilitymap.R;
-import com.abilitymap.ui.main.MainActivity;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-public class LocationDetailFragment extends Fragment {
-    MainActivity activity;
+public class LocationBottomSheet extends BottomSheetDialogFragment implements View.OnClickListener {
+    public static LocationBottomSheet getInstance(){
+        return new LocationBottomSheet();
+    }
     private TextView categoryTextView;
     private TextView locationNameView;
     private TextView locationDetailView;
@@ -32,20 +32,17 @@ public class LocationDetailFragment extends Fragment {
     String phone="";
     String finalPhone;
 
+    public LocationBottomSheet(){
 
-    public LocationDetailFragment(){
-    }
-    public LocationDetailFragment(String tag){
-        categoryKey = tag;
     }
 
-    public LocationDetailFragment(String tag,String location,String week,String holiday){
+    public LocationBottomSheet(String tag,String location,String week,String holiday){
         this.categoryKey = tag;
         this.location = location;
         this.week = week;
         this.holiday = holiday;
     }
-    public LocationDetailFragment(String tag,String name, String location,
+    public LocationBottomSheet(String tag,String name, String location,
                                   String week,String holiday,String phone){
         this.categoryKey = tag;
         this.name = name;
@@ -54,31 +51,17 @@ public class LocationDetailFragment extends Fragment {
         this.holiday = holiday;
         this.phone = phone;
     }
-    @Override
-    public void onAttach(Context context){
-        super.onAttach(context);
-        activity = (MainActivity) getActivity();
 
-    }
-    public void onDetach() {
-        super.onDetach();
-        activity = null;
-
-    }
-
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
+        View view = inflater.inflate(R.layout.location_detail, container, false);
 
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.location_detail, container, false);
-        categoryTextView = (TextView) rootView.findViewById(R.id.detail_category);
-        locationNameView = (TextView) rootView.findViewById(R.id.location_name_textView);
-        locationDetailView = (TextView) rootView.findViewById(R.id.location_detail_textView);
-        weekTextView = (TextView) rootView.findViewById(R.id.hour_detail_textView);
-        phoneTextView = (TextView) rootView.findViewById(R.id.phone_detail_textView);
-        phoneImageView = (ImageView) rootView.findViewById(R.id.phone_icon_imageView);
-
-
+        categoryTextView = (TextView) view.findViewById(R.id.detail_category);
+        locationNameView = (TextView) view.findViewById(R.id.location_name_textView);
+        locationDetailView = (TextView) view.findViewById(R.id.location_detail_textView);
+        weekTextView = (TextView) view.findViewById(R.id.hour_detail_textView);
+        phoneTextView = (TextView) view.findViewById(R.id.phone_detail_textView);
+        phoneImageView = (ImageView) view.findViewById(R.id.phone_icon_imageView);
 
         setCategory(categoryKey);
 
@@ -92,9 +75,14 @@ public class LocationDetailFragment extends Fragment {
         setWeek(finalWeek);
         setPhone(finalPhone);
 
-
-        return rootView;
+        return view;
     }
+
+    @Override
+    public void onClick(View v) {
+
+    }
+
 
     public void setCategory(String key){
         String category;
@@ -144,6 +132,4 @@ public class LocationDetailFragment extends Fragment {
         }
         else return input;
     }
-
 }
-

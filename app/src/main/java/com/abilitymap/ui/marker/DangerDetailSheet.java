@@ -13,6 +13,7 @@ import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,14 +22,13 @@ import androidx.fragment.app.Fragment;
 
 import com.abilitymap.R;
 import com.abilitymap.ui.main.MainActivity;
+import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 
-public class DangerDetailFragment extends Fragment {
-    MainActivity activity;
+public class DangerDetailSheet extends BottomSheetDialogFragment implements View.OnClickListener {
     private TextView dangerContentView;
     private TextView dangerNicknameView;
     private TextView dangerDateView;
     private ImageView dangerImageView;
-//    private ImageView closeImageView;
     private TextView changeRequestView;
 
     String reportContent = "default";
@@ -37,16 +37,16 @@ public class DangerDetailFragment extends Fragment {
     String reportImage = "default";
     Integer wrong = 0;
 
-    public DangerDetailFragment(){
+    public DangerDetailSheet(){
     }
 
-    public DangerDetailFragment(String tag, String reportContent,
+    public DangerDetailSheet(String tag, String reportContent,
                                 String cReportDate, String nickName){
         this.reportContent = reportContent;
         this.cReportDate = cReportDate;
         this.nickName = nickName;
     }
-    public DangerDetailFragment(String tag, String reportContent,
+    public DangerDetailSheet(String tag, String reportContent,
                                 String cReportDate, String nickName, String reportImage){
         this.reportContent = reportContent;
         this.cReportDate = cReportDate;
@@ -55,30 +55,18 @@ public class DangerDetailFragment extends Fragment {
     }
 
 
-    @Override
-    public void onAttach(Context context){
-        super.onAttach(context);
-        activity = (MainActivity) getActivity();
-
-    }
-
-    public void onDetach(){
-        super.onDetach();
-        activity = null;
-    }
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState){
 
-        ViewGroup rootView = (ViewGroup) inflater.inflate(R.layout.danger_detail, container, false);
-        dangerContentView = rootView.findViewById(R.id.danger_content);
-        dangerNicknameView = rootView.findViewById(R.id.danger_nickname);
-        dangerDateView = rootView.findViewById(R.id.danger_date);
+        View view = inflater.inflate(R.layout.danger_detail, container, false);
 
-        dangerImageView = rootView.findViewById(R.id.danger_image);
-//        closeImageView = rootView.findViewById(R.id.danger_close);
-        changeRequestView = rootView.findViewById(R.id.danger_change_request);
+        dangerContentView = view.findViewById(R.id.danger_content);
+        dangerNicknameView = view.findViewById(R.id.danger_nickname);
+        dangerDateView = view.findViewById(R.id.danger_date);
+
+        dangerImageView = view.findViewById(R.id.danger_image);
+        changeRequestView = view.findViewById(R.id.danger_change_request);
 
         setDangerContentView(reportContent);
         setDangerDateView(cReportDate);
@@ -192,7 +180,7 @@ public class DangerDetailFragment extends Fragment {
 
 
 
-        return rootView;
+        return view;
     }
 
 
@@ -213,4 +201,8 @@ public class DangerDetailFragment extends Fragment {
     }
 
 
+    @Override
+    public void onClick(View v) {
+
+    }
 }

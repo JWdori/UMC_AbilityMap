@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
+import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
@@ -38,11 +39,13 @@ import androidx.appcompat.app.AlertDialog;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.abilitymap.ui.marker.DangerDetailFragment;
+import com.abilitymap.ui.marker.DangerDetailSheet;
 import com.abilitymap.ui.filter.FilterActivity;
 import com.abilitymap.ui.emergencyCall.InfoDialog;
 import com.abilitymap.api.JsonApi_bike;
@@ -54,7 +57,8 @@ import com.abilitymap.api.JsonApi_hos;
 import com.abilitymap.api.JsonApi_lift;
 import com.abilitymap.api.JsonApi_slope;
 import com.abilitymap.api.JsonApi_wheel;
-import com.abilitymap.ui.marker.LocationDetailFragment;
+import com.abilitymap.ui.marker.DangerDetailSheet;
+import com.abilitymap.ui.marker.LocationBottomSheet;
 import com.abilitymap.data.personInfo.PersonInfoDatabase;
 import com.abilitymap.R;
 import com.abilitymap.ui.report.Report_detail;
@@ -151,8 +155,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     private boolean isFilter = false;
     ProgressDialog dialog; //원형 프로그레스바
 
-    DangerDetailFragment dangerInfoFragment = null;
-    LocationDetailFragment infoFragment = null;
+    DangerDetailSheet dangerInfoFragment = null;
+    LocationBottomSheet infoFragment = null;
 
     String reportContent;
 
@@ -370,8 +374,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 clientReportDate = odtTruncatedToWholeSecond.format(DateTimeFormatter.ofPattern("yyyy/MM/dd'T'HH:mm")).replace("T", " ");
 
                 String tag = String.valueOf(overlay.getTag());
-                dangerInfoFragment = new DangerDetailFragment(tag, reportContent, clientReportDate, nickName, reportImage);
-                getSupportFragmentManager().beginTransaction().add(R.id.map, dangerInfoFragment).addToBackStack(null).commit();
+                dangerInfoFragment = new DangerDetailSheet(tag, reportContent, clientReportDate, nickName, reportImage);
+                dangerInfoFragment.show(getSupportFragmentManager(),"dangerInfoFragment");
+
 
                 clickable = false;
 
@@ -386,8 +391,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     @Override
                     public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
                         if(dangerInfoFragment!=null) {
-                            getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
-                            getSupportFragmentManager().popBackStack();
+                            dangerInfoFragment.dismiss();
                             dangerInfoFragment = null;
                             infoFragment = null;
 
@@ -402,13 +406,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
             if (!clickable){
                 if(infoFragment!=null) {
-                    getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
+                    infoFragment.dismiss();
                 }
                 if(dangerInfoFragment!=null){
-                    getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
+                    dangerInfoFragment.dismiss();
+                    //getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
                 }
 
-                getSupportFragmentManager().popBackStack();
+                //getSupportFragmentManager().popBackStack();
                 dangerInfoFragment = null;
                 infoFragment = null;
 
@@ -444,7 +449,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     String holiday = selectedChargeItem.getHoliday();
 
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
-                    infoFragment = new LocationDetailFragment(tag, location, week, holiday);
+                    infoFragment = new LocationBottomSheet(tag, location, week, holiday);
+                    infoFragment.getActivity().getWindow().setDimAmount(0.0F);
                 } else if (tag.equals("hos")) {
                     JsonApi_hos.hos_item selectedTotalItem = findThisTotalMarkerItem(((Marker) overlay).getPosition(), hos_list);
                     String name = selectedTotalItem.getName();
@@ -455,7 +461,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     String phone = selectedTotalItem.getPhone();
 
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
-                    infoFragment = new LocationDetailFragment(tag, name, location, week, holiday, phone);
+                    infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone);
+                    infoFragment.setStyle(DialogFragment.STYLE_NO_TITLE,R.style.CustomBottomSheetDialogTheme);
                 } else if(tag.equals("office")){
                     JsonApi_fac.fac_item selectedFacilityItem = findThisFacilityMarkerItem(((Marker) overlay).getPosition(),fac_list);
                     String name = selectedFacilityItem.getName();
@@ -465,18 +472,19 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     String holiday = selectedFacilityItem.getHoliday();
                     String phone = selectedFacilityItem.getPhone();
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
-                    infoFragment = new LocationDetailFragment(tag, name, location, week, holiday, phone);
+                    infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone);
+                    infoFragment.setStyle(DialogFragment.STYLE_NO_TITLE,R.style.CustomBottomSheetDialogTheme);
                 }
 
             }
             else if (overlay instanceof Marker && !clickable){
                 if(dangerInfoFragment!=null){
-                    getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
+                    //getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
+                    dangerInfoFragment.dismiss();
                 }
                 if(infoFragment!=null){
-                    getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
+                    infoFragment.dismiss();
                 }
-                getSupportFragmentManager().popBackStack();
                 clickable = true;
                 dangerInfoFragment = null;
                 infoFragment = null;
@@ -491,7 +499,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-            getSupportFragmentManager().beginTransaction().add(R.id.map, infoFragment).addToBackStack(null).commit();
+            //getSupportFragmentManager().beginTransaction().add(R.id.map, infoFragment).addToBackStack(null).commit();
+            infoFragment.show(getSupportFragmentManager(),"infoFragment");
+
             clickable = false;
             repot_message.setVisibility(View.INVISIBLE);
             Report_button.setVisibility(View.INVISIBLE);
@@ -508,8 +518,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 @Override
                 public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
                     if(infoFragment!=null) {
-                        getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
-                        getSupportFragmentManager().popBackStack();
+                        //getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
+                        //getSupportFragmentManager().popBackStack();
+                        infoFragment.dismiss();
+
                         clickable = true;
                         dangerInfoFragment = null;
                         infoFragment = null;
@@ -1615,13 +1627,15 @@ private void cameraDialog(){
             naverMap.setOnMapClickListener((coord, point) -> {
                 infoWindow.close();
                 if(infoFragment!=null) {
-                    getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
+                    //getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
+                    infoFragment.dismiss();
                 }
                 if(dangerInfoFragment!=null){
-                    getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
+                    //getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
+                    dangerInfoFragment.dismiss();
                 }
 
-                getSupportFragmentManager().popBackStack();
+                //getSupportFragmentManager().popBackStack();
                 dangerInfoFragment = null;
                 infoFragment = null;
 
@@ -1683,13 +1697,14 @@ private void cameraDialog(){
             naverMap.setOnMapClickListener((coord, point) -> {
                 infoWindow.close();
                 if(infoFragment!=null) {
-                    getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
+                    infoFragment.dismiss();
                 }
                 if(dangerInfoFragment!=null){
-                    getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
+                    //getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
+                    dangerInfoFragment.dismiss();
                 }
 
-                getSupportFragmentManager().popBackStack();
+                //getSupportFragmentManager().popBackStack();
                 dangerInfoFragment = null;
                 infoFragment = null;
 
