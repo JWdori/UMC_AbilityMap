@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PointF;
@@ -35,6 +36,7 @@ import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
 
+import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
@@ -69,6 +71,8 @@ import com.abilitymap.ui.oss.OssActivity;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomsheet.BottomSheetBehavior;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationView;
 import com.naver.maps.map.CameraAnimation;
 import com.naver.maps.map.CameraUpdate;
@@ -114,7 +118,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static ArrayList<JsonApi_wheel.wheel_item> wheel_list = new ArrayList();
     public static ArrayList<JsonApi_fac.fac_item> fac_list = new ArrayList();
     public static ArrayList<JsonApi_lift.lift_item> lift_list = new ArrayList();
-
+    BottomSheetBehavior<View> bottomSheetBehavior;
     private FusedLocationSource locationSource;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
     private static final int CAMERA_PICTURE_SAVED_CODE = 3001;
@@ -228,14 +232,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         ImageButton Report_message = (ImageButton) findViewById(R.id.message_button);
-        System.out.println("oncreate");
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        initClickListener();
         FragmentManager fm = getSupportFragmentManager();
         MapFragment mapFragment = (MapFragment) fm.findFragmentById(R.id.map);
         String reportContent = null;
-
         if (mapFragment == null) {
             mapFragment = MapFragment.newInstance();
             fm.beginTransaction().add(R.id.map, mapFragment).commit();
@@ -247,6 +248,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             checkRunTimePermission();
         }
+        initClickListener();
         locationSource = new FusedLocationSource(this, LOCATION_PERMISSION_REQUEST_CODE);
         fusedLocationClient.getLastLocation()
                 .addOnSuccessListener(this, new OnSuccessListener<Location>() {
@@ -267,7 +269,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         JsonApi_hos hos_api = new JsonApi_hos();
-
         JsonApi_bike bike_api = new JsonApi_bike();
         JsonApi_slope slope_api = new JsonApi_slope();
         JsonApi_charge charge_api = new JsonApi_charge();
@@ -697,9 +698,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String addrCut[] = currAddress.split(" ");
         String simpleAdress;
 
-        if (addrCut.length >= 6) {
-            simpleAdress = addrCut[2] + " " + addrCut[3] + " " + addrCut[4] + " " + addrCut[5];
-        } else if (addrCut.length >= 5) {
+        if (addrCut.length >= 5) {
             simpleAdress = addrCut[2] + " " + addrCut[3] + " " + addrCut[4];
         } else if (addrCut.length >= 4) {
             simpleAdress = addrCut[2] + " " + addrCut[3];
@@ -1008,6 +1007,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
+    @RequiresApi(api = Build.VERSION_CODES.M)
     private void initClickListener() {
 
         //긴급신고 메세지지
@@ -1139,31 +1139,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Report_button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //현 위치 location 받아와서 서버로 넘겨줘야함
-                //넘겨줄 것 : 사진, text, 닉네임, 좌표, 신고일자
-
-                //카메라 권한요청, 내 파일 권한 요청 필요
-
-                //카메라 화면이 먼저 나옴
-                //사진 찍고
-                //report detail 화면 띄워서
-                //입력받고 전송하기 버튼 누르면
-
-                //현 위치 : locationSource
-
-                //아니 여기 왜 버튼이 안눌려렬렬려려려려려려려려려렬
-                //버튼 init버튼인가 밑에 함수에서 설정하면 됩니다^^
-//zzzzz
-
-/*
-                Log.d("camera", "Reportbutton clicked");
-
-                Intent intent = null;
-                Log.d("camera", "clicked");
-                setCamera(intent);
-*/
-                //0719
-
                 View dialogView = getLayoutInflater().inflate(R.layout.camera_detail, null);
                 AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
                 builder.setView(dialogView);
@@ -1249,12 +1224,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.activity_filter, null, false);
+        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
+        bottomSheetDialog.setContentView(view);
+
         binding.layoutToolBar.ivFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getApplicationContext(), FilterActivity.class);
-                startActivity(intent);
-                isFilter = true;
+                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
+                bottomSheetDialog.show();
 //                여기다가 수정 요청 팝업 둠
 //                View dialogView = getLayoutInflater().inflate(R.layout.change_submit_dialog, null);
 //                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());

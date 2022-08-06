@@ -3,10 +3,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-
     android:layout_height="match_parent"
-    android:clickable="false"
-    android:transitionName="imgTransition">
+    android:transitionName="imgTransition"
+    app:layout_behavior="uk.ac.qub.quibe.misc.ExpandedBottomSheetBehavior"
+
+    >
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    >
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -710,15 +717,19 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutbutton"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintBottom_toBottomOf="@id/layout2"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/layout9"
+        android:layout_marginTop="40dp"
+
         >
 
         <RelativeLayout
-
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:gravity="bottom"
+            android:id="@+id/constraintLayoutbutton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
@@ -740,11 +751,14 @@
                 app:layout_constraintTop_toTopOf="parent"
                 ></Button>
 
-
         </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
 
 
+
+
+
+</LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
