@@ -44,6 +44,7 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.abilitymap.ui.filter.filter_bottom_sheet;
 import com.abilitymap.ui.marker.DangerDetailFragment;
 import com.abilitymap.ui.filter.FilterActivity;
 import com.abilitymap.ui.emergencyCall.InfoDialog;
@@ -1224,16 +1225,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        View view = inflater.inflate(R.layout.activity_filter, null, false);
-        final BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this);
-        bottomSheetDialog.setContentView(view);
-
         binding.layoutToolBar.ivFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bottomSheetBehavior.setState(BottomSheetBehavior.STATE_EXPANDED);
-                bottomSheetDialog.show();
+                filter_bottom_sheet bottomSheetFragment = new filter_bottom_sheet();
+                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
 //                여기다가 수정 요청 팝업 둠
 //                View dialogView = getLayoutInflater().inflate(R.layout.change_submit_dialog, null);
 //                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
