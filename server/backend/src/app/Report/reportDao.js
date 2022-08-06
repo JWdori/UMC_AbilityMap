@@ -17,6 +17,7 @@ async function getReport(connection){
     const getReportQuery = `
         SELECT *
         FROM Report
+        WHERE wrong = -1
 
     `;
 
