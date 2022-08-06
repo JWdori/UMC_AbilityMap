@@ -57,3 +57,18 @@ exports.patchReport = async function(req, res){
 
     return res.send(response(editReportResponse));
 }
+
+/*
+    API No. 3.3
+    API Name: 제보 신고 조회 API
+    [GET] /report
+*/
+
+exports.getWrongReport = async function(req, res){
+
+    console.log("reportController, getWrongReport");
+
+    const wrongReportInfo = await reportProvider.getWrongReportInfo();
+
+    return res.send(response(baseResponse.SUCCESS,wrongReportInfo));
+}
