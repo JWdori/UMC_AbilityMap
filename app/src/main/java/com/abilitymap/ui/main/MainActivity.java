@@ -1720,6 +1720,4 @@ private void cameraDialog(){
         }
         return ResourceId;
     }
-
-
 }
