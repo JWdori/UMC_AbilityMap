@@ -7,6 +7,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
@@ -35,6 +36,7 @@ import android.telephony.SmsManager;
 import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -104,6 +106,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker_facility, SetMarker_wheel {
@@ -614,6 +617,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //        Report_message.setVisibility(View.VISIBLE);
 //        Log.d("clickable?", "backKeyPressed");
 //        Log.d("clickable?", String.valueOf(clickable));
+
+
 
         if (isDrawerOpen) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
@@ -1219,76 +1224,30 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
+        binding.layoutToolBar.ivSearch.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Fragment fr;
+                fr = new Fragment_search() ;
+                FragmentManager fm = getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fm.beginTransaction();
+                fragmentTransaction.replace(R.id.fragmentBorC, fr);
+                fragmentTransaction.commit();
+            }
+        });
 
 
         binding.layoutToolBar.ivFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                Intent intent = new Intent(getApplicationContext(), FilterActivity.class);
+                startActivity(intent);
+                isFilter = true;
                 //바텀 시트로 구현. 룸디비 사용시에 이걸로 변경
 //                filter_bottom_sheet bottomSheetFragment = new filter_bottom_sheet();
 //                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
-
-                View dialogView = getLayoutInflater().inflate(R.layout.change_submit_dialog, null);
-                AlertDialog.Builder builder = new AlertDialog.Builder(view.getContext());
-                builder.setView(dialogView);
-                final AlertDialog alertDialog = builder.create();
-                ColorDrawable back = new ColorDrawable(Color.TRANSPARENT);
-                InsetDrawable inset = new InsetDrawable(back, 24);
-                alertDialog.getWindow().setBackgroundDrawable(inset);
-                alertDialog.setCanceledOnTouchOutside(true);//없어지지 않도록 설정
-                alertDialog.show();
-
-                TextView contenterrButton = alertDialog.findViewById(R.id.content_error);
-                contenterrButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        contenterrButton.setSelected(true);
-                    }
-                });
-                TextView locationerrButton = alertDialog.findViewById(R.id.location_error);
-                locationerrButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        locationerrButton.setSelected(true);
-                    }
-                });
-                TextView notdangerButton = alertDialog.findViewById(R.id.notdanger_error);
-                notdangerButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        notdangerButton.setSelected(true);
-                    }
-                });
-
-                TextView otherButton = alertDialog.findViewById(R.id.other_);
-                otherButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        otherButton.setSelected(true);
-                    }
-                });
-                TextView noButton = alertDialog.findViewById(R.id.change_no_dialog);
-                noButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        alertDialog.dismiss();
-                    }
-                });
-                TextView yesButton = alertDialog.findViewById(R.id.change_yes_dialog);
-                yesButton.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        //api로 전송코드
-                        alertDialog.dismiss();
-
-
-                    }
-                });
-
-
-            }
+           }
         });
-
 
 
         View header = binding.navigationView.getHeaderView(0);
