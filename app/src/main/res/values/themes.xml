@@ -34,6 +34,14 @@
     <style name="NavigationItemNoRipple">
         <item name="android:colorControlHighlight">@android:color/transparent</item>
     </style>
+    
+        <!--location detail dialog-->
+    <style name="CustomBottomSheetDialogTheme" parent="Theme.Design.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/CustomBottomSheetStyle</item>
+    </style>
 
+    <style name="CustomBottomSheetStyle" parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">#763529</item>
+    </style>
 
 </resources>
