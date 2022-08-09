@@ -1,80 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.appcompat.widget.Toolbar
+<fragment
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="64dp"
-    app:contentInsetStart="0dp"
-    android:background="#007fff"
-    android:id="@+id/toolbar">
-
-    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        >
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        tools:context=".ui.main.MainActivity"
 
-        <ImageView
-
-            android:id="@+id/search"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="9dp"
-            android:src="@drawable/logo_whiter"
-            android:layout_toLeftOf="@id/iv_filter">
-
-        </ImageView>
-
-
-        <ImageView
-            android:id="@+id/iv_menu"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginLeft="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            app:srcCompat="@drawable/menu" />
-
-        <ImageView
-            android:id="@+id/iv_filter"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentTop="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentBottom="true"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="16dp"
-            android:layout_marginBottom="10dp"
-            android:visibility="visible"
-            app:srcCompat="@drawable/basic_slider_03" />
-
-
-        <TextView
-            android:id="@+id/location_text"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-
-
-            android:layout_centerInParent="true"
-            android:layout_marginLeft="8dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:layout_toLeftOf="@+id/search"
-            android:layout_toRightOf="@+id/iv_menu"
-            android:singleLine="true"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            android:textStyle="bold" />
-
-    </RelativeLayout>
-
-
-    <FrameLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        >
+    >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout"
@@ -130,13 +63,11 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintTop_toBottomOf="@id/layout"
+            tools:listitem="@layout/item_notification"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
             android:orientation="vertical">
 
         </androidx.recyclerview.widget.RecyclerView>
 
 
-    </FrameLayout>
-
-
-</androidx.appcompat.widget.Toolbar>
+    </fragment>
