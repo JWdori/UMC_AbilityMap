@@ -3,12 +3,48 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable-hdpi/report_button_clickevent.xml" value="0.143" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable-v24/ic_launcher_foreground.xml" value="0.143" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable-xhdpi/confirm_btn.xml" value="0.143" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable-xxhdpi/confirm_btn.xml" value="0.143" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/confirm_btn.xml" value="0.143" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/danger_back.xml" value="0.143" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/danger_fix_dialog_clicked_event.xml" value="0.143" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/dialog.xml" value="0.143" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/field_border.xml" value="0.143" />
         <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/round_bg.xml" value="0.143" />
         <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/rounded_bottomsheet.xml" value="0.143" />
         <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/rounded_btn.xml" value="0.143" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/save_button.xml" value="0.143" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/save_button_clicked.xml" value="0.143" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/save_dialog_clicked.xml" value="0.143" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/square_without_clicked.xml" value="0.143" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/square_without_clicked_event.xml" value="0.143" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/yes_dialog_2.xml" value="0.143" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/yes_dialog_clicked.xml" value="0.143" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/drawable/yes_dialog_clicked_event.xml" value="0.143" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/activity_add_phone_book.xml" value="0.3388671875" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/activity_camera2.xml" value="0.3388671875" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/activity_choose_option.xml" value="0.3388671875" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/activity_custom_dialog.xml" value="0.67" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/activity_emergency_call.xml" value="0.3388671875" />
         <entry key="..\:/github/Abilitymap/app/src/main/res/layout/activity_filter.xml" value="0.33" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/activity_main.xml" value="0.3388671875" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/camera_detail.xml" value="0.3388671875" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/danger_detail.xml" value="0.5" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/dialog.xml" value="0.3388671875" />
         <entry key="..\:/github/Abilitymap/app/src/main/res/layout/filter_sheet.xml" value="0.3505859375" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/first_popup.xml" value="0.3388671875" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/fragment_fourth.xml" value="0.3388671875" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/fragment_menu_book_first.xml" value="0.3388671875" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/fragment_second.xml" value="0.3388671875" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/item_emergency_call.xml" value="0.3388671875" />
         <entry key="..\:/github/Abilitymap/app/src/main/res/layout/location_detail.xml" value="0.3388671875" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/mesaage_dialog.xml" value="0.3388671875" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/report_detail.xml" value="0.67" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/splash_logo.xml" value="0.3388671875" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/tool_bar.xml" value="0.3388671875" />
+        <entry key="..\:/github/Abilitymap/app/src/main/res/layout/user_first_dialog.xml" value="0.3388671875" />
       </map>
     </option>
   </component>
