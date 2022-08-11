@@ -7,7 +7,10 @@
         xmlns:tools="http://schemas.android.com/tools"
         tools:context=".ui.main.MainActivity"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:clickable="true"
+
+    >
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout"
@@ -31,6 +34,8 @@
                 android:fontFamily="sans-serif"
                 android:layout_marginLeft="16dp"
                 android:layout_marginRight="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
 
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"
