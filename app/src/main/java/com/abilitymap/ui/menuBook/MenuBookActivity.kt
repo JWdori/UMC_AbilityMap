@@ -70,7 +70,10 @@ class MenuBookActivity : FragmentActivity() {
             binding.ivArrowLeftMenuBook.setImageResource(R.drawable.icon_left_g)
         }
         else if(binding.vpViewpagerMenuBook.currentItem==3){  //마지막 페이지일 때 오른쪽 방향 아이콘 수정
-            binding.ivArrowRightMenuBook.setImageResource(R.drawable.icon_right_g)
+            binding.ivArrowRightMenuBook.setImageResource(R.drawable.close_black)
+            binding.ivArrowRightMenuBook.setOnClickListener{
+                finish()
+            }
         }
         else{       //그 외 일 시 검은 방향 아이콘으로 원상 복구
             binding.ivArrowLeftMenuBook.setImageResource(R.drawable.icon_back_black)

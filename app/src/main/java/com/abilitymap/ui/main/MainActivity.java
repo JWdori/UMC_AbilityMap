@@ -1216,7 +1216,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-        binding.layoutToolBar.ivMenu.setOnClickListener(new View.OnClickListener() {
+        binding.ivMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {            //menu 클릭 시 open drawer
                 binding.drawerLayout.openDrawer(GravityCompat.START);
@@ -1224,20 +1224,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         });
 
-        binding.layoutToolBar.ivSearch.setOnClickListener(new View.OnClickListener() {
+        binding.ivSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment fr;
-                fr = new Fragment_search() ;
+
                 FragmentManager fm = getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fm.beginTransaction();
-                fragmentTransaction.replace(R.id.fragmentBorC, fr);
-                fragmentTransaction.commit();
+                fm.beginTransaction().replace(R.id.map, new Fragment_search()).commit();
             }
         });
 
 
-        binding.layoutToolBar.ivFilter.setOnClickListener(new View.OnClickListener() {
+        binding.ivFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), FilterActivity.class);
