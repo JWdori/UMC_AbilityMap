@@ -1229,7 +1229,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             public void onClick(View view) {
 
                 FragmentManager fm = getSupportFragmentManager();
-                fm.beginTransaction().replace(R.id.map, new Fragment_search()).commit();
+                fm.beginTransaction().replace(R.id.main_frame, new Fragment_search()).commit();
             }
         });
 
