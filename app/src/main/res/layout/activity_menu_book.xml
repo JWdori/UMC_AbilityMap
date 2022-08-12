@@ -74,13 +74,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="visible"/>
 
-    <ImageView
-        android:id="@+id/iv_close_menu_book"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:src="@drawable/close_black"
-        android:layout_marginRight="16dp"
-        android:layout_marginBottom="27dp"
+    <TextView
+        android:id="@+id/tv_close_menu_book"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-semibold"
+        android:textStyle="normal"
+        android:textSize="20sp"
+        android:textColor="#000000"
+        android:text="닫기"
+        android:layout_marginRight="25dp"
+        android:layout_marginBottom="41dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:visibility="gone"/>
