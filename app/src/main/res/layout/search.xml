@@ -57,7 +57,6 @@
                 app:searchIcon="@null" />
 
 
-
             <ImageView
                 android:id="@+id/search_back"
                 android:layout_width="wrap_content"

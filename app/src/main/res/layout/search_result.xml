@@ -23,13 +23,11 @@
         android:id="@+id/search_title"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
+
         android:layout_marginEnd="25dp"
-        android:layout_marginStart="16dp"
-
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-
+        android:layout_marginStart="1dp"
+        app:layout_constraintTop_toTopOf="@id/search_marker"
+        app:layout_constraintLeft_toRightOf="@id/search_marker"
         android:fontFamily="sans-serif"
         android:textStyle="normal"
         android:textSize="18sp"
@@ -41,16 +39,15 @@
 
     <TextView
         android:id="@+id/search_location"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="25dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="1dp"
 
         android:layout_marginTop="4dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/search_title"
-        app:layout_constraintTop_toBottomOf="@+id/search_title"
 
+        app:layout_constraintBottom_toBottomOf="@+id/search_marker"
+        app:layout_constraintLeft_toRightOf="@id/search_marker"
         android:fontFamily="sans-serif-medium"
         android:textStyle="normal"
         android:textSize="14sp"
@@ -77,5 +74,16 @@
         app:layout_constraintBottom_toBottomOf="@id/search_title"
         android:text="병원"/>
 
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/search_marker"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginStart="7dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:src="@drawable/hos_icon"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
