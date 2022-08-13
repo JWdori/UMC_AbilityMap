@@ -1,6 +1,6 @@
 package com.abilitymap.ui.main;
+import androidx.activity.OnBackPressedCallback;
 import androidx.fragment.app.FragmentManager;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,16 +18,19 @@ public class Fragment_search extends Fragment {
         ImageView searchback;
 
         public Fragment_search() {
-        // Required empty public constructor
+                // Required empty public constructor
         }
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
+
+
         }
 
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+
 
 
                 View view = inflater.inflate(R.layout.search, container, false);
@@ -41,10 +44,6 @@ public class Fragment_search extends Fragment {
                         }
                 });
                 return view;
-        }
-
-        public void onBackPressed() {
-
         }
 
 
