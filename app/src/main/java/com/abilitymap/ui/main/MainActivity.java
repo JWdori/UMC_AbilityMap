@@ -161,7 +161,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     DangerDetailSheet dangerInfoFragment = null;
     LocationBottomSheet infoFragment = null;
-
     String reportContent;
 
 
@@ -607,25 +606,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     @Override
     public void onBackPressed() {
-//        ImageButton Call_button = (ImageButton)findViewById(R.id.call_button);
-//        ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
-//        ImageButton Report_message = (ImageButton)findViewById(R.id.repot_message);
-//        clickable = true;
-//        super.onBackPressed();
-//        Call_button.setVisibility(View.VISIBLE);
-//        Report_button.setVisibility(View.VISIBLE);
-//        Report_message.setVisibility(View.VISIBLE);
-//        Log.d("clickable?", "backKeyPressed");
-//        Log.d("clickable?", String.valueOf(clickable));
-
-
-
         if (isDrawerOpen) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
             isDrawerOpen = false;
-        } else if (isFilter) {
-            isFilter = false;
-        } else {
+        }else {
 
             if (clickable) {
 
@@ -1216,6 +1200,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
+
+
+
         binding.ivMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {            //menu 클릭 시 open drawer
@@ -1227,9 +1214,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         binding.ivSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                FragmentManager fm = getSupportFragmentManager();
-                fm.beginTransaction().replace(R.id.main_frame, new Fragment_search()).commit();
+                getSupportFragmentManager().beginTransaction().
+                        replace(R.id.main_frame, new Fragment_search()).addToBackStack(null).commit();
             }
         });
 
