@@ -111,6 +111,7 @@ import java.util.Objects;
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker_facility, SetMarker_wheel {
     private GpsTracker gpsTracker;
+    public boolean bfragment = false;
     private NaverMap naverMap;
     public static Activity firstActivity;
     public static ArrayList<JsonApi_hos.hos_item> hos_list = new ArrayList();
@@ -161,7 +162,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     DangerDetailSheet dangerInfoFragment = null;
     LocationBottomSheet infoFragment = null;
-
     String reportContent;
 
 
@@ -517,11 +517,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (isDrawerOpen) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
             isDrawerOpen = false;
-        } else if (isFilter) {
-            isFilter = false;
-        } else {
+        }else if(bfragment == true) {
+            getSupportFragmentManager().popBackStack();
+            bfragment = false;
+        }else {
             if (clickable) {
-
                 long tempTime = System.currentTimeMillis();
                 long intervalTime = tempTime - presstime;
 
@@ -1077,6 +1077,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
+
+
+
         binding.ivMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {            //menu 클릭 시 open drawer
@@ -1088,9 +1091,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         binding.ivSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
-                FragmentManager fm = getSupportFragmentManager();
-                fm.beginTransaction().replace(R.id.main_frame, new Fragment_search()).commit();
+                bfragment = true;
+                getSupportFragmentManager().beginTransaction().
+                        replace(R.id.main_frame, new Fragment_search()).addToBackStack(null).commit();
             }
         });
 

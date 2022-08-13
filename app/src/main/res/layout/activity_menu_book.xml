@@ -79,7 +79,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif-semibold"
-        android:textStyle="normal"
+        android:textStyle="bold"
         android:textSize="20sp"
         android:textColor="#000000"
         android:text="닫기"
