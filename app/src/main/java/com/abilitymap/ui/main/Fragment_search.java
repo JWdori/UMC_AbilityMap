@@ -21,4 +21,5 @@ public class Fragment_search extends Fragment {
             return inflater.inflate(R.layout.search, container, false);
         }
 
+
 }
