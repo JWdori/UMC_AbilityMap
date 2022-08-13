@@ -271,7 +271,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String lon = String.valueOf(NaverMap.DEFAULT_CAMERA_POSITION.target.longitude);
 
 
-
         JsonApi_hos hos_api = new JsonApi_hos();
         JsonApi_bike bike_api = new JsonApi_bike();
         JsonApi_slope slope_api = new JsonApi_slope();
@@ -333,11 +332,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                     Toast.makeText(MainActivity.this, "퍼미션이 거부되었습니다. 앱을 다시 실행하여 퍼미션을 허용해주세요.", Toast.LENGTH_LONG).show();
                     finish();
-
                 } else {
-
                     Toast.makeText(MainActivity.this, "퍼미션이 거부되었습니다. 설정(앱 정보)에서 퍼미션을 허용해야 합니다. ", Toast.LENGTH_LONG).show();
-
                 }
             }
 
@@ -355,179 +351,100 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         ImageButton repot_message = (ImageButton) findViewById(R.id.message_button);
         ImageButton Report_button = (ImageButton) findViewById(R.id.repot_button);
 
-
         if (overlay instanceof Marker && String.valueOf(overlay.getTag()).equals("danger")) {
-            if (clickable) {
-                JsonApi_danger.danger_item selectedDangerItem = findThisDangerMarkerItem(((Marker) overlay).getPosition(), danger_list);
-                String reportContent = selectedDangerItem.getReportContent();
-                String nickName = selectedDangerItem.getNickName();
-                String serverReportDate = selectedDangerItem.getReportDate();
-                String reportImage = selectedDangerItem.getReportImage();
-                System.out.println("리스트 검색 결과 : " + reportContent + "," + nickName + "," + serverReportDate);
-                System.out.println("제보 이미지 : " + reportImage);
+
+            JsonApi_danger.danger_item selectedDangerItem = findThisDangerMarkerItem(((Marker) overlay).getPosition(), danger_list);
+            String reportContent = selectedDangerItem.getReportContent();
+            String nickName = selectedDangerItem.getNickName();
+            String serverReportDate = selectedDangerItem.getReportDate();
+            String reportImage = selectedDangerItem.getReportImage();
+            System.out.println("리스트 검색 결과 : " + reportContent + "," + nickName + "," + serverReportDate);
+            System.out.println("제보 이미지 : " + reportImage);
 
 
 
-                String clientReportDate;
-                //서버에서 보내준 시간 String을 클라이언트 형식에 맞게 파싱
-                OffsetDateTime odt = OffsetDateTime.parse(serverReportDate);
-                OffsetDateTime odtTruncatedToWholeSecond = odt.truncatedTo(ChronoUnit.MINUTES);
-                clientReportDate = odtTruncatedToWholeSecond.format(DateTimeFormatter.ofPattern("yyyy/MM/dd'T'HH:mm")).replace("T", " ");
+            String clientReportDate;
+            //서버에서 보내준 시간 String을 클라이언트 형식에 맞게 파싱
+            OffsetDateTime odt = OffsetDateTime.parse(serverReportDate);
+            OffsetDateTime odtTruncatedToWholeSecond = odt.truncatedTo(ChronoUnit.MINUTES);
+            clientReportDate = odtTruncatedToWholeSecond.format(DateTimeFormatter.ofPattern("yyyy/MM/dd'T'HH:mm")).replace("T", " ");
 
-                String tag = String.valueOf(overlay.getTag());
-                dangerInfoFragment = new DangerDetailSheet(tag, reportContent, clientReportDate, nickName, reportImage);
-                dangerInfoFragment.show(getSupportFragmentManager(),"dangerInfoSheet");
+            String tag = String.valueOf(overlay.getTag());
+            dangerInfoFragment = new DangerDetailSheet(tag, reportContent, clientReportDate, nickName, reportImage);
+            dangerInfoFragment.show(getSupportFragmentManager(),"dangerInfoSheet");
 
-                clickable = false;
+//            repot_message.setVisibility(View.INVISIBLE);
+//            Report_button.setVisibility(View.INVISIBLE);
 
-                repot_message.setVisibility(View.INVISIBLE);
-                Report_button.setVisibility(View.INVISIBLE);
+            LatLng selectedPosition = ((Marker) overlay).getPosition();
+            CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Easing);
+            naverMap.moveCamera(cameraUpdate);
 
-                LatLng selectedPosition = ((Marker) overlay).getPosition();
-                CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Easing);
-                naverMap.moveCamera(cameraUpdate);
-
-                naverMap.setOnMapClickListener(new NaverMap.OnMapClickListener() {
-                    @Override
-                    public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
-                        if(dangerInfoFragment!=null) {
-                            dangerInfoFragment.dismiss();
-
-                            dangerInfoFragment = null;
-                            infoFragment = null;
-
-                            clickable = true;
-
-                            repot_message.setVisibility(View.VISIBLE);
-                            Report_button.setVisibility(View.VISIBLE);
-                        }
-                    }
-                });
-                return true;
-            }
-            if (!clickable){
-                if(infoFragment!=null) {
-                    infoFragment.dismiss();
-                }
-                if(dangerInfoFragment!=null){
-                    dangerInfoFragment.dismiss();
-                }
-
-                dangerInfoFragment = null;
-                infoFragment = null;
-
-                clickable = true;
-
-                repot_message.setVisibility(View.VISIBLE);
-                Report_button.setVisibility(View.VISIBLE);
-            }
-
+            return true;
         }
-        else {
-            if (overlay instanceof Marker && clickable) {
-                Object object = overlay.getTag();
-                String tag = String.valueOf(object);
 
-/*
-                if(infoFragment!=null){
-                    getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
-                }
-*/
+        else if (overlay instanceof Marker) {
+            Object object = overlay.getTag();
+            String tag = String.valueOf(object);
 
-                //charge_list.get()
+            String name;
+            String location;
+            String week;
+            String weekend;
+            String holiday;
+            String phone;
 
-
-                // overlay.getTag 에 따라서 switch case 문? 천잰가? - 기염동
-
-                //클릭이벤트가 일어난 마커가 어느 타입인지 search
-                if (tag.equals("charge")) {
+            //클릭이벤트가 일어난 마커가 어느 타입인지 search
+            switch (tag) {
+                case "charge":
                     JsonApi_charge.charge_item selectedChargeItem = findThisChargerMarkerItem(((Marker) overlay).getPosition(), charge_list);
-                    String location = selectedChargeItem.getLocation();
-                    String week = selectedChargeItem.getWeek();
-                    String weekend = selectedChargeItem.getWeekend();
-                    String holiday = selectedChargeItem.getHoliday();
+                    location = selectedChargeItem.getLocation();
+                    week = selectedChargeItem.getWeek();
+                    weekend = selectedChargeItem.getWeekend();
+                    holiday = selectedChargeItem.getHoliday();
 
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
                     infoFragment = new LocationBottomSheet(tag, location, week, holiday);
-                } else if (tag.equals("hos")) {
+
+                    break;
+
+                case "hos":
                     JsonApi_hos.hos_item selectedTotalItem = findThisTotalMarkerItem(((Marker) overlay).getPosition(), hos_list);
-                    String name = selectedTotalItem.getName();
-                    String location = selectedTotalItem.getLocation();
-                    String week = selectedTotalItem.getWeek();
-                    String weekend = selectedTotalItem.getWeekend();
-                    String holiday = selectedTotalItem.getHoliday();
-                    String phone = selectedTotalItem.getPhone();
+                    name = selectedTotalItem.getName();
+                    location = selectedTotalItem.getLocation();
+                    week = selectedTotalItem.getWeek();
+                    weekend = selectedTotalItem.getWeekend();
+                    holiday = selectedTotalItem.getHoliday();
+                    phone = selectedTotalItem.getPhone();
 
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
-                    infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone);
-                } else if(tag.equals("office")){
+                    infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone, (Marker) overlay);
+
+                    break;
+
+                case "office":
                     JsonApi_fac.fac_item selectedFacilityItem = findThisFacilityMarkerItem(((Marker) overlay).getPosition(),fac_list);
-                    String name = selectedFacilityItem.getName();
-                    String location = selectedFacilityItem.getLocation();
-                    String week = selectedFacilityItem.getWeek();
-                    String weekend = selectedFacilityItem.getWeekend();
-                    String holiday = selectedFacilityItem.getHoliday();
-                    String phone = selectedFacilityItem.getPhone();
+                    name = selectedFacilityItem.getName();
+                    location = selectedFacilityItem.getLocation();
+                    week = selectedFacilityItem.getWeek();
+                    weekend = selectedFacilityItem.getWeekend();
+                    holiday = selectedFacilityItem.getHoliday();
+                    phone = selectedFacilityItem.getPhone();
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
-                    infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone);
-                }
-
+                    infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone, (Marker) overlay);
             }
-            else if (overlay instanceof Marker && !clickable){
-                if(dangerInfoFragment!=null){
-                    dangerInfoFragment.dismiss();
-                }
-                if(infoFragment!=null){
-                    infoFragment.dismiss();
-                }
-
-                clickable = true;
-                dangerInfoFragment = null;
-                infoFragment = null;
-
-                repot_message.setVisibility(View.VISIBLE);
-                Report_button.setVisibility(View.VISIBLE);
-                return true;
-            }
-
-
-            //LocationDetailFragment infoFragment = new LocationDetailFragment(tag);
-
-            infoFragment.show(getSupportFragmentManager(),"infoFragment");
-            clickable = false;
-            repot_message.setVisibility(View.INVISIBLE);
-            Report_button.setVisibility(View.INVISIBLE);
-
-            Log.d("clickable?", String.valueOf(clickable));
-
-            LatLng selectedPosition = ((Marker) overlay).getPosition();
-            CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.35f)).animate(CameraAnimation.Easing);
-            naverMap.moveCamera(cameraUpdate);
-
-
-            //LocationDetailFragment finalInfoFragment = infoFragment;
-            naverMap.setOnMapClickListener(new NaverMap.OnMapClickListener() {
-                @Override
-                public void onMapClick(@NonNull PointF pointF, @NonNull LatLng latLng) {
-                    if(infoFragment!=null) {
-                        infoFragment.dismiss();
-                        clickable = true;
-                        dangerInfoFragment = null;
-                        infoFragment = null;
-
-
-                        repot_message.setVisibility(View.VISIBLE);
-                        Report_button.setVisibility(View.VISIBLE);
-                        Log.d("clickable?", String.valueOf(clickable));
-                        Log.d("click event", "onMapClick");
-                    }
-
-
-                }
-
-
-            });
         }
+
+        //LocationDetailFragment infoFragment = new LocationDetailFragment(tag);
+        infoFragment.show(getSupportFragmentManager(),"infoFragment");
+//        repot_message.setVisibility(View.INVISIBLE);
+//        Report_button.setVisibility(View.INVISIBLE);
+
+        Log.d("clickable?", String.valueOf(clickable));
+
+        LatLng selectedPosition = ((Marker) overlay).getPosition();
+        CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.35f)).animate(CameraAnimation.Easing);
+        naverMap.moveCamera(cameraUpdate);
 
         return true;
     }
@@ -540,7 +457,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         for (int i = 0; i < list.size(); i++) {
             JsonApi_charge.charge_item item = list.get(i);
-
             if (thisLat.equals(item.getLat()) && thisLng.equals(item.getLng())) {
                 selectedItem = item;
                 System.out.println("charge item found!");
@@ -554,9 +470,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String thisLng = String.valueOf(location.longitude);
         JsonApi_hos.hos_item selectedItem = null;
 
-//        System.out.println(thisLat);
-//        System.out.println(thisLng);
-
         for (int i = 0; i < list.size(); i++) {
             JsonApi_hos.hos_item item = list.get(i);
             if (thisLat.equals(item.getLat()) && thisLng.equals(item.getLng())) {
@@ -565,15 +478,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }
         return selectedItem;
-    }   // 이 부분 중복 제거 할 수 있나? - 기염동
+    }
 
     JsonApi_fac.fac_item findThisFacilityMarkerItem(LatLng location, ArrayList<JsonApi_fac.fac_item> list) {
         String thisLat = String.valueOf(location.latitude);
         String thisLng = String.valueOf(location.longitude);
         JsonApi_fac.fac_item selectedItem = null;
-
-//        System.out.println(thisLat);
-//        System.out.println(thisLng);
 
         for (int i = 0; i < list.size(); i++) {
             JsonApi_fac.fac_item item = list.get(i);
@@ -590,9 +500,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String thisLng = String.valueOf(location.longitude);
         JsonApi_danger.danger_item selectedItem = null;
 
-//        System.out.println(thisLat);
-//        System.out.println(thisLng);
-
         for (int i = 0; i < list.size(); i++) {
             JsonApi_danger.danger_item item = list.get(i);
             System.out.println(i + "," + item + ", Lat : " + item.getLat() + "Lng : " + item.getLng());
@@ -602,31 +509,17 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
         }
         return selectedItem;
-    }   // 이 부분 중복 제거 할 수 있나? - 기염동
+    }
 
 
     @Override
     public void onBackPressed() {
-//        ImageButton Call_button = (ImageButton)findViewById(R.id.call_button);
-//        ImageButton Report_button = (ImageButton)findViewById(R.id.repot_button);
-//        ImageButton Report_message = (ImageButton)findViewById(R.id.repot_message);
-//        clickable = true;
-//        super.onBackPressed();
-//        Call_button.setVisibility(View.VISIBLE);
-//        Report_button.setVisibility(View.VISIBLE);
-//        Report_message.setVisibility(View.VISIBLE);
-//        Log.d("clickable?", "backKeyPressed");
-//        Log.d("clickable?", String.valueOf(clickable));
-
-
-
         if (isDrawerOpen) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
             isDrawerOpen = false;
         } else if (isFilter) {
             isFilter = false;
         } else {
-
             if (clickable) {
 
                 long tempTime = System.currentTimeMillis();
@@ -638,7 +531,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     presstime = tempTime;
                     Toast.makeText(getApplicationContext(), "한번더 누르시면 앱이 종료됩니다", Toast.LENGTH_SHORT).show();
                 }
-
             } else {
                 super.onBackPressed();
                 ImageButton message_button = (ImageButton) findViewById(R.id.message_button);
@@ -647,10 +539,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 Report_button.setVisibility(View.VISIBLE);
                 clickable = true;
 
-
             }
-
-
         }
     }
 
@@ -663,36 +552,26 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         int hasCoarseLocationPermission = ContextCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.ACCESS_COARSE_LOCATION);
 
-
         if (hasFineLocationPermission == PackageManager.PERMISSION_GRANTED &&
                 hasCoarseLocationPermission == PackageManager.PERMISSION_GRANTED) {
-
             // 2. 이미 퍼미션을 가지고 있다면
             // ( 안드로이드 6.0 이하 버전은 런타임 퍼미션이 필요없기 때문에 이미 허용된 걸로 인식합니다.)
 
-
             // 3.  위치 값을 가져올 수 있음
-
-
         } else {  //2. 퍼미션 요청을 허용한 적이 없다면 퍼미션 요청이 필요합니다. 2가지 경우(3-1, 4-1)가 있습니다.
-
             // 3-1. 사용자가 퍼미션 거부를 한 적이 있는 경우에는
             if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this, REQUIRED_PERMISSIONS[0])) {
-
                 // 3-2. 요청을 진행하기 전에 사용자가에게 퍼미션이 필요한 이유를 설명해줄 필요가 있습니다.
                 //Toast.makeText(MainActivity.this, "이 앱을 실행하려면 위치 접근 권한이 필요합니다.", Toast.LENGTH_LONG).show();
                 // 3-3. 사용자게에 퍼미션 요청을 합니다. 요청 결과는 onRequestPermissionResult에서 수신됩니다.
                 ActivityCompat.requestPermissions(MainActivity.this, REQUIRED_PERMISSIONS,
                         PERMISSIONS_REQUEST_CODE);
-
-
             } else {
                 // 4-1. 사용자가 퍼미션 거부를 한 적이 없는 경우에는 퍼미션 요청을 바로 합니다.
                 // 요청 결과는 onRequestPermissionResult에서 수신됩니다.
                 ActivityCompat.requestPermissions(MainActivity.this, REQUIRED_PERMISSIONS,
                         PERMISSIONS_REQUEST_CODE);
             }
-
         }
     }
 
@@ -715,7 +594,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
 
         return simpleAdress;
-
     }
 
 
@@ -735,15 +613,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         } catch (IllegalArgumentException illegalArgumentException) {
             Toast.makeText(this, "잘못된 GPS 좌표", Toast.LENGTH_LONG).show();
             return "잘못된 GPS 좌표";
-
         }
-
         if (addresses == null || addresses.size() == 0) {
             Toast.makeText(this, "주소 미발견", Toast.LENGTH_LONG).show();
             return "주소 미발견";
-
         }
-
         Address address = addresses.get(0);
 
         return address.getAddressLine(0).toString() + "\n";
@@ -814,7 +688,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         naverMap.moveCamera(cameraUpdate);
         this.naverMap = naverMap;
 
-
         SharedPreferences total1 = getSharedPreferences("total", Activity.MODE_PRIVATE);
         SharedPreferences hos2 = getSharedPreferences("hos2", Activity.MODE_PRIVATE);
         SharedPreferences fac3 = getSharedPreferences("fac3", Activity.MODE_PRIVATE);
@@ -866,9 +739,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             if (danger9.getBoolean("total", true)) {
                 setMarker_danger();
             }
-
         }
-
 
         //충전기
         naverMap.setMaxZoom(19.0);
@@ -942,10 +813,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
             }
-
         });
-
-
     }
 
 
@@ -966,7 +834,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         try {
             latitude = gpsTracker.getLatitude();
-        } catch (Exception e) {
+        } catch (Exception e){
             latitude = 37.496787860046965;
         }
         try {
@@ -982,20 +850,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             Log.d("데이타 베이스 번호", personInfoDatabase.personInfoDao().getPhoneNumber(personId));
             Log.d("데이타 베이스 텍스트", personInfoDatabase.personInfoDao().getText(personId));
 
-
-                if (!(personInfoDatabase.personInfoDao().getText(personId).equals(""))) {  //텍스트 입력한 기록이 있는 연락처에 한정
-
-                    //선택된 연락처의 번호로 기본 메세지 + 기록된 메세지 전송
-                    manager.sendTextMessage(personInfoDatabase.personInfoDao().getPhoneNumber(personId), null, text+"\n"+address + personInfoDatabase.personInfoDao().getText(personId), null, null);
-                } else {   //선택된 연락처의 번호로 기본 메세지만 전송
-                    manager.sendTextMessage(personInfoDatabase.personInfoDao().getPhoneNumber(personId), null, text+"\n"+address , null, null);
-                }
-
+            if (!(personInfoDatabase.personInfoDao().getText(personId).equals(""))) {  //텍스트 입력한 기록이 있는 연락처에 한정
+                //선택된 연락처의 번호로 기본 메세지 + 기록된 메세지 전송
+                manager.sendTextMessage(personInfoDatabase.personInfoDao().getPhoneNumber(personId), null, text+"\n"+address + personInfoDatabase.personInfoDao().getText(personId), null, null);
+            } else {   //선택된 연락처의 번호로 기본 메세지만 전송
+                manager.sendTextMessage(personInfoDatabase.personInfoDao().getPhoneNumber(personId), null, text+"\n"+address , null, null);
+            }
         }
-
-
-
-
     }
 
     @Override
