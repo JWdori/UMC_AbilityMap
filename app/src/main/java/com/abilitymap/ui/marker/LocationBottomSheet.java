@@ -1,16 +1,20 @@
 package com.abilitymap.ui.marker;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.abilitymap.R;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.naver.maps.map.overlay.Marker;
+import com.naver.maps.map.overlay.Overlay;
 
 public class LocationBottomSheet extends BottomSheetDialogFragment implements View.OnClickListener {
     public static LocationBottomSheet getInstance(){
@@ -23,6 +27,8 @@ public class LocationBottomSheet extends BottomSheetDialogFragment implements Vi
     private TextView phoneTextView;
     private ImageView phoneImageView;
 
+
+
     String categoryKey;
     //String category;
     String name="default";
@@ -31,6 +37,7 @@ public class LocationBottomSheet extends BottomSheetDialogFragment implements Vi
     String holiday="default";
     String phone="";
     String finalPhone;
+    Marker marker;
 
     public LocationBottomSheet(){
 
@@ -50,6 +57,17 @@ public class LocationBottomSheet extends BottomSheetDialogFragment implements Vi
         this.week = week;
         this.holiday = holiday;
         this.phone = phone;
+    }
+
+    public LocationBottomSheet(String tag, String name, String location,
+                               String week, String holiday, String phone, Marker marker){
+        this.categoryKey = tag;
+        this.name = name;
+        this.location = location;
+        this.week = week;
+        this.holiday = holiday;
+        this.phone = phone;
+        this.marker = marker;
     }
 
     @Override
@@ -75,11 +93,22 @@ public class LocationBottomSheet extends BottomSheetDialogFragment implements Vi
         setWeek(finalWeek);
         setPhone(finalPhone);
 
+        marker.setWidth(200);
+        marker.setHeight(200);
+
         return view;
     }
 
     @Override
     public void onClick(View v) {
+    }
+
+    @Override
+    public void onDismiss(DialogInterface dialog){
+        super.onDismiss(dialog);
+
+        marker.setWidth(80);
+        marker.setHeight(80);
 
     }
 
@@ -132,4 +161,5 @@ public class LocationBottomSheet extends BottomSheetDialogFragment implements Vi
         }
         else return input;
     }
+
 }
