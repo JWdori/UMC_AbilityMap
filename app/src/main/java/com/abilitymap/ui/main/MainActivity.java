@@ -161,7 +161,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     DangerDetailSheet dangerInfoFragment = null;
     LocationBottomSheet infoFragment = null;
-    private boolean bfragment = false;
     String reportContent;
 
 
@@ -610,9 +609,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         if (isDrawerOpen) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
             isDrawerOpen = false;
-        }else if(bfragment == true){
-            getSupportFragmentManager().popBackStack();
-            bfragment = false;
         }else {
 
             if (clickable) {
@@ -1207,7 +1203,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
 
-
         binding.ivMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {            //menu 클릭 시 open drawer
@@ -1219,7 +1214,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         binding.ivSearch.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                bfragment = true;
                 getSupportFragmentManager().beginTransaction().
                         replace(R.id.main_frame, new Fragment_search()).addToBackStack(null).commit();
             }
