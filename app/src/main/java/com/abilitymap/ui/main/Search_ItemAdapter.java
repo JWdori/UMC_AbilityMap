@@ -101,7 +101,8 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (Search_Item item : mDataListAll) {
                     //TODO filter 대상 setting
-                    if (item.getText1().toLowerCase().contains(filterPattern)) {
+                    if (item.getText1().toLowerCase().contains(filterPattern)||
+                            item.getText2().toLowerCase().contains(filterPattern)) {
                         filteredList.add(item);
                     }
                 }

@@ -43,13 +43,14 @@
 
             <androidx.appcompat.widget.SearchView
                 android:id="@+id/search_view"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:queryBackground="@null"
                 android:paddingStart="-16dp"
                 app:actionViewClass="android.support.v7.widget.SearchView"
                 app:iconifiedByDefault="false"
                 android:layout_marginRight="16dp"
+                android:layout_marginLeft="52dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintLeft_toRightOf="@id/search_back"
                 app:layout_constraintTop_toTopOf="parent"
