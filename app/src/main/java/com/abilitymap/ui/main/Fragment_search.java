@@ -1,5 +1,6 @@
 package com.abilitymap.ui.main;
 import androidx.activity.OnBackPressedCallback;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -24,6 +25,7 @@ import java.util.List;
 
 public class Fragment_search extends Fragment implements Search_ItemAdapter.onItemListener {
         ImageView searchback;
+        SearchView searchView;
         private Search_ItemAdapter adapter;
         private List<Search_Item> itemList;
 
@@ -41,6 +43,26 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
                 View view = inflater.inflate(R.layout.search, container, false);
+
+                searchView=view.findViewById(R.id.search_view);
+                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+                        @Override
+                        public boolean onQueryTextSubmit(String query) {
+                                return false;
+                        }
+
+                        @Override
+                        public boolean onQueryTextChange(String newText) {
+                                adapter.getFilter().filter(newText);
+                                return false;
+                        }
+                });
+
+
+
+
+
+
                 RecyclerView recyclerView = view.findViewById(R.id.search_result);
                 recyclerView.setHasFixedSize(true);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -88,29 +110,7 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                 itemList.add(new Search_Item(R.drawable.hos_icon, "Nine", "Eighteen"));
                 itemList.add(new Search_Item(R.drawable.hos_icon, "Nine", "Eighteen"));
         }
-//        @Override
-//        public boolean onCreateOptionsMenu(Menu menu) {
-//
-//                getMenuInflater().inflate(R.menu.menu, menu);
-//                MenuItem searchItem = menu.findItem(R.id.action_search);
-//                SearchView searchView = (SearchView) searchItem.getActionView();
-//
-//                searchView.setImeOptions(EditorInfo.IME_ACTION_DONE);
-//
-//                searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-//                        @Override
-//                        public boolean onQueryTextSubmit(String query) {
-//                                return false;
-//                        }
-//
-//                        @Override
-//                        public boolean onQueryTextChange(String newText) {
-//                                adapter.getFilter().filter(newText);
-//                                return false;
-//                        }
-//                });
-//                return super.onCreateOptionsMenu(menu);
-//        }
+
 
 
         @Override

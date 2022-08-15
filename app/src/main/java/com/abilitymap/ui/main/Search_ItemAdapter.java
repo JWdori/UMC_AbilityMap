@@ -19,17 +19,6 @@ import com.abilitymap.ui.main.Search_Item;
 import java.util.ArrayList;
 import java.util.List;
 
-/***********************************************************************************************
- mtp1
- ItemAdapter		=> ToDoAdapter			어댑터이름
- ItemViewHolder		=> ToDoViewHolder		뷰홀더이름
- onItemListener	=> onToDoClickListener 	인터페이스이름
- onItemClicked 		=> onToDoClicked 		인터페이스 클릭메서드이름
- row_item		=> list_item 			아이템레이아웃이름
- ItemModel		=> Person 				모델이름
-
- **********************************************************************************************/
-
 public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.ItemViewHolder> implements Filterable {
 
     private List<Search_Item> mDataList;
@@ -112,7 +101,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (Search_Item item : mDataListAll) {
                     //TODO filter 대상 setting
-                    if (item.getText2().toLowerCase().contains(filterPattern)) {
+                    if (item.getText1().toLowerCase().contains(filterPattern)) {
                         filteredList.add(item);
                     }
                 }
