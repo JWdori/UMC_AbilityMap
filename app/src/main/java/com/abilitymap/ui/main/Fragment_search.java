@@ -1,4 +1,5 @@
 package com.abilitymap.ui.main;
+import android.content.ClipData;
 import android.os.*;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.FragmentManager;
@@ -32,10 +33,6 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
 
 
 
-
-
-
-
         @Override
         public void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
@@ -45,7 +42,7 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
                 View view = inflater.inflate(R.layout.search, container, false);
-
+                //서치뷰 검색
                 searchView=view.findViewById(R.id.search_view);
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                         @Override
@@ -60,28 +57,24 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                         }
                 });
 
-
-
+                //
                 RecyclerView recyclerView = view.findViewById(R.id.search_result);
                 recyclerView.setHasFixedSize(true);
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-
-                //adapter
+                LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+                recyclerView.setLayoutManager(mLayoutManager);
                 itemList = new ArrayList<>(); //샘플테이터
-                fillData();
-                recyclerView.setLayoutManager(layoutManager);
-                adapter = new Search_ItemAdapter(itemList);
-
+                loadData();
+                adapter = new Search_ItemAdapter(this);
+                adapter.setLinearLayoutManager(mLayoutManager);
+                adapter.setRecyclerView(recyclerView);
                 recyclerView.setAdapter(adapter);
-                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL); //밑줄
-                recyclerView.addItemDecoration(dividerItemDecoration);
-
-                //데이터셋변경시
-                //adapter.dataSetChanged(exampleList);
-
-                //어댑터의 리스너 호출
                 adapter.setOnClickListener(this);
 
+
+
+
+
+                //뒤로가기 버튼
                 searchback = view.findViewById(R.id.search_back);
                 searchback.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -92,42 +85,14 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                         }
                 });
 
-                recyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                        @Override
-                        public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                                super.onScrollStateChanged(recyclerView, newState);
-                        }
-
-                        @Override
-                        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                                super.onScrolled(recyclerView, dx, dy);
-
-                                int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastCompletelyVisibleItemPosition();
-                                int totalCount = recyclerView.getAdapter().getItemCount();
-
-                                if(lastPosition == totalCount){
-                                        fillData();
-                                }
-                        }
-                });
-
-
 
                 return view;
         }
 
 
 
-        public void onStart() {
-                super.onStart();
-                Log.d("MainActivity_", "onStart");
-                fillData();
-        }
-
-
         @Override
         public void onLoadMore() {
-                Log.d("MainActivity_", "onLoadMore");
                 adapter.setProgressMore(true);
                 new Handler().postDelayed(new Runnable() {
                         @Override
@@ -140,43 +105,24 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                                 int start = adapter.getItemCount();
                                 int end = start + 15;
                                 for (int i = start + 1; i <= end; i++) {
-                                        itemList.add(new Search_Item(R.drawable.hos_icon, "추가임!", "Ten"));
+                                        itemList.add(new Search_Item(R.drawable.hos_icon, "추가임!", "Ten", "이게문제엿네"));
                                 }
                                 //////////////////////////////////////////////////
                                 adapter.addItemMore(itemList);
                                 adapter.setMoreLoading(false);
                         }
-                }, 2000);
+                }, 500);
         }
 
 
 
 
-        private void fillData() {
-                itemList = new ArrayList<>(); //샘플테이터
-                itemList.add(new Search_Item(R.drawable.hos_icon, "One", "Ten"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Two", "Eleven"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Three", "Twelve"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Four", "Thirteen"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Five", "Fourteen"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Six", "Fifteen"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Seven", "Sixteen"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Eight", "Seventeen"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Nine", "Eighteen"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Nine", "Eighteen"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "One", "Ten"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Two", "Eleven"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Three", "Twelve"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Four", "Thirteen"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Five", "Fourteen"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Six", "Fifteen"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Seven", "Sixteen"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Eight", "Seventeen"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Nine", "Eighteen"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Nine", "Eighteen"));
+        private void loadData() {
+                itemList = new ArrayList<>();
+                for (int i = 1; i <= 20; i++) {
+                        itemList.add(new Search_Item(R.drawable.hos_icon, "Nine", "Eighteen","병원아님"));
+                }
         }
-
-
 
         @Override
         public void onItemClicked(int position) {

@@ -1267,7 +1267,7 @@ private void cameraDialog(){
     }
 
     //의료기관setMarker_facility_delete
-    private void setMarker_hos() {
+    public void setMarker_hos() {
         for (int i = 0; i < hos_list.size(); i++) {
             JsonApi_hos.hos_item item = hos_list.get(i);
             setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "hos", naverMap);

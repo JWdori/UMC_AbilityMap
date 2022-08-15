@@ -27,6 +27,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
     private final int VIEW_PROG = 0;
     private List<Search_Item> mDataList;
     private List<Search_Item> mDataListAll;
+    private List<Search_Item> rDataList;
     int firstVisibleItem, visibleItemCount, totalItemCount, lastVisibleItem;
     private LinearLayoutManager mLinearLayoutManager;
     private onItemListener onLoadMoreListener;
@@ -34,16 +35,12 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
     private boolean isMoreLoading = false;
 
 
-    //constructor
-    public Search_ItemAdapter(List<Search_Item> items) {
-        mDataList = items;
-        mDataListAll = new ArrayList<>(items);
-    }
 
 
     public Search_ItemAdapter(onItemListener onLoadMoreListener) {
         this.onLoadMoreListener=onLoadMoreListener;
         mDataList =new ArrayList<>();
+        mDataListAll = new ArrayList<>();
     }
 
 
@@ -86,8 +83,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
         holder.imageView.setImageResource(currentItem.getImageResource());
         holder.textView1.setText(currentItem.getText1());
         holder.textView2.setText(currentItem.getText2());
-        holder.textView3.setText(currentItem.getText3());
-
+        holder.textView2.setText(currentItem.getText3());
         // TODO : 리스너를 정의하시오.
         if (mListener != null){
             final int pos = position;
@@ -186,22 +182,20 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
             @Override
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
+
                 visibleItemCount = recyclerView.getChildCount();
                 totalItemCount = mLinearLayoutManager.getItemCount();
                 firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
                 lastVisibleItem = mLinearLayoutManager.findLastVisibleItemPosition();
-                Log.d("total", totalItemCount + "");
-                Log.d("visible", visibleItemCount + "");
-
-                Log.d("first", firstVisibleItem + "");
-                Log.d("last", lastVisibleItem + "");
 
                 if (!isMoreLoading && (totalItemCount - visibleItemCount)<= (firstVisibleItem + visibleThreshold)) {
                     if (onLoadMoreListener != null) {
-                        onLoadMoreListener.onLoadMore();
+//                        onLoadMoreListener.onLoadMore();
                     }
                     isMoreLoading = true;
                 }
+
+
             }
         });
     }
