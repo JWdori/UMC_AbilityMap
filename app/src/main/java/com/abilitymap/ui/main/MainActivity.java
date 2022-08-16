@@ -361,7 +361,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             System.out.println("리스트 검색 결과 : " + reportContent + "," + nickName + "," + serverReportDate);
             System.out.println("제보 이미지 : " + reportImage);
 
-
+            //수정요청 관리자 <- 참고해서, 메인 앱에서 수정요청 패치 보내는법 (안되면 @곽정아)
+            //검색을 좀 해볼테니,,,가까운 위치의 데이터가 먼저 뜨는거
 
             String clientReportDate;
             //서버에서 보내준 시간 String을 클라이언트 형식에 맞게 파싱

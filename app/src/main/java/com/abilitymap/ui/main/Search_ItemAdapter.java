@@ -23,23 +23,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.ItemViewHolder> implements Filterable {
-    private final int VIEW_ITEM = 1;
-    private final int VIEW_PROG = 0;
-    private List<Search_Item> mDataList;
+    public final int VIEW_ITEM = 1;
+    public final int VIEW_PROG = 0;
+    public List<Search_Item> mDataList;
     private List<Search_Item> mDataListAll;
-    private List<Search_Item> rDataList;
     int firstVisibleItem, visibleItemCount, totalItemCount, lastVisibleItem;
     public LinearLayoutManager mLinearLayoutManager;
     private onItemListener onLoadMoreListener;
     private int visibleThreshold = 1;
     private boolean isMoreLoading = false;
-
+    public List<Search_Item> items;
 
 
 
     public Search_ItemAdapter(List<Search_Item> itemList) {
-        this.onLoadMoreListener=onLoadMoreListener;
-        mDataList = new ArrayList<>(itemList);
+        mDataList = new ArrayList<>(itemList);;
+        items = itemList;
         mDataListAll = new ArrayList<>(itemList);
     }
 
@@ -58,42 +57,49 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
 
     @Override
     public int getItemViewType(int position) {
-        return mDataList.get(position) != null ? VIEW_ITEM : VIEW_PROG;
+        Log.d("아니아니",""+items.get(position));
+        return items.get(position) != null ? VIEW_ITEM : VIEW_PROG;
     }
 
     //1.onCreateViewHolder -------------------------------------------------------
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-
+        System.out.println(viewType);
+        System.out.println(VIEW_ITEM);
+        System.out.println("왜");
         if (viewType == VIEW_ITEM) {
             return new ItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.search_result, parent, false));
-        } else {
+        }else{
+            System.out.println("호호호호");
             return new ProgressViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_progress, parent, false));
-        }
 
+        }
     }
 
     //2.onBindViewHolder  -------------------------------------------------------
     @Override
-    public void onBindViewHolder(@NonNull final ItemViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-
-
-        Search_Item currentItem = mDataList.get(position);
+    public void onBindViewHolder(final ItemViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 //        if(currentItem==null){
-//            mDataList.remove(String.valueOf(null));
-//            currentItem = mDataList.get(position);
+//            new Handler().postDelayed(new Runnable() {
+//                @Override
+//                public void run() {
+//                    Log.d("ds","기달");
+//                }
+//            },3000);
 //        }
-
+        Log.d("ds","기달"+mDataList);
+        Log.d("ds","기달"+items);
+        Log.d("ds","기달"+mDataListAll);
         // TODO : 데이터를 뷰홀더에 표시하시오
-        holder.imageView.setImageResource(currentItem.getImageResource());
-        holder.textView1.setText(currentItem.getText1());
-        holder.textView2.setText(currentItem.getText2());
-        holder.textView3.setText(currentItem.getText3());
         // TODO : 리스너를 정의하시오.
         if (mListener != null){
             final int pos = position;
+            Search_Item currentItem = mDataList.get(position);
+            holder.imageView.setImageResource(currentItem.getImageResource());
+            holder.textView1.setText(currentItem.getText1());
+            holder.textView2.setText(currentItem.getText2());
+            holder.textView3.setText(currentItem.getText3());
             //final ItemModel item = mItems.get(viewHolder.getAdapterPosition());
             holder.itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
@@ -101,10 +107,11 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
                     mListener.onItemClicked(position);
                 }
             });
+
             //버튼등에도 동일하게 지정할 수 있음 holder.버튼이름.setOnClickListener..형식으로
         }
-    }
 
+    }
     //3.getItemCount  -------------------------------------------------------
     @Override
     public int getItemCount() {
@@ -185,9 +192,8 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
     public void setRecyclerView(RecyclerView mView){
         mView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
                 visibleItemCount = recyclerView.getChildCount();
                 totalItemCount = mLinearLayoutManager.getItemCount();
                 firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
@@ -197,7 +203,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
                 Log.d("first", firstVisibleItem + "");
                 Log.d("last", lastVisibleItem + "");
 
-                if (!isMoreLoading && lastVisibleItem%19==0) {
+                if (!isMoreLoading && (totalItemCount - visibleItemCount)<= (firstVisibleItem + visibleThreshold)) {
                     Log.d("ㅎㅇ","에휴");
                     if (mListener != null) {
                         mListener.onLoadMore();
@@ -216,6 +222,8 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
     public void addAll2(List<Search_Item> lst){
         mDataList.clear();
         mDataList.addAll(lst);
+        items.addAll(lst);
+        mDataListAll.addAll(lst);
         notifyDataSetChanged();
     }
 
@@ -223,9 +231,11 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
 
     public void addItemMore(List<Search_Item> lst){
         mDataList.addAll(lst);
+        items.addAll(lst);
         mDataListAll.addAll(lst);
         notifyItemRangeChanged(0,mDataList.size());
         notifyItemRangeChanged(0,mDataListAll.size());
+        notifyItemRangeChanged(0,items.size());
     }
 
 
@@ -234,8 +244,9 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
         this.isMoreLoading=isMoreLoading;
     }
 
+    private void showLoadingView(ProgressViewHolder holder, int position) {
 
-
+    }
 
 
     static class ProgressViewHolder extends ItemViewHolder {
@@ -246,19 +257,5 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
         }
     }
 
-//    public void setProgressMore(final boolean isProgress) {
-//        if (isProgress) {
-//            new Handler().post(new Runnable() {
-//                @Override
-//                public void run() {
-//                    mDataList.add(null);
-//                    notifyItemInserted(mDataList.size() - 1);
-//                }
-//            });
-//        } else {
-//            mDataList.remove(mDataList.size() - 1);
-//            notifyItemRemoved(mDataList.size());
-//        }
-//    }
 
 }

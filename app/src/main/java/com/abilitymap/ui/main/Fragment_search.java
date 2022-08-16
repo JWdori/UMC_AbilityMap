@@ -29,9 +29,9 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
         ImageView searchback;
         SearchView searchView;
         private Search_ItemAdapter adapter;
-        private List<Search_Item> itemList;
         private List<Search_Item> list2;
         private boolean isLoading = false;
+        private ArrayList<Search_Item> itemList = new ArrayList<>();
         int firstVisibleItem, visibleItemCount, totalItemCount, lastVisibleItem;
 
         @Override
@@ -60,40 +60,24 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
 
                 //
                 RecyclerView recyclerView = view.findViewById(R.id.search_result);
-                recyclerView.setHasFixedSize(true);
+
+                itemList = new ArrayList<Search_Item>();
+
+//                recyclerView.setHasFixedSize(true);
                 LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
                 recyclerView.setLayoutManager(mLayoutManager);
-                itemList = new ArrayList<>(); //샘플테이터
-                loadData();
-                adapter = new Search_ItemAdapter(itemList);
+
+                adapter = new Search_ItemAdapter(this.itemList);
                 adapter.setLinearLayoutManager(mLayoutManager);
+
                 adapter.setRecyclerView(recyclerView);
                 recyclerView.setAdapter(adapter);
+
                 adapter.setOnClickListener(this);
 
 
 
-//                recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
-//                        @Override
-//                        public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-//                                super.onScrollStateChanged(recyclerView, newState);
-//                        }
-//
-//                        @Override
-//                        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-//                                super.onScrolled(recyclerView, dx, dy);
-//
-//                                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
-//                                lastVisibleItem = adapter.mLinearLayoutManager.findLastVisibleItemPosition();
-//                                if (!isLoading && (lastVisibleItem%19==0))  {
-//                                        if (layoutManager != null && layoutManager.findLastCompletelyVisibleItemPosition() == itemList.size() - 1) {
-//                                                //리스트 마지막
-//                                                onLoadMore();
-//                                                isLoading = true;
-//                                        }
-//                                }
-//                        }
-//                });
+
 
                 //뒤로가기 버튼
                 searchback = view.findViewById(R.id.search_back);
@@ -111,12 +95,21 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
         }
 
         @Override
+        public void onStart() {
+                super.onStart();
+                loadData();
+        }
+
+        @Override
         public void onLoadMore() {
                 new Handler().post(new Runnable() {
                         @Override
                         public void run() {
                 itemList.add(null);
+                adapter.items.add(null);
+                Log.d("dd",adapter.items+"dd");
                 adapter.notifyItemInserted(itemList.size() - 1);
+                adapter.notifyItemInserted(adapter.items.size() - 1);
                         }
                 });
                 Handler handler = new Handler();
@@ -126,6 +119,7 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                         public void run() {
 //                                adapter.setProgressMore(false);
                                 itemList.remove(itemList.size() - 1);
+                                adapter.items.remove(adapter.items.size()-1);
                                 int scrollPosition = itemList.size();
                                 adapter.notifyItemRemoved(scrollPosition);
                                 ///////이부분에을 자신의 프로젝트에 맞게 설정하면 됨
@@ -152,7 +146,10 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                 for (int i = 1; i <= 10; i++) {
                         itemList.add(new Search_Item(R.drawable.hos_icon, "하나의원", "점심뭐먹지","병원아님"));
                         itemList.add(new Search_Item(R.drawable.hos_icon, "참안과", "자고싶다","병원아님"));
+                        // 충전기 병원 관공서 지도에서 마커를 클릭할때 그 페이지가 뜨는게,
+                        // 위험제보
                 }
+                adapter.addAll2(itemList);
 
         }
 
