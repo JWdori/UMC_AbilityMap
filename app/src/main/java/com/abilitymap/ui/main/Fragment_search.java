@@ -64,7 +64,7 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                 recyclerView.setLayoutManager(mLayoutManager);
                 itemList = new ArrayList<>(); //샘플테이터
                 loadData();
-                adapter = new Search_ItemAdapter(this);
+                adapter = new Search_ItemAdapter(itemList);
                 adapter.setLinearLayoutManager(mLayoutManager);
                 adapter.setRecyclerView(recyclerView);
                 recyclerView.setAdapter(adapter);
@@ -88,8 +88,6 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
 
                 return view;
         }
-
-
 
         @Override
         public void onLoadMore() {
@@ -119,9 +117,12 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
 
         private void loadData() {
                 itemList = new ArrayList<>();
-                for (int i = 1; i <= 20; i++) {
-                        itemList.add(new Search_Item(R.drawable.hos_icon, "Nine", "Eighteen","병원아님"));
+                for (int i = 1; i <= 10; i++) {
+                        itemList.add(new Search_Item(R.drawable.hos_icon, "하나의원", "점심뭐먹지","병원아님"));
+                        itemList.add(new Search_Item(R.drawable.hos_icon, "참안과", "자고싶다","병원아님"));
+
                 }
+
         }
 
         @Override

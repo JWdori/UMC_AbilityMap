@@ -37,10 +37,10 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
 
 
 
-    public Search_ItemAdapter(onItemListener onLoadMoreListener) {
+    public Search_ItemAdapter(List<Search_Item> itemList) {
         this.onLoadMoreListener=onLoadMoreListener;
-        mDataList =new ArrayList<>();
-        mDataListAll = new ArrayList<>();
+        mDataList = itemList;
+        mDataListAll = new ArrayList<>(itemList);
     }
 
 
@@ -83,7 +83,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
         holder.imageView.setImageResource(currentItem.getImageResource());
         holder.textView1.setText(currentItem.getText1());
         holder.textView2.setText(currentItem.getText2());
-        holder.textView2.setText(currentItem.getText3());
+        holder.textView3.setText(currentItem.getText3());
         // TODO : 리스너를 정의하시오.
         if (mListener != null){
             final int pos = position;
@@ -92,7 +92,6 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
                 @Override
                 public void onClick(View v) {
                     mListener.onItemClicked(position);
-                    //mListener.onItemClicked(item);
                 }
             });
             //버튼등에도 동일하게 지정할 수 있음 holder.버튼이름.setOnClickListener..형식으로
@@ -104,7 +103,6 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
     public int getItemCount() {
         return mDataList.size();
     }
-
 
     // 데이터 필터 검색 Filterable implement ---------------------------------
     @Override
@@ -187,10 +185,14 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
                 totalItemCount = mLinearLayoutManager.getItemCount();
                 firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
                 lastVisibleItem = mLinearLayoutManager.findLastVisibleItemPosition();
+                Log.d("total", totalItemCount + "");
+                Log.d("visible", visibleItemCount + "");
+                Log.d("first", firstVisibleItem + "");
+                Log.d("last", lastVisibleItem + "");
 
-                if (!isMoreLoading && (totalItemCount - visibleItemCount)<= (firstVisibleItem + visibleThreshold)) {
+                if (!isMoreLoading && (lastVisibleItem%20==0)) {
                     if (onLoadMoreListener != null) {
-//                        onLoadMoreListener.onLoadMore();
+                        onLoadMoreListener.onLoadMore();
                     }
                     isMoreLoading = true;
                 }
@@ -203,7 +205,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
 
 
 
-    public void addAll(List<Search_Item> lst){
+    public void addAll2(List<Search_Item> lst){
         mDataList.clear();
         mDataList.addAll(lst);
         notifyDataSetChanged();
