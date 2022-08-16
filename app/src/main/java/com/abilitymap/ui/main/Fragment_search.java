@@ -1,4 +1,5 @@
 package com.abilitymap.ui.main;
+import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.os.*;
 import androidx.appcompat.widget.SearchView;
@@ -33,7 +34,7 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
         private boolean isLoading = false;
         private ArrayList<Search_Item> itemList = new ArrayList<>();
         int firstVisibleItem, visibleItemCount, totalItemCount, lastVisibleItem;
-
+        ProgressDialog dialog;
         @Override
         public void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
@@ -105,13 +106,17 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                 new Handler().post(new Runnable() {
                         @Override
                         public void run() {
-                itemList.add(null);
-                adapter.items.add(null);
-                Log.d("dd",adapter.items+"dd");
-                adapter.notifyItemInserted(itemList.size() - 1);
-                adapter.notifyItemInserted(adapter.items.size() - 1);
+                                itemList.add(null);
+                                adapter.items.add(null);
+                                Log.d("dd",adapter.items+"dd");
+                                adapter.notifyItemInserted(itemList.size() - 1);
                         }
                 });
+                dialog = new ProgressDialog(getContext()); //프로그레스 대화상자 객체 생성
+                dialog.setProgressStyle(ProgressDialog.STYLE_SPINNER); //프로그레스 대화상자 스타일 원형으로 설정
+                dialog.setCancelable(false);
+                dialog.setMessage("정보를 가져오는 중입니다.\n잠시만 기다려주세요."); //프로그레스 대화상자 메시지 설정
+                dialog.show(); //프로그레스 대화상자 띄우기
                 Handler handler = new Handler();
 //                adapter.setProgressMore(true);
                 handler.postDelayed(new Runnable() {
@@ -134,8 +139,9 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                                 adapter.addItemMore(itemList);
                                 adapter.notifyDataSetChanged();
                                 adapter.setMoreLoading(false);
+                                dialog.dismiss();
                         }
-                }, 2000);
+                }, 1000);
         }
 
 
@@ -143,7 +149,7 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
 
         private void loadData() {
                 itemList = new ArrayList<>();
-                for (int i = 1; i <= 10; i++) {
+                for (int i = 1; i <= 11; i++) {
                         itemList.add(new Search_Item(R.drawable.hos_icon, "하나의원", "점심뭐먹지","병원아님"));
                         itemList.add(new Search_Item(R.drawable.hos_icon, "참안과", "자고싶다","병원아님"));
                         // 충전기 병원 관공서 지도에서 마커를 클릭할때 그 페이지가 뜨는게,
