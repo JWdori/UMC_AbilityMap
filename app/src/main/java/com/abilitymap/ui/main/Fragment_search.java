@@ -30,8 +30,9 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
         SearchView searchView;
         private Search_ItemAdapter adapter;
         private List<Search_Item> itemList;
-
-
+        private List<Search_Item> list2;
+        private boolean isLoading = false;
+        int firstVisibleItem, visibleItemCount, totalItemCount, lastVisibleItem;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -72,7 +73,27 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
 
 
 
-
+//                recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+//                        @Override
+//                        public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                                super.onScrollStateChanged(recyclerView, newState);
+//                        }
+//
+//                        @Override
+//                        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                                super.onScrolled(recyclerView, dx, dy);
+//
+//                                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+//                                lastVisibleItem = adapter.mLinearLayoutManager.findLastVisibleItemPosition();
+//                                if (!isLoading && (lastVisibleItem%19==0))  {
+//                                        if (layoutManager != null && layoutManager.findLastCompletelyVisibleItemPosition() == itemList.size() - 1) {
+//                                                //리스트 마지막
+//                                                onLoadMore();
+//                                                isLoading = true;
+//                                        }
+//                                }
+//                        }
+//                });
 
                 //뒤로가기 버튼
                 searchback = view.findViewById(R.id.search_back);
@@ -91,25 +112,36 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
 
         @Override
         public void onLoadMore() {
-                adapter.setProgressMore(true);
-                new Handler().postDelayed(new Runnable() {
+                new Handler().post(new Runnable() {
                         @Override
                         public void run() {
-                                itemList.clear();
-                                adapter.setProgressMore(false);
-
+                itemList.add(null);
+                adapter.notifyItemInserted(itemList.size() - 1);
+                        }
+                });
+                Handler handler = new Handler();
+//                adapter.setProgressMore(true);
+                handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+//                                adapter.setProgressMore(false);
+                                itemList.remove(itemList.size() - 1);
+                                int scrollPosition = itemList.size();
+                                adapter.notifyItemRemoved(scrollPosition);
                                 ///////이부분에을 자신의 프로젝트에 맞게 설정하면 됨
                                 //다음 페이지? 내용을 불러오는 부분
                                 int start = adapter.getItemCount();
-                                int end = start + 15;
+                                int end = start + 20;
+                                itemList.clear();
                                 for (int i = start + 1; i <= end; i++) {
                                         itemList.add(new Search_Item(R.drawable.hos_icon, "추가임!", "Ten", "이게문제엿네"));
+//                                        list2.add(new Search_Item(R.drawable.hos_icon, "추가임!", "Ten", "이게문제엿네"));
                                 }
                                 adapter.addItemMore(itemList);
-                                //////////////////////////////////////////////////
+                                adapter.notifyDataSetChanged();
                                 adapter.setMoreLoading(false);
                         }
-                }, 500);
+                }, 2000);
         }
 
 

@@ -29,7 +29,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
     private List<Search_Item> mDataListAll;
     private List<Search_Item> rDataList;
     int firstVisibleItem, visibleItemCount, totalItemCount, lastVisibleItem;
-    private LinearLayoutManager mLinearLayoutManager;
+    public LinearLayoutManager mLinearLayoutManager;
     private onItemListener onLoadMoreListener;
     private int visibleThreshold = 1;
     private boolean isMoreLoading = false;
@@ -77,7 +77,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
 
     //2.onBindViewHolder  -------------------------------------------------------
     @Override
-    public void onBindViewHolder(final ItemViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(@NonNull final ItemViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
 
         Search_Item currentItem = mDataList.get(position);
@@ -85,10 +85,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
 //            mDataList.remove(String.valueOf(null));
 //            currentItem = mDataList.get(position);
 //        }
-        System.out.println(currentItem);
-        System.out.println(position);
-        System.out.println(mDataList);
-        System.out.println(currentItem.getImageResource());
+
         // TODO : 데이터를 뷰홀더에 표시하시오
         holder.imageView.setImageResource(currentItem.getImageResource());
         holder.textView1.setText(currentItem.getText1());
@@ -111,7 +108,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
     //3.getItemCount  -------------------------------------------------------
     @Override
     public int getItemCount() {
-        return mDataList.size();
+        return mDataList == null ? 0 : mDataList.size();
     }
 
     // 데이터 필터 검색 Filterable implement ---------------------------------
@@ -188,7 +185,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
     public void setRecyclerView(RecyclerView mView){
         mView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
 
                 visibleItemCount = recyclerView.getChildCount();
@@ -200,7 +197,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
                 Log.d("first", firstVisibleItem + "");
                 Log.d("last", lastVisibleItem + "");
 
-                if (!isMoreLoading && (lastVisibleItem%19==0)) {
+                if (!isMoreLoading && lastVisibleItem%19==0) {
                     Log.d("ㅎㅇ","에휴");
                     if (mListener != null) {
                         mListener.onLoadMore();
@@ -226,7 +223,9 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
 
     public void addItemMore(List<Search_Item> lst){
         mDataList.addAll(lst);
+        mDataListAll.addAll(lst);
         notifyItemRangeChanged(0,mDataList.size());
+        notifyItemRangeChanged(0,mDataListAll.size());
     }
 
 
@@ -241,24 +240,25 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
 
     static class ProgressViewHolder extends ItemViewHolder {
         public ProgressBar pBar;
-        public ProgressViewHolder(View v) {
+        public ProgressViewHolder(@NonNull View v) {
             super(v);
             pBar = (ProgressBar) v.findViewById(R.id.pBar);
         }
     }
-    public void setProgressMore(final boolean isProgress) {
-        if (isProgress) {
-            new Handler().post(new Runnable() {
-                @Override
-                public void run() {
-                    mDataList.add(null);
-                    notifyItemInserted(mDataList.size() - 1);
-                }
-            });
-        } else {
-            mDataList.remove(mDataList.size() - 1);
-            notifyItemRemoved(mDataList.size());
-        }
-    }
+
+//    public void setProgressMore(final boolean isProgress) {
+//        if (isProgress) {
+//            new Handler().post(new Runnable() {
+//                @Override
+//                public void run() {
+//                    mDataList.add(null);
+//                    notifyItemInserted(mDataList.size() - 1);
+//                }
+//            });
+//        } else {
+//            mDataList.remove(mDataList.size() - 1);
+//            notifyItemRemoved(mDataList.size());
+//        }
+//    }
 
 }
