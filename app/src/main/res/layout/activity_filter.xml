@@ -159,7 +159,7 @@
                 android:layout_centerVertical="true"
                 android:textColor="#525252"
                 android:layout_toRightOf="@id/hos_icon"
-                android:text="보건의료기관"></TextView>
+                android:text="보건의료시설"></TextView>
 
 
             <com.github.angads25.toggle.widget.LabeledSwitch

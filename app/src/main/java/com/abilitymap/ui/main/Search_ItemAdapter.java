@@ -37,7 +37,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
 
 
     public Search_ItemAdapter(List<Search_Item> itemList) {
-        mDataList = new ArrayList<>(itemList);;
+        mDataList = new ArrayList<>(itemList);
         items = itemList;
         mDataListAll = new ArrayList<>(itemList);
     }
@@ -121,7 +121,11 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
                 for (Search_Item item : mDataListAll) {
                     //TODO filter 대상 setting
                     if (item.getText1().toLowerCase().contains(filterPattern)||
-                            item.getText2().toLowerCase().contains(filterPattern)) {
+                            item.getText2().toLowerCase().contains(filterPattern)||
+                            item.getText3().toLowerCase().contains(filterPattern)
+                    )
+
+                    {
                         filteredList.add(item);
                     }
                 }
@@ -201,7 +205,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
 
     public void addAll2(List<Search_Item> lst){
         mDataList.clear();
-        mDataList.addAll(lst);
+//        mDataList.addAll(lst);
         items.addAll(lst);
         mDataListAll.addAll(lst);
         notifyDataSetChanged();

@@ -1,4 +1,8 @@
 package com.abilitymap.ui.main;
+import static com.abilitymap.ui.main.MainActivity.charge_list;
+import static com.abilitymap.ui.main.MainActivity.fac_list;
+import static com.abilitymap.ui.main.MainActivity.hos_list;
+
 import android.app.ProgressDialog;
 import android.content.ClipData;
 import android.os.*;
@@ -23,6 +27,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.abilitymap.R;
 import com.abilitymap.api.JsonApi_charge;
+import com.abilitymap.api.JsonApi_fac;
+import com.abilitymap.api.JsonApi_hos;
+import com.abilitymap.ui.marker.LocationBottomSheet;
+import com.naver.maps.geometry.LatLng;
+import com.naver.maps.map.overlay.Marker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -150,6 +159,40 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
 
         private void loadData() {
                 itemList = new ArrayList<>();
+                String name;
+                String location;
+                String tag;
+                double latitude ;
+                double longitude ;
+
+                JsonApi_hos.hos_item selectedItem = null;
+                for (int i = 0; i<charge_list.size();i++) {
+                        JsonApi_charge.charge_item item = charge_list.get(i);
+                        location = item.getLocation();
+                        latitude = Double.parseDouble(item.getLat());
+                        longitude = Double.parseDouble(item.getLng());
+                        name = ((MainActivity) getActivity()).getSimpleCurrentAddress(
+                                ((MainActivity) getActivity()).getCurrentAddress(latitude,longitude));
+
+//                        getSimpleCurrentAddress(getCurrentAddress(latitude, longitude));
+                        tag = "전동휠체어 급속 충전기";
+                        itemList.add(new Search_Item(R.drawable.charge_icon, location, name, tag));
+                }
+                for (int i = 0; i<hos_list.size();i++) {
+                        JsonApi_hos.hos_item item = hos_list.get(i);
+                        selectedItem = item;
+                        name = item.getName();
+                        location = item.getLocation();
+                        tag = "보건의료시설";
+                        itemList.add(new Search_Item(R.drawable.hos_icon, name, location, tag));
+                }
+                for (int i = 0; i<fac_list.size();i++) {
+                        JsonApi_fac.fac_item item = fac_list.get(i);
+                        name = item.getName();
+                        location = item.getLocation();
+                        tag = "공공/복지시설";
+                        itemList.add(new Search_Item(R.drawable.facility_office, name, location, tag));
+                }
                 for (int i = 1; i <= 11; i++) {
                         itemList.add(new Search_Item(R.drawable.hos_icon, "하나의원", "점심뭐먹지","병원아님"));
                         itemList.add(new Search_Item(R.drawable.hos_icon, "참안과", "자고싶다","병원아님"));
@@ -157,10 +200,39 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                         // 위험제보
                 }
                 adapter.addAll2(itemList);
-                ArrayList<JsonApi_charge.charge_item> charge_list = ((MainActivity)getActivity()).charge_list;
-                System.out.println(charge_list);
+
+
+
+
 
         }
+
+        //다시 만들기 귀찮아서 일단 재활용
+        JsonApi_hos.hos_item findThisTotalMarkerItem(ArrayList<JsonApi_hos.hos_item> list) {
+                JsonApi_hos.hos_item selectedItem = null;
+                for (int i = 0; i < list.size(); i++) {
+                        JsonApi_hos.hos_item item = list.get(i);
+                                selectedItem = item;
+                }
+                return selectedItem;
+        }
+        JsonApi_fac.fac_item findThisFacilityMarkerItem(ArrayList<JsonApi_fac.fac_item> list) {
+                JsonApi_fac.fac_item selectedItem = null;
+                for (int i = 0; i < list.size(); i++) {
+                        JsonApi_fac.fac_item item = list.get(i);
+                        selectedItem = item;
+                }
+                return selectedItem;
+        }
+        JsonApi_charge.charge_item findThisChargerMarkerItem(ArrayList<JsonApi_charge.charge_item> list) {
+                JsonApi_charge.charge_item selectedItem = null;
+                for (int i = 0; i < list.size(); i++) {
+                        JsonApi_charge.charge_item item = list.get(i);
+                        selectedItem = item;
+                }
+                return selectedItem;
+        }
+
 
         @Override
         public void onItemClicked(int position) {

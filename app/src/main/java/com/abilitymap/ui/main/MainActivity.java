@@ -7,13 +7,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.core.view.GravityCompat;
-import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.PointF;
@@ -36,17 +34,13 @@ import android.telephony.SmsManager;
 import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.FragmentTransaction;
 
-import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.abilitymap.ui.filter.filter_bottom_sheet;
 import com.abilitymap.ui.filter.FilterActivity;
 import com.abilitymap.ui.emergencyCall.InfoDialog;
 import com.abilitymap.api.JsonApi_bike;
@@ -75,7 +69,6 @@ import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetBehavior;
-import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.navigation.NavigationView;
 import com.naver.maps.map.CameraAnimation;
 import com.naver.maps.map.CameraUpdate;
@@ -106,7 +99,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-import java.util.Objects;
 
 
 public class MainActivity extends AppCompatActivity implements OnMapReadyCallback, Overlay.OnClickListener, SetMarker_facility, SetMarker_wheel {
@@ -283,7 +275,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         hos_api.execute(lat, lon, "");
-
         bike_api.execute(lat, lon, "");
         charge_api.execute(lat, lon, "");
         slope_api.execute(lat, lon, "");
@@ -292,6 +283,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         wheel_api.execute(lat, lon, "");
         fac_api.execute(lat, lon, "");
         lift_api.execute(lat, lon, "");
+
+
 
 //        new Thread(() -> {
 //            setUpMap(); // network 동작, 인터넷에서 xml을 받아오는 코드
