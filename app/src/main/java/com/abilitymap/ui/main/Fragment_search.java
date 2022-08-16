@@ -1,8 +1,10 @@
 package com.abilitymap.ui.main;
-import androidx.activity.OnBackPressedCallback;
+import android.content.ClipData;
+import android.os.*;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -28,11 +30,9 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
         SearchView searchView;
         private Search_ItemAdapter adapter;
         private List<Search_Item> itemList;
-
-
-        public Fragment_search() {
-                // Required empty public constructor
-        }
+        private List<Search_Item> list2;
+        private boolean isLoading = false;
+        int firstVisibleItem, visibleItemCount, totalItemCount, lastVisibleItem;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -43,7 +43,7 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
         @Override
         public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
                 View view = inflater.inflate(R.layout.search, container, false);
-
+                //서치뷰 검색
                 searchView=view.findViewById(R.id.search_view);
                 searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
                         @Override
@@ -58,30 +58,44 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                         }
                 });
 
-
-
-
-
-
+                //
                 RecyclerView recyclerView = view.findViewById(R.id.search_result);
                 recyclerView.setHasFixedSize(true);
-                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-
-                //adapter
+                LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+                recyclerView.setLayoutManager(mLayoutManager);
                 itemList = new ArrayList<>(); //샘플테이터
-                fillData();
+                loadData();
                 adapter = new Search_ItemAdapter(itemList);
-                recyclerView.setLayoutManager(layoutManager);
+                adapter.setLinearLayoutManager(mLayoutManager);
+                adapter.setRecyclerView(recyclerView);
                 recyclerView.setAdapter(adapter);
-                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL); //밑줄
-                recyclerView.addItemDecoration(dividerItemDecoration);
-
-                //데이터셋변경시
-                //adapter.dataSetChanged(exampleList);
-
-                //어댑터의 리스너 호출
                 adapter.setOnClickListener(this);
 
+
+
+//                recyclerView.setOnScrollListener(new RecyclerView.OnScrollListener() {
+//                        @Override
+//                        public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+//                                super.onScrollStateChanged(recyclerView, newState);
+//                        }
+//
+//                        @Override
+//                        public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+//                                super.onScrolled(recyclerView, dx, dy);
+//
+//                                LinearLayoutManager layoutManager = (LinearLayoutManager) recyclerView.getLayoutManager();
+//                                lastVisibleItem = adapter.mLinearLayoutManager.findLastVisibleItemPosition();
+//                                if (!isLoading && (lastVisibleItem%19==0))  {
+//                                        if (layoutManager != null && layoutManager.findLastCompletelyVisibleItemPosition() == itemList.size() - 1) {
+//                                                //리스트 마지막
+//                                                onLoadMore();
+//                                                isLoading = true;
+//                                        }
+//                                }
+//                        }
+//                });
+
+                //뒤로가기 버튼
                 searchback = view.findViewById(R.id.search_back);
                 searchback.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -91,27 +105,56 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                                 fragmentManager.popBackStack();
                         }
                 });
+
+
                 return view;
         }
 
-
-
-
-        private void fillData() {
-                itemList = new ArrayList<>(); //샘플테이터
-                itemList.add(new Search_Item(R.drawable.hos_icon, "One", "Ten"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Two", "Eleven"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Three", "Twelve"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Four", "Thirteen"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Five", "Fourteen"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Six", "Fifteen"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Seven", "Sixteen"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Eight", "Seventeen"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Nine", "Eighteen"));
-                itemList.add(new Search_Item(R.drawable.hos_icon, "Nine", "Eighteen"));
+        @Override
+        public void onLoadMore() {
+                new Handler().post(new Runnable() {
+                        @Override
+                        public void run() {
+                itemList.add(null);
+                adapter.notifyItemInserted(itemList.size() - 1);
+                        }
+                });
+                Handler handler = new Handler();
+//                adapter.setProgressMore(true);
+                handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+//                                adapter.setProgressMore(false);
+                                itemList.remove(itemList.size() - 1);
+                                int scrollPosition = itemList.size();
+                                adapter.notifyItemRemoved(scrollPosition);
+                                ///////이부분에을 자신의 프로젝트에 맞게 설정하면 됨
+                                //다음 페이지? 내용을 불러오는 부분
+                                int start = adapter.getItemCount();
+                                int end = start + 20;
+                                itemList.clear();
+                                for (int i = start + 1; i <= end; i++) {
+                                        itemList.add(new Search_Item(R.drawable.hos_icon, "추가임!", "Ten", "이게문제엿네"));
+//                                        list2.add(new Search_Item(R.drawable.hos_icon, "추가임!", "Ten", "이게문제엿네"));
+                                }
+                                adapter.addItemMore(itemList);
+                                adapter.notifyDataSetChanged();
+                                adapter.setMoreLoading(false);
+                        }
+                }, 2000);
         }
 
 
+
+
+        private void loadData() {
+                itemList = new ArrayList<>();
+                for (int i = 1; i <= 10; i++) {
+                        itemList.add(new Search_Item(R.drawable.hos_icon, "하나의원", "점심뭐먹지","병원아님"));
+                        itemList.add(new Search_Item(R.drawable.hos_icon, "참안과", "자고싶다","병원아님"));
+                }
+
+        }
 
         @Override
         public void onItemClicked(int position) {

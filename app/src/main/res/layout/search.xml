@@ -9,7 +9,7 @@
         android:background="@color/white"
         android:orientation="vertical"
         android:clickable="true"
-
+        app:layout_scrollFlags="scroll|exitUntilCollapsed"
     >
 
         <androidx.constraintlayout.widget.ConstraintLayout

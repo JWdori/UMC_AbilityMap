@@ -7,7 +7,7 @@ public class Search_Item {
     private String text2;
     private String text3;
 
-    public Search_Item(int imageResource, String text1, String text2) {
+    public Search_Item(int imageResource, String text1, String text2, String text3) {
         this.imageResource = imageResource;
         this.text1 = text1;
         this.text2 = text2;
