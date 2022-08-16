@@ -22,6 +22,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.abilitymap.R;
+import com.abilitymap.api.JsonApi_charge;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -156,6 +157,8 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                         // 위험제보
                 }
                 adapter.addAll2(itemList);
+                ArrayList<JsonApi_charge.charge_item> charge_list = ((MainActivity)getActivity()).charge_list;
+                System.out.println(charge_list);
 
         }
 

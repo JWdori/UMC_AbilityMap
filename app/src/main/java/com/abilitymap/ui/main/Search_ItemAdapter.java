@@ -57,7 +57,6 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
 
     @Override
     public int getItemViewType(int position) {
-        Log.d("아니아니",""+items.get(position));
         return items.get(position) != null ? VIEW_ITEM : VIEW_PROG;
     }
 
@@ -65,13 +64,9 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        System.out.println(viewType);
-        System.out.println(VIEW_ITEM);
-        System.out.println("왜");
         if (viewType == VIEW_ITEM) {
             return new ItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.search_result, parent, false));
         }else{
-            System.out.println("호호호호");
             return new ProgressViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_progress, parent, false));
 
         }
@@ -80,17 +75,6 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
     //2.onBindViewHolder  -------------------------------------------------------
     @Override
     public void onBindViewHolder(final ItemViewHolder holder, @SuppressLint("RecyclerView") final int position) {
-//        if(currentItem==null){
-//            new Handler().postDelayed(new Runnable() {
-//                @Override
-//                public void run() {
-//                    Log.d("ds","기달");
-//                }
-//            },3000);
-//        }
-        Log.d("ds","기달"+mDataList);
-        Log.d("ds","기달"+items);
-        Log.d("ds","기달"+mDataListAll);
         // TODO : 데이터를 뷰홀더에 표시하시오
         // TODO : 리스너를 정의하시오.
         if (mListener != null){
@@ -198,13 +182,9 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
                 totalItemCount = mLinearLayoutManager.getItemCount();
                 firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
                 lastVisibleItem = mLinearLayoutManager.findLastVisibleItemPosition();
-                Log.d("total", totalItemCount + "");
-                Log.d("visible", visibleItemCount + "");
-                Log.d("first", firstVisibleItem + "");
-                Log.d("last", lastVisibleItem + "");
+
 
                 if (!isMoreLoading && (totalItemCount - visibleItemCount)<= (firstVisibleItem + visibleThreshold)) {
-                    Log.d("ㅎㅇ","에휴");
                     if (mListener != null) {
                         mListener.onLoadMore();
                     }
