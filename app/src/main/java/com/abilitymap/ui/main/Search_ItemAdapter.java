@@ -39,7 +39,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
 
     public Search_ItemAdapter(List<Search_Item> itemList) {
         this.onLoadMoreListener=onLoadMoreListener;
-        mDataList = itemList;
+        mDataList = new ArrayList<>(itemList);
         mDataListAll = new ArrayList<>(itemList);
     }
 
@@ -77,8 +77,18 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
 
     //2.onBindViewHolder  -------------------------------------------------------
     @Override
-    public void onBindViewHolder(@NonNull final ItemViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(final ItemViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+
+
         Search_Item currentItem = mDataList.get(position);
+//        if(currentItem==null){
+//            mDataList.remove(String.valueOf(null));
+//            currentItem = mDataList.get(position);
+//        }
+        System.out.println(currentItem);
+        System.out.println(position);
+        System.out.println(mDataList);
+        System.out.println(currentItem.getImageResource());
         // TODO : 데이터를 뷰홀더에 표시하시오
         holder.imageView.setImageResource(currentItem.getImageResource());
         holder.textView1.setText(currentItem.getText1());
@@ -190,9 +200,10 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
                 Log.d("first", firstVisibleItem + "");
                 Log.d("last", lastVisibleItem + "");
 
-                if (!isMoreLoading && (lastVisibleItem%20==0)) {
-                    if (onLoadMoreListener != null) {
-                        onLoadMoreListener.onLoadMore();
+                if (!isMoreLoading && (lastVisibleItem%19==0)) {
+                    Log.d("ㅎㅇ","에휴");
+                    if (mListener != null) {
+                        mListener.onLoadMore();
                     }
                     isMoreLoading = true;
                 }
@@ -227,6 +238,14 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
 
 
 
+
+    static class ProgressViewHolder extends ItemViewHolder {
+        public ProgressBar pBar;
+        public ProgressViewHolder(View v) {
+            super(v);
+            pBar = (ProgressBar) v.findViewById(R.id.pBar);
+        }
+    }
     public void setProgressMore(final boolean isProgress) {
         if (isProgress) {
             new Handler().post(new Runnable() {
@@ -241,14 +260,5 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
             notifyItemRemoved(mDataList.size());
         }
     }
-
-    static class ProgressViewHolder extends ItemViewHolder {
-        public ProgressBar pBar;
-        public ProgressViewHolder(View v) {
-            super(v);
-            pBar = (ProgressBar) v.findViewById(R.id.pBar);
-        }
-    }
-
 
 }

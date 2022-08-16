@@ -105,8 +105,8 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                                 for (int i = start + 1; i <= end; i++) {
                                         itemList.add(new Search_Item(R.drawable.hos_icon, "추가임!", "Ten", "이게문제엿네"));
                                 }
-                                //////////////////////////////////////////////////
                                 adapter.addItemMore(itemList);
+                                //////////////////////////////////////////////////
                                 adapter.setMoreLoading(false);
                         }
                 }, 500);
@@ -120,7 +120,6 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                 for (int i = 1; i <= 10; i++) {
                         itemList.add(new Search_Item(R.drawable.hos_icon, "하나의원", "점심뭐먹지","병원아님"));
                         itemList.add(new Search_Item(R.drawable.hos_icon, "참안과", "자고싶다","병원아님"));
-
                 }
 
         }
