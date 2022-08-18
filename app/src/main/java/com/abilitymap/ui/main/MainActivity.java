@@ -330,8 +330,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             weekend = selectedChargeItem.getWeekend();
             holiday = selectedChargeItem.getHoliday();
 
+            Marker tempMarker = printTempMarker(latLng,"charge");
+
             System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
-            infoFragment = new LocationBottomSheet("charge", location, week, holiday);
+            infoFragment = new LocationBottomSheet("charge", location, week, holiday, tempMarker, true);
 
             cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.3f)).animate(CameraAnimation.Easing);
         }
@@ -345,8 +347,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             holiday = selectedTotalItem.getHoliday();
             phone = selectedTotalItem.getPhone();
 
+            Marker tempMarker = printTempMarker(latLng,"hos");
+
             System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
-            infoFragment = new LocationBottomSheet("hos", name, location, week, holiday, phone);
+            infoFragment = new LocationBottomSheet("hos", name, location, week, holiday, phone, tempMarker, true);
 
             cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.25f)).animate(CameraAnimation.Easing);
 
@@ -359,8 +363,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             weekend = selectedFacilityItem.getWeekend();
             holiday = selectedFacilityItem.getHoliday();
             phone = selectedFacilityItem.getPhone();
+
+            Marker tempMarker = printTempMarker(latLng,"office");
+
             System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
-            infoFragment = new LocationBottomSheet("office", name, location, week, holiday, phone);
+            infoFragment = new LocationBottomSheet("office", name, location, week, holiday, phone, tempMarker, true);
 
             cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Easing);
         }
@@ -373,6 +380,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     }
 
+    public Marker printTempMarker(LatLng latLng,String markerType){
+        Marker marker = new Marker();
+        marker.setPosition(latLng);
+        marker.setWidth(160);
+        marker.setHeight(160);
+        marker.setMinZoom(13);//줌 설정
+        switch(markerType){
+            case "office": marker.setIcon(OverlayImage.fromResource(R.drawable.facility_office)); break;
+            case "hos": marker.setIcon(OverlayImage.fromResource(R.drawable.hos_icon)); break;
+            case "charge": marker.setIcon(OverlayImage.fromResource(R.drawable.charge_icon)); break;
+            case "danger": marker.setIcon(OverlayImage.fromResource(R.drawable.dnager_red)); break;
+        }
+        marker.setMap(naverMap);
+
+        return marker;
+    }
 
     //
     @Override
