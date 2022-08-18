@@ -50,6 +50,12 @@ public class LocationBottomSheet extends BottomSheetDialogFragment implements Vi
         this.holiday = holiday;
         this.marker = marker;
     }
+    public LocationBottomSheet(String tag,String location,String week,String holiday){
+        this.categoryKey = tag;
+        this.location = location;
+        this.week = week;
+        this.holiday = holiday;
+    }
     public LocationBottomSheet(String tag,String name, String location,
                                   String week,String holiday,String phone){
         this.categoryKey = tag;
@@ -94,8 +100,10 @@ public class LocationBottomSheet extends BottomSheetDialogFragment implements Vi
         setWeek(finalWeek);
         setPhone(finalPhone);
 
-        marker.setWidth(200);
-        marker.setHeight(200);
+        if(marker!=null) {
+            marker.setWidth(200);
+            marker.setHeight(200);
+        }
 
         return view;
     }
@@ -108,9 +116,10 @@ public class LocationBottomSheet extends BottomSheetDialogFragment implements Vi
     public void onDismiss(DialogInterface dialog){
         super.onDismiss(dialog);
 
-        marker.setWidth(80);
-        marker.setHeight(80);
-
+        if(marker!=null) {
+            marker.setWidth(80);
+            marker.setHeight(80);
+        }
     }
 
 

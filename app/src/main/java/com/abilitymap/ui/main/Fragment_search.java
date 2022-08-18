@@ -4,15 +4,11 @@ import static com.abilitymap.ui.main.MainActivity.fac_list;
 import static com.abilitymap.ui.main.MainActivity.hos_list;
 
 import android.app.ProgressDialog;
-import android.content.ClipData;
-import android.content.Intent;
 import android.os.*;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.FragmentManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -21,8 +17,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -31,10 +27,8 @@ import com.abilitymap.R;
 import com.abilitymap.api.JsonApi_charge;
 import com.abilitymap.api.JsonApi_fac;
 import com.abilitymap.api.JsonApi_hos;
-import com.abilitymap.ui.marker.LocationBottomSheet;
 import com.abilitymap.ui.search.ItemViewModel;
 import com.naver.maps.geometry.LatLng;
-import com.naver.maps.map.overlay.Marker;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -180,7 +174,8 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                         name = ((MainActivity) getActivity()).getSimpleCurrentAddress(
                                 ((MainActivity) getActivity()).getCurrentAddress(latitude,longitude));
                         tag = "전동휠체어 급속충전기";
-                        itemList.add(new Search_Item(R.drawable.charge_icon, location, name, tag));
+                        itemList.add(new Search_Item(R.drawable.charge_icon, location, name, tag, latitude, longitude));
+
                 }
                 for (int i = 0; i<hos_list.size();i++) {
                         JsonApi_hos.hos_item item = hos_list.get(i);
@@ -188,18 +183,22 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                         name = item.getName();
                         location = item.getLocation();
                         tag = "보건의료시설";
-                        itemList.add(new Search_Item(R.drawable.hos_icon, name, location, tag));
+                        latitude = Double.parseDouble(item.getLat());
+                        longitude = Double.parseDouble(item.getLng());
+                        itemList.add(new Search_Item(R.drawable.hos_icon, name, location, tag, latitude, longitude));
                 }
                 for (int i = 0; i<fac_list.size();i++) {
                         JsonApi_fac.fac_item item = fac_list.get(i);
                         name = item.getName();
                         location = item.getLocation();
                         tag = "공공/복지시설";
-                        itemList.add(new Search_Item(R.drawable.facility_office, name, location, tag));
+                        latitude = Double.parseDouble(item.getLat());
+                        longitude = Double.parseDouble(item.getLng());
+                        itemList.add(new Search_Item(R.drawable.facility_office, name, location, tag, latitude, longitude));
                 }
                 for (int i = 1; i <= 11; i++) {
-                        itemList.add(new Search_Item(R.drawable.hos_icon, "하나의원", "점심뭐먹지","병원아님"));
-                        itemList.add(new Search_Item(R.drawable.hos_icon, "참안과", "자고싶다","병원아님"));
+                        itemList.add(new Search_Item(R.drawable.hos_icon, "하나의원", "점심뭐먹지","병원아님",37.5234641249,127.0312089327));
+                        itemList.add(new Search_Item(R.drawable.hos_icon, "참안과", "자고싶다","병원아님",37.48874594102929,127.0532119886922));
                         // 충전기 병원 관공서 지도에서 마커를 클릭할때 그 페이지가 뜨는게,
                         // 위험제보
                 }
@@ -238,8 +237,18 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
         public void onItemClicked(int position) {
                 Toast.makeText(getContext(), "" + position, Toast.LENGTH_SHORT).show();
 
+                Double latitude = adapter.mDataListAll.get(position).getLat();
+                Double longitude = adapter.mDataListAll.get(position).getLng();
 
-                viewModel.setSelectedLng();
+                System.out.println("latitude :: "+latitude);
+                System.out.println("longitude :: "+longitude);
+
+                LatLng latLng = new LatLng(latitude,longitude);
+                viewModel.getSelectedLatLng().setValue(latLng);
+
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction().remove(Fragment_search.this).commit();
+                fragmentManager.popBackStack();
 
         }
 }

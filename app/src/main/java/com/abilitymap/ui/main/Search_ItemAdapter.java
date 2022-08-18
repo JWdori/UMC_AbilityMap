@@ -26,7 +26,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
     public final int VIEW_ITEM = 1;
     public final int VIEW_PROG = 0;
     public List<Search_Item> mDataList;
-    private List<Search_Item> mDataListAll;
+    public List<Search_Item> mDataListAll;
     int firstVisibleItem, visibleItemCount, totalItemCount, lastVisibleItem, scrollItem;
     public LinearLayoutManager mLinearLayoutManager;
     private onItemListener onLoadMoreListener;

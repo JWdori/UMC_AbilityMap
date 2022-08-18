@@ -34,6 +34,8 @@ import android.telephony.SmsManager;
 import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -65,6 +67,7 @@ import com.abilitymap.ui.emergencyCall.EmergencyCallActivity;
 import com.abilitymap.ui.menuBook.MenuBookActivity;
 import com.abilitymap.ui.notification.NotificationActivity;
 import com.abilitymap.ui.oss.OssActivity;
+import com.abilitymap.ui.search.ItemViewModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -155,7 +158,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     DangerDetailSheet dangerInfoFragment = null;
     LocationBottomSheet infoFragment = null;
     String reportContent;
-
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
@@ -292,6 +294,81 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         // 핸들러
+
+
+        final ItemViewModel viewModel = new ViewModelProvider(this).get(ItemViewModel.class);
+        final Observer<LatLng> searchObserver = new Observer<LatLng>() {
+            @Override
+            public void onChanged(LatLng latLng) {
+                showBottomSheet(latLng);
+
+            }
+        };
+        viewModel.getSelectedLatLng().observe(this,searchObserver);
+    }
+
+    private void showBottomSheet(LatLng latLng) {
+        System.out.println("bottomsheet : "+latLng+" ㅎㅇㅎㅇ");
+
+        String name;
+        String location;
+        String week;
+        String weekend;
+        String holiday;
+        String phone;
+
+        CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.5f)).animate(CameraAnimation.Easing);
+        //default cameraUpdate
+
+
+        //클릭이벤트가 일어난 마커가 어느 타입인지 search
+        if(findThisChargerMarkerItem(latLng, charge_list)!=null)
+        {
+            JsonApi_charge.charge_item selectedChargeItem = findThisChargerMarkerItem(latLng, charge_list);
+            location = selectedChargeItem.getLocation();
+            week = selectedChargeItem.getWeek();
+            weekend = selectedChargeItem.getWeekend();
+            holiday = selectedChargeItem.getHoliday();
+
+            System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
+            infoFragment = new LocationBottomSheet("charge", location, week, holiday);
+
+            cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.3f)).animate(CameraAnimation.Easing);
+        }
+        else if(findThisTotalMarkerItem(latLng, hos_list)!=null)
+        {
+            JsonApi_hos.hos_item selectedTotalItem = findThisTotalMarkerItem(latLng, hos_list);
+            name = selectedTotalItem.getName();
+            location = selectedTotalItem.getLocation();
+            week = selectedTotalItem.getWeek();
+            weekend = selectedTotalItem.getWeekend();
+            holiday = selectedTotalItem.getHoliday();
+            phone = selectedTotalItem.getPhone();
+
+            System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
+            infoFragment = new LocationBottomSheet("hos", name, location, week, holiday, phone);
+
+            cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.25f)).animate(CameraAnimation.Easing);
+
+        }
+        else if(findThisFacilityMarkerItem(latLng,fac_list)!=null) {
+            JsonApi_fac.fac_item selectedFacilityItem = findThisFacilityMarkerItem(latLng, fac_list);
+            name = selectedFacilityItem.getName();
+            location = selectedFacilityItem.getLocation();
+            week = selectedFacilityItem.getWeek();
+            weekend = selectedFacilityItem.getWeekend();
+            holiday = selectedFacilityItem.getHoliday();
+            phone = selectedFacilityItem.getPhone();
+            System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
+            infoFragment = new LocationBottomSheet("office", name, location, week, holiday, phone);
+
+            cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Easing);
+        }
+
+
+        infoFragment.show(getSupportFragmentManager(),"infoFragment");
+
+        naverMap.moveCamera(cameraUpdate);
 
 
     }
