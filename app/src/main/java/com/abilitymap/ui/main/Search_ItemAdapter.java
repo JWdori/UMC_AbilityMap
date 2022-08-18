@@ -27,12 +27,13 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
     public final int VIEW_PROG = 0;
     public List<Search_Item> mDataList;
     private List<Search_Item> mDataListAll;
-    int firstVisibleItem, visibleItemCount, totalItemCount, lastVisibleItem;
+    int firstVisibleItem, visibleItemCount, totalItemCount, lastVisibleItem, scrollItem;
     public LinearLayoutManager mLinearLayoutManager;
     private onItemListener onLoadMoreListener;
     private int visibleThreshold = 1;
     private boolean isMoreLoading = false;
     public List<Search_Item> items;
+
 
 
 
@@ -184,13 +185,15 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
                 totalItemCount = mLinearLayoutManager.getItemCount();
                 firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
                 lastVisibleItem = mLinearLayoutManager.findLastVisibleItemPosition();
-
-
-                if (!isMoreLoading && (lastVisibleItem%20==0) && dy > 0) {
+                Log.d("first", firstVisibleItem + "");
+                Log.d("last", lastVisibleItem + "");
+                if (!isMoreLoading && (lastVisibleItem%20==0) && dy > 0 && scrollItem!=lastVisibleItem) {
                     if (mListener != null) {
+                        scrollItem = lastVisibleItem;
                         recyclerView.suppressLayout(true);
                         mListener.onLoadMore();
                         recyclerView.suppressLayout(false);
+
                     }
                     isMoreLoading = true;
                 }
