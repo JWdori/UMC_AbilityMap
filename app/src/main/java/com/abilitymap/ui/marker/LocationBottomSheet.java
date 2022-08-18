@@ -43,11 +43,12 @@ public class LocationBottomSheet extends BottomSheetDialogFragment implements Vi
 
     }
 
-    public LocationBottomSheet(String tag,String location,String week,String holiday){
+    public LocationBottomSheet(String tag,String location,String week,String holiday, Marker marker){
         this.categoryKey = tag;
         this.location = location;
         this.week = week;
         this.holiday = holiday;
+        this.marker = marker;
     }
     public LocationBottomSheet(String tag,String name, String location,
                                   String week,String holiday,String phone){
