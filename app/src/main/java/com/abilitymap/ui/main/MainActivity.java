@@ -43,6 +43,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.abilitymap.api.JsonApi_phar;
 import com.abilitymap.ui.filter.FilterActivity;
 import com.abilitymap.ui.emergencyCall.InfoDialog;
 import com.abilitymap.api.JsonApi_bike;
@@ -118,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static ArrayList<JsonApi_wheel.wheel_item> wheel_list = new ArrayList();
     public static ArrayList<JsonApi_fac.fac_item> fac_list = new ArrayList();
     public static ArrayList<JsonApi_lift.lift_item> lift_list = new ArrayList();
+    public static ArrayList<JsonApi_phar.phar_item> phar_list = new ArrayList();
     BottomSheetBehavior<View> bottomSheetBehavior;
     private FusedLocationSource locationSource;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
@@ -274,6 +277,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         JsonApi_wheel wheel_api = new JsonApi_wheel();
         JsonApi_fac fac_api = new JsonApi_fac();
         JsonApi_lift lift_api = new JsonApi_lift();
+        JsonApi_phar phar_api = new JsonApi_phar();
 
 
         hos_api.execute(lat, lon, "");
@@ -285,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         wheel_api.execute(lat, lon, "");
         fac_api.execute(lat, lon, "");
         lift_api.execute(lat, lon, "");
-
+        phar_api.execute(lat, lon, "");
 
 
 //        new Thread(() -> {
@@ -308,8 +312,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void showBottomSheet(LatLng latLng) {
-        System.out.println("bottomsheet : "+latLng+" ㅎㅇㅎㅇ");
-
         String name;
         String location;
         String week;
@@ -457,7 +459,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             String serverReportDate = selectedDangerItem.getReportDate();
             String reportImage = selectedDangerItem.getReportImage();
             System.out.println("리스트 검색 결과 : " + reportContent + "," + nickName + "," + serverReportDate);
-            System.out.println("제보 이미지 : " + reportImage);
 
             //수정요청 관리자 <- 참고해서, 메인 앱에서 수정요청 패치 보내는법 (안되면 @곽정아)
             //검색을 좀 해볼테니,,,가까운 위치의 데이터가 먼저 뜨는거
@@ -509,7 +510,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.3f)).animate(CameraAnimation.Easing);
 
                     break;
-
                 case "hos":
                     JsonApi_hos.hos_item selectedTotalItem = findThisTotalMarkerItem(((Marker) overlay).getPosition(), hos_list);
                     name = selectedTotalItem.getName();
@@ -564,7 +564,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             JsonApi_charge.charge_item item = list.get(i);
             if (thisLat.equals(item.getLat()) && thisLng.equals(item.getLng())) {
                 selectedItem = item;
-                System.out.println("charge item found!");
             }
         }
         return selectedItem;
@@ -803,6 +802,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         SharedPreferences slope8 = getSharedPreferences("slope8", Activity.MODE_PRIVATE);
         SharedPreferences danger9 = getSharedPreferences("danger9", Activity.MODE_PRIVATE);
         SharedPreferences lift10 = getSharedPreferences("lift10", Activity.MODE_PRIVATE);
+        SharedPreferences phar11 = getSharedPreferences("phar11", Activity.MODE_PRIVATE);
 
 
         if (total1.getBoolean("total", true)) {
@@ -815,7 +815,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             drawMarker_lift();
             drawMarker_wheel();
             setMarker_fac();
-            System.out.println(wheel5.getAll()+"왜안뜸2");
+            setMarker_phar();
         } else {
             if (hos2.getBoolean("total", true)) {
                 setMarker_hos(); //병원
@@ -843,6 +843,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
             if (danger9.getBoolean("total", true)) {
                 setMarker_danger();
+            }
+            if (phar11.getBoolean("phar", true)) {
+                setMarker_phar();
             }
         }
 
@@ -1169,14 +1172,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
                 });
 
-
-
-
-/*
-                System.out.println("현재 위치 : "+address);
-                reportIntent.putExtra("reportLocation","우리집 내방 이불밖");
-                reportIntent.putExtra("reportTime","2022년 07월 19일");
-*/
             }
         });
 
@@ -1306,7 +1301,6 @@ private void cameraDialog(){
             SimpleDateFormat timeForClient = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.getDefault());
             String cReportDate = timeForClient.format(new Date());
 
-            System.out.println("현재 위치 : " + address);
 
             Intent reportIntent = new Intent(getApplicationContext(), Report_detail.class);
 
@@ -1360,7 +1354,6 @@ private void cameraDialog(){
     @Override
     public void onPause() {
         super.onPause();
-        System.out.println("온푸즈");
     }
 
 
@@ -1380,7 +1373,6 @@ private void cameraDialog(){
         return;
     }
 
-    //의료기관setMarker_facility_delete
     private void setMarker_fac() {
         for (int i = 0; i < fac_list.size(); i++) {
             JsonApi_fac.fac_item item = fac_list.get(i);
@@ -1388,6 +1380,16 @@ private void cameraDialog(){
         }
         return;
     }
+
+
+    private void setMarker_phar() {
+        for (int i = 0; i < phar_list.size(); i++) {
+            JsonApi_phar.phar_item item = phar_list.get(i);
+            setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "hos", naverMap);
+        }
+        return;
+    }
+
 
 
     //충전기

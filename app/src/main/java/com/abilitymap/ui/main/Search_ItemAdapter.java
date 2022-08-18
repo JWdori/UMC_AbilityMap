@@ -1,7 +1,6 @@
 package com.abilitymap.ui.main;
 
 import android.annotation.SuppressLint;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,7 +87,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
             holder.itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    mListener.onItemClicked(position);
+                    mListener.onItemClicked(currentItem.getText1());
                 }
             });
 
@@ -170,7 +169,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
     //3.onBindViewHolder에서 처리
     public interface onItemListener {
         void onLoadMore();
-        void onItemClicked(int position);
+        void onItemClicked(String position);
         //void onItemClicked(ItemModel model); 모델값을 넘길수 있음
         //다른버튼도 정의할 수 있음 onShareButtonClicked(int position);
     }
@@ -208,6 +207,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
 
     public void addAll2(List<Search_Item> lst){
         mDataList.clear();
+        mDataListAll.clear();
 //        mDataList.addAll(lst);
         items.addAll(lst);
         mDataListAll.addAll(lst);
@@ -217,12 +217,11 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
 
 
     public void addItemMore(List<Search_Item> lst){
+
         mDataList.addAll(lst);
-        items.addAll(lst);
         mDataListAll.addAll(lst);
         notifyItemRangeChanged(0,mDataList.size());
-        notifyItemRangeChanged(0,mDataListAll.size());
-        notifyItemRangeChanged(0,items.size());
+
     }
 
 
@@ -231,9 +230,6 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
         this.isMoreLoading=isMoreLoading;
     }
 
-    private void showLoadingView(ProgressViewHolder holder, int position) {
-
-    }
 
 
     static class ProgressViewHolder extends ItemViewHolder {

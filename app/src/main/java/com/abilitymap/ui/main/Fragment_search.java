@@ -2,6 +2,7 @@ package com.abilitymap.ui.main;
 import static com.abilitymap.ui.main.MainActivity.charge_list;
 import static com.abilitymap.ui.main.MainActivity.fac_list;
 import static com.abilitymap.ui.main.MainActivity.hos_list;
+import static com.abilitymap.ui.main.MainActivity.phar_list;
 
 import android.app.ProgressDialog;
 import android.os.*;
@@ -17,7 +18,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -27,10 +27,13 @@ import com.abilitymap.R;
 import com.abilitymap.api.JsonApi_charge;
 import com.abilitymap.api.JsonApi_fac;
 import com.abilitymap.api.JsonApi_hos;
+import com.abilitymap.api.JsonApi_phar;
 import com.abilitymap.ui.search.ItemViewModel;
 import com.naver.maps.geometry.LatLng;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Fragment_search extends Fragment implements Search_ItemAdapter.onItemListener {
@@ -39,7 +42,7 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
         private Search_ItemAdapter adapter;
         private List<Search_Item> list2;
         private boolean isLoading = false;
-        private ArrayList<Search_Item> itemList = new ArrayList<>();
+        public static ArrayList<Search_Item> itemList = new ArrayList<>();
         int firstVisibleItem, visibleItemCount, totalItemCount, lastVisibleItem;
         ProgressDialog dialog;
 
@@ -72,7 +75,7 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                 //
                 RecyclerView recyclerView = view.findViewById(R.id.search_result);
 
-                itemList = new ArrayList<Search_Item>();
+
 
 //                recyclerView.setHasFixedSize(true);
                 LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -95,9 +98,11 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                 searchback.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                                ((MainActivity) getActivity()).bfragment=false;
                                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                                 fragmentManager.beginTransaction().remove(Fragment_search.this).commit();
                                 fragmentManager.popBackStack();
+
                         }
                 });
 
@@ -173,15 +178,24 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                         longitude = Double.parseDouble(item.getLng());
                         name = ((MainActivity) getActivity()).getSimpleCurrentAddress(
                                 ((MainActivity) getActivity()).getCurrentAddress(latitude,longitude));
-                        tag = "전동휠체어 급속 충전기";
+                        tag = "전동휠체어 급속충전기";
                         itemList.add(new Search_Item(R.drawable.charge_icon, location, name, tag, latitude, longitude));
+
                 }
                 for (int i = 0; i<hos_list.size();i++) {
                         JsonApi_hos.hos_item item = hos_list.get(i);
-                        selectedItem = item;
                         name = item.getName();
                         location = item.getLocation();
                         tag = "보건의료시설";
+                        latitude = Double.parseDouble(item.getLat());
+                        longitude = Double.parseDouble(item.getLng());
+                        itemList.add(new Search_Item(R.drawable.hos_icon, name, location, tag, latitude, longitude));
+                }
+                for (int i = 0; i<phar_list.size();i++) {
+                        JsonApi_phar.phar_item item = phar_list.get(i);
+                        name = item.getName();
+                        location = item.getLocation();
+                        tag = "약국";
                         latitude = Double.parseDouble(item.getLat());
                         longitude = Double.parseDouble(item.getLng());
                         itemList.add(new Search_Item(R.drawable.hos_icon, name, location, tag, latitude, longitude));
@@ -195,56 +209,32 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                         longitude = Double.parseDouble(item.getLng());
                         itemList.add(new Search_Item(R.drawable.facility_office, name, location, tag, latitude, longitude));
                 }
-                for (int i = 1; i <= 11; i++) {
-                        itemList.add(new Search_Item(R.drawable.hos_icon, "하나의원", "점심뭐먹지","병원아님",37.5234641249,127.0312089327));
-                        itemList.add(new Search_Item(R.drawable.hos_icon, "참안과", "자고싶다","병원아님",37.48874594102929,127.0532119886922));
-                        // 충전기 병원 관공서 지도에서 마커를 클릭할때 그 페이지가 뜨는게,
-                        // 위험제보
-                }
+
                 adapter.addAll2(itemList);
 
         }
 
-        //다시 만들기 귀찮아서 일단 재활용
-        JsonApi_hos.hos_item findThisTotalMarkerItem(ArrayList<JsonApi_hos.hos_item> list) {
-                JsonApi_hos.hos_item selectedItem = null;
-                for (int i = 0; i < list.size(); i++) {
-                        JsonApi_hos.hos_item item = list.get(i);
-                                selectedItem = item;
-                }
-                return selectedItem;
-        }
-        JsonApi_fac.fac_item findThisFacilityMarkerItem(ArrayList<JsonApi_fac.fac_item> list) {
-                JsonApi_fac.fac_item selectedItem = null;
-                for (int i = 0; i < list.size(); i++) {
-                        JsonApi_fac.fac_item item = list.get(i);
-                        selectedItem = item;
-                }
-                return selectedItem;
-        }
-        JsonApi_charge.charge_item findThisChargerMarkerItem(ArrayList<JsonApi_charge.charge_item> list) {
-                JsonApi_charge.charge_item selectedItem = null;
-                for (int i = 0; i < list.size(); i++) {
-                        JsonApi_charge.charge_item item = list.get(i);
-                        selectedItem = item;
-                }
-                return selectedItem;
-        }
 
-
+        int a;
         @Override
-        public void onItemClicked(int position) {
-                Toast.makeText(getContext(), "" + position, Toast.LENGTH_SHORT).show();
+        public void onItemClicked(String position) {
+                for (int i = 0; i<adapter.mDataList.size(); i++) {
+                        if(adapter.mDataList.get(i).getText1()==position){
+                                a=i;
+                        }
+                }
 
-                Double latitude = adapter.mDataListAll.get(position).getLat();
-                Double longitude = adapter.mDataListAll.get(position).getLng();
 
-                System.out.println("latitude :: "+latitude);
-                System.out.println("longitude :: "+longitude);
+                Double latitude = adapter.mDataList.get(a).getLat();
+                Double longitude = adapter.mDataList.get(a).getLng();
+                String name = adapter.mDataList.get(a).getText1();
+                //위치 중복이면 다른 마커 열림...
 
                 LatLng latLng = new LatLng(latitude,longitude);
                 viewModel.getSelectedLatLng().setValue(latLng);
 
+
+                ((MainActivity) getActivity()).bfragment=false;
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction().remove(Fragment_search.this).commit();
                 fragmentManager.popBackStack();

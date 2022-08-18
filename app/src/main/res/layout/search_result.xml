@@ -13,8 +13,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
 
-        android:layout_marginEnd="25dp"
-        android:layout_marginStart="1dp"
+        android:singleLine="true"
+        android:layout_marginRight="2dp"
         app:layout_constraintTop_toTopOf="@id/search_marker"
         app:layout_constraintLeft_toRightOf="@id/search_marker"
         android:fontFamily="sans-serif"
@@ -28,23 +28,22 @@
 
     <TextView
         android:id="@+id/search_location"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="25dp"
-        android:layout_marginStart="1dp"
-
+        android:layout_marginLeft="56dp"
+        android:layout_marginRight="15dp"
+        android:singleLine="true"
         android:layout_marginTop="4dp"
 
         app:layout_constraintBottom_toBottomOf="@+id/search_marker"
         app:layout_constraintLeft_toRightOf="@id/search_marker"
         android:fontFamily="sans-serif-medium"
         android:textStyle="normal"
-        android:textSize="12sp"
+        android:textSize="14sp"
         android:textColor="#929292"
         android:letterSpacing="0.01"
         android:lineSpacingExtra="2.8sp"
         android:text="경기 성남시 분당구 정자일로 121"
-
         />
 
 

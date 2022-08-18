@@ -1,16 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.coordinatorlayout.widget.CoordinatorLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:id="@+id/bottomSheetLayout"
     app:layout_behavior="uk.ac.qub.quibe.misc.ExpandedBottomSheetBehavior"
+    android:scrollbars="vertical"
     >
 
 
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:transitionName="imgTransition"
@@ -68,12 +69,15 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
-        app:layout_constraintTop_toBottomOf="@id/filter">
+        app:layout_constraintTop_toBottomOf="@id/filter"
+        >
 
         <RelativeLayout
             android:id="@+id/constraintLayout1"
@@ -122,11 +126,6 @@
 
 
 
-
-
-
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout2"
         android:layout_width="match_parent"
@@ -157,9 +156,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_centerVertical="true"
-                android:textColor="#525252"
                 android:layout_toRightOf="@id/hos_icon"
-                android:text="보건의료시설"></TextView>
+                android:text="보건의료시설"
+                android:textColor="#525252"></TextView>
 
 
             <com.github.angads25.toggle.widget.LabeledSwitch
@@ -190,11 +189,74 @@
 
 
 
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/layout2_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@id/layout2">
+
+        <RelativeLayout
+            android:id="@+id/constraintLayout2_1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="24dp"
+            android:layout_marginEnd="24dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <ImageView
+                android:id="@+id/phar_icon"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
+                android:layout_centerVertical="true"
+                android:src="@drawable/hos_icon"
+                app:layout_constraintStart_toStartOf="parent" />
+
+
+            <TextView
+                android:id="@+id/phar_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_toRightOf="@id/phar_icon"
+                android:text="약국"
+                android:textColor="#525252"></TextView>
+
+
+            <com.github.angads25.toggle.widget.LabeledSwitch
+                android:id="@+id/phar_toggle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:textSize="14sp"
+                app:colorBorder="#007fff"
+                app:colorOn="#007fff"
+                app:on="true" />
+
+            <View
+                android:id="@+id/phar_view"
+                android:layout_width="wrap_content"
+                android:layout_height="1dp"
+                android:layout_below="@id/phar_toggle"
+                android:background="#1e000000" />
+
+        </RelativeLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layout3"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/layout2">
+        app:layout_constraintTop_toBottomOf="@id/layout2_1">
 
         <RelativeLayout
             android:id="@+id/constraintLayout3"
@@ -220,10 +282,10 @@
                 android:id="@+id/facility_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#525252"
-                android:layout_toRightOf="@id/fac_icon"
                 android:layout_centerVertical="true"
-                android:text="관공서"></TextView>
+                android:layout_toRightOf="@id/fac_icon"
+                android:text="관공서"
+                android:textColor="#525252"></TextView>
 
             <com.github.angads25.toggle.widget.LabeledSwitch
                 android:id="@+id/facility_toggle"
@@ -670,6 +732,7 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="24dp"
             android:layout_marginEnd="24dp"
+
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
@@ -678,10 +741,10 @@
                 android:id="@+id/danger_text"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textColor="#525252"
-                android:layout_toRightOf="@id/danger_icon"
                 android:layout_centerVertical="true"
-                android:text="위험 지역(제보)"></TextView>
+                android:layout_toRightOf="@id/danger_icon"
+                android:text="위험 지역(제보)"
+                android:textColor="#525252"></TextView>
 
             <ImageView
                 android:id="@+id/danger_icon"
@@ -716,28 +779,22 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/layoutbutton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toBottomOf="@id/layout9"
         android:layout_marginTop="40dp"
-        >
+        tools:layout_editor_absoluteX="24dp">
 
         <RelativeLayout
             android:id="@+id/constraintLayoutbutton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginEnd="24dp"
             android:gravity="bottom"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-
 
             <Button
                 android:id="@+id/button_filter"
@@ -750,16 +807,11 @@
                 android:text="저장하기"
                 android:textColor="@color/white"
                 android:textSize="24dp"
-                android:textStyle="bold"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent"></Button>
+                android:textStyle="bold"></Button>
 
         </RelativeLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-</androidx.coordinatorlayout.widget.CoordinatorLayout>
+</ScrollView>
