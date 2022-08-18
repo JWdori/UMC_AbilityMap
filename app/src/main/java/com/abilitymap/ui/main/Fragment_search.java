@@ -5,6 +5,7 @@ import static com.abilitymap.ui.main.MainActivity.hos_list;
 
 import android.app.ProgressDialog;
 import android.content.ClipData;
+import android.content.Intent;
 import android.os.*;
 import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.FragmentManager;
@@ -20,6 +21,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -30,6 +32,7 @@ import com.abilitymap.api.JsonApi_charge;
 import com.abilitymap.api.JsonApi_fac;
 import com.abilitymap.api.JsonApi_hos;
 import com.abilitymap.ui.marker.LocationBottomSheet;
+import com.abilitymap.ui.search.ItemViewModel;
 import com.naver.maps.geometry.LatLng;
 import com.naver.maps.map.overlay.Marker;
 
@@ -45,6 +48,9 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
         private ArrayList<Search_Item> itemList = new ArrayList<>();
         int firstVisibleItem, visibleItemCount, totalItemCount, lastVisibleItem;
         ProgressDialog dialog;
+
+        private ItemViewModel viewModel;
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
                 super.onCreate(savedInstanceState);
@@ -87,7 +93,7 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                 adapter.setOnClickListener(this);
 
 
-
+                viewModel = new ViewModelProvider(requireActivity()).get(ItemViewModel.class);
 
 
                 //뒤로가기 버튼
@@ -237,5 +243,9 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
         @Override
         public void onItemClicked(int position) {
                 Toast.makeText(getContext(), "" + position, Toast.LENGTH_SHORT).show();
+
+
+                viewModel.setSelectedLng();
+
         }
 }
