@@ -15,6 +15,7 @@ public class ItemViewModel extends ViewModel {
         if(selectedLatLng == null){
             selectedLatLng = new MutableLiveData<LatLng>();
         }
+
         return selectedLatLng;
     }
 

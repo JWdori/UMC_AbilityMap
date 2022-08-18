@@ -112,34 +112,31 @@ public class Report_detail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 //
-                System.out.println("신고 내용 :"+contentView.getText());
-                System.out.println("닉네임 내용 :"+nicknameView.getText());
+
 
 
                 ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                 bitmap.compress(Bitmap.CompressFormat.JPEG, 60, byteArrayOutputStream);
                 byte[] byteArray = byteArrayOutputStream.toByteArray();
                 String encodedImage = Base64.encodeToString(byteArray,Base64.DEFAULT);
-                System.out.println("encoded image : " +encodedImage);
+
                 //인코딩 문자열 확인
 
                 if(nicknameView.getText().toString().length()==0){
                     //닉네임 값 저장 변수 = "익명의 제보자";
                     nick = "익명의 제보자";
-                    System.out.println(nick);
+
                 }
                 else{
                     //닉네임 값 저장 변수 = String.valueOf(nicknameView.getText());
                     nick = String.valueOf(nicknameView.getText());
-                    System.out.println("nick : "+nick);
+
                 }
 
                 if(contentView.getText().toString().length()==0){
                     contentMandatoryView.setTextColor(Color.parseColor("#FF0000"));
                 }
                 else{
-                    System.out.println("report input OK");
-
 
                     Map<String, Object> result = new HashMap<String, Object>();
                     //result.put("resultIdx",111);
@@ -153,7 +150,6 @@ public class Report_detail extends AppCompatActivity {
                     //result.put("wrong",3);
 
                     String resultString = getJsonStringFromMap(result);
-                    System.out.println("resultString : "+resultString);
 
 /*
                     try {
@@ -165,7 +161,6 @@ public class Report_detail extends AppCompatActivity {
 
                     new Thread(()-> {
                         String response = JsonApi_danger.postRequest(resultString);
-                        System.out.println("danger Api response : " + response);
                     }).start();
 
 

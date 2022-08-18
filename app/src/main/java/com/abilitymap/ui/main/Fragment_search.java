@@ -41,7 +41,7 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
         private Search_ItemAdapter adapter;
         private List<Search_Item> list2;
         private boolean isLoading = false;
-        private ArrayList<Search_Item> itemList = new ArrayList<>();
+        public static ArrayList<Search_Item> itemList = new ArrayList<>();
         int firstVisibleItem, visibleItemCount, totalItemCount, lastVisibleItem;
         ProgressDialog dialog;
 
@@ -74,7 +74,7 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                 //
                 RecyclerView recyclerView = view.findViewById(R.id.search_result);
 
-                itemList = new ArrayList<Search_Item>();
+
 
 //                recyclerView.setHasFixedSize(true);
                 LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
@@ -217,16 +217,18 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
 
         @Override
         public void onItemClicked(int position) {
-                Toast.makeText(getContext(), "" + position, Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "" + itemList.get(0).getText1(), Toast.LENGTH_SHORT).show();
+                System.out.println(adapter.mDataList.get(0).getText1()+"ㅎㅇ1");
+                System.out.println(adapter.mDataListAll.get(0).getText1()+"ㅎㅇ2");
 
                 Double latitude = adapter.mDataListAll.get(position).getLat();
                 Double longitude = adapter.mDataListAll.get(position).getLng();
 
-                System.out.println("latitude :: "+latitude);
-                System.out.println("longitude :: "+longitude);
 
                 LatLng latLng = new LatLng(latitude,longitude);
                 viewModel.getSelectedLatLng().setValue(latLng);
+
+
                 ((MainActivity) getActivity()).bfragment=false;
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction().remove(Fragment_search.this).commit();

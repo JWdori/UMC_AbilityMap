@@ -312,8 +312,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     private void showBottomSheet(LatLng latLng) {
-        System.out.println("bottomsheet : "+latLng+" ㅎㅇㅎㅇ");
-
         String name;
         String location;
         String week;
@@ -461,7 +459,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             String serverReportDate = selectedDangerItem.getReportDate();
             String reportImage = selectedDangerItem.getReportImage();
             System.out.println("리스트 검색 결과 : " + reportContent + "," + nickName + "," + serverReportDate);
-            System.out.println("제보 이미지 : " + reportImage);
 
             //수정요청 관리자 <- 참고해서, 메인 앱에서 수정요청 패치 보내는법 (안되면 @곽정아)
             //검색을 좀 해볼테니,,,가까운 위치의 데이터가 먼저 뜨는거
@@ -567,7 +564,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             JsonApi_charge.charge_item item = list.get(i);
             if (thisLat.equals(item.getLat()) && thisLng.equals(item.getLng())) {
                 selectedItem = item;
-                System.out.println("charge item found!");
             }
         }
         return selectedItem;
@@ -1176,14 +1172,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     }
                 });
 
-
-
-
-/*
-                System.out.println("현재 위치 : "+address);
-                reportIntent.putExtra("reportLocation","우리집 내방 이불밖");
-                reportIntent.putExtra("reportTime","2022년 07월 19일");
-*/
             }
         });
 
@@ -1313,7 +1301,6 @@ private void cameraDialog(){
             SimpleDateFormat timeForClient = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.getDefault());
             String cReportDate = timeForClient.format(new Date());
 
-            System.out.println("현재 위치 : " + address);
 
             Intent reportIntent = new Intent(getApplicationContext(), Report_detail.class);
 
@@ -1367,7 +1354,6 @@ private void cameraDialog(){
     @Override
     public void onPause() {
         super.onPause();
-        System.out.println("온푸즈");
     }
 
 

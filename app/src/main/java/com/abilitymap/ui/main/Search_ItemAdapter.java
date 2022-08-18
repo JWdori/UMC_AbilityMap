@@ -1,5 +1,7 @@
 package com.abilitymap.ui.main;
 
+import static com.google.android.material.internal.ContextUtils.getActivity;
+
 import android.annotation.SuppressLint;
 import android.os.Handler;
 import android.util.Log;
@@ -58,7 +60,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
 
     @Override
     public int getItemViewType(int position) {
-        return items.get(position) != null ? VIEW_ITEM : VIEW_PROG;
+        return mDataList.get(position) != null ? VIEW_ITEM : VIEW_PROG;
     }
 
     //1.onCreateViewHolder -------------------------------------------------------
@@ -138,7 +140,9 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             mDataList.clear();
+            mDataListAll.clear();
             mDataList.addAll((List) results.values);
+            mDataListAll.addAll((List) results.values);
             notifyDataSetChanged();
         }
     };
