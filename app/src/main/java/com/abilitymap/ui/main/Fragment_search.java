@@ -173,7 +173,7 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                         longitude = Double.parseDouble(item.getLng());
                         name = ((MainActivity) getActivity()).getSimpleCurrentAddress(
                                 ((MainActivity) getActivity()).getCurrentAddress(latitude,longitude));
-                        tag = "전동휠체어 급속 충전기";
+                        tag = "전동휠체어 급속충전기";
                         itemList.add(new Search_Item(R.drawable.charge_icon, location, name, tag));
                 }
                 for (int i = 0; i<hos_list.size();i++) {
