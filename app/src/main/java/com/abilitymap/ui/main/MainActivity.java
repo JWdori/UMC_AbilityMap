@@ -43,6 +43,8 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.abilitymap.api.JsonApi_phar;
 import com.abilitymap.ui.filter.FilterActivity;
 import com.abilitymap.ui.emergencyCall.InfoDialog;
 import com.abilitymap.api.JsonApi_bike;
@@ -118,6 +120,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     public static ArrayList<JsonApi_wheel.wheel_item> wheel_list = new ArrayList();
     public static ArrayList<JsonApi_fac.fac_item> fac_list = new ArrayList();
     public static ArrayList<JsonApi_lift.lift_item> lift_list = new ArrayList();
+    public static ArrayList<JsonApi_phar.phar_item> phar_list = new ArrayList();
     BottomSheetBehavior<View> bottomSheetBehavior;
     private FusedLocationSource locationSource;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
