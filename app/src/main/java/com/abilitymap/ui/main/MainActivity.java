@@ -344,6 +344,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         ImageButton repot_message = (ImageButton) findViewById(R.id.message_button);
         ImageButton Report_button = (ImageButton) findViewById(R.id.repot_button);
 
+
+        LatLng selectedPosition = ((Marker) overlay).getPosition();
+        CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.5f)).animate(CameraAnimation.Easing);
+        //default cameraUpdate
+
         if (overlay instanceof Marker && String.valueOf(overlay.getTag()).equals("danger")) {
 
             JsonApi_danger.danger_item selectedDangerItem = findThisDangerMarkerItem(((Marker) overlay).getPosition(), danger_list);
@@ -370,8 +375,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //            repot_message.setVisibility(View.INVISIBLE);
 //            Report_button.setVisibility(View.INVISIBLE);
 
-            LatLng selectedPosition = ((Marker) overlay).getPosition();
-            CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Easing);
+
+            cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Easing);
             naverMap.moveCamera(cameraUpdate);
 
             return true;
@@ -388,6 +393,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             String holiday;
             String phone;
 
+
             //클릭이벤트가 일어난 마커가 어느 타입인지 search
             switch (tag) {
                 case "charge":
@@ -398,7 +404,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     holiday = selectedChargeItem.getHoliday();
 
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
-                    infoFragment = new LocationBottomSheet(tag, location, week, holiday);
+                    infoFragment = new LocationBottomSheet(tag, location, week, holiday,(Marker) overlay);
+
+                    cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.3f)).animate(CameraAnimation.Easing);
 
                     break;
 
@@ -414,6 +422,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
                     infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone, (Marker) overlay);
 
+                    cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.25f)).animate(CameraAnimation.Easing);
+
                     break;
 
                 case "office":
@@ -426,6 +436,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     phone = selectedFacilityItem.getPhone();
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
                     infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone, (Marker) overlay);
+
+                    cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Easing);
+
             }
         }
 
@@ -436,8 +449,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         Log.d("clickable?", String.valueOf(clickable));
 
-        LatLng selectedPosition = ((Marker) overlay).getPosition();
-        CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.35f)).animate(CameraAnimation.Easing);
         naverMap.moveCamera(cameraUpdate);
 
         return true;
