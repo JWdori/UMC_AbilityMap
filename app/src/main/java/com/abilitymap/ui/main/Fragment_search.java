@@ -124,7 +124,6 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                         public void run() {
                                 itemList.add(null);
                                 adapter.items.add(null);
-                                Log.d("dd",adapter.items+"dd");
                                 adapter.notifyItemInserted(itemList.size() - 1);
                         }
                 });
@@ -133,6 +132,7 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                 dialog.setCancelable(false);
                 dialog.setMessage("정보를 가져오는 중입니다.\n잠시만 기다려주세요."); //프로그레스 대화상자 메시지 설정
                 dialog.show(); //프로그레스 대화상자 띄우기
+
                 Handler handler = new Handler();
 //                adapter.setProgressMore(true);
                 handler.postDelayed(new Runnable() {
@@ -145,13 +145,13 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                                 adapter.notifyItemRemoved(scrollPosition);
                                 ///////이부분에을 자신의 프로젝트에 맞게 설정하면 됨
                                 //다음 페이지? 내용을 불러오는 부분
-                                int start = adapter.getItemCount();
-                                int end = start + 20;
+//                                int start = adapter.getItemCount();
+//                                int end = start + 20;
                                 itemList.clear();
-                                for (int i = start + 1; i <= end; i++) {
-                                        itemList.add(new Search_Item(R.drawable.hos_icon, "추가임!", "Ten", "이게문제엿네"));
-//                                        list2.add(new Search_Item(R.drawable.hos_icon, "추가임!", "Ten", "이게문제엿네"));
-                                }
+//                                for (int i = start + 1; i <= end; i++) {
+//
+////                                        list2.add(new Search_Item(R.drawable.hos_icon, "추가임!", "Ten", "이게문제엿네"));
+//                                }
                                 adapter.addItemMore(itemList);
                                 adapter.notifyDataSetChanged();
                                 adapter.setMoreLoading(false);
@@ -179,8 +179,6 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                         longitude = Double.parseDouble(item.getLng());
                         name = ((MainActivity) getActivity()).getSimpleCurrentAddress(
                                 ((MainActivity) getActivity()).getCurrentAddress(latitude,longitude));
-
-//                        getSimpleCurrentAddress(getCurrentAddress(latitude, longitude));
                         tag = "전동휠체어 급속 충전기";
                         itemList.add(new Search_Item(R.drawable.charge_icon, location, name, tag));
                 }
@@ -206,10 +204,6 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                         // 위험제보
                 }
                 adapter.addAll2(itemList);
-
-
-
-
 
         }
 
