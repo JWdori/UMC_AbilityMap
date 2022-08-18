@@ -513,7 +513,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.3f)).animate(CameraAnimation.Easing);
 
                     break;
-
                 case "hos":
                     JsonApi_hos.hos_item selectedTotalItem = findThisTotalMarkerItem(((Marker) overlay).getPosition(), hos_list);
                     name = selectedTotalItem.getName();

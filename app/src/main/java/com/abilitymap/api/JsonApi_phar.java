@@ -49,7 +49,7 @@ public class JsonApi_phar extends AsyncTask<String, String, String> {
 
 
         String data = "";
-        String myUrl3 = "http://3.35.237.29/get/medical";
+        String myUrl3 = "http://3.35.237.29/get/pharmacy";
         try {
             URL url = new URL(myUrl3);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();

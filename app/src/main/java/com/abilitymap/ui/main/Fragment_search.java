@@ -2,6 +2,7 @@ package com.abilitymap.ui.main;
 import static com.abilitymap.ui.main.MainActivity.charge_list;
 import static com.abilitymap.ui.main.MainActivity.fac_list;
 import static com.abilitymap.ui.main.MainActivity.hos_list;
+import static com.abilitymap.ui.main.MainActivity.phar_list;
 
 import android.app.ProgressDialog;
 import android.os.*;
@@ -27,6 +28,7 @@ import com.abilitymap.R;
 import com.abilitymap.api.JsonApi_charge;
 import com.abilitymap.api.JsonApi_fac;
 import com.abilitymap.api.JsonApi_hos;
+import com.abilitymap.api.JsonApi_phar;
 import com.abilitymap.ui.search.ItemViewModel;
 import com.naver.maps.geometry.LatLng;
 
@@ -179,10 +181,18 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                 }
                 for (int i = 0; i<hos_list.size();i++) {
                         JsonApi_hos.hos_item item = hos_list.get(i);
-                        selectedItem = item;
                         name = item.getName();
                         location = item.getLocation();
                         tag = "보건의료시설";
+                        latitude = Double.parseDouble(item.getLat());
+                        longitude = Double.parseDouble(item.getLng());
+                        itemList.add(new Search_Item(R.drawable.hos_icon, name, location, tag, latitude, longitude));
+                }
+                for (int i = 0; i<phar_list.size();i++) {
+                        JsonApi_phar.phar_item item = phar_list.get(i);
+                        name = item.getName();
+                        location = item.getLocation();
+                        tag = "약국";
                         latitude = Double.parseDouble(item.getLat());
                         longitude = Double.parseDouble(item.getLng());
                         itemList.add(new Search_Item(R.drawable.hos_icon, name, location, tag, latitude, longitude));
@@ -196,12 +206,7 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                         longitude = Double.parseDouble(item.getLng());
                         itemList.add(new Search_Item(R.drawable.facility_office, name, location, tag, latitude, longitude));
                 }
-                for (int i = 1; i <= 11; i++) {
-                        itemList.add(new Search_Item(R.drawable.hos_icon, "하나의원", "점심뭐먹지","병원아님",37.5234641249,127.0312089327));
-                        itemList.add(new Search_Item(R.drawable.hos_icon, "참안과", "자고싶다","병원아님",37.48874594102929,127.0532119886922));
-                        // 충전기 병원 관공서 지도에서 마커를 클릭할때 그 페이지가 뜨는게,
-                        // 위험제보
-                }
+
                 adapter.addAll2(itemList);
 
         }
