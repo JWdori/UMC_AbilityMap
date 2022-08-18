@@ -277,6 +277,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         JsonApi_wheel wheel_api = new JsonApi_wheel();
         JsonApi_fac fac_api = new JsonApi_fac();
         JsonApi_lift lift_api = new JsonApi_lift();
+        JsonApi_phar phar_api = new JsonApi_phar();
 
 
         hos_api.execute(lat, lon, "");
@@ -288,7 +289,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         wheel_api.execute(lat, lon, "");
         fac_api.execute(lat, lon, "");
         lift_api.execute(lat, lon, "");
-
+        phar_api.execute(lat, lon, "");
 
 
 //        new Thread(() -> {
@@ -806,6 +807,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         SharedPreferences slope8 = getSharedPreferences("slope8", Activity.MODE_PRIVATE);
         SharedPreferences danger9 = getSharedPreferences("danger9", Activity.MODE_PRIVATE);
         SharedPreferences lift10 = getSharedPreferences("lift10", Activity.MODE_PRIVATE);
+        SharedPreferences phar11 = getSharedPreferences("phar11", Activity.MODE_PRIVATE);
 
 
         if (total1.getBoolean("total", true)) {
@@ -818,7 +820,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             drawMarker_lift();
             drawMarker_wheel();
             setMarker_fac();
-            System.out.println(wheel5.getAll()+"왜안뜸2");
+            setMarker_phar();
         } else {
             if (hos2.getBoolean("total", true)) {
                 setMarker_hos(); //병원
@@ -846,6 +848,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             }
             if (danger9.getBoolean("total", true)) {
                 setMarker_danger();
+            }
+            if (phar11.getBoolean("phar", true)) {
+                setMarker_phar();
             }
         }
 
@@ -1383,7 +1388,6 @@ private void cameraDialog(){
         return;
     }
 
-    //의료기관setMarker_facility_delete
     private void setMarker_fac() {
         for (int i = 0; i < fac_list.size(); i++) {
             JsonApi_fac.fac_item item = fac_list.get(i);
@@ -1391,6 +1395,16 @@ private void cameraDialog(){
         }
         return;
     }
+
+
+    private void setMarker_phar() {
+        for (int i = 0; i < phar_list.size(); i++) {
+            JsonApi_phar.phar_item item = phar_list.get(i);
+            setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "hos", naverMap);
+        }
+        return;
+    }
+
 
 
     //충전기

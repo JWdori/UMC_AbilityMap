@@ -33,6 +33,7 @@ public class SplashActivity extends AppCompatActivity {
                 SharedPreferences slope8 = getSharedPreferences("slope8", Activity.MODE_PRIVATE);
                 SharedPreferences danger9 = getSharedPreferences("danger9", Activity.MODE_PRIVATE);
                 SharedPreferences lift10 = getSharedPreferences("lift10", Activity.MODE_PRIVATE);
+                SharedPreferences phar11 = getSharedPreferences("phar11", Activity.MODE_PRIVATE);
                 SharedPreferences.Editor editor = total1.edit();
                 editor.putBoolean("total",false);
                 editor.commit();
@@ -63,6 +64,9 @@ public class SplashActivity extends AppCompatActivity {
                 SharedPreferences.Editor editor10 = lift10.edit();
                 editor10.putBoolean("total",false);
                 editor10.commit();
+                SharedPreferences.Editor editor11 = phar11.edit();
+                editor11.putBoolean("total",false);
+                editor11.commit();
                 if (isFirst){   //최초 실행일 시 onBoarding 화면 pop up
                     //onBoarding 화면으로 이동
                     startActivity(new Intent(getApplicationContext(), OnboardingActivity.class));
