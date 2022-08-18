@@ -2,23 +2,20 @@ package com.abilitymap.ui.search;
 
 import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModel;
+import androidx.lifecycle.LiveData;
+
+import com.naver.maps.geometry.LatLng;
 
 public class ItemViewModel extends ViewModel {
-    private MutableLiveData<Double> selectedLat;
-    private MutableLiveData<Double> selectedLng;
+    private MutableLiveData<LatLng> selectedLatLng;
+    private MutableLiveData<String> selectedTag;
 
-    public MutableLiveData<Double> getSelectedLat() {
-        return selectedLat;
-    }
-    public void setSelectedLat(MutableLiveData<Double> selectedLat) {
-        this.selectedLat = selectedLat;
-    }
 
-    public MutableLiveData<Double> getSelectedLng() {
-        return selectedLng;
+    public MutableLiveData<LatLng> getSelectedLatLng(){
+        if(selectedLatLng == null){
+            selectedLatLng = new MutableLiveData<LatLng>();
+        }
+        return selectedLatLng;
     }
 
-    public void setSelectedLng(MutableLiveData<Double> selectedLng) {
-        this.selectedLng = selectedLng;
-    }
 }

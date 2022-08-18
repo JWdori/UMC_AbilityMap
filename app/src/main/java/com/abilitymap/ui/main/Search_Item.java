@@ -6,12 +6,16 @@ public class Search_Item {
     private String text1;
     private String text2;
     private String text3;
+    private Double lat;
+    private Double lng;
 
-    public Search_Item(int imageResource, String text1, String text2, String text3) {
+    public Search_Item(int imageResource, String text1, String text2, String text3, Double lat, Double lng) {
         this.imageResource = imageResource;
         this.text1 = text1;
         this.text2 = text2;
         this.text3 = text3;
+        this.lat = lat;
+        this.lng = lng;
     }
 
     public int getImageResource() {
@@ -45,4 +49,7 @@ public class Search_Item {
     public void setText3(String text3) {
         this.text3 = text3;
     }
+
+    public Double getLat() { return lat; }
+    public Double getLng() { return lng; }
 }
