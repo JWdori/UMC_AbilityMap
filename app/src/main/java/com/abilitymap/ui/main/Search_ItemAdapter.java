@@ -1,9 +1,6 @@
 package com.abilitymap.ui.main;
 
-import static com.google.android.material.internal.ContextUtils.getActivity;
-
 import android.annotation.SuppressLint;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,7 +57,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
 
     @Override
     public int getItemViewType(int position) {
-        return mDataList.get(position) != null ? VIEW_ITEM : VIEW_PROG;
+        return items.get(position) != null ? VIEW_ITEM : VIEW_PROG;
     }
 
     //1.onCreateViewHolder -------------------------------------------------------
@@ -90,7 +87,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
             holder.itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    mListener.onItemClicked(position);
+                    mListener.onItemClicked(currentItem.getText1());
                 }
             });
 
@@ -140,9 +137,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
             mDataList.clear();
-            mDataListAll.clear();
             mDataList.addAll((List) results.values);
-            mDataListAll.addAll((List) results.values);
             notifyDataSetChanged();
         }
     };
@@ -174,7 +169,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
     //3.onBindViewHolder에서 처리
     public interface onItemListener {
         void onLoadMore();
-        void onItemClicked(int position);
+        void onItemClicked(String position);
         //void onItemClicked(ItemModel model); 모델값을 넘길수 있음
         //다른버튼도 정의할 수 있음 onShareButtonClicked(int position);
     }
@@ -212,6 +207,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
 
     public void addAll2(List<Search_Item> lst){
         mDataList.clear();
+        mDataListAll.clear();
 //        mDataList.addAll(lst);
         items.addAll(lst);
         mDataListAll.addAll(lst);
@@ -221,12 +217,11 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
 
 
     public void addItemMore(List<Search_Item> lst){
+
         mDataList.addAll(lst);
-        items.addAll(lst);
         mDataListAll.addAll(lst);
         notifyItemRangeChanged(0,mDataList.size());
-        notifyItemRangeChanged(0,mDataListAll.size());
-        notifyItemRangeChanged(0,items.size());
+
     }
 
 

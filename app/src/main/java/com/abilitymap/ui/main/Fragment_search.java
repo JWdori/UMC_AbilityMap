@@ -18,7 +18,6 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.lifecycle.MutableLiveData;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -33,6 +32,8 @@ import com.abilitymap.ui.search.ItemViewModel;
 import com.naver.maps.geometry.LatLng;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class Fragment_search extends Fragment implements Search_ItemAdapter.onItemListener {
@@ -214,15 +215,18 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
         }
 
 
-
+        int a;
         @Override
-        public void onItemClicked(int position) {
-                Toast.makeText(getContext(), "" + itemList.get(0).getText1(), Toast.LENGTH_SHORT).show();
-                System.out.println(adapter.mDataList.get(0).getText1()+"ㅎㅇ1");
-                System.out.println(adapter.mDataListAll.get(0).getText1()+"ㅎㅇ2");
+        public void onItemClicked(String position) {
+                for (int i = 0; i<adapter.mDataList.size(); i++) {
+                        if(adapter.mDataList.get(i).getText1()==position){
+                                a=i;
+                        }
+                }
 
-                Double latitude = adapter.mDataListAll.get(position).getLat();
-                Double longitude = adapter.mDataListAll.get(position).getLng();
+
+                Double latitude = adapter.mDataList.get(a).getLat();
+                Double longitude = adapter.mDataList.get(a).getLng();
 
 
                 LatLng latLng = new LatLng(latitude,longitude);
