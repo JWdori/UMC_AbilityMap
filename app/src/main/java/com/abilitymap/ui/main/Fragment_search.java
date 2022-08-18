@@ -97,9 +97,11 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                 searchback.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
+                                ((MainActivity) getActivity()).bfragment=false;
                                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                                 fragmentManager.beginTransaction().remove(Fragment_search.this).commit();
                                 fragmentManager.popBackStack();
+
                         }
                 });
 
@@ -211,31 +213,6 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
 
         }
 
-        //다시 만들기 귀찮아서 일단 재활용
-        JsonApi_hos.hos_item findThisTotalMarkerItem(ArrayList<JsonApi_hos.hos_item> list) {
-                JsonApi_hos.hos_item selectedItem = null;
-                for (int i = 0; i < list.size(); i++) {
-                        JsonApi_hos.hos_item item = list.get(i);
-                                selectedItem = item;
-                }
-                return selectedItem;
-        }
-        JsonApi_fac.fac_item findThisFacilityMarkerItem(ArrayList<JsonApi_fac.fac_item> list) {
-                JsonApi_fac.fac_item selectedItem = null;
-                for (int i = 0; i < list.size(); i++) {
-                        JsonApi_fac.fac_item item = list.get(i);
-                        selectedItem = item;
-                }
-                return selectedItem;
-        }
-        JsonApi_charge.charge_item findThisChargerMarkerItem(ArrayList<JsonApi_charge.charge_item> list) {
-                JsonApi_charge.charge_item selectedItem = null;
-                for (int i = 0; i < list.size(); i++) {
-                        JsonApi_charge.charge_item item = list.get(i);
-                        selectedItem = item;
-                }
-                return selectedItem;
-        }
 
 
         @Override
@@ -250,7 +227,7 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
 
                 LatLng latLng = new LatLng(latitude,longitude);
                 viewModel.getSelectedLatLng().setValue(latLng);
-
+                ((MainActivity) getActivity()).bfragment=false;
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction().remove(Fragment_search.this).commit();
                 fragmentManager.popBackStack();

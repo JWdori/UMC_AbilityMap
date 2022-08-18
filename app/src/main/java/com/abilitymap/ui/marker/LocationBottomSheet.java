@@ -3,6 +3,7 @@ package com.abilitymap.ui.marker;
 import android.app.Activity;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -120,7 +121,6 @@ public class LocationBottomSheet extends BottomSheetDialogFragment implements Vi
     @Override
     public void onDismiss(DialogInterface dialog){
         super.onDismiss(dialog);
-
         if(temp){
             marker.setMap(null);
         }
