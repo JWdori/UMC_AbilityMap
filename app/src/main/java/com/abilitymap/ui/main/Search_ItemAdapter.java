@@ -230,9 +230,6 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
         this.isMoreLoading=isMoreLoading;
     }
 
-    private void showLoadingView(ProgressViewHolder holder, int position) {
-
-    }
 
 
     static class ProgressViewHolder extends ItemViewHolder {

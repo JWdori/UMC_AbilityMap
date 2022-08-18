@@ -227,7 +227,8 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
 
                 Double latitude = adapter.mDataList.get(a).getLat();
                 Double longitude = adapter.mDataList.get(a).getLng();
-
+                String name = adapter.mDataList.get(a).getText1();
+                //위치 중복이면 다른 마커 열림...
 
                 LatLng latLng = new LatLng(latitude,longitude);
                 viewModel.getSelectedLatLng().setValue(latLng);
