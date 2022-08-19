@@ -107,20 +107,18 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
         protected FilterResults performFiltering(CharSequence constraint) {
             List<Search_Item> filteredList = new ArrayList<>();
             if (constraint == null || constraint.length() == 0) {
-                filteredList.addAll(mDataListAll); //없을때
+
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (Search_Item item : mDataListAll) {
                     //TODO filter 대상 settingstr.replace(" ", "");
                     if (filterPattern.contains(" ")) {
                         String[] aa = filterPattern.split(" ");
-                        for (int i = 0; i < aa.length; i++) {
-                            if (item.getText2().toLowerCase().replace(" ", "").contains(aa[0]) ||
-                                    item.getText3().toLowerCase().replace(" ", "").contains(aa[i])) {
+                            if (item.getText2().toLowerCase().replace(" ", "").contains(aa[0]) &&
+                                    item.getText3().toLowerCase().replace(" ", "").contains(aa[1])) {
                                 filteredList.add(item);
                             }
 
-                        }
                     } else {
                         if (item.getText1().toLowerCase().replace(" ", "").contains(filterPattern) ||
                                 item.getText2().toLowerCase().replace(" ", "").contains(filterPattern) ||
@@ -129,6 +127,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
                         }
                     }
                 }
+            }
                 FilterResults results = new FilterResults();
                 results.values = filteredList;
                 return results;
@@ -136,7 +135,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
 
             //Automatic on UI thread
             @Override
-            protected void publishResults (CharSequence constraint, FilterResults results){
+            protected void publishResults(CharSequence constraint, FilterResults results) {
                 mDataList.clear();
                 mDataList.addAll((List) results.values);
                 notifyDataSetChanged();
