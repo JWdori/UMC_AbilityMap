@@ -231,7 +231,9 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                 //위치 중복이면 다른 마커 열림...
 
                 LatLng latLng = new LatLng(latitude,longitude);
+                viewModel.getSelectedName().setValue(name);
                 viewModel.getSelectedLatLng().setValue(latLng);
+
 
 
                 ((MainActivity) getActivity()).bfragment=false;

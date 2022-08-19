@@ -20,6 +20,7 @@ public interface SetMarker_facility extends Overlay.OnClickListener {
         marker.setMinZoom(13);//줌 설정
         switch(markerType){
             case "office": marker.setIcon(OverlayImage.fromResource(R.drawable.facility_office)); break;
+            case "phar":
             case "hos": marker.setIcon(OverlayImage.fromResource(R.drawable.hos_icon)); break;
             case "charge": marker.setIcon(OverlayImage.fromResource(R.drawable.charge_icon)); break;
             case "danger": marker.setIcon(OverlayImage.fromResource(R.drawable.dnager_red)); break;

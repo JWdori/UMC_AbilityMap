@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import com.abilitymap.ui.main.MainActivity;
 import com.google.gson.JsonSyntaxException;
+import com.naver.maps.geometry.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -191,6 +192,8 @@ public class JsonApi_danger extends AsyncTask<String, String, String> {
             return reportContent;
         }
         public String getReportImage() { return reportImage; }
+        public LatLng getLatLng() {return new LatLng(Double.parseDouble(lat),Double.parseDouble(lng));}
+
 
 
     }

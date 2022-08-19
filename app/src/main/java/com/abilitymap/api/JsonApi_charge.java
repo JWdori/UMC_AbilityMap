@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 
 import com.abilitymap.ui.main.MainActivity;
 import com.google.gson.JsonSyntaxException;
+import com.naver.maps.geometry.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -141,6 +142,8 @@ public class JsonApi_charge extends AsyncTask<String, String, String> {
         public String getWeek() { return week; }
         public String getWeekend() { return weekend; }
         public String getHoliday() { return holiday; }
+        public LatLng getLatLng() {return new LatLng(Double.parseDouble(lat),Double.parseDouble(lng));}
+
 
 
 
