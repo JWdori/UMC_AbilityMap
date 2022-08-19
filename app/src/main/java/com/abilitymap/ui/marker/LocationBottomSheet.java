@@ -155,7 +155,6 @@ public class LocationBottomSheet extends BottomSheetDialogFragment implements Vi
     }
 
     public void setName(String name){
-
         locationNameView.setText(name); }
     public void setLocationDetail(String location) {
         locationDetailView.setText(location);
