@@ -23,6 +23,13 @@ import androidx.fragment.app.Fragment;
 import com.abilitymap.R;
 import com.abilitymap.ui.main.MainActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
+import com.google.gson.GsonBuilder;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 public class DangerDetailSheet extends BottomSheetDialogFragment implements View.OnClickListener {
     private TextView dangerContentView;
@@ -153,10 +160,20 @@ public class DangerDetailSheet extends BottomSheetDialogFragment implements View
                     }
                 });
                 TextView yesButton = alertDialog.findViewById(R.id.change_yes_dialog);
+
+                Retrofit retrofit = new Retrofit.Builder()
+                        .baseUrl("http://3.35.237.29")
+                        .addConverterFactory(GsonConverterFactory.create())
+                        .build();
+
+                WrongReportService wrongReportService = retrofit.create(WrongReportService.class);
+
+
+
                 yesButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        //api로 전송코드
+
                         alertDialog.dismiss();
 
                         if(contentErrButton.isSelected()){
@@ -168,6 +185,24 @@ public class DangerDetailSheet extends BottomSheetDialogFragment implements View
                         } else if(otherButton.isSelected()){
                             wrong = 4;
                         }
+
+                        String reportIdx = "66";
+
+                        wrongReportService.patchReport(reportIdx, wrong)
+                                        .enqueue(new Callback<ReportPatchResponse>() {
+                                            @Override
+                                            public void onResponse(Call<ReportPatchResponse> call, Response<ReportPatchResponse> response) {
+                                                ReportPatchResponse resp = response.body();
+                                                // patch success
+
+                                            }
+
+                                            @Override
+                                            public void onFailure(Call<ReportPatchResponse> call, Throwable t) {
+                                                //patch error
+                                            }
+                                        });
+
 
                         System.out.println("wrong report code : "+wrong);
 
