@@ -40,6 +40,7 @@ import java.util.List;
 public class Fragment_search extends Fragment implements Search_ItemAdapter.onItemListener {
         ImageView searchback;
         SearchView searchView;
+        int a;
         private Search_ItemAdapter adapter;
         private List<Search_Item> list2;
         private boolean isLoading = false;
@@ -213,7 +214,6 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
         }
 
 
-        int a;
         @Override
         public void onItemClicked(String position) {
                 for (int i = 0; i<adapter.mDataList.size(); i++) {
