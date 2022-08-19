@@ -662,7 +662,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         for (int i = 0; i < list.size(); i++) {
             JsonApi_charge.charge_item item = list.get(i);
 
-            if (location.equals(item.getLatLng()) && name.equals(item.getName())) {
+            if (location.equals(item.getLatLng()) && name.equals(item.getLocation())) {
                 selectedItem = item;
             }
         }
