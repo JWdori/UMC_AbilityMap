@@ -164,6 +164,7 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
 
         private void loadData() {
                 itemList = new ArrayList<>();
+                itemList.clear();
                 String name;
                 String location;
                 String tag;
@@ -209,7 +210,6 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                         longitude = Double.parseDouble(item.getLng());
                         itemList.add(new Search_Item(R.drawable.facility_office, name, location, tag, latitude, longitude));
                 }
-
                 adapter.addAll2(itemList);
 
         }

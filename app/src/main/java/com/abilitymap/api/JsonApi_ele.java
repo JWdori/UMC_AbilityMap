@@ -47,7 +47,7 @@ public class JsonApi_ele extends AsyncTask<String, String, String> {
 
     private String GET(String x, String y) throws IOException {
 
-
+        MainActivity.ele_list.clear();
         String data = "";
         String myUrl3 = "http://3.35.237.29/get/elevator";
         try {

@@ -209,6 +209,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
         mDataList.clear();
         mDataListAll.clear();
 //        mDataList.addAll(lst);
+        items.clear();
         items.addAll(lst);
         mDataListAll.addAll(lst);
         notifyDataSetChanged();
