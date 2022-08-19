@@ -1,6 +1,7 @@
 package com.abilitymap.ui.main;
 
 import android.annotation.SuppressLint;
+import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +18,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.abilitymap.R;
+import com.naver.maps.map.internal.util.StringUtils;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,17 +116,16 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
         protected FilterResults performFiltering(CharSequence constraint) {
             List<Search_Item> filteredList = new ArrayList<>();
             if (constraint == null || constraint.length() == 0) {
-                filteredList.addAll(mDataListAll);
+                filteredList.addAll(mDataListAll); //없을때
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (Search_Item item : mDataListAll) {
-                    //TODO filter 대상 setting
-                    if (item.getText1().toLowerCase().contains(filterPattern)||
-                            item.getText2().toLowerCase().contains(filterPattern)||
-                            item.getText3().toLowerCase().contains(filterPattern)
-                    )
-
+                    //TODO filter 대상 settingstr.replace(" ", "");
+                    if (item.getText1().toLowerCase().replace(" ", "").contains(filterPattern)||
+                            item.getText2().toLowerCase().replace(" ", "").contains(filterPattern)||
+                            item.getText3().toLowerCase().replace(" ", "").contains(filterPattern))
                     {
+
                         filteredList.add(item);
                     }
                 }
@@ -197,9 +199,9 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
                     isMoreLoading = true;
                 }
 
-
             }
         });
+
     }
 
 

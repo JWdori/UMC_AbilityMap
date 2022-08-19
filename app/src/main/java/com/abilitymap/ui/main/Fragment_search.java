@@ -29,6 +29,7 @@ import com.abilitymap.api.JsonApi_fac;
 import com.abilitymap.api.JsonApi_hos;
 import com.abilitymap.api.JsonApi_phar;
 import com.abilitymap.ui.search.ItemViewModel;
+import com.abilitymap.ui.search.SpeedyLinearLayoutManager;
 import com.naver.maps.geometry.LatLng;
 
 import java.util.ArrayList;
@@ -74,13 +75,10 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
 
                 //
                 RecyclerView recyclerView = view.findViewById(R.id.search_result);
-
-
-
 //                recyclerView.setHasFixedSize(true);
                 LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
                 recyclerView.setLayoutManager(mLayoutManager);
-
+//               recyclerView.setLayoutManager(new SpeedyLinearLayoutManager(getContext(), SpeedyLinearLayoutManager.VERTICAL, false));
                 adapter = new Search_ItemAdapter(this.itemList);
                 adapter.setLinearLayoutManager(mLayoutManager);
 
