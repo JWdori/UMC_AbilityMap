@@ -140,7 +140,6 @@ public class DangerDetailSheet extends BottomSheetDialogFragment implements View
                     }
                 });
 
-
                 otherButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
@@ -208,7 +207,6 @@ public class DangerDetailSheet extends BottomSheetDialogFragment implements View
 
                     }
                 });
-
             }
         });
 

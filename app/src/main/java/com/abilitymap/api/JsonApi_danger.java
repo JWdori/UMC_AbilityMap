@@ -84,7 +84,6 @@ public class JsonApi_danger extends AsyncTask<String, String, String> {
                 );
 
                 MainActivity.danger_list.add(danger_item);
-                System.out.println(danger_item.reportImage+"ㅎㅇ");
 
             }
             startFlagForCoronaApi = false;
@@ -112,7 +111,7 @@ public class JsonApi_danger extends AsyncTask<String, String, String> {
             conn.setDoOutput(true);	// URL 연결을 출력용으로 사용(true)
 
             String requestBody = reportDetail;
-            System.out.println("requestBody:" + requestBody);
+
 
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
             bw.write(requestBody);

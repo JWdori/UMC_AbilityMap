@@ -1,7 +1,6 @@
 package com.abilitymap.ui.main;
 
 import android.annotation.SuppressLint;
-import android.os.Handler;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -23,23 +22,23 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.ItemViewHolder> implements Filterable {
-    private final int VIEW_ITEM = 1;
-    private final int VIEW_PROG = 0;
-    private List<Search_Item> mDataList;
-    private List<Search_Item> mDataListAll;
-    private List<Search_Item> rDataList;
-    int firstVisibleItem, visibleItemCount, totalItemCount, lastVisibleItem;
+    public final int VIEW_ITEM = 1;
+    public final int VIEW_PROG = 0;
+    public List<Search_Item> mDataList;
+    public List<Search_Item> mDataListAll;
+    int firstVisibleItem, visibleItemCount, totalItemCount, lastVisibleItem, scrollItem;
     public LinearLayoutManager mLinearLayoutManager;
     private onItemListener onLoadMoreListener;
     private int visibleThreshold = 1;
     private boolean isMoreLoading = false;
+    public List<Search_Item> items;
 
 
 
 
     public Search_ItemAdapter(List<Search_Item> itemList) {
-        this.onLoadMoreListener=onLoadMoreListener;
         mDataList = new ArrayList<>(itemList);
+        items = itemList;
         mDataListAll = new ArrayList<>(itemList);
     }
 
@@ -58,53 +57,44 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
 
     @Override
     public int getItemViewType(int position) {
-        return mDataList.get(position) != null ? VIEW_ITEM : VIEW_PROG;
+        return items.get(position) != null ? VIEW_ITEM : VIEW_PROG;
     }
 
     //1.onCreateViewHolder -------------------------------------------------------
     @NonNull
     @Override
     public ItemViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-
-
         if (viewType == VIEW_ITEM) {
             return new ItemViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.search_result, parent, false));
-        } else {
+        }else{
             return new ProgressViewHolder(LayoutInflater.from(parent.getContext()).inflate(R.layout.item_progress, parent, false));
-        }
 
+        }
     }
 
     //2.onBindViewHolder  -------------------------------------------------------
     @Override
-    public void onBindViewHolder(@NonNull final ItemViewHolder holder, @SuppressLint("RecyclerView") final int position) {
+    public void onBindViewHolder(final ItemViewHolder holder, @SuppressLint("RecyclerView") final int position) {
 
-
-        Search_Item currentItem = mDataList.get(position);
-//        if(currentItem==null){
-//            mDataList.remove(String.valueOf(null));
-//            currentItem = mDataList.get(position);
-//        }
-
-        // TODO : 데이터를 뷰홀더에 표시하시오
-        holder.imageView.setImageResource(currentItem.getImageResource());
-        holder.textView1.setText(currentItem.getText1());
-        holder.textView2.setText(currentItem.getText2());
-        holder.textView3.setText(currentItem.getText3());
-        // TODO : 리스너를 정의하시오.
         if (mListener != null){
             final int pos = position;
+            Search_Item currentItem = mDataList.get(position);
+            holder.imageView.setImageResource(currentItem.getImageResource());
+            holder.textView1.setText(currentItem.getText1());
+            holder.textView2.setText(currentItem.getText2());
+            holder.textView3.setText(currentItem.getText3());
             //final ItemModel item = mItems.get(viewHolder.getAdapterPosition());
             holder.itemView.setOnClickListener(new View.OnClickListener(){
                 @Override
                 public void onClick(View v) {
-                    mListener.onItemClicked(position);
+                    mListener.onItemClicked(currentItem.getText1());
                 }
             });
+
             //버튼등에도 동일하게 지정할 수 있음 holder.버튼이름.setOnClickListener..형식으로
         }
-    }
 
+    }
     //3.getItemCount  -------------------------------------------------------
     @Override
     public int getItemCount() {
@@ -122,7 +112,6 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<Search_Item> filteredList = new ArrayList<>();
-
             if (constraint == null || constraint.length() == 0) {
                 filteredList.addAll(mDataListAll);
             } else {
@@ -130,7 +119,11 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
                 for (Search_Item item : mDataListAll) {
                     //TODO filter 대상 setting
                     if (item.getText1().toLowerCase().contains(filterPattern)||
-                            item.getText2().toLowerCase().contains(filterPattern)) {
+                            item.getText2().toLowerCase().contains(filterPattern)||
+                            item.getText3().toLowerCase().contains(filterPattern)
+                    )
+
+                    {
                         filteredList.add(item);
                     }
                 }
@@ -176,7 +169,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
     //3.onBindViewHolder에서 처리
     public interface onItemListener {
         void onLoadMore();
-        void onItemClicked(int position);
+        void onItemClicked(String position);
         //void onItemClicked(ItemModel model); 모델값을 넘길수 있음
         //다른버튼도 정의할 수 있음 onShareButtonClicked(int position);
     }
@@ -185,22 +178,21 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
     public void setRecyclerView(RecyclerView mView){
         mView.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+            public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
-
                 visibleItemCount = recyclerView.getChildCount();
                 totalItemCount = mLinearLayoutManager.getItemCount();
                 firstVisibleItem = mLinearLayoutManager.findFirstVisibleItemPosition();
                 lastVisibleItem = mLinearLayoutManager.findLastVisibleItemPosition();
-                Log.d("total", totalItemCount + "");
-                Log.d("visible", visibleItemCount + "");
                 Log.d("first", firstVisibleItem + "");
                 Log.d("last", lastVisibleItem + "");
-
-                if (!isMoreLoading && lastVisibleItem%19==0) {
-                    Log.d("ㅎㅇ","에휴");
+                if (!isMoreLoading && (lastVisibleItem%20==0) && dy > 0 && scrollItem!=lastVisibleItem) {
                     if (mListener != null) {
+                        scrollItem = lastVisibleItem;
+                        recyclerView.suppressLayout(true);
                         mListener.onLoadMore();
+                        recyclerView.suppressLayout(false);
+
                     }
                     isMoreLoading = true;
                 }
@@ -215,17 +207,21 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
 
     public void addAll2(List<Search_Item> lst){
         mDataList.clear();
-        mDataList.addAll(lst);
+        mDataListAll.clear();
+//        mDataList.addAll(lst);
+        items.addAll(lst);
+        mDataListAll.addAll(lst);
         notifyDataSetChanged();
     }
 
 
 
     public void addItemMore(List<Search_Item> lst){
+
         mDataList.addAll(lst);
         mDataListAll.addAll(lst);
         notifyItemRangeChanged(0,mDataList.size());
-        notifyItemRangeChanged(0,mDataListAll.size());
+
     }
 
 
@@ -233,8 +229,6 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
     public void setMoreLoading(boolean isMoreLoading) {
         this.isMoreLoading=isMoreLoading;
     }
-
-
 
 
 
@@ -246,19 +240,5 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
         }
     }
 
-//    public void setProgressMore(final boolean isProgress) {
-//        if (isProgress) {
-//            new Handler().post(new Runnable() {
-//                @Override
-//                public void run() {
-//                    mDataList.add(null);
-//                    notifyItemInserted(mDataList.size() - 1);
-//                }
-//            });
-//        } else {
-//            mDataList.remove(mDataList.size() - 1);
-//            notifyItemRemoved(mDataList.size());
-//        }
-//    }
 
 }
