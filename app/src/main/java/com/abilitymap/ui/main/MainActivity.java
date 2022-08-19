@@ -267,7 +267,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String lat = String.valueOf(NaverMap.DEFAULT_CAMERA_POSITION.target.latitude);
         String lon = String.valueOf(NaverMap.DEFAULT_CAMERA_POSITION.target.longitude);
 
-
         JsonApi_hos hos_api = new JsonApi_hos();
         JsonApi_bike bike_api = new JsonApi_bike();
         JsonApi_slope slope_api = new JsonApi_slope();
@@ -278,7 +277,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         JsonApi_fac fac_api = new JsonApi_fac();
         JsonApi_lift lift_api = new JsonApi_lift();
         JsonApi_phar phar_api = new JsonApi_phar();
-
 
         hos_api.execute(lat, lon, "");
         bike_api.execute(lat, lon, "");
@@ -405,7 +403,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         marker.setMinZoom(13);//줌 설정
         switch(markerType){
             case "office": marker.setIcon(OverlayImage.fromResource(R.drawable.facility_office)); break;
-            case "phar":
+            case "phar": marker.setIcon(OverlayImage.fromResource(R.drawable.hos_icon)); break;
             case "hos": marker.setIcon(OverlayImage.fromResource(R.drawable.hos_icon)); break;
             case "charge": marker.setIcon(OverlayImage.fromResource(R.drawable.charge_icon)); break;
             case "danger": marker.setIcon(OverlayImage.fromResource(R.drawable.dnager_red)); break;

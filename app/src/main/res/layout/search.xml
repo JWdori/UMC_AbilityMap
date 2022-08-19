@@ -55,7 +55,7 @@
                 app:layout_constraintLeft_toRightOf="@id/search_back"
                 app:layout_constraintTop_toTopOf="parent"
                 app:queryBackground="@android:color/transparent"
-                app:queryHint="장소 검색"
+                app:queryHint="주소는 공백 없이 입력해주세요"
                 app:searchIcon="@null" />
 
 

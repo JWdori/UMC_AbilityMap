@@ -107,8 +107,8 @@ public class JsonApi_danger extends AsyncTask<String, String, String> {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST"); // 전송 방식
             conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
-            conn.setConnectTimeout(5000); // 연결 타임아웃 설정(5초)
-            conn.setReadTimeout(5000); // 읽기 타임아웃 설정(5초)
+            conn.setConnectTimeout(10000); // 연결 타임아웃 설정(5초)
+            conn.setReadTimeout(10000); // 읽기 타임아웃 설정(5초)
             conn.setDoOutput(true);	// URL 연결을 출력용으로 사용(true)
 
             String requestBody = reportDetail;

@@ -29,6 +29,7 @@ import com.abilitymap.api.JsonApi_fac;
 import com.abilitymap.api.JsonApi_hos;
 import com.abilitymap.api.JsonApi_phar;
 import com.abilitymap.ui.search.ItemViewModel;
+import com.abilitymap.ui.search.SpeedyLinearLayoutManager;
 import com.naver.maps.geometry.LatLng;
 
 import java.util.ArrayList;
@@ -39,6 +40,7 @@ import java.util.List;
 public class Fragment_search extends Fragment implements Search_ItemAdapter.onItemListener {
         ImageView searchback;
         SearchView searchView;
+        int a;
         private Search_ItemAdapter adapter;
         private List<Search_Item> list2;
         private boolean isLoading = false;
@@ -74,13 +76,10 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
 
                 //
                 RecyclerView recyclerView = view.findViewById(R.id.search_result);
-
-
-
 //                recyclerView.setHasFixedSize(true);
                 LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
                 recyclerView.setLayoutManager(mLayoutManager);
-
+//               recyclerView.setLayoutManager(new SpeedyLinearLayoutManager(getContext(), SpeedyLinearLayoutManager.VERTICAL, false));
                 adapter = new Search_ItemAdapter(this.itemList);
                 adapter.setLinearLayoutManager(mLayoutManager);
 
@@ -164,6 +163,7 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
 
         private void loadData() {
                 itemList = new ArrayList<>();
+                itemList.clear();
                 String name;
                 String location;
                 String tag;
@@ -209,13 +209,11 @@ public class Fragment_search extends Fragment implements Search_ItemAdapter.onIt
                         longitude = Double.parseDouble(item.getLng());
                         itemList.add(new Search_Item(R.drawable.facility_office, name, location, tag, latitude, longitude));
                 }
-
                 adapter.addAll2(itemList);
 
         }
 
 
-        int a;
         @Override
         public void onItemClicked(String position) {
                 for (int i = 0; i<adapter.mDataList.size(); i++) {

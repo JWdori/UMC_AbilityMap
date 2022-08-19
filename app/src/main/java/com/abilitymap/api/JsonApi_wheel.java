@@ -47,7 +47,7 @@ public class JsonApi_wheel extends AsyncTask<String, String, String> {
 
     private String GET(String x, String y) throws IOException {
 
-
+        MainActivity.wheel_list.clear();
         String data = "";
         String myUrl3 = "http://3.35.237.29/get/school";
         try {
