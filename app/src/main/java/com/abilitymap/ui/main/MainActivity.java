@@ -304,14 +304,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         final Observer<LatLng> searchObserver = new Observer<LatLng>() {
             @Override
             public void onChanged(LatLng latLng) {
-                showBottomSheet(latLng);
-
+                System.out.println(viewModel.getSelectedName().getValue());
+                showBottomSheet(latLng,viewModel.getSelectedName().getValue());
             }
         };
         viewModel.getSelectedLatLng().observe(this,searchObserver);
     }
 
-    private void showBottomSheet(LatLng latLng) {
+    private void showBottomSheet(LatLng latLng,String selectedName) {
         String name;
         String location;
         String week;
@@ -324,9 +324,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         //클릭이벤트가 일어난 마커가 어느 타입인지 search
-        if(findThisChargerMarkerItem(latLng, charge_list)!=null)
+        if(findSearchChargerMarkerItem(latLng,selectedName,charge_list)!=null)
         {
-            JsonApi_charge.charge_item selectedChargeItem = findThisChargerMarkerItem(latLng, charge_list);
+            JsonApi_charge.charge_item selectedChargeItem = findSearchChargerMarkerItem(latLng,selectedName,charge_list);
             location = selectedChargeItem.getLocation();
             week = selectedChargeItem.getWeek();
             weekend = selectedChargeItem.getWeekend();
@@ -339,9 +339,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.3f)).animate(CameraAnimation.Easing);
         }
-        else if(findThisTotalMarkerItem(latLng, hos_list)!=null)
+        else if(findSearchHosMarkerItem(latLng,selectedName,hos_list)!=null)
         {
-            JsonApi_hos.hos_item selectedTotalItem = findThisTotalMarkerItem(latLng, hos_list);
+            JsonApi_hos.hos_item selectedTotalItem = findSearchHosMarkerItem(latLng,selectedName,hos_list);
             name = selectedTotalItem.getName();
             location = selectedTotalItem.getLocation();
             week = selectedTotalItem.getWeek();
@@ -357,8 +357,8 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.25f)).animate(CameraAnimation.Easing);
 
         }
-        else if(findThisFacilityMarkerItem(latLng,fac_list)!=null) {
-            JsonApi_fac.fac_item selectedFacilityItem = findThisFacilityMarkerItem(latLng, fac_list);
+        else if(findSearchFacilityMarkerItem(latLng,selectedName,fac_list)!=null) {
+            JsonApi_fac.fac_item selectedFacilityItem = findSearchFacilityMarkerItem(latLng,selectedName,fac_list);
             name = selectedFacilityItem.getName();
             location = selectedFacilityItem.getLocation();
             week = selectedFacilityItem.getWeek();
@@ -373,7 +373,22 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Easing);
         }
+        else if(findSearchPharmacyMarkerItem(latLng,selectedName,phar_list)!=null) {
+            JsonApi_phar.phar_item selectedPharItem = findSearchPharmacyMarkerItem(latLng,selectedName,phar_list);
+            name = selectedPharItem.getName();
+            location = selectedPharItem.getLocation();
+            week = selectedPharItem.getWeek();
+            weekend = selectedPharItem.getWeekend();
+            holiday = selectedPharItem.getHoliday();
+            phone = selectedPharItem.getPhone();
 
+            Marker tempMarker = printTempMarker(latLng,"phar");
+
+            System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
+            infoFragment = new LocationBottomSheet("phar", name, location, week, holiday, phone, tempMarker, true);
+
+            cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Easing);
+        }
 
         infoFragment.show(getSupportFragmentManager(),"infoFragment");
 
@@ -390,6 +405,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         marker.setMinZoom(13);//줌 설정
         switch(markerType){
             case "office": marker.setIcon(OverlayImage.fromResource(R.drawable.facility_office)); break;
+            case "phar":
             case "hos": marker.setIcon(OverlayImage.fromResource(R.drawable.hos_icon)); break;
             case "charge": marker.setIcon(OverlayImage.fromResource(R.drawable.charge_icon)); break;
             case "danger": marker.setIcon(OverlayImage.fromResource(R.drawable.dnager_red)); break;
@@ -458,7 +474,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             String nickName = selectedDangerItem.getNickName();
             String serverReportDate = selectedDangerItem.getReportDate();
             String reportImage = selectedDangerItem.getReportImage();
+            String reportIdx = selectedDangerItem.getIndex();
             System.out.println("리스트 검색 결과 : " + reportContent + "," + nickName + "," + serverReportDate);
+            System.out.println("위험지역 인덱스 번호 : "+reportIdx);
 
             //수정요청 관리자 <- 참고해서, 메인 앱에서 수정요청 패치 보내는법 (안되면 @곽정아)
             //검색을 좀 해볼테니,,,가까운 위치의 데이터가 먼저 뜨는거
@@ -470,7 +488,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             clientReportDate = odtTruncatedToWholeSecond.format(DateTimeFormatter.ofPattern("yyyy/MM/dd'T'HH:mm")).replace("T", " ");
 
             String tag = String.valueOf(overlay.getTag());
-            dangerInfoFragment = new DangerDetailSheet(tag, reportContent, clientReportDate, nickName, reportImage);
+            dangerInfoFragment = new DangerDetailSheet(tag, reportContent, clientReportDate, nickName, reportImage, reportIdx);
             dangerInfoFragment.show(getSupportFragmentManager(),"dangerInfoSheet");
 
 //            repot_message.setVisibility(View.INVISIBLE);
@@ -510,14 +528,29 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.3f)).animate(CameraAnimation.Easing);
 
                     break;
+                case "phar":
+                    JsonApi_phar.phar_item selectedPharItem = findThisPharmacyMarkerItem(((Marker) overlay).getPosition(), phar_list);
+                    name = selectedPharItem.getName();
+                    location = selectedPharItem.getLocation();
+                    week = selectedPharItem.getWeek();
+                    weekend = selectedPharItem.getWeekend();
+                    holiday = selectedPharItem.getHoliday();
+                    phone = selectedPharItem.getPhone();
+
+                    System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
+                    infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone, (Marker) overlay);
+
+                    cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.25f)).animate(CameraAnimation.Easing);
+
+                    break;
                 case "hos":
-                    JsonApi_hos.hos_item selectedTotalItem = findThisTotalMarkerItem(((Marker) overlay).getPosition(), hos_list);
-                    name = selectedTotalItem.getName();
-                    location = selectedTotalItem.getLocation();
-                    week = selectedTotalItem.getWeek();
-                    weekend = selectedTotalItem.getWeekend();
-                    holiday = selectedTotalItem.getHoliday();
-                    phone = selectedTotalItem.getPhone();
+                    JsonApi_hos.hos_item selectedHosItem = findThisHosMarkerItem(((Marker) overlay).getPosition(), hos_list);
+                    name = selectedHosItem.getName();
+                    location = selectedHosItem.getLocation();
+                    week = selectedHosItem.getWeek();
+                    weekend = selectedHosItem.getWeekend();
+                    holiday = selectedHosItem.getHoliday();
+                    phone = selectedHosItem.getPhone();
 
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
                     infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone, (Marker) overlay);
@@ -555,28 +588,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-    JsonApi_charge.charge_item findThisChargerMarkerItem(LatLng location, ArrayList<JsonApi_charge.charge_item> list) {
-        String thisLat = String.valueOf(location.latitude);
-        String thisLng = String.valueOf(location.longitude);
+    JsonApi_charge.charge_item findThisChargerMarkerItem(LatLng location,ArrayList<JsonApi_charge.charge_item> list) {
         JsonApi_charge.charge_item selectedItem = null;
 
         for (int i = 0; i < list.size(); i++) {
             JsonApi_charge.charge_item item = list.get(i);
-            if (thisLat.equals(item.getLat()) && thisLng.equals(item.getLng())) {
+            if (location.equals(item.getLatLng())) {
                 selectedItem = item;
             }
         }
         return selectedItem;
     }
 
-    JsonApi_hos.hos_item findThisTotalMarkerItem(LatLng location, ArrayList<JsonApi_hos.hos_item> list) {
-        String thisLat = String.valueOf(location.latitude);
-        String thisLng = String.valueOf(location.longitude);
+    JsonApi_hos.hos_item findThisHosMarkerItem(LatLng location, ArrayList<JsonApi_hos.hos_item> list) {
         JsonApi_hos.hos_item selectedItem = null;
 
         for (int i = 0; i < list.size(); i++) {
             JsonApi_hos.hos_item item = list.get(i);
-            if (thisLat.equals(item.getLat()) && thisLng.equals(item.getLng())) {
+            if (location.equals(item.getLatLng())) {
                 selectedItem = item;
                 System.out.println("total item found!");
             }
@@ -585,13 +614,24 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
     JsonApi_fac.fac_item findThisFacilityMarkerItem(LatLng location, ArrayList<JsonApi_fac.fac_item> list) {
-        String thisLat = String.valueOf(location.latitude);
-        String thisLng = String.valueOf(location.longitude);
         JsonApi_fac.fac_item selectedItem = null;
 
         for (int i = 0; i < list.size(); i++) {
             JsonApi_fac.fac_item item = list.get(i);
-            if (thisLat.equals(item.getLat()) && thisLng.equals(item.getLng())) {
+            if (location.equals(item.getLatLng())) {
+                selectedItem = item;
+                System.out.println("facility item found!");
+            }
+        }
+        return selectedItem;
+    }
+
+    JsonApi_phar.phar_item findThisPharmacyMarkerItem(LatLng location, ArrayList<JsonApi_phar.phar_item> list) {
+        JsonApi_phar.phar_item selectedItem = null;
+
+        for (int i = 0; i < list.size(); i++) {
+            JsonApi_phar.phar_item  item = list.get(i);
+            if (location.equals(item.getLatLng())) {
                 selectedItem = item;
                 System.out.println("facility item found!");
             }
@@ -607,13 +647,70 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         for (int i = 0; i < list.size(); i++) {
             JsonApi_danger.danger_item item = list.get(i);
             System.out.println(i + "," + item + ", Lat : " + item.getLat() + "Lng : " + item.getLng());
-            if (thisLat.equals(item.getLat()) && thisLng.equals(item.getLng())) {
+            if (location.equals(item.getLatLng())) {
                 selectedItem = item;
                 System.out.println("danger item found!");
             }
         }
         return selectedItem;
     }
+
+
+    JsonApi_charge.charge_item findSearchChargerMarkerItem(LatLng location,String name, ArrayList<JsonApi_charge.charge_item> list) {
+        JsonApi_charge.charge_item selectedItem = null;
+
+        for (int i = 0; i < list.size(); i++) {
+            JsonApi_charge.charge_item item = list.get(i);
+
+            if (location.equals(item.getLatLng()) && name.equals(item.getName())) {
+                selectedItem = item;
+            }
+        }
+        return selectedItem;
+    }
+
+    JsonApi_hos.hos_item findSearchHosMarkerItem(LatLng location,String name, ArrayList<JsonApi_hos.hos_item> list) {
+        JsonApi_hos.hos_item selectedItem = null;
+
+        for (int i = 0; i < list.size(); i++) {
+            JsonApi_hos.hos_item item = list.get(i);
+            if (location.equals(item.getLatLng()) && name.equals(item.getName())) {
+                selectedItem = item;
+                System.out.println("total item found!");
+            }
+        }
+        return selectedItem;
+    }
+
+    JsonApi_fac.fac_item findSearchFacilityMarkerItem(LatLng location,String name, ArrayList<JsonApi_fac.fac_item> list) {
+        JsonApi_fac.fac_item selectedItem = null;
+
+        for (int i = 0; i < list.size(); i++) {
+            JsonApi_fac.fac_item item = list.get(i);
+            if (location.equals(item.getLatLng()) && name.equals(item.getName())) {
+                selectedItem = item;
+                System.out.println("facility item found!");
+            }
+        }
+        return selectedItem;
+    }
+
+    JsonApi_phar.phar_item findSearchPharmacyMarkerItem(LatLng location,String name, ArrayList<JsonApi_phar.phar_item> list) {
+        JsonApi_phar.phar_item selectedItem = null;
+
+        for (int i = 0; i < list.size(); i++) {
+            JsonApi_phar.phar_item  item = list.get(i);
+            if (location.equals(item.getLatLng()) && name.equals(item.getName())) {
+                selectedItem = item;
+                System.out.println("pharmacy item found!");
+            }
+        }
+        return selectedItem;
+    }
+
+
+
+
 
 
     @Override
@@ -724,7 +821,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         Address address = addresses.get(0);
 
-        return address.getAddressLine(0).toString();
+        return address.getAddressLine(0);
     }
 
 
@@ -863,7 +960,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         naverMap.setLocationTrackingMode(LocationTrackingMode.Follow);
 
 
-        final TextView location_text = (TextView) findViewById(R.id.location_text);
+        final TextView location_text = findViewById(R.id.location_text);
 
 
 
@@ -1385,7 +1482,7 @@ private void cameraDialog(){
     private void setMarker_phar() {
         for (int i = 0; i < phar_list.size(); i++) {
             JsonApi_phar.phar_item item = phar_list.get(i);
-            setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "hos", naverMap);
+            setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "phar", naverMap);
         }
         return;
     }

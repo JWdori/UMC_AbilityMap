@@ -31,6 +31,7 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+
 public class DangerDetailSheet extends BottomSheetDialogFragment implements View.OnClickListener {
     private TextView dangerContentView;
     private TextView dangerNicknameView;
@@ -42,7 +43,9 @@ public class DangerDetailSheet extends BottomSheetDialogFragment implements View
     String cReportDate = "default";     //클라이언트에 띄울 제보시간
     String nickName = "default";
     String reportImage = "default";
+    String reportIdx = "default";
     Integer wrong = 0;
+
 
     public DangerDetailSheet(){
     }
@@ -54,11 +57,13 @@ public class DangerDetailSheet extends BottomSheetDialogFragment implements View
         this.nickName = nickName;
     }
     public DangerDetailSheet(String tag, String reportContent,
-                                String cReportDate, String nickName, String reportImage){
+                             String cReportDate, String nickName,
+                             String reportImage, String reportIdx){
         this.reportContent = reportContent;
         this.cReportDate = cReportDate;
         this.nickName = nickName;
         this.reportImage = reportImage;
+        this.reportIdx = reportIdx;
     }
 
 
@@ -185,7 +190,7 @@ public class DangerDetailSheet extends BottomSheetDialogFragment implements View
                             wrong = 4;
                         }
 
-                        String reportIdx = "66";
+                        //String reportIdx = "66";
 
                         wrongReportService.patchReport(reportIdx, wrong)
                                         .enqueue(new Callback<ReportPatchResponse>() {

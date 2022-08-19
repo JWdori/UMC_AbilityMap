@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.abilitymap.ui.main.MainActivity;
 import com.google.gson.JsonSyntaxException;
+import com.naver.maps.geometry.LatLng;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -126,7 +127,6 @@ public class JsonApi_hos extends AsyncTask<String, String, String> {
         private String phone;   //전화번호
 
 
-
         public hos_item(String lat, String lng, String name, String location, String phone, String mono, String monc, String tueo, String tuec, String wedo, String wedc, String thuo, String thuc, String frio, String fric, String sato, String satc, String suno, String sunc, String holo, String holc) {
             this.lat = lat;
             this.lng = lng;
@@ -163,6 +163,8 @@ public class JsonApi_hos extends AsyncTask<String, String, String> {
         public String getWeekend() { return weekend; }
         public String getHoliday() { return holiday; }
         public String getPhone() { return phone; }
+        public LatLng getLatLng() {return new LatLng(Double.parseDouble(lat),Double.parseDouble(lng));}
+
 
 
 

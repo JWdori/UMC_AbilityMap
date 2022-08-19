@@ -145,6 +145,9 @@ public class LocationBottomSheet extends BottomSheetDialogFragment implements Vi
                 name = "전동휠체어 급속 충전기";
                 finalPhone = " ";
                 break;
+            case "phar":
+                category = "약국";
+                break;
             default:
                 throw new IllegalStateException("Unexpected value: " + key);
         }
