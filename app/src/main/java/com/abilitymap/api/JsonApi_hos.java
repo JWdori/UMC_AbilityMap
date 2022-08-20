@@ -47,6 +47,8 @@ public class JsonApi_hos extends AsyncTask<String, String, String> {
     }
 
     private String GET(String x, String y) throws IOException {
+
+
         String data = "";
         String myUrl3 = "http://3.35.237.29/get/medical";
         try {
