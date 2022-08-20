@@ -1,7 +1,6 @@
-package com.abilitymap.ui.main;
+package com.abilitymap.ui.search;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -115,7 +114,8 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
                     if (filterPattern.contains(" ")) {
                         String[] aa = filterPattern.split(" ");
                             if (item.getText2().toLowerCase().replace(" ", "").contains(aa[0]) &&
-                                    item.getText3().toLowerCase().replace(" ", "").contains(aa[1])) {
+                                    (item.getText2().toLowerCase().replace(" ", "").contains(aa[1])||
+                                            item.getText3().toLowerCase().replace(" ", "").contains(aa[1]))) {
                                 filteredList.add(item);
                             }
 

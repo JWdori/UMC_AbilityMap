@@ -1,4 +1,4 @@
-package com.abilitymap.ui.main;
+package com.abilitymap.ui.search;
 
 public class Search_Item {
 

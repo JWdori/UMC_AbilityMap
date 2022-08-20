@@ -1,4 +1,4 @@
-package com.abilitymap.ui.main;
+package com.abilitymap.ui.search;
 import static com.abilitymap.ui.main.MainActivity.charge_list;
 import static com.abilitymap.ui.main.MainActivity.fac_list;
 import static com.abilitymap.ui.main.MainActivity.hos_list;
@@ -13,7 +13,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,13 +27,10 @@ import com.abilitymap.api.JsonApi_charge;
 import com.abilitymap.api.JsonApi_fac;
 import com.abilitymap.api.JsonApi_hos;
 import com.abilitymap.api.JsonApi_phar;
-import com.abilitymap.ui.search.ItemViewModel;
-import com.abilitymap.ui.search.SpeedyLinearLayoutManager;
+import com.abilitymap.ui.main.MainActivity;
 import com.naver.maps.geometry.LatLng;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 public class Fragment_search extends Fragment implements Search_ItemAdapter.onItemListener {

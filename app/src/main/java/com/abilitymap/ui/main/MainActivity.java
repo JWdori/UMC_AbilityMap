@@ -69,6 +69,7 @@ import com.abilitymap.ui.emergencyCall.EmergencyCallActivity;
 import com.abilitymap.ui.menuBook.MenuBookActivity;
 import com.abilitymap.ui.notification.NotificationActivity;
 import com.abilitymap.ui.oss.OssActivity;
+import com.abilitymap.ui.search.Fragment_search;
 import com.abilitymap.ui.search.ItemViewModel;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
