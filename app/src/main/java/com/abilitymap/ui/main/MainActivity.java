@@ -165,6 +165,31 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) { //화면 생성과 함께 현재 위치 받아옴.
+        String lat = String.valueOf(NaverMap.DEFAULT_CAMERA_POSITION.target.latitude);
+        String lon = String.valueOf(NaverMap.DEFAULT_CAMERA_POSITION.target.longitude);
+
+        JsonApi_hos hos_api = new JsonApi_hos();
+        JsonApi_bike bike_api = new JsonApi_bike();
+        JsonApi_slope slope_api = new JsonApi_slope();
+        JsonApi_charge charge_api = new JsonApi_charge();
+        JsonApi_danger danger_api = new JsonApi_danger();
+        JsonApi_ele ele_api = new JsonApi_ele();
+        JsonApi_wheel wheel_api = new JsonApi_wheel();
+        JsonApi_fac fac_api = new JsonApi_fac();
+        JsonApi_lift lift_api = new JsonApi_lift();
+        JsonApi_phar phar_api = new JsonApi_phar();
+
+
+        hos_api.execute(lat, lon, "");
+        bike_api.execute(lat, lon, "");
+        charge_api.execute(lat, lon, "");
+        slope_api.execute(lat, lon, "");
+        danger_api.execute(lat, lon, "");
+        ele_api.execute(lat, lon, "");
+        wheel_api.execute(lat, lon, "");
+        fac_api.execute(lat, lon, "");
+        lift_api.execute(lat, lon, "");
+        phar_api.execute(lat, lon, "");
         SharedPreferences first_open = getSharedPreferences("first_open", MODE_PRIVATE);
         Boolean isFirst = first_open.getBoolean("first_open", true);
         if (isFirst) {
@@ -264,31 +289,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         }
                     }
                 });
-        String lat = String.valueOf(NaverMap.DEFAULT_CAMERA_POSITION.target.latitude);
-        String lon = String.valueOf(NaverMap.DEFAULT_CAMERA_POSITION.target.longitude);
-
-        JsonApi_hos hos_api = new JsonApi_hos();
-        JsonApi_bike bike_api = new JsonApi_bike();
-        JsonApi_slope slope_api = new JsonApi_slope();
-        JsonApi_charge charge_api = new JsonApi_charge();
-        JsonApi_danger danger_api = new JsonApi_danger();
-        JsonApi_ele ele_api = new JsonApi_ele();
-        JsonApi_wheel wheel_api = new JsonApi_wheel();
-        JsonApi_fac fac_api = new JsonApi_fac();
-        JsonApi_lift lift_api = new JsonApi_lift();
-        JsonApi_phar phar_api = new JsonApi_phar();
-
-        hos_api.execute(lat, lon, "");
-        bike_api.execute(lat, lon, "");
-        charge_api.execute(lat, lon, "");
-        slope_api.execute(lat, lon, "");
-        danger_api.execute(lat, lon, "");
-        ele_api.execute(lat, lon, "");
-        wheel_api.execute(lat, lon, "");
-        fac_api.execute(lat, lon, "");
-        lift_api.execute(lat, lon, "");
-        phar_api.execute(lat, lon, "");
-
 
 //        new Thread(() -> {
 //            setUpMap(); // network 동작, 인터넷에서 xml을 받아오는 코드
@@ -467,10 +467,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         if (overlay instanceof Marker && String.valueOf(overlay.getTag()).equals("danger")) {
             if (findThisDangerMarkerItem(((Marker) overlay).getPosition(), danger_list)==null){
-                System.out.println("ㅎㅇㅎㅇ");
-                return true;
+                Toast.makeText(getApplicationContext(), "삭제된 마커입니다.\n앱을 다시 실행해주세요!", Toast.LENGTH_SHORT).show();
+                return false;
             }else {
-                System.out.println("ㅎㅇㅎㅇ2");
                 JsonApi_danger.danger_item selectedDangerItem = findThisDangerMarkerItem(((Marker) overlay).getPosition(), danger_list);
                 String reportContent = selectedDangerItem.getReportContent();
                 String nickName = selectedDangerItem.getNickName();
@@ -708,9 +707,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         return selectedItem;
     }
-
-
-
 
 
 

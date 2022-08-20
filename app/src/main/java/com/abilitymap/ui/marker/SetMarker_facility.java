@@ -24,6 +24,7 @@ public interface SetMarker_facility extends Overlay.OnClickListener {
             case "hos": marker.setIcon(OverlayImage.fromResource(R.drawable.hos_icon)); break;
             case "charge": marker.setIcon(OverlayImage.fromResource(R.drawable.charge_icon)); break;
             case "danger": marker.setIcon(OverlayImage.fromResource(R.drawable.dnager_red)); break;
+            case "널임": marker.setIcon(OverlayImage.fromResource(0)); break;
         }
         marker.setMap(naverMap);
         marker.setTag(markerType);
