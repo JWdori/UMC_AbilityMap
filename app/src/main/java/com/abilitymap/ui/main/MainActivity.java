@@ -899,7 +899,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         SharedPreferences lift10 = getSharedPreferences("lift10", Activity.MODE_PRIVATE);
         SharedPreferences phar11 = getSharedPreferences("phar11", Activity.MODE_PRIVATE);
 
-
         if (total1.getBoolean("total", true)) {
             setMarker_hos(); //병원
             drawMarker_bike();
@@ -911,37 +910,65 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             drawMarker_wheel();
             setMarker_fac();
             setMarker_phar();
+            System.out.println(hos_list.size()+"왜2");
+            System.out.println(phar_list.size()+"왜2");
+            hos_list.clear();
+            fac_list.clear();
+            charge_list.clear();
+            wheel_list.clear();
+          ele_list.clear();
+            bike_list.clear();
+            slope_list.clear();
+            danger_list.clear();
+            lift_list.clear();
+            phar_list.clear();
         } else {
+
             if (hos2.getBoolean("total", true)) {
                 setMarker_hos(); //병원
+                System.out.println(hos_list.size()+"왜");
+                System.out.println(phar_list.size()+"왜");
+                hos_list.clear();
             }
             if (fac3.getBoolean("total", true)) {
                 setMarker_fac();
+                fac_list.clear();
             }
             if (charge4.getBoolean("total", true)) {
                 setMarker_Charge();
+                charge_list.clear();
             }
             if (wheel5.getBoolean("total", true)) {
                 drawMarker_wheel();
+                wheel_list.clear();
             }
             if (ele6.getBoolean("total", true)) {
                 drawMarker_ele();
+                ele_list.clear();
             }
             if (lift10.getBoolean("total", true)) {
                 drawMarker_lift();
+                lift_list.clear();
             }
             if (bike7.getBoolean("total", true)) {
                 drawMarker_bike();
+                bike_list.clear();
             }
             if (slope8.getBoolean("total", true)) {
                 drawMarker_slope();
+                slope_list.clear();
             }
             if (danger9.getBoolean("total", true)) {
                 setMarker_danger();
+                danger_list.clear();
             }
             if (phar11.getBoolean("phar", true)) {
                 setMarker_phar();
+                phar_list.clear();
             }
+
+
+
         }
 
         //충전기
