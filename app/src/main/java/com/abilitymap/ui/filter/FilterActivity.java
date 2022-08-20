@@ -170,7 +170,7 @@ public class FilterActivity extends AppCompatActivity {
         if ((hos2.getBoolean("total",true))&&(fac3.getBoolean("total",true))&&(charge4.getBoolean("total",true))
                 &&(wheel5.getBoolean("total",true))&&(ele6.getBoolean("total",true))&&(bike7.getBoolean("total",true))
                 &&(slope8.getBoolean("total",true))&&(danger9.getBoolean("total",true))&&(lift10.getBoolean("total",true))
-        &&(phar11.getBoolean("total",true))){
+                &&(phar11.getBoolean("total",true))){
             labeledSwitch_total1.setOn(true);
         }else{
             labeledSwitch_total1.setOn(false);
@@ -856,7 +856,6 @@ public class FilterActivity extends AppCompatActivity {
 
 
     private void Filter_save() {
-        SharedPreferences total1 = getSharedPreferences("total", Activity.MODE_PRIVATE);
         MainActivity firstActivity = (MainActivity) MainActivity.firstActivity;
         filter_button = findViewById(R.id.button_filter);
         filter_button.setOnClickListener(new View.OnClickListener() {

@@ -1,4 +1,4 @@
-package com.abilitymap.ui.main;
+package com.abilitymap.ui.search;
 
 import android.annotation.SuppressLint;
 import android.util.Log;
@@ -10,17 +10,12 @@ import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-
 import com.abilitymap.R;
-
 import java.util.ArrayList;
 import java.util.List;
-
 public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.ItemViewHolder> implements Filterable {
     public final int VIEW_ITEM = 1;
     public final int VIEW_PROG = 0;
@@ -102,45 +97,50 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
     }
 
     // 데이터 필터 검색 Filterable implement ---------------------------------
-    @Override
     public Filter getFilter() {
         return exampleFilter;
     }
-
     private Filter exampleFilter = new Filter() {
         //Automatic on background thread
         @Override
         protected FilterResults performFiltering(CharSequence constraint) {
             List<Search_Item> filteredList = new ArrayList<>();
             if (constraint == null || constraint.length() == 0) {
-                filteredList.addAll(mDataListAll);
+
             } else {
                 String filterPattern = constraint.toString().toLowerCase().trim();
                 for (Search_Item item : mDataListAll) {
-                    //TODO filter 대상 setting
-                    if (item.getText1().toLowerCase().contains(filterPattern)||
-                            item.getText2().toLowerCase().contains(filterPattern)||
-                            item.getText3().toLowerCase().contains(filterPattern)
-                    )
+                    //TODO filter 대상 settingstr.replace(" ", "");
+                    if (filterPattern.contains(" ")) {
+                        String[] aa = filterPattern.split(" ");
+                            if (item.getText2().toLowerCase().replace(" ", "").contains(aa[0]) &&
+                                    (item.getText2().toLowerCase().replace(" ", "").contains(aa[1])||
+                                            item.getText3().toLowerCase().replace(" ", "").contains(aa[1]))) {
+                                filteredList.add(item);
+                            }
 
-                    {
-                        filteredList.add(item);
+                    } else {
+                        if (item.getText1().toLowerCase().replace(" ", "").contains(filterPattern) ||
+                                item.getText2().toLowerCase().replace(" ", "").contains(filterPattern) ||
+                                item.getText3().toLowerCase().replace(" ", "").contains(filterPattern)) {
+                            filteredList.add(item);
+                        }
                     }
                 }
             }
-            FilterResults results = new FilterResults();
-            results.values = filteredList;
-            return results;
-        }
+                FilterResults results = new FilterResults();
+                results.values = filteredList;
+                return results;
+            }
 
-        //Automatic on UI thread
-        @Override
-        protected void publishResults(CharSequence constraint, FilterResults results) {
-            mDataList.clear();
-            mDataList.addAll((List) results.values);
-            notifyDataSetChanged();
-        }
-    };
+            //Automatic on UI thread
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                mDataList.clear();
+                mDataList.addAll((List) results.values);
+                notifyDataSetChanged();
+            }
+        };
 
     // 뷰홀더 클래스  ---------------------------------
     static class ItemViewHolder extends RecyclerView.ViewHolder {
@@ -197,9 +197,9 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
                     isMoreLoading = true;
                 }
 
-
             }
         });
+
     }
 
 
@@ -209,6 +209,7 @@ public class Search_ItemAdapter extends RecyclerView.Adapter<Search_ItemAdapter.
         mDataList.clear();
         mDataListAll.clear();
 //        mDataList.addAll(lst);
+        items.clear();
         items.addAll(lst);
         mDataListAll.addAll(lst);
         notifyDataSetChanged();

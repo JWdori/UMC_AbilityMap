@@ -3,6 +3,7 @@ package com.abilitymap.api;
 import android.os.AsyncTask;
 
 import com.abilitymap.ui.main.MainActivity;
+import com.abilitymap.ui.marker.SetMarker_facility;
 import com.google.gson.JsonSyntaxException;
 import com.naver.maps.geometry.LatLng;
 
@@ -48,7 +49,7 @@ public class JsonApi_danger extends AsyncTask<String, String, String> {
     }
 
     private String GET(String x, String y) throws IOException {
-
+        MainActivity.danger_list.clear();
         String data = "";
         String myUrl3 = "http://3.35.237.29/report";
         try {
@@ -85,10 +86,9 @@ public class JsonApi_danger extends AsyncTask<String, String, String> {
                 );
 
                 MainActivity.danger_list.add(danger_item);
-
             }
             startFlagForCoronaApi = false;
-
+            System.out.println("댄저"+MainActivity.danger_list.size());
 
         } catch (NullPointerException | JsonSyntaxException | JSONException e) {
             e.printStackTrace();
@@ -107,8 +107,8 @@ public class JsonApi_danger extends AsyncTask<String, String, String> {
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
             conn.setRequestMethod("POST"); // 전송 방식
             conn.setRequestProperty("Content-Type", "application/json; charset=utf-8");
-            conn.setConnectTimeout(5000); // 연결 타임아웃 설정(5초)
-            conn.setReadTimeout(5000); // 읽기 타임아웃 설정(5초)
+            conn.setConnectTimeout(10000); // 연결 타임아웃 설정(5초)
+            conn.setReadTimeout(10000); // 읽기 타임아웃 설정(5초)
             conn.setDoOutput(true);	// URL 연결을 출력용으로 사용(true)
 
             String requestBody = reportDetail;

@@ -207,7 +207,6 @@ public class DangerDetailSheet extends BottomSheetDialogFragment implements View
                                             }
                                         });
 
-
                         System.out.println("wrong report code : "+wrong);
 
                     }
