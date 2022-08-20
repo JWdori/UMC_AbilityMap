@@ -519,63 +519,81 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             //클릭이벤트가 일어난 마커가 어느 타입인지 search
             switch (tag) {
                 case "charge":
-                    JsonApi_charge.charge_item selectedChargeItem = findThisChargerMarkerItem(((Marker) overlay).getPosition(), charge_list);
-                    System.out.println(charge_list.size()+"ㅇㅇ");
-                    location = selectedChargeItem.getLocation();
-                    week = selectedChargeItem.getWeek();
-                    weekend = selectedChargeItem.getWeekend();
-                    holiday = selectedChargeItem.getHoliday();
+                    if(findThisChargerMarkerItem(((Marker) overlay).getPosition(), charge_list)==null){
+                        Toast.makeText(getApplicationContext(), "서버와 연결상태가 좋지 않습니다.\n앱을 다시 실행해주세요!", Toast.LENGTH_SHORT).show();
+                        return false;
+                    }else {
+                        JsonApi_charge.charge_item selectedChargeItem = findThisChargerMarkerItem(((Marker) overlay).getPosition(), charge_list);
+                        System.out.println(charge_list.size() + "ㅇㅇ");
+                        location = selectedChargeItem.getLocation();
+                        week = selectedChargeItem.getWeek();
+                        weekend = selectedChargeItem.getWeekend();
+                        holiday = selectedChargeItem.getHoliday();
 
-                    System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
-                    infoFragment = new LocationBottomSheet(tag, location, week, holiday,(Marker) overlay);
+                        System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
+                        infoFragment = new LocationBottomSheet(tag, location, week, holiday, (Marker) overlay);
 
-                    cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.3f)).animate(CameraAnimation.Easing);
+                        cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.3f)).animate(CameraAnimation.Easing);
 
-                    break;
+                        break;
+                    }
                 case "phar":
-                    JsonApi_phar.phar_item selectedPharItem = findThisPharmacyMarkerItem(((Marker) overlay).getPosition(), phar_list);
-                    name = selectedPharItem.getName();
-                    location = selectedPharItem.getLocation();
-                    week = selectedPharItem.getWeek();
-                    weekend = selectedPharItem.getWeekend();
-                    holiday = selectedPharItem.getHoliday();
-                    phone = selectedPharItem.getPhone();
+                    if(findThisPharmacyMarkerItem(((Marker) overlay).getPosition(), phar_list)==null){
+                        Toast.makeText(getApplicationContext(), "서버와 연결상태가 좋지 않습니다.\n앱을 다시 실행해주세요!", Toast.LENGTH_SHORT).show();
+                        return false;
+                    }else {
+                        JsonApi_phar.phar_item selectedPharItem = findThisPharmacyMarkerItem(((Marker) overlay).getPosition(), phar_list);
+                        name = selectedPharItem.getName();
+                        location = selectedPharItem.getLocation();
+                        week = selectedPharItem.getWeek();
+                        weekend = selectedPharItem.getWeekend();
+                        holiday = selectedPharItem.getHoliday();
+                        phone = selectedPharItem.getPhone();
 
-                    System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
-                    infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone, (Marker) overlay);
+                        System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
+                        infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone, (Marker) overlay);
 
-                    cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.25f)).animate(CameraAnimation.Easing);
+                        cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.25f)).animate(CameraAnimation.Easing);
 
-                    break;
+                        break;
+                    }
                 case "hos":
-                    JsonApi_hos.hos_item selectedHosItem = findThisHosMarkerItem(((Marker) overlay).getPosition(), hos_list);
-                    name = selectedHosItem.getName();
-                    location = selectedHosItem.getLocation();
-                    week = selectedHosItem.getWeek();
-                    weekend = selectedHosItem.getWeekend();
-                    holiday = selectedHosItem.getHoliday();
-                    phone = selectedHosItem.getPhone();
+                    if(findThisHosMarkerItem(((Marker) overlay).getPosition(), hos_list)==null){
+                        Toast.makeText(getApplicationContext(), "서버와 연결상태가 좋지 않습니다.\n앱을 다시 실행해주세요!", Toast.LENGTH_SHORT).show();
+                        return false;
+                    }else {
+                        JsonApi_hos.hos_item selectedHosItem = findThisHosMarkerItem(((Marker) overlay).getPosition(), hos_list);
+                        name = selectedHosItem.getName();
+                        location = selectedHosItem.getLocation();
+                        week = selectedHosItem.getWeek();
+                        weekend = selectedHosItem.getWeekend();
+                        holiday = selectedHosItem.getHoliday();
+                        phone = selectedHosItem.getPhone();
 
-                    System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
-                    infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone, (Marker) overlay);
+                        System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
+                        infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone, (Marker) overlay);
 
-                    cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.25f)).animate(CameraAnimation.Easing);
+                        cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.25f)).animate(CameraAnimation.Easing);
 
-                    break;
-
+                        break;
+                    }
                 case "office":
-                    JsonApi_fac.fac_item selectedFacilityItem = findThisFacilityMarkerItem(((Marker) overlay).getPosition(),fac_list);
-                    name = selectedFacilityItem.getName();
-                    location = selectedFacilityItem.getLocation();
-                    week = selectedFacilityItem.getWeek();
-                    weekend = selectedFacilityItem.getWeekend();
-                    holiday = selectedFacilityItem.getHoliday();
-                    phone = selectedFacilityItem.getPhone();
-                    System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
-                    infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone, (Marker) overlay);
-
-                    cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Easing);
-
+                    if(findThisFacilityMarkerItem(((Marker) overlay).getPosition(), fac_list)==null){
+                        Toast.makeText(getApplicationContext(), "서버와 연결상태가 좋지 않습니다.\n앱을 다시 실행해주세요!", Toast.LENGTH_SHORT).show();
+                        return false;
+                    }else {
+                        JsonApi_fac.fac_item selectedFacilityItem = findThisFacilityMarkerItem(((Marker) overlay).getPosition(), fac_list);
+                        name = selectedFacilityItem.getName();
+                        location = selectedFacilityItem.getLocation();
+                        week = selectedFacilityItem.getWeek();
+                        weekend = selectedFacilityItem.getWeekend();
+                        holiday = selectedFacilityItem.getHoliday();
+                        phone = selectedFacilityItem.getPhone();
+                        System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
+                        infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone, (Marker) overlay);
+                        cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Easing);
+                        break;
+                    }
             }
         }
 
