@@ -179,7 +179,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 public void run() {
                     dialog.dismiss(); // 3초 시간지연 후 프로그레스 대화상자 닫기
                 }
-            }, 3500); //최초 실행에서는 길게...
+            }, 2000); //최초 실행에서는 길게...
             SharedPreferences.Editor editor = first_open.edit();
             editor.putBoolean("first_open", false);
             editor.commit();
@@ -220,9 +220,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    dialog.dismiss(); // 2초 시간지연 후 프로그레스 대화상자 닫기
+                    dialog.dismiss(); // 1초 시간지연 후 프로그레스 대화상자 닫기
                 }
-            }, 2000);
+            }, 1000);
 
         }
 
@@ -403,7 +403,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         marker.setMinZoom(13);//줌 설정
         switch(markerType){
             case "office": marker.setIcon(OverlayImage.fromResource(R.drawable.facility_office)); break;
-            case "phar": marker.setIcon(OverlayImage.fromResource(R.drawable.hos_icon)); break;
+            case "phar":marker.setIcon(OverlayImage.fromResource(R.drawable.hos_icon)); break;
             case "hos": marker.setIcon(OverlayImage.fromResource(R.drawable.hos_icon)); break;
             case "charge": marker.setIcon(OverlayImage.fromResource(R.drawable.charge_icon)); break;
             case "danger": marker.setIcon(OverlayImage.fromResource(R.drawable.dnager_red)); break;
@@ -466,37 +466,41 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //default cameraUpdate
 
         if (overlay instanceof Marker && String.valueOf(overlay.getTag()).equals("danger")) {
+            if (findThisDangerMarkerItem(((Marker) overlay).getPosition(), danger_list)==null){
+                System.out.println("ㅎㅇㅎㅇ");
+                return true;
+            }else {
+                System.out.println("ㅎㅇㅎㅇ2");
+                JsonApi_danger.danger_item selectedDangerItem = findThisDangerMarkerItem(((Marker) overlay).getPosition(), danger_list);
+                String reportContent = selectedDangerItem.getReportContent();
+                String nickName = selectedDangerItem.getNickName();
+                String serverReportDate = selectedDangerItem.getReportDate();
+                String reportImage = selectedDangerItem.getReportImage();
+                String reportIdx = selectedDangerItem.getIndex();
+                System.out.println("리스트 검색 결과 : " + reportContent + "," + nickName + "," + serverReportDate);
+                System.out.println("위험지역 인덱스 번호 : " + reportIdx);
 
-            JsonApi_danger.danger_item selectedDangerItem = findThisDangerMarkerItem(((Marker) overlay).getPosition(), danger_list);
-            String reportContent = selectedDangerItem.getReportContent();
-            String nickName = selectedDangerItem.getNickName();
-            String serverReportDate = selectedDangerItem.getReportDate();
-            String reportImage = selectedDangerItem.getReportImage();
-            String reportIdx = selectedDangerItem.getIndex();
-            System.out.println("리스트 검색 결과 : " + reportContent + "," + nickName + "," + serverReportDate);
-            System.out.println("위험지역 인덱스 번호 : "+reportIdx);
+                //수정요청 관리자 <- 참고해서, 메인 앱에서 수정요청 패치 보내는법 (안되면 @곽정아)
+                //검색을 좀 해볼테니,,,가까운 위치의 데이터가 먼저 뜨는거
 
-            //수정요청 관리자 <- 참고해서, 메인 앱에서 수정요청 패치 보내는법 (안되면 @곽정아)
-            //검색을 좀 해볼테니,,,가까운 위치의 데이터가 먼저 뜨는거
+                String clientReportDate;
+                //서버에서 보내준 시간 String을 클라이언트 형식에 맞게 파싱
+                OffsetDateTime odt = OffsetDateTime.parse(serverReportDate);
+                OffsetDateTime odtTruncatedToWholeSecond = odt.truncatedTo(ChronoUnit.MINUTES);
+                clientReportDate = odtTruncatedToWholeSecond.format(DateTimeFormatter.ofPattern("yyyy/MM/dd'T'HH:mm")).replace("T", " ");
 
-            String clientReportDate;
-            //서버에서 보내준 시간 String을 클라이언트 형식에 맞게 파싱
-            OffsetDateTime odt = OffsetDateTime.parse(serverReportDate);
-            OffsetDateTime odtTruncatedToWholeSecond = odt.truncatedTo(ChronoUnit.MINUTES);
-            clientReportDate = odtTruncatedToWholeSecond.format(DateTimeFormatter.ofPattern("yyyy/MM/dd'T'HH:mm")).replace("T", " ");
-
-            String tag = String.valueOf(overlay.getTag());
-            dangerInfoFragment = new DangerDetailSheet(tag, reportContent, clientReportDate, nickName, reportImage, reportIdx);
-            dangerInfoFragment.show(getSupportFragmentManager(),"dangerInfoSheet");
-
+                String tag = String.valueOf(overlay.getTag());
+                dangerInfoFragment = new DangerDetailSheet(tag, reportContent, clientReportDate, nickName, reportImage, reportIdx);
+                dangerInfoFragment.show(getSupportFragmentManager(), "dangerInfoSheet");
 //            repot_message.setVisibility(View.INVISIBLE);
 //            Report_button.setVisibility(View.INVISIBLE);
 
 
-            cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Easing);
-            naverMap.moveCamera(cameraUpdate);
+                cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Easing);
+                naverMap.moveCamera(cameraUpdate);
 
-            return true;
+                return true;
+            }
         }
 
         else if (overlay instanceof Marker) {
@@ -644,7 +648,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         for (int i = 0; i < list.size(); i++) {
             JsonApi_danger.danger_item item = list.get(i);
-            System.out.println(i + "," + item + ", Lat : " + item.getLat() + "Lng : " + item.getLng());
             if (location.equals(item.getLatLng())) {
                 selectedItem = item;
                 System.out.println("danger item found!");
@@ -1497,7 +1500,7 @@ private void cameraDialog(){
     }
 
     //위험지역
-    private void setMarker_danger() {
+    public void setMarker_danger() {
         for (int i = 0; i < danger_list.size(); i++) {
             JsonApi_danger.danger_item item = danger_list.get(i);
             setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "danger", naverMap);
