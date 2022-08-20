@@ -353,7 +353,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
             infoFragment = new LocationBottomSheet("hos", name, location, week, holiday, phone, tempMarker, true);
 
-            cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.25f)).animate(CameraAnimation.Easing);
+            cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.0f)).animate(CameraAnimation.Easing);
 
         }
         else if(findSearchFacilityMarkerItem(latLng,selectedName,fac_list)!=null) {
@@ -386,7 +386,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
             infoFragment = new LocationBottomSheet("phar", name, location, week, holiday, phone, tempMarker, true);
 
-            cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Easing);
+            cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.0f)).animate(CameraAnimation.Easing);
         }
 
         infoFragment.show(getSupportFragmentManager(),"infoFragment");
@@ -609,7 +609,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             JsonApi_hos.hos_item item = list.get(i);
             if (location.equals(item.getLatLng())) {
                 selectedItem = item;
-                System.out.println("total item found!");
+                System.out.println("hospital item found!");
             }
         }
         return selectedItem;
@@ -635,7 +635,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             JsonApi_phar.phar_item  item = list.get(i);
             if (location.equals(item.getLatLng())) {
                 selectedItem = item;
-                System.out.println("facility item found!");
+                System.out.println("pharmacy item found!");
             }
         }
         return selectedItem;
@@ -677,7 +677,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             JsonApi_hos.hos_item item = list.get(i);
             if (location.equals(item.getLatLng()) && name.equals(item.getName())) {
                 selectedItem = item;
-                System.out.println("total item found!");
+                System.out.println("hospital item found!");
             }
         }
         return selectedItem;
@@ -899,6 +899,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         SharedPreferences lift10 = getSharedPreferences("lift10", Activity.MODE_PRIVATE);
         SharedPreferences phar11 = getSharedPreferences("phar11", Activity.MODE_PRIVATE);
 
+        System.out.println("phar11 get boolean : "+phar11.getBoolean("phar", true));
 
         if (total1.getBoolean("total", true)) {
             setMarker_hos(); //병원
@@ -939,7 +940,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             if (danger9.getBoolean("total", true)) {
                 setMarker_danger();
             }
-            if (phar11.getBoolean("phar", true)) {
+            if (phar11.getBoolean("total", true)) {
                 setMarker_phar();
             }
         }
@@ -1302,7 +1303,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 //바텀 시트로 구현. 룸디비 사용시에 이걸로 변경
 //                filter_bottom_sheet bottomSheetFragment = new filter_bottom_sheet();
 //                bottomSheetFragment.show(getSupportFragmentManager(), bottomSheetFragment.getTag());
-           }
+            }
         });
 
 
@@ -1330,92 +1331,92 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     startActivity(intent);
                 } else if (item.getItemId() == R.id.nav_report) {   //위험 제보하기
                     cameraDialog();
-               }
-               else if (item.getItemId() == R.id.nav_book) {        //이용 설명서
+                }
+                else if (item.getItemId() == R.id.nav_book) {        //이용 설명서
                     Intent intent = new Intent(getApplicationContext(), MenuBookActivity.class);
                     startActivity(intent);
-               }
-               else if (item.getItemId() == R.id.nav_review) {      //사용자 리뷰
-                   popDialog("모아도에 대한 리뷰를 남기시겠습니까?");
-               }
-               else if (item.getItemId() == R.id.nav_oss) {         //오픈소스 라이선스
-                   Intent intent = new Intent(getApplicationContext(), OssActivity.class);
-                   startActivity(intent);
-               }
-               return true;
-           }
-       });
+                }
+                else if (item.getItemId() == R.id.nav_review) {      //사용자 리뷰
+                    popDialog("모아도에 대한 리뷰를 남기시겠습니까?");
+                }
+                else if (item.getItemId() == R.id.nav_oss) {         //오픈소스 라이선스
+                    Intent intent = new Intent(getApplicationContext(), OssActivity.class);
+                    startActivity(intent);
+                }
+                return true;
+            }
+        });
 
     }
 
 
 
 
-private void cameraDialog(){
-    View dialogView = getLayoutInflater().inflate(R.layout.camera_detail, null);
-    AlertDialog.Builder builder = new AlertDialog.Builder(this);
-    builder.setView(dialogView);
-    final AlertDialog alertDialog = builder.create();
-    ColorDrawable back = new ColorDrawable(Color.TRANSPARENT);
-    InsetDrawable inset = new InsetDrawable(back, 24);
-    alertDialog.getWindow().setBackgroundDrawable(inset);
-    alertDialog.setCanceledOnTouchOutside(true);//없어지지 않도록 설정
-    alertDialog.show();
+    private void cameraDialog(){
+        View dialogView = getLayoutInflater().inflate(R.layout.camera_detail, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setView(dialogView);
+        final AlertDialog alertDialog = builder.create();
+        ColorDrawable back = new ColorDrawable(Color.TRANSPARENT);
+        InsetDrawable inset = new InsetDrawable(back, 24);
+        alertDialog.getWindow().setBackgroundDrawable(inset);
+        alertDialog.setCanceledOnTouchOutside(true);//없어지지 않도록 설정
+        alertDialog.show();
 
-    TextView noButton = alertDialog.findViewById(R.id.tv_no_camera);
-    noButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view) {
-            alertDialog.dismiss();
-        }
-    });
-    TextView yesButton = alertDialog.findViewById(R.id.tv_yes_camera);
-    yesButton.setOnClickListener(new View.OnClickListener() {
-        @Override
-        public void onClick(View view){
-            double latitude;
-            double longitude;
-
-            try {
-                latitude = gpsTracker.getLatitude();
-            } catch (Exception e) {
-                latitude = 37.496787860046965;
+        TextView noButton = alertDialog.findViewById(R.id.tv_no_camera);
+        noButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                alertDialog.dismiss();
             }
-            try {
-                longitude = gpsTracker.getLongitude();
-            }catch (Exception e){
-                longitude = 126.94575323439247;
+        });
+        TextView yesButton = alertDialog.findViewById(R.id.tv_yes_camera);
+        yesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view){
+                double latitude;
+                double longitude;
+
+                try {
+                    latitude = gpsTracker.getLatitude();
+                } catch (Exception e) {
+                    latitude = 37.496787860046965;
+                }
+                try {
+                    longitude = gpsTracker.getLongitude();
+                }catch (Exception e){
+                    longitude = 126.94575323439247;
+                }
+
+                String address = getSimpleCurrentAddress(getCurrentAddress(latitude, longitude));
+
+
+                SimpleDateFormat timeForServer = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
+                String sReportDate = timeForServer.format(new Date());
+
+                SimpleDateFormat timeForClient = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.getDefault());
+                String cReportDate = timeForClient.format(new Date());
+
+
+                Intent reportIntent = new Intent(getApplicationContext(), Report_detail.class);
+
+
+                reportIntent.putExtra("reportLat", latitude);    //서버 위도 경도
+                reportIntent.putExtra("reportLng", longitude);      // 여기부분 gps traker에서 가져오게 해달라고 하셨었나?
+                // 이거 값 이상하면 바로 윗줄 latitude,longitude로 주기
+                reportIntent.putExtra("address", address);   //사용자 화면 주소
+                reportIntent.putExtra("sReportDate", sReportDate);
+                reportIntent.putExtra("cReportDate", cReportDate);
+
+
+                startActivity(reportIntent);
+                alertDialog.dismiss();
             }
-
-            String address = getSimpleCurrentAddress(getCurrentAddress(latitude, longitude));
-
-
-            SimpleDateFormat timeForServer = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
-            String sReportDate = timeForServer.format(new Date());
-
-            SimpleDateFormat timeForClient = new SimpleDateFormat("yyyy/MM/dd HH:mm", Locale.getDefault());
-            String cReportDate = timeForClient.format(new Date());
-
-
-            Intent reportIntent = new Intent(getApplicationContext(), Report_detail.class);
-
-
-            reportIntent.putExtra("reportLat", latitude);    //서버 위도 경도
-            reportIntent.putExtra("reportLng", longitude);      // 여기부분 gps traker에서 가져오게 해달라고 하셨었나?
-            // 이거 값 이상하면 바로 윗줄 latitude,longitude로 주기
-            reportIntent.putExtra("address", address);   //사용자 화면 주소
-            reportIntent.putExtra("sReportDate", sReportDate);
-            reportIntent.putExtra("cReportDate", cReportDate);
-
-
-            startActivity(reportIntent);
-            alertDialog.dismiss();
-        }
-    });
+        });
 
 
 
-}
+    }
 
 
 
@@ -1465,6 +1466,7 @@ private void cameraDialog(){
             JsonApi_hos.hos_item item = hos_list.get(i);
             setMarker_facility(Double.parseDouble(item.getLat()), Double.parseDouble(item.getLng()), "hos", naverMap);
         }
+
         return;
     }
 
