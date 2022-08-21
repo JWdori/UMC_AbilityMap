@@ -318,7 +318,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         String holiday;
         String phone;
 
-        CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.5f)).animate(CameraAnimation.Easing);
+        CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.5f)).animate(CameraAnimation.Linear);
         //default cameraUpdate
 
 
@@ -336,7 +336,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
             infoFragment = new LocationBottomSheet("charge", location, week, holiday, tempMarker, true);
 
-            cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.3f)).animate(CameraAnimation.Easing);
+            cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.3f)).animate(CameraAnimation.Linear);
         }
         else if(findSearchHosMarkerItem(latLng,selectedName,hos_list)!=null)
         {
@@ -353,7 +353,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
             infoFragment = new LocationBottomSheet("hos", name, location, week, holiday, phone, tempMarker, true);
 
-            cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.0f)).animate(CameraAnimation.Easing);
+            cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.0f)).animate(CameraAnimation.Linear);
 
         }
         else if(findSearchFacilityMarkerItem(latLng,selectedName,fac_list)!=null) {
@@ -370,7 +370,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
             infoFragment = new LocationBottomSheet("office", name, location, week, holiday, phone, tempMarker, true);
 
-            cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Easing);
+            cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Linear);
         }
         else if(findSearchPharmacyMarkerItem(latLng,selectedName,phar_list)!=null) {
             JsonApi_phar.phar_item selectedPharItem = findSearchPharmacyMarkerItem(latLng,selectedName,phar_list);
@@ -386,7 +386,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
             infoFragment = new LocationBottomSheet("phar", name, location, week, holiday, phone, tempMarker, true);
 
-            cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.0f)).animate(CameraAnimation.Easing);
+            cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.0f)).animate(CameraAnimation.Linear);
         }
 
         infoFragment.show(getSupportFragmentManager(),"infoFragment");
@@ -463,7 +463,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         LatLng selectedPosition = ((Marker) overlay).getPosition();
-        CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.5f)).animate(CameraAnimation.Easing);
+        CameraUpdate cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.5f)).animate(CameraAnimation.Linear);
         //default cameraUpdate
 
         if (overlay instanceof Marker && String.valueOf(overlay.getTag()).equals("danger")) {
@@ -496,7 +496,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 //            Report_button.setVisibility(View.INVISIBLE);
 
 
-                cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Easing);
+                cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Linear);
                 naverMap.moveCamera(cameraUpdate);
 
                 return true;
@@ -527,7 +527,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
                     infoFragment = new LocationBottomSheet(tag, location, week, holiday,(Marker) overlay);
 
-                    cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.3f)).animate(CameraAnimation.Easing);
+                    cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.3f)).animate(CameraAnimation.Linear);
 
                     break;
                 case "phar":
@@ -542,7 +542,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
                     infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone, (Marker) overlay);
 
-                    cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.25f)).animate(CameraAnimation.Easing);
+                    cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.25f)).animate(CameraAnimation.Linear);
 
                     break;
                 case "hos":
@@ -557,7 +557,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
                     infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone, (Marker) overlay);
 
-                    cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.25f)).animate(CameraAnimation.Easing);
+                    cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.25f)).animate(CameraAnimation.Linear);
 
                     break;
 
@@ -572,7 +572,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
                     infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone, (Marker) overlay);
 
-                    cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Easing);
+                    cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Linear);
 
             }
         }

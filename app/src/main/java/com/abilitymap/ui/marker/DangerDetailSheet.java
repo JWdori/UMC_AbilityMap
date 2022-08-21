@@ -16,6 +16,7 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -160,6 +161,7 @@ public class DangerDetailSheet extends BottomSheetDialogFragment implements View
                 noButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+                        wrong = 0;
                         alertDialog.dismiss();
                     }
                 });
@@ -178,7 +180,6 @@ public class DangerDetailSheet extends BottomSheetDialogFragment implements View
                     @Override
                     public void onClick(View view) {
 
-                        alertDialog.dismiss();
 
                         if(contentErrButton.isSelected()){
                             wrong = 1;
@@ -192,23 +193,28 @@ public class DangerDetailSheet extends BottomSheetDialogFragment implements View
 
                         //String reportIdx = "66";
 
-                        wrongReportService.patchReport(reportIdx, wrong)
-                                        .enqueue(new Callback<ReportPatchResponse>() {
-                                            @Override
-                                            public void onResponse(Call<ReportPatchResponse> call, Response<ReportPatchResponse> response) {
-                                                ReportPatchResponse resp = response.body();
-                                                // patch success
+                        if(wrong!=0) {
+                            alertDialog.dismiss();
+                            wrongReportService.patchReport(reportIdx, wrong)
+                                    .enqueue(new Callback<ReportPatchResponse>() {
+                                        @Override
+                                        public void onResponse(Call<ReportPatchResponse> call, Response<ReportPatchResponse> response) {
+                                            ReportPatchResponse resp = response.body();
+                                            // patch success
 
-                                            }
+                                        }
 
-                                            @Override
-                                            public void onFailure(Call<ReportPatchResponse> call, Throwable t) {
-                                                //patch error
-                                            }
-                                        });
+                                        @Override
+                                        public void onFailure(Call<ReportPatchResponse> call, Throwable t) {
+                                            //patch error
+                                        }
+                                    });
 
-                        System.out.println("wrong report code : "+wrong);
-
+                            System.out.println("wrong report code : " + wrong);
+                        }
+                        else{
+                            Toast.makeText(getContext(), "항목을 선택해주세요.", Toast.LENGTH_SHORT).show();
+                        }
                     }
                 });
             }
