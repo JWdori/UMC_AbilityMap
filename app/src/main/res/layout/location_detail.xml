@@ -160,7 +160,8 @@
             <ImageView
                 android:id="@+id/phone_icon_imageView"
                 android:layout_width="24dp"
-                android:layout_height="24dp" />
+                android:layout_height="24dp"
+                android:src="@drawable/icon_24_call"/>
 
             <TextView
                 android:id="@+id/phone_detail_textView"

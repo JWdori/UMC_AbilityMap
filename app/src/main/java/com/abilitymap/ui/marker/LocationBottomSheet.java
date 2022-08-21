@@ -162,11 +162,6 @@ public class LocationBottomSheet extends BottomSheetDialogFragment implements Vi
     public void setWeek(String week){ weekTextView.setText(week); }
     public void setPhone(String phone){
         phoneTextView.setText(phone);
-        if(categoryKey.equals("charge")){
-        }
-        else{
-            phoneImageView.setImageResource(R.drawable.icon_24_call);
-        }
     }
     public String setDefault(String input){
         if(input==null){
