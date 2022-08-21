@@ -17,7 +17,7 @@ async function getReport(connection){
     const getReportQuery = `
         SELECT *
         FROM Report
-        WHERE wrong = -1
+        WHERE wrong = -1 OR wrong = 1 OR wrong = 2 OR wrong = 3 OR wrong = 4
 
     `;
 

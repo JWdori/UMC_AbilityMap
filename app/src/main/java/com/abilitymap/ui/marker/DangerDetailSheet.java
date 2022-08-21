@@ -112,6 +112,11 @@ public class DangerDetailSheet extends BottomSheetDialogFragment implements View
                     public void onClick(View view) {
                         contentErrButton.setSelected(!contentErrButton.isSelected());
 
+                        if(contentErrButton.isSelected()){
+                            wrong = 1;
+                        }
+                        else wrong = 0;
+
                         locationErrButton.setSelected(false);
                         notdangerButton.setSelected(false);
                         otherButton.setSelected(false);
@@ -123,8 +128,11 @@ public class DangerDetailSheet extends BottomSheetDialogFragment implements View
                 locationErrButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        wrong = 2;
                         locationErrButton.setSelected(!locationErrButton.isSelected());
+
+                        if(locationErrButton.isSelected()){
+                            wrong = 1;
+                        } else wrong = 0;
 
                         contentErrButton.setSelected(false);
                         notdangerButton.setSelected(false);
@@ -136,8 +144,11 @@ public class DangerDetailSheet extends BottomSheetDialogFragment implements View
                 notdangerButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        wrong = 3;
                         notdangerButton.setSelected(!notdangerButton.isSelected());
+
+                        if(locationErrButton.isSelected()){
+                            wrong = 3;
+                        } else wrong = 0;
 
                         contentErrButton.setSelected(false);
                         locationErrButton.setSelected(false);
@@ -149,8 +160,11 @@ public class DangerDetailSheet extends BottomSheetDialogFragment implements View
                 otherButton.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        wrong = 4;
                         otherButton.setSelected(!otherButton.isSelected());
+
+                        if(locationErrButton.isSelected()){
+                            wrong = 4;
+                        } else wrong = 0;
 
                         contentErrButton.setSelected(false);
                         locationErrButton.setSelected(false);
@@ -201,6 +215,14 @@ public class DangerDetailSheet extends BottomSheetDialogFragment implements View
                                         public void onResponse(Call<ReportPatchResponse> call, Response<ReportPatchResponse> response) {
                                             ReportPatchResponse resp = response.body();
                                             // patch success
+                                            changeRequestView.setClickable(false);
+                                            changeRequestView.setOnClickListener(new View.OnClickListener() {   //수정요청을 이미 한번 보낸 마커에서 수정요청버튼을 한번 더 누를때
+                                                                                     @Override
+                                                                                     public void onClick(View v) {
+                                                                                         Toast.makeText(getContext(), "이미 수정 요청이 보내진 제보입니다.", Toast.LENGTH_SHORT).show();
+                                                                                     }
+                                                                                 }
+                                            );
 
                                         }
 

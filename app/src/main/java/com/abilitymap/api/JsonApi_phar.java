@@ -33,7 +33,7 @@ public class JsonApi_phar extends AsyncTask<String, String, String> {
 
     @Override
     protected String doInBackground(String... strings) {
-
+        MainActivity.phar_list.clear();
         Log.d("Task3", "POST");
         String temp = "Not Gained";
         try {
@@ -48,7 +48,6 @@ public class JsonApi_phar extends AsyncTask<String, String, String> {
 
     private String GET(String x, String y) throws IOException {
 
-        MainActivity.phar_list.clear();
         String data = "";
         String myUrl3 = "http://3.35.237.29/get/pharmacy";
         try {

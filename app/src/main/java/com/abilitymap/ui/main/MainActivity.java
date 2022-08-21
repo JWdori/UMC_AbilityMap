@@ -81,6 +81,7 @@ import com.naver.maps.map.CameraUpdate;
 import com.naver.maps.map.MapFragment;
 import com.naver.maps.map.NaverMap;
 import com.naver.maps.map.OnMapReadyCallback;
+
 import android.Manifest;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
@@ -125,7 +126,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     BottomSheetBehavior<View> bottomSheetBehavior;
     private FusedLocationSource locationSource;
     private static final int GPS_ENABLE_REQUEST_CODE = 2001;
-    private static final int CAMERA_PICTURE_SAVED_CODE = 3001;
+
     private FusedLocationProviderClient fusedLocationClient;
     private Location mLastlocation = null;
     private double speed, calSpeed, getSpeed;
@@ -161,13 +162,13 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
     DangerDetailSheet dangerInfoFragment = null;
     LocationBottomSheet infoFragment = null;
-    String reportContent;
 
     @RequiresApi(api = Build.VERSION_CODES.M)
     @Override
     protected void onCreate(Bundle savedInstanceState) { //화면 생성과 함께 현재 위치 받아옴.
         String lat = String.valueOf(NaverMap.DEFAULT_CAMERA_POSITION.target.latitude);
         String lon = String.valueOf(NaverMap.DEFAULT_CAMERA_POSITION.target.longitude);
+
 
         JsonApi_hos hos_api = new JsonApi_hos();
         JsonApi_bike bike_api = new JsonApi_bike();
@@ -181,7 +182,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         JsonApi_phar phar_api = new JsonApi_phar();
 
 
-        hos_api.execute(lat, lon, "");
         bike_api.execute(lat, lon, "");
         charge_api.execute(lat, lon, "");
         slope_api.execute(lat, lon, "");
@@ -189,9 +189,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         ele_api.execute(lat, lon, "");
         wheel_api.execute(lat, lon, "");
         fac_api.execute(lat, lon, "");
+        hos_api.execute(lat, lon, "");
         lift_api.execute(lat, lon, "");
         phar_api.execute(lat, lon, "");
+
         SharedPreferences first_open = getSharedPreferences("first_open", MODE_PRIVATE);
+
         Boolean isFirst = first_open.getBoolean("first_open", true);
         if (isFirst) {
             dialog = new ProgressDialog(MainActivity.this); //프로그레스 대화상자 객체 생성
@@ -249,9 +252,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     dialog.dismiss(); // 1초 시간지연 후 프로그레스 대화상자 닫기
                 }
             }, 1000);
-
         }
-
 
         //로딩
         firstActivity = MainActivity.this;
@@ -304,13 +305,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             @Override
             public void onChanged(LatLng latLng) {
                 System.out.println(viewModel.getSelectedName().getValue());
-                showBottomSheet(latLng,viewModel.getSelectedName().getValue());
+                showBottomSheet(latLng, viewModel.getSelectedName().getValue());
             }
         };
-        viewModel.getSelectedLatLng().observe(this,searchObserver);
+        viewModel.getSelectedLatLng().observe(this, searchObserver);
+
     }
 
-    private void showBottomSheet(LatLng latLng,String selectedName) {
+    private void showBottomSheet(LatLng latLng, String selectedName) {
         String name;
         String location;
         String week;
@@ -323,24 +325,21 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
 
         //클릭이벤트가 일어난 마커가 어느 타입인지 search
-        if(findSearchChargerMarkerItem(latLng,selectedName,charge_list)!=null)
-        {
-            JsonApi_charge.charge_item selectedChargeItem = findSearchChargerMarkerItem(latLng,selectedName,charge_list);
+        if (findSearchChargerMarkerItem(latLng, selectedName, charge_list) != null) {
+            JsonApi_charge.charge_item selectedChargeItem = findSearchChargerMarkerItem(latLng, selectedName, charge_list);
             location = selectedChargeItem.getLocation();
             week = selectedChargeItem.getWeek();
             weekend = selectedChargeItem.getWeekend();
             holiday = selectedChargeItem.getHoliday();
 
-            Marker tempMarker = printTempMarker(latLng,"charge");
+            Marker tempMarker = printTempMarker(latLng, "charge");
 
             System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
             infoFragment = new LocationBottomSheet("charge", location, week, holiday, tempMarker, true);
 
             cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.3f)).animate(CameraAnimation.Linear);
-        }
-        else if(findSearchHosMarkerItem(latLng,selectedName,hos_list)!=null)
-        {
-            JsonApi_hos.hos_item selectedTotalItem = findSearchHosMarkerItem(latLng,selectedName,hos_list);
+        } else if (findSearchHosMarkerItem(latLng, selectedName, hos_list) != null) {
+            JsonApi_hos.hos_item selectedTotalItem = findSearchHosMarkerItem(latLng, selectedName, hos_list);
             name = selectedTotalItem.getName();
             location = selectedTotalItem.getLocation();
             week = selectedTotalItem.getWeek();
@@ -348,16 +347,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             holiday = selectedTotalItem.getHoliday();
             phone = selectedTotalItem.getPhone();
 
-            Marker tempMarker = printTempMarker(latLng,"hos");
+            Marker tempMarker = printTempMarker(latLng, "hos");
 
             System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
             infoFragment = new LocationBottomSheet("hos", name, location, week, holiday, phone, tempMarker, true);
 
             cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.0f)).animate(CameraAnimation.Linear);
 
-        }
-        else if(findSearchFacilityMarkerItem(latLng,selectedName,fac_list)!=null) {
-            JsonApi_fac.fac_item selectedFacilityItem = findSearchFacilityMarkerItem(latLng,selectedName,fac_list);
+        } else if (findSearchFacilityMarkerItem(latLng, selectedName, fac_list) != null) {
+            JsonApi_fac.fac_item selectedFacilityItem = findSearchFacilityMarkerItem(latLng, selectedName, fac_list);
             name = selectedFacilityItem.getName();
             location = selectedFacilityItem.getLocation();
             week = selectedFacilityItem.getWeek();
@@ -365,15 +363,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             holiday = selectedFacilityItem.getHoliday();
             phone = selectedFacilityItem.getPhone();
 
-            Marker tempMarker = printTempMarker(latLng,"office");
+            Marker tempMarker = printTempMarker(latLng, "office");
 
             System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
             infoFragment = new LocationBottomSheet("office", name, location, week, holiday, phone, tempMarker, true);
 
             cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Linear);
-        }
-        else if(findSearchPharmacyMarkerItem(latLng,selectedName,phar_list)!=null) {
-            JsonApi_phar.phar_item selectedPharItem = findSearchPharmacyMarkerItem(latLng,selectedName,phar_list);
+        } else if (findSearchPharmacyMarkerItem(latLng, selectedName, phar_list) != null) {
+            JsonApi_phar.phar_item selectedPharItem = findSearchPharmacyMarkerItem(latLng, selectedName, phar_list);
             name = selectedPharItem.getName();
             location = selectedPharItem.getLocation();
             week = selectedPharItem.getWeek();
@@ -381,7 +378,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             holiday = selectedPharItem.getHoliday();
             phone = selectedPharItem.getPhone();
 
-            Marker tempMarker = printTempMarker(latLng,"phar");
+            Marker tempMarker = printTempMarker(latLng, "phar");
 
             System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
             infoFragment = new LocationBottomSheet("phar", name, location, week, holiday, phone, tempMarker, true);
@@ -389,25 +386,35 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             cameraUpdate = CameraUpdate.scrollAndZoomTo(latLng, 16).pivot(new PointF(0.5f, 0.0f)).animate(CameraAnimation.Linear);
         }
 
-        infoFragment.show(getSupportFragmentManager(),"infoFragment");
+        infoFragment.show(getSupportFragmentManager(), "infoFragment");
 
         naverMap.moveCamera(cameraUpdate);
 
 
     }
 
-    public Marker printTempMarker(LatLng latLng,String markerType){
+    public Marker printTempMarker(LatLng latLng, String markerType) {
         Marker marker = new Marker();
         marker.setPosition(latLng);
         marker.setWidth(160);
         marker.setHeight(160);
         marker.setMinZoom(13);//줌 설정
-        switch(markerType){
-            case "office": marker.setIcon(OverlayImage.fromResource(R.drawable.facility_office)); break;
-            case "phar":marker.setIcon(OverlayImage.fromResource(R.drawable.hos_icon)); break;
-            case "hos": marker.setIcon(OverlayImage.fromResource(R.drawable.hos_icon)); break;
-            case "charge": marker.setIcon(OverlayImage.fromResource(R.drawable.charge_icon)); break;
-            case "danger": marker.setIcon(OverlayImage.fromResource(R.drawable.dnager_red)); break;
+        switch (markerType) {
+            case "office":
+                marker.setIcon(OverlayImage.fromResource(R.drawable.facility_office));
+                break;
+            case "phar":
+                marker.setIcon(OverlayImage.fromResource(R.drawable.hos_icon));
+                break;
+            case "hos":
+                marker.setIcon(OverlayImage.fromResource(R.drawable.hos_icon));
+                break;
+            case "charge":
+                marker.setIcon(OverlayImage.fromResource(R.drawable.charge_icon));
+                break;
+            case "danger":
+                marker.setIcon(OverlayImage.fromResource(R.drawable.dnager_red));
+                break;
         }
         marker.setMap(naverMap);
 
@@ -467,10 +474,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         //default cameraUpdate
 
         if (overlay instanceof Marker && String.valueOf(overlay.getTag()).equals("danger")) {
-            if (findThisDangerMarkerItem(((Marker) overlay).getPosition(), danger_list)==null){
+            if (findThisDangerMarkerItem(((Marker) overlay).getPosition(), danger_list) == null) {
                 Toast.makeText(getApplicationContext(), "삭제된 마커입니다.\n앱을 다시 실행해주세요!", Toast.LENGTH_SHORT).show();
                 return false;
-            }else {
+            } else {
                 JsonApi_danger.danger_item selectedDangerItem = findThisDangerMarkerItem(((Marker) overlay).getPosition(), danger_list);
                 String reportContent = selectedDangerItem.getReportContent();
                 String nickName = selectedDangerItem.getNickName();
@@ -501,9 +508,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
                 return true;
             }
-        }
-
-        else if (overlay instanceof Marker) {
+        } else if (overlay instanceof Marker) {
             Object object = overlay.getTag();
             String tag = String.valueOf(object);
 
@@ -518,67 +523,82 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             //클릭이벤트가 일어난 마커가 어느 타입인지 search
             switch (tag) {
                 case "charge":
-                    JsonApi_charge.charge_item selectedChargeItem = findThisChargerMarkerItem(((Marker) overlay).getPosition(), charge_list);
-                    location = selectedChargeItem.getLocation();
-                    week = selectedChargeItem.getWeek();
-                    weekend = selectedChargeItem.getWeekend();
-                    holiday = selectedChargeItem.getHoliday();
+                    if (findThisChargerMarkerItem(((Marker) overlay).getPosition(), charge_list) == null) {
+                        Toast.makeText(getApplicationContext(), "서버와 연결상태가 좋지 않습니다.\n앱을 다시 실행해주세요!", Toast.LENGTH_SHORT).show();
+                        return false;
+                    } else {
+                        JsonApi_charge.charge_item selectedChargeItem = findThisChargerMarkerItem(((Marker) overlay).getPosition(), charge_list);
+                        System.out.println(charge_list.size() + "ㅇㅇ");
+                        location = selectedChargeItem.getLocation();
+                        week = selectedChargeItem.getWeek();
+                        weekend = selectedChargeItem.getWeekend();
+                        holiday = selectedChargeItem.getHoliday();
 
-                    System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
-                    infoFragment = new LocationBottomSheet(tag, location, week, holiday,(Marker) overlay);
-
-                    cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.3f)).animate(CameraAnimation.Linear);
-
-                    break;
+                        System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
+                        infoFragment = new LocationBottomSheet(tag, location, week, holiday, (Marker) overlay);
+                        cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.3f)).animate(CameraAnimation.Linear);
+                        break;
+                    }
                 case "phar":
-                    JsonApi_phar.phar_item selectedPharItem = findThisPharmacyMarkerItem(((Marker) overlay).getPosition(), phar_list);
-                    name = selectedPharItem.getName();
-                    location = selectedPharItem.getLocation();
-                    week = selectedPharItem.getWeek();
-                    weekend = selectedPharItem.getWeekend();
-                    holiday = selectedPharItem.getHoliday();
-                    phone = selectedPharItem.getPhone();
+                    if (findThisPharmacyMarkerItem(((Marker) overlay).getPosition(), phar_list) == null) {
+                        Toast.makeText(getApplicationContext(), "서버와 연결상태가 좋지 않습니다.\n앱을 다시 실행해주세요!", Toast.LENGTH_SHORT).show();
+                        return false;
+                    } else {
+                        JsonApi_phar.phar_item selectedPharItem = findThisPharmacyMarkerItem(((Marker) overlay).getPosition(), phar_list);
+                        name = selectedPharItem.getName();
+                        location = selectedPharItem.getLocation();
+                        week = selectedPharItem.getWeek();
+                        weekend = selectedPharItem.getWeekend();
+                        holiday = selectedPharItem.getHoliday();
+                        phone = selectedPharItem.getPhone();
 
-                    System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
-                    infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone, (Marker) overlay);
+                        System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
+                        infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone, (Marker) overlay);
+                        cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.25f)).animate(CameraAnimation.Linear);
 
-                    cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.25f)).animate(CameraAnimation.Linear);
-
-                    break;
+                        break;
+                    }
                 case "hos":
-                    JsonApi_hos.hos_item selectedHosItem = findThisHosMarkerItem(((Marker) overlay).getPosition(), hos_list);
-                    name = selectedHosItem.getName();
-                    location = selectedHosItem.getLocation();
-                    week = selectedHosItem.getWeek();
-                    weekend = selectedHosItem.getWeekend();
-                    holiday = selectedHosItem.getHoliday();
-                    phone = selectedHosItem.getPhone();
+                    if (findThisHosMarkerItem(((Marker) overlay).getPosition(), hos_list) == null) {
+                        Toast.makeText(getApplicationContext(), "서버와 연결상태가 좋지 않습니다.\n앱을 다시 실행해주세요!", Toast.LENGTH_SHORT).show();
+                        return false;
+                    } else {
+                        JsonApi_hos.hos_item selectedHosItem = findThisHosMarkerItem(((Marker) overlay).getPosition(), hos_list);
+                        name = selectedHosItem.getName();
+                        location = selectedHosItem.getLocation();
+                        week = selectedHosItem.getWeek();
+                        weekend = selectedHosItem.getWeekend();
+                        holiday = selectedHosItem.getHoliday();
+                        phone = selectedHosItem.getPhone();
 
-                    System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
-                    infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone, (Marker) overlay);
+                        System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
+                        infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone, (Marker) overlay);
+                        cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.25f)).animate(CameraAnimation.Linear);
 
-                    cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.25f)).animate(CameraAnimation.Linear);
-
-                    break;
-
+                        break;
+                    }
                 case "office":
-                    JsonApi_fac.fac_item selectedFacilityItem = findThisFacilityMarkerItem(((Marker) overlay).getPosition(),fac_list);
-                    name = selectedFacilityItem.getName();
-                    location = selectedFacilityItem.getLocation();
-                    week = selectedFacilityItem.getWeek();
-                    weekend = selectedFacilityItem.getWeekend();
-                    holiday = selectedFacilityItem.getHoliday();
-                    phone = selectedFacilityItem.getPhone();
-                    System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
-                    infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone, (Marker) overlay);
-
-                    cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Linear);
-
+                    if (findThisFacilityMarkerItem(((Marker) overlay).getPosition(), fac_list) == null) {
+                        Toast.makeText(getApplicationContext(), "서버와 연결상태가 좋지 않습니다.\n앱을 다시 실행해주세요!", Toast.LENGTH_SHORT).show();
+                        return false;
+                    } else {
+                        JsonApi_fac.fac_item selectedFacilityItem = findThisFacilityMarkerItem(((Marker) overlay).getPosition(), fac_list);
+                        name = selectedFacilityItem.getName();
+                        location = selectedFacilityItem.getLocation();
+                        week = selectedFacilityItem.getWeek();
+                        weekend = selectedFacilityItem.getWeekend();
+                        holiday = selectedFacilityItem.getHoliday();
+                        phone = selectedFacilityItem.getPhone();
+                        System.out.println("리스트 검색 결과 : " + location + "," + week + "," + weekend + "," + holiday);
+                        infoFragment = new LocationBottomSheet(tag, name, location, week, holiday, phone, (Marker) overlay);
+                        cameraUpdate = CameraUpdate.scrollAndZoomTo(selectedPosition, 16).pivot(new PointF(0.5f, 0.4f)).animate(CameraAnimation.Linear);
+                        break;
+                    }
             }
         }
 
         //LocationDetailFragment infoFragment = new LocationDetailFragment(tag);
-        infoFragment.show(getSupportFragmentManager(),"infoFragment");
+        infoFragment.show(getSupportFragmentManager(), "infoFragment");
 //        repot_message.setVisibility(View.INVISIBLE);
 //        Report_button.setVisibility(View.INVISIBLE);
 
@@ -590,7 +610,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-    JsonApi_charge.charge_item findThisChargerMarkerItem(LatLng location,ArrayList<JsonApi_charge.charge_item> list) {
+    JsonApi_charge.charge_item findThisChargerMarkerItem(LatLng location, ArrayList<JsonApi_charge.charge_item> list) {
         JsonApi_charge.charge_item selectedItem = null;
 
         for (int i = 0; i < list.size(); i++) {
@@ -632,7 +652,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         JsonApi_phar.phar_item selectedItem = null;
 
         for (int i = 0; i < list.size(); i++) {
-            JsonApi_phar.phar_item  item = list.get(i);
+            JsonApi_phar.phar_item item = list.get(i);
             if (location.equals(item.getLatLng())) {
                 selectedItem = item;
                 System.out.println("pharmacy item found!");
@@ -657,7 +677,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-    JsonApi_charge.charge_item findSearchChargerMarkerItem(LatLng location,String name, ArrayList<JsonApi_charge.charge_item> list) {
+    JsonApi_charge.charge_item findSearchChargerMarkerItem(LatLng location, String name, ArrayList<JsonApi_charge.charge_item> list) {
         JsonApi_charge.charge_item selectedItem = null;
 
         for (int i = 0; i < list.size(); i++) {
@@ -670,7 +690,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return selectedItem;
     }
 
-    JsonApi_hos.hos_item findSearchHosMarkerItem(LatLng location,String name, ArrayList<JsonApi_hos.hos_item> list) {
+    JsonApi_hos.hos_item findSearchHosMarkerItem(LatLng location, String name, ArrayList<JsonApi_hos.hos_item> list) {
         JsonApi_hos.hos_item selectedItem = null;
 
         for (int i = 0; i < list.size(); i++) {
@@ -683,7 +703,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return selectedItem;
     }
 
-    JsonApi_fac.fac_item findSearchFacilityMarkerItem(LatLng location,String name, ArrayList<JsonApi_fac.fac_item> list) {
+    JsonApi_fac.fac_item findSearchFacilityMarkerItem(LatLng location, String name, ArrayList<JsonApi_fac.fac_item> list) {
         JsonApi_fac.fac_item selectedItem = null;
 
         for (int i = 0; i < list.size(); i++) {
@@ -696,11 +716,11 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         return selectedItem;
     }
 
-    JsonApi_phar.phar_item findSearchPharmacyMarkerItem(LatLng location,String name, ArrayList<JsonApi_phar.phar_item> list) {
+    JsonApi_phar.phar_item findSearchPharmacyMarkerItem(LatLng location, String name, ArrayList<JsonApi_phar.phar_item> list) {
         JsonApi_phar.phar_item selectedItem = null;
 
         for (int i = 0; i < list.size(); i++) {
-            JsonApi_phar.phar_item  item = list.get(i);
+            JsonApi_phar.phar_item item = list.get(i);
             if (location.equals(item.getLatLng()) && name.equals(item.getName())) {
                 selectedItem = item;
                 System.out.println("pharmacy item found!");
@@ -710,16 +730,15 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-
     @Override
     public void onBackPressed() {
         if (isDrawerOpen) {
             binding.drawerLayout.closeDrawer(GravityCompat.START);
             isDrawerOpen = false;
-        }else if(bfragment == true) {
+        } else if (bfragment == true) {
             getSupportFragmentManager().popBackStack();
             bfragment = false;
-        }else {
+        } else {
             if (clickable) {
                 long tempTime = System.currentTimeMillis();
                 long intervalTime = tempTime - presstime;
@@ -899,7 +918,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         SharedPreferences lift10 = getSharedPreferences("lift10", Activity.MODE_PRIVATE);
         SharedPreferences phar11 = getSharedPreferences("phar11", Activity.MODE_PRIVATE);
 
-        System.out.println("phar11 get boolean : "+phar11.getBoolean("phar", true));
 
         if (total1.getBoolean("total", true)) {
             setMarker_hos(); //병원
@@ -912,7 +930,16 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             drawMarker_wheel();
             setMarker_fac();
             setMarker_phar();
+            System.out.println(hos_list.size() + "왜3");
+            System.out.println(phar_list.size() + "왜3");
+            System.out.println(lift_list.size() + "왜3");
+            System.out.println(fac_list.size() + "왜3");
+            System.out.println(charge_list.size() + "왜3");
+            System.out.println(ele_list.size() + "왜3");
+            MainActivity.hos_list.clear();
+
         } else {
+
             if (hos2.getBoolean("total", true)) {
                 setMarker_hos(); //병원
             }
@@ -943,6 +970,14 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
             if (phar11.getBoolean("total", true)) {
                 setMarker_phar();
             }
+            System.out.println(hos_list.size() + "왜2");
+            System.out.println(phar_list.size() + "왜2");
+            System.out.println(lift_list.size() + "왜2");
+            System.out.println(fac_list.size() + "왜2");
+            System.out.println(charge_list.size() + "왜2");
+            System.out.println(ele_list.size() + "왜2");
+            MainActivity.hos_list.clear();
+
         }
 
         //충전기
@@ -1038,12 +1073,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
         try {
             latitude = gpsTracker.getLatitude();
-        } catch (Exception e){
+        } catch (Exception e) {
             latitude = 37.496787860046965;
         }
         try {
             longitude = gpsTracker.getLongitude();
-        }catch (Exception e){
+        } catch (Exception e) {
             longitude = 126.94575323439247;
         }
 
@@ -1056,9 +1091,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             if (!(personInfoDatabase.personInfoDao().getText(personId).equals(""))) {  //텍스트 입력한 기록이 있는 연락처에 한정
                 //선택된 연락처의 번호로 기본 메세지 + 기록된 메세지 전송
-                manager.sendTextMessage(personInfoDatabase.personInfoDao().getPhoneNumber(personId), null, text+"\n"+address + personInfoDatabase.personInfoDao().getText(personId), null, null);
+                manager.sendTextMessage(personInfoDatabase.personInfoDao().getPhoneNumber(personId), null, text + "\n" + address + personInfoDatabase.personInfoDao().getText(personId), null, null);
             } else {   //선택된 연락처의 번호로 기본 메세지만 전송
-                manager.sendTextMessage(personInfoDatabase.personInfoDao().getPhoneNumber(personId), null, text+"\n"+address , null, null);
+                manager.sendTextMessage(personInfoDatabase.personInfoDao().getPhoneNumber(personId), null, text + "\n" + address, null, null);
             }
         }
     }
@@ -1226,7 +1261,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 TextView yesButton = alertDialog.findViewById(R.id.tv_yes_camera);
                 yesButton.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(View view){
+                    public void onClick(View view) {
                         double latitude;
                         double longitude;
 
@@ -1237,7 +1272,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                         }
                         try {
                             longitude = gpsTracker.getLongitude();
-                        }catch (Exception e){
+                        } catch (Exception e) {
                             longitude = 126.94575323439247;
                         }
 
@@ -1270,10 +1305,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             }
         });
-
-
-
-
 
 
         binding.ivMenu.setOnClickListener(new View.OnClickListener() {
@@ -1331,15 +1362,12 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                     startActivity(intent);
                 } else if (item.getItemId() == R.id.nav_report) {   //위험 제보하기
                     cameraDialog();
-                }
-                else if (item.getItemId() == R.id.nav_book) {        //이용 설명서
+                } else if (item.getItemId() == R.id.nav_book) {        //이용 설명서
                     Intent intent = new Intent(getApplicationContext(), MenuBookActivity.class);
                     startActivity(intent);
-                }
-                else if (item.getItemId() == R.id.nav_review) {      //사용자 리뷰
+                } else if (item.getItemId() == R.id.nav_review) {      //사용자 리뷰
                     popDialog("모아도에 대한 리뷰를 남기시겠습니까?");
-                }
-                else if (item.getItemId() == R.id.nav_oss) {         //오픈소스 라이선스
+                } else if (item.getItemId() == R.id.nav_oss) {         //오픈소스 라이선스
                     Intent intent = new Intent(getApplicationContext(), OssActivity.class);
                     startActivity(intent);
                 }
@@ -1350,9 +1378,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-
-
-    private void cameraDialog(){
+    private void cameraDialog() {
         View dialogView = getLayoutInflater().inflate(R.layout.camera_detail, null);
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setView(dialogView);
@@ -1373,7 +1399,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         TextView yesButton = alertDialog.findViewById(R.id.tv_yes_camera);
         yesButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 double latitude;
                 double longitude;
 
@@ -1384,7 +1410,7 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
                 }
                 try {
                     longitude = gpsTracker.getLongitude();
-                }catch (Exception e){
+                } catch (Exception e) {
                     longitude = 126.94575323439247;
                 }
 
@@ -1415,13 +1441,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         });
 
 
-
     }
 
 
-
-
-    private void popDialog(String text){
+    private void popDialog(String text) {
         Dialog dialog = new InfoDialog(this);
         dialog.show();
 
@@ -1488,7 +1511,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-
     //충전기
     private void setMarker_Charge() {
         for (int i = 0; i < charge_list.size(); i++) {
@@ -1536,7 +1558,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
     }
 
 
-
     //경사로
     private void drawMarker_wheel() {
         for (int i = 0; i < wheel_list.size(); i++) {
@@ -1545,7 +1566,6 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         }
         return;
     }
-
 
 
     //급경사로 지역 만들기
@@ -1610,10 +1630,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Overlay.OnClickListener listener = overlay -> {
             naverMap.setOnMapClickListener((coord, point) -> {
                 infoWindow.close();
-                if(infoFragment!=null) {
+                if (infoFragment != null) {
                     getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
                 }
-                if(dangerInfoFragment!=null){
+                if (dangerInfoFragment != null) {
                     getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
                 }
 
@@ -1678,10 +1698,10 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
         Overlay.OnClickListener listener = overlay -> {
             naverMap.setOnMapClickListener((coord, point) -> {
                 infoWindow.close();
-                if(infoFragment!=null) {
+                if (infoFragment != null) {
                     getSupportFragmentManager().beginTransaction().remove(infoFragment).commit();
                 }
-                if(dangerInfoFragment!=null){
+                if (dangerInfoFragment != null) {
                     getSupportFragmentManager().beginTransaction().remove(dangerInfoFragment).commit();
                 }
 
