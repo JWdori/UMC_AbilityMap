@@ -1091,9 +1091,9 @@ public class MainActivity extends AppCompatActivity implements OnMapReadyCallbac
 
             if (!(personInfoDatabase.personInfoDao().getText(personId).equals(""))) {  //텍스트 입력한 기록이 있는 연락처에 한정
                 //선택된 연락처의 번호로 기본 메세지 + 기록된 메세지 전송
-                manager.sendTextMessage(personInfoDatabase.personInfoDao().getPhoneNumber(personId), null, text + "\n" + address + personInfoDatabase.personInfoDao().getText(personId), null, null);
+                manager.sendTextMessage(personInfoDatabase.personInfoDao().getPhoneNumber(personId), null, text + "\n" + "위치: " + address +"\n"+ personInfoDatabase.personInfoDao().getText(personId), null, null);
             } else {   //선택된 연락처의 번호로 기본 메세지만 전송
-                manager.sendTextMessage(personInfoDatabase.personInfoDao().getPhoneNumber(personId), null, text + "\n" + address, null, null);
+                manager.sendTextMessage(personInfoDatabase.personInfoDao().getPhoneNumber(personId), null, text + "\n" + "위치: "+ address +"\n", null, null);
             }
         }
     }

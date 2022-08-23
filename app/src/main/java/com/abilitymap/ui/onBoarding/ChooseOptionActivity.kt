@@ -47,10 +47,10 @@ class ChooseOptionActivity :AppCompatActivity() {
         val editor : SharedPreferences.Editor = spfOnBoarding.edit();
         editor.putInt("userMode", mode);
         if (mode == 1){
-            editor.putString("text", "[긴급신고] 안전지도 모아도\n\n\"교통약자\"의 긴급 신고입니다!\n")
+            editor.putString("text", "[교통약자의 긴급 신고입니다]\n")
         }
         else{
-            editor.putString("text","[긴급신고] 안전지도 모아도\n\n긴급 신고입니다!\n")
+            editor.putString("text","[긴급 신고입니다]\n")
         }
 
         editor.apply();
